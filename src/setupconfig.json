@@ -1,0 +1,11 @@
+{
+    "api_url":"https://dummyjson.com/",
+    "headers":{
+        "content-type":"application/json"
+    },
+    "endpoints":{
+        "products":"products",
+        "add_products":"products/add",
+        "profile":"profile"
+    }
+}
