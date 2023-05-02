@@ -1,15 +1,19 @@
+import { ThemeProvider } from "@mui/material/styles";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Home from "./pages/Home";
-import About from "./pages/About";
+import theme from "./theme/theme";
+import Routing from "./routes/Routes";
+
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Home/>}/>
-        <Route path="/about" element={<About/>}/>
-      </Routes>
-    </BrowserRouter>
+    <>
+      <ThemeProvider theme={theme}>
+        <Routing />
+      </ThemeProvider>
+    </>
   );
 }
 
 export default App;
+
+
+
