@@ -173,7 +173,7 @@ const Home = () => {
                                 <span className={classes.timeLeft}>Time Left: 10:40 mins</span>
                             </div>
                             <div style={{ marginTop: '24px' }}>
-                                <span className={classes.selectWallet}>Complet</span>
+                                <span className={classes.selectWallet}>Select Wallet</span>
                             </div>
                             <div className={classes.metaMask}>
                                 <span className={classes.WalletsText}>
