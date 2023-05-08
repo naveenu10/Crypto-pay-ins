@@ -1,14 +1,14 @@
-import React, { useEffect } from "react";
-import { addProducts, getProducts } from "./services";
-import { Layout, MobileContainer } from '../../styles/layout'
-import { Accordion, AccordionDetails, Grid, AccordionSummary, Alert, AppBar, Backdrop, Box, Button, CircularProgress, Divider, FormControl, IconButton, InputAdornment, InputLabel, Stack, TextField, Toolbar, Typography, Container } from '@mui/material';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
+import { AppBar, Box, Button, Container, IconButton, Toolbar, Typography } from '@mui/material';
+import { makeStyles } from '@mui/styles';
+import React from "react";
 import { useNavigate } from 'react-router';
 import NivapayLogo1 from '../../assets/images/NIcons/NivapyLogo1';
 import Footer from "../../components/footer";
-import { makeStyles } from '@mui/styles';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import WalletLogo from "../../assets/images/NIcons/Walletlogo";
+import { Layout, MobileContainer } from '../../styles/layout';
+import QrScan from '../../assets/images/NIcons/QrScan';
+import ScanCopyTab from './ScanCopyTab';
+import QrCode from './QrCode';
 
 const useStyles = makeStyles((theme) => ({
     mainDiv: {
@@ -80,7 +80,7 @@ const useStyles = makeStyles((theme) => ({
         fontFamily: 'Inter',
     },
     btnDiv: {
-        marginTop: '260px'
+        marginTop: '117px'
     },
     btn: {
         width: '325px',
@@ -89,6 +89,7 @@ const useStyles = makeStyles((theme) => ({
         weight: '700',
         fontFamily: 'Inter',
         lineHeight: '28.08px',
+        textTransform: 'inherit'
     },
     cancelbtn: {
         width: '325px',
@@ -103,6 +104,39 @@ const useStyles = makeStyles((theme) => ({
     },
     cancelDiv: {
         marginTop: "20px"
+    },
+    QrDiv: {
+        height: '388px',
+        width: '360px',
+        border: '1px solid white',
+        marginTop: '65px',
+        borderRadius: '24px',
+        background: '#FFFFFF',
+        boxShadow: '0px 0px 16px rgba(0, 0, 0, 0.2)',
+        textAlign: 'center',
+    },
+
+    btnTopText: {
+        marginTop: '66px',
+        fontSize: '14px',
+        color: "rgba(0, 0, 0, 0.5)",
+        lineHeight: '18px',
+        letterSpacing: '0.09em',
+        fontWeight: 400,
+        marginLeft: '20px'
+    },
+    circle: {
+        display: 'inline-block',
+        textAlign: 'center',
+        border: '2px solid blue',
+        borderRadius: '50%',
+        width: '0.9em',
+        height: '0.9em',
+        lineHeight: '1em',
+        margin: 0,
+        color: '#FFFFFF',
+        backgroundColor: 'blue'
+
     }
 }));
 
@@ -116,11 +150,7 @@ const Home = () => {
     const onBackbtn = () => {
         navigate('/')
     }
-    const handleProceed = () => {
-        navigate('/QrScan')
 
-
-    }
 
     return (
 
@@ -173,34 +203,67 @@ const Home = () => {
                                 <span className={classes.timeLeft}>Time Left: 10:40 mins</span>
                             </div>
                             <div style={{ marginTop: '24px' }}>
-                                <span className={classes.selectWallet}>Select Wallet</span>
+                                <span className={classes.selectWallet}>Complete Payment</span>
                             </div>
-                            <div className={classes.metaMask}>
-                                <span className={classes.WalletsText}>
 
-                                    <img src="https://upload.wikimedia.org/wikipedia/commons/3/36/MetaMask_Fox.svg" alt="metamask logo" />
-                                </span>
-                                <span className={classes.MetaMaskText}>MetaMask</span>
-                                <span className={classes.rightArrow}>
-                                    <ChevronRightIcon style={{ fontSize: '40px' }} />
-                                </span>
-                            </div>
-                            <div className={classes.otherWallets}>
-                                <div className={classes.WalletSvG}>
 
-                                    {/* <img src="https://upload.wikimedia.org/wikipedia/commons/3/36/MetaMask_Fox.svg" alt="metamask logo" /> */}
-                                    <WalletLogo />
-                                </div>
-                                <span className={classes.MetaMaskText}>Other&nbsp;Wallets</span>
-                                <span className={classes.rightArrow}>
-                                    <ChevronRightIcon style={{ fontSize: '40px' }} />
-                                </span>
+                            <div className={classes.QrDiv} >
+                                <Container>
+                                    <div style={{ marginTop: '16px' }}>
+                                        <span style={{ fontSize: "24px" }}>0.05446</span><span style={{ fontSize: "12px", marginLeft: '4px' }}>ETH</span>
+                                    </div>
+                                    <div style={{ marginTop: '4px' }}>
+                                        <span style={{ fontSize: '12px' }}>+ Network fee </span>
+                                    </div>
+
+
+                                    <div style={{ marginTop: '49px', fontSize: '12px', color: '#FF0000' }}>
+                                        <span>Your balance is insufficient</span>
+                                    </div>
+                                    <div style={{ marginTop: '28px', justifyContent: 'center' }}>
+                                        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                                            <div style={{ color: '#00000080' }}>MetaMask</div>
+                                            <div style={{ color: '#21146B' }}>Connected</div>
+                                        </div>
+                                        <hr />
+
+                                        <div style={{ display: 'flex', justifyContent: 'space-between', color: '#00000080', marginTop: '12px', fontSize: '12px' }}>
+                                            <div>Account</div>
+                                            <div>0xFBeCa3...09D0</div>
+                                        </div>
+                                        <div style={{ display: 'flex', justifyContent: 'space-between', color: '#00000080', fontSize: '12px', marginTop: '12px' }}>
+                                            <div>Network</div>
+                                            <div>Ethereum</div>
+                                        </div>
+                                        <div style={{ display: 'flex', flex: 'start', justifyContent: 'space-between', color: '#00000080', fontSize: '12px', marginTop: '12px' }}>
+                                            <div>Balance</div>
+                                            <div>1.05 ETH</div>
+                                        </div>
+
+                                    </div>
+                                    <div style={{ marginTop: '16px' }}>
+
+                                        <span style={{ fontSize: '14px', color: '#21146B' }}>
+                                            Disconnect Wallet
+                                        </span>
+                                    </div>
+
+                                    <div style={{ marginTop: '35px' }}>
+
+                                        <span style={{ fontSize: '12px' }}>
+                                            Recommended network fee for fast confirmation:<br /><span style={{ color: '#21146B' }}>64 gwei
+                                            </span>
+                                        </span>
+                                    </div>
+                                </Container>
                             </div>
+
+
                             <div className={classes.btnDiv}>
                                 <Button variant="contained"
                                     className={classes.btn}
-                                    onClick={handleProceed}
-                                >Proceed</Button>
+                                    sx={{ textTransform: 'inherit' }}
+                                >Send Payment</Button>
                             </div>
                             <div className={classes.cancelDiv}>
                                 <Button className={classes.cancelbtn}>Cancel</Button>
@@ -209,9 +272,8 @@ const Home = () => {
                     </Container>
                     <Footer />
                 </section>}
-                {/* )} */}
             </MobileContainer>
-        </Layout>
+        </Layout >
     );
 }
 
