@@ -1,0 +1,37 @@
+.currency {
+    font-family: 'Inter' !important;
+    font-style: normal !important;
+    font-weight: 700 !important;
+    font-size: 14px !important;
+    line-height: 17px !important;
+    display: flex !important;
+    align-items: center !important;
+    letter-spacing: 0.06em !important;
+    color: rgba(0, 0, 0, 0.5) !important;
+}
+
+.info {
+    font-family: 'Inter' !important;
+    font-style: normal !important;
+    font-weight: 400 !important;
+    font-size: 14px !important;
+    line-height: 17px !important;
+    display: flex !important;
+    align-items: center !important;
+    text-align: right !important;
+    letter-spacing: 0.06em !important;
+    color: rgba(0, 0, 0, 0.5) !important;
+}
+
+.info1 {
+    font-family: 'Inter' !important;
+    font-style: normal !important;
+    font-weight: 400 !important;
+    font-size: 14px !important;
+    line-height: 17px !important;
+    display: flex !important;
+    align-items: center !important;
+    text-align: right !important;
+    letter-spacing: 0.06em !important;
+    color: #FF0000 !important;
+}

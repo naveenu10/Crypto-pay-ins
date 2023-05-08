@@ -3,12 +3,9 @@ import { AppBar, Box, Button, Container, IconButton, InputAdornment, TextField, 
 import { makeStyles } from '@mui/styles';
 import React from "react";
 import { useNavigate } from 'react-router';
-import NivapayLogo1 from '../../assets/images/NIcons/NivapyLogo1';
-import Footer from "../../components/footer";
 import { Layout, MobileContainer } from '../../styles/layout';
-import QrScan from '../../assets/images/NIcons/QrScan';
 import ScanCopyTab from './ScanCopyTab';
-import QrCode from './QrCode';
+import Footer from '../Footer/Footer';
 
 const useStyles = makeStyles((theme) => ({
     mainDiv: {
@@ -217,7 +214,6 @@ const Copy = () => {
                                     }}>Cryptogames</Typography>
                                 </div>
                                 <div style={{ width: "30px", height: '30px' }}>
-                                    <NivapayLogo1 />
                                 </div>
                             </Toolbar>
                         </AppBar>
@@ -247,7 +243,7 @@ const Copy = () => {
                                             Copy-paste below details to your wallet and complete the payment
                                         </span>
                                     </div>
-                                 
+
                                     <div style={{ marginTop: '35px' }}>
                                         <div style={{ fontSize: '12px', fontWeight: 400, display: 'flex', marginLeft: '10px' }}>Send to this address</div>
                                         <Box sx={{ minWidth: 120, display: "flex" }}>
@@ -316,20 +312,36 @@ const Copy = () => {
                                 </p>
                             </div>
 
-                            <div className={classes.btnDiv}>
-                                <Button variant="contained"
-                                    className={classes.btn}
-                                    sx={{ textTransform: 'inherit' }}
-                                >I have Paid</Button>
+                            <div>
+                                <Button variant='contained' style={{
+                                    width: '325px',
+                                    height: '55px',
+                                    fontSize: '18px',
+                                    fontFamily: 'Inter',
+                                    fontWeight: 700,
+                                    lineHeight: '28.08px',
+                                    textTransform: 'initial',
+                                }}>I have Paid</Button>
                             </div>
                             <div className={classes.cancelDiv}>
-                                <Button className={classes.cancelbtn}>Cancel</Button>
+                                <Button
+                                    style={{
+                                        width: '325px',
+                                        color: '#2C1E66',
+                                        height: '55px',
+                                        fontSize: '18px',
+                                        fontFamily: 'Inter',
+                                        fontWeight: 800,
+                                        lineHeight: '28.08px',
+                                        textTransform: 'initial',
+                                    }}>Cancel</Button>
                             </div>
                         </div>
                     </Container>
-                    <Footer />
                 </section>}
-                {/* )} */}
+                <div style={{ justifyContent: "flex-end" }}>
+                    <Footer />
+                </div>
             </MobileContainer>
         </Layout >
     );
