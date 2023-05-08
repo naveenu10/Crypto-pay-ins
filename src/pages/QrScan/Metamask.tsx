@@ -1,5 +1,5 @@
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
-import { AppBar, Box, Button, Container, IconButton, InputAdornment, TextField, Toolbar, FormControl, Typography } from '@mui/material';
+import { AppBar, Box, Button, Container, IconButton, Toolbar, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import React from "react";
 import { useNavigate } from 'react-router';
@@ -80,7 +80,7 @@ const useStyles = makeStyles((theme) => ({
         fontFamily: 'Inter',
     },
     btnDiv: {
-        marginTop: '8px'
+        marginTop: '117px'
     },
     btn: {
         width: '325px',
@@ -109,7 +109,7 @@ const useStyles = makeStyles((theme) => ({
         height: '388px',
         width: '360px',
         border: '1px solid white',
-        marginTop: '8px',
+        marginTop: '65px',
         borderRadius: '24px',
         background: '#FFFFFF',
         boxShadow: '0px 0px 16px rgba(0, 0, 0, 0.2)',
@@ -137,35 +137,10 @@ const useStyles = makeStyles((theme) => ({
         color: '#FFFFFF',
         backgroundColor: 'blue'
 
-    },
-
-
-    input: {
-        border: '1px solid #ccc',
-        padding: '5px'
-    },
-
-    img: {
-        border: '1px solid #ccc',
-        verticalAlign: 'middle',
-        marginLeft: '-20px'
-    },
-
-    span: {
-        display: 'inline - block',
-        border: '1px solid #ccc',
-        padding: '5px'
-    },
-    addressField: {
-
-    },
-    AmountField: {
-
-    },
-
+    }
 }));
 
-const Copy = () => {
+const Home = () => {
 
     const navigate = useNavigate();
     const classes = useStyles();
@@ -230,97 +205,61 @@ const Copy = () => {
                             <div style={{ marginTop: '24px' }}>
                                 <span className={classes.selectWallet}>Complete Payment</span>
                             </div>
-                            <div style={{ marginTop: '20px', display: 'flex', justifyContent: 'space-between' }}>
-                                <ScanCopyTab />
-                            </div>
+
 
                             <div className={classes.QrDiv} >
                                 <Container>
                                     <div style={{ marginTop: '16px' }}>
                                         <span style={{ fontSize: "24px" }}>0.05446</span><span style={{ fontSize: "12px", marginLeft: '4px' }}>ETH</span>
                                     </div>
-                                    <div style={{ marginTop: '4px', color: 'blue', textDecoration: 'underline' }}>
-                                        <span style={{ fontSize: '12px' }}>+ Network fee <span className={classes.circle}>i</span> </span>
+                                    <div style={{ marginTop: '4px' }}>
+                                        <span style={{ fontSize: '12px' }}>+ Network fee </span>
                                     </div>
-                                    <div style={{ marginTop: '12px' }}>
-                                        <span style={{ fontSize: '12px', fontWeight: 400 }}>
-                                            Copy-paste below details to your wallet and complete the payment
+
+                                    <div style={{ marginTop: '85px', justifyContent: 'center' }}>
+                                        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                                            <div style={{ color: '#00000080' }}>MetaMask</div>
+                                            <div style={{ color: '#21146B' }}>Connected</div>
+                                        </div>
+                                        <hr />
+
+                                        <div style={{ display: 'flex', justifyContent: 'space-between', color: '#00000080', marginTop: '12px', fontSize: '12px' }}>
+                                            <div>Account</div>
+                                            <div>0xFBeCa3...09D0</div>
+                                        </div>
+                                        <div style={{ display: 'flex', justifyContent: 'space-between', color: '#00000080', fontSize: '12px', marginTop: '12px' }}>
+                                            <div>Network</div>
+                                            <div>Ethereum</div>
+                                        </div>
+                                        <div style={{ display: 'flex', flex: 'start', justifyContent: 'space-between', color: '#00000080', fontSize: '12px', marginTop: '12px' }}>
+                                            <div>Balance</div>
+                                            <div>1.05 ETH</div>
+                                        </div>
+
+                                    </div>
+                                    <div style={{ marginTop: '16px' }}>
+
+                                        <span style={{ fontSize: '14px', color: '#21146B' }}>
+                                            Disconnect Wallet
                                         </span>
                                     </div>
-                                 
+
                                     <div style={{ marginTop: '35px' }}>
-                                        <div style={{ fontSize: '12px', fontWeight: 400, display: 'flex', marginLeft: '10px' }}>Send to this address</div>
-                                        <Box sx={{ minWidth: 120, display: "flex" }}>
-                                            <FormControl sx={{ m: 1, borderRadius: "4px", width: "95%" }}>
-                                                <TextField
-                                                    style={{}}
-                                                    InputProps={{
-                                                        sx: {
-                                                            color: "#2C1E66",
-                                                            height: 35
-                                                        },
-                                                        endAdornment: (
-                                                            <div
-                                                                style={{}}>
-                                                                <InputAdornment position="end">
-                                                                    <Button style={{ padding: '9px', marginRight: '-14px', minWidth: '0px', color: '#808080', boxSizing: 'border-box', backgroundColor: '#D6D6D6' }} >
-                                                                        <img
-                                                                            src='https://res.cloudinary.com/dolpotacg/image/upload/v1683014498/Vector_2_aghej8.svg' />
-                                                                    </Button>
-                                                                </InputAdornment>
-                                                            </div>
-                                                        ),
-                                                        disableUnderline: true,
-                                                    }}
-                                                />
-                                            </FormControl>
-                                        </Box>
-                                    </div>
 
-
-                                    <div style={{ marginTop: '5px' }}>
-                                        <div style={{ fontSize: '12px', fontWeight: 400, display: 'flex', marginLeft: '10px' }}>Amount (excludes network fee)</div>
-                                        <Box sx={{ minWidth: 120, display: "flex" }}>
-                                            <FormControl sx={{ m: 1, borderRadius: "4px", width: "95%" }}>
-                                                <TextField
-
-                                                    InputProps={{
-                                                        sx: {
-                                                            color: "#2C1E66",
-                                                            height: 35
-                                                        },
-                                                        endAdornment: (
-                                                            <InputAdornment position="end">
-                                                                <Button style={{ padding: '9px', marginRight: '-14px', minWidth: '0px', backgroundColor: '#D6D6D6' }} >
-                                                                    <img src='https://res.cloudinary.com/dolpotacg/image/upload/v1683014498/Vector_2_aghej8.svg' />
-                                                                </Button>
-                                                            </InputAdornment>
-                                                        ),
-                                                        disableUnderline: true,
-                                                    }}
-                                                />
-                                            </FormControl>
-                                        </Box>
-                                    </div>
-
-                                    <div style={{ marginTop: '48px' }}>
                                         <span style={{ fontSize: '12px' }}>
-                                            Only send ETH using the Ethereum network, else the funds may get lost
+                                            Recommended network fee for fast confirmation:<br /><span style={{ color: '#21146B' }}>64 gwei
+                                            </span>
                                         </span>
                                     </div>
                                 </Container>
                             </div>
-                            <div className={classes.btnTopText}>
-                                <p>
-                                    Click the below button once you have triggered the transaction
-                                </p>
-                            </div>
+
 
                             <div className={classes.btnDiv}>
                                 <Button variant="contained"
                                     className={classes.btn}
                                     sx={{ textTransform: 'inherit' }}
-                                >I have Paid</Button>
+                                >Send Payment</Button>
                             </div>
                             <div className={classes.cancelDiv}>
                                 <Button className={classes.cancelbtn}>Cancel</Button>
@@ -335,4 +274,4 @@ const Copy = () => {
     );
 }
 
-export default Copy;
+export default Home;
