@@ -3,12 +3,8 @@ import { AppBar, Box, Button, Container, IconButton, Toolbar, Typography } from 
 import { makeStyles } from '@mui/styles';
 import React from "react";
 import { useNavigate } from 'react-router';
-import NivapayLogo1 from '../../assets/images/NIcons/NivapyLogo1';
-import Footer from "../../components/footer";
 import { Layout, MobileContainer } from '../../styles/layout';
-import QrScan from '../../assets/images/NIcons/QrScan';
 import ScanCopyTab from './ScanCopyTab';
-import QrCode from './QrCode';
 
 const useStyles = makeStyles((theme) => ({
     mainDiv: {
@@ -192,7 +188,6 @@ const Home = () => {
                                     }}>Cryptogames</Typography>
                                 </div>
                                 <div style={{ width: "30px", height: '30px' }}>
-                                    <NivapayLogo1 />
                                 </div>
                             </Toolbar>
                         </AppBar>
@@ -266,7 +261,6 @@ const Home = () => {
                             </div>
                         </div>
                     </Container>
-                    <Footer />
                 </section>}
                 {/* )} */}
             </MobileContainer>

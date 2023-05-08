@@ -3,12 +3,11 @@ import { AppBar, Box, Button, Container, IconButton, Toolbar, Typography } from 
 import { makeStyles } from '@mui/styles';
 import React from "react";
 import { useNavigate } from 'react-router';
-import NivapayLogo1 from '../../assets/images/NIcons/NivapyLogo1';
-import Footer from "../../components/footer";
-import { Layout, MobileContainer } from '../../styles/layout';
-import QrScan from '../../assets/images/NIcons/QrScan';
 import ScanCopyTab from './ScanCopyTab';
 import QrCode from './QrCode';
+import Footer from '../Footer/Footer';
+import { Layout, MobileContainer } from '../../styles/layout';
+import NivapayLogo1 from '../../assets/images/NIcons/NivapayLogo1'
 
 const useStyles = makeStyles((theme) => ({
     mainDiv: {
@@ -79,17 +78,14 @@ const useStyles = makeStyles((theme) => ({
         fontWeight: 400,
         fontFamily: 'Inter',
     },
-    btnDiv: {
-        marginTop: '8px'
-    },
+
     btn: {
         width: '325px',
         height: '55px',
-        fontSize: '20px',
-        weight: '700',
+        fontSize: '108px',
+        weight: 700,
         fontFamily: 'Inter',
-        lineHeight: '28.08px',
-        textTransform: 'inherit'
+        lineHeight: '28.08px'
     },
     cancelbtn: {
         width: '325px',
@@ -117,8 +113,8 @@ const useStyles = makeStyles((theme) => ({
     },
 
     btnTopText: {
-        marginTop: '66px',
-        fontSize: '14px',
+        marginTop: '38px',
+        fontSize: '12px',
         color: "rgba(0, 0, 0, 0.5)",
         lineHeight: '18px',
         letterSpacing: '0.09em',
@@ -140,7 +136,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const Home = () => {
+const QrScan = () => {
 
     const navigate = useNavigate();
     const classes = useStyles();
@@ -156,8 +152,8 @@ const Home = () => {
 
         <Layout>
             <MobileContainer>
-                {!scannerOpen && <section className='media'>
-                    <Box sx={{ flexGrow: 1 }}>
+                <div style={{ boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px" }}>
+                    <section style={{ display: "flex", flexDirection: "column", height: "100vh", }}>
                         <AppBar position="static" style={{ backgroundColor: '#279FFE', boxShadow: 'none' }}>
                             <Toolbar style={{ display: 'flex', flexDirection: 'row', flexWrap: 'nowrap', justifyContent: 'space-between', paddingLeft: '22px' }}>
                                 <div style={{ textAlign: 'left' }}>
@@ -196,68 +192,84 @@ const Home = () => {
                                 </div>
                             </Toolbar>
                         </AppBar>
-                    </Box>
-                    <Container maxWidth="xl">
-                        <div className={classes.mainDiv}>
-                            <div style={{ marginTop: '16px' }}>
-                                <span className={classes.timeLeft}>Time Left: 10:40 mins</span>
-                            </div>
-                            <div style={{ marginTop: '24px' }}>
-                                <span className={classes.selectWallet}>Complete Payment</span>
-                            </div>
-                            <div style={{ marginTop: '20px', display: 'flex', justifyContent: 'space-between' }}>
-                                <ScanCopyTab />
-                            </div>
+                        <Container>
+                            <div className={classes.mainDiv}>
+                                <div style={{ marginTop: '16px' }}>
+                                    <span className={classes.timeLeft}>Time Left: 10:40 mins</span>
+                                </div>
+                                <div style={{ marginTop: '24px' }}>
+                                    <span className={classes.selectWallet}>Complete Payment</span>
+                                </div>
+                                <div style={{ marginTop: '20px', display: 'flex', justifyContent: 'space-between' }}>
+                                    <ScanCopyTab />
+                                </div>
 
-                            <div className={classes.QrDiv} >
-                                <Container>
-                                    <div style={{ marginTop: '16px' }}>
-                                        <span style={{ fontSize: "24px" }}>0.05446</span><span style={{ fontSize: "12px", marginLeft: '4px' }}>ETH</span>
-                                    </div>
-                                    <div style={{ marginTop: '4px', color: 'blue', textDecoration: 'underline' }}>
-                                        <span style={{ fontSize: '12px' }}>+ Network fee <span className={classes.circle}>i</span> </span>
-                                    </div>
-                                    <div style={{ marginTop: '12px' }}>
-                                        <span style={{ fontSize: '12px' }}>
-                                            Scan this QR code using your wallet and transfer the above amount
-                                        </span>
-                                    </div>
-                                    <div style={{ marginTop: '35px' }}>
-                                        <span style={{ height: '270px', width: "196px", justifyContent: 'center' }}>
-                                            <QrCode />
-                                        </span>
-                                    </div>
-                                    <div style={{ marginTop: '35px' }}>
+                                <div className={classes.QrDiv} >
+                                    <Container>
+                                        <div style={{ marginTop: '16px' }}>
+                                            <span style={{ fontSize: "24px" }}>0.05446</span><span style={{ fontSize: "12px", marginLeft: '4px' }}>ETH</span>
+                                        </div>
+                                        <div style={{ marginTop: '4px', color: 'blue', textDecoration: 'underline' }}>
+                                            <span style={{ fontSize: '12px' }}>+ Network fee <span className={classes.circle}>i</span> </span>
+                                        </div>
+                                        <div style={{ marginTop: '12px' }}>
+                                            <span style={{ fontSize: '12px' }}>
+                                                Scan this QR code using your wallet and transfer the above amount
+                                            </span>
+                                        </div>
+                                        <div style={{ marginTop: '35px' }}>
+                                            <span style={{ height: '270px', width: "196px", justifyContent: 'center' }}>
+                                                <QrCode />
+                                            </span>
+                                        </div>
+                                        <div style={{ marginTop: '35px' }}>
 
-                                        <span style={{ fontSize: '13px' }}>
-                                            Only send ETH using the Ethereum network, else the funds may get lost
-                                        </span>
-                                    </div>
-                                </Container>
-                            </div>
-                            <div className={classes.btnTopText}>
-                                <p>
-                                    Click the below button once you have triggered the transaction
-                                </p>
-                            </div>
+                                            <span style={{ fontSize: '13px' }}>
+                                                Only send ETH using the Ethereum network, else the funds may get lost
+                                            </span>
+                                        </div>
+                                    </Container>
+                                </div>
+                                <div className={classes.btnTopText}>
+                                    <p>
+                                        Click the below button once you have triggered the transaction
+                                    </p>
+                                </div>
 
-                            <div className={classes.btnDiv}>
-                                <Button variant="contained"
-                                    className={classes.btn}
-                                    sx={{ textTransform: 'inherit' }}
-                                >I have Paid</Button>
+                                <div>
+                                    <Button variant='contained' style={{
+                                        width: '325px',
+                                        height: '55px',
+                                        fontSize: '18px',
+                                        fontFamily: 'Inter',
+                                        fontWeight: 700,
+                                        lineHeight: '28.08px',
+                                        textTransform: 'initial',
+                                    }}>I have Paid</Button>
+                                </div>
+                                <div className={classes.cancelDiv}>
+                                    <Button
+                                        style={{
+                                            width: '325px',
+                                            color: '#2C1E66',
+                                            height: '55px',
+                                            fontSize: '18px',
+                                            fontFamily: 'Inter',
+                                            fontWeight: 800,
+                                            lineHeight: '28.08px',
+                                            textTransform: 'initial',
+                                        }}>Cancel</Button>
+                                </div>
                             </div>
-                            <div className={classes.cancelDiv}>
-                                <Button className={classes.cancelbtn}>Cancel</Button>
-                            </div>
+                        </Container>
+                        <div style={{ justifyContent: "flex-end" }}>
+                            <Footer />
                         </div>
-                    </Container>
-                    <Footer />
-                </section>}
-                {/* )} */}
+                    </section>
+                </div>
             </MobileContainer>
         </Layout >
     );
 }
 
-export default Home;
+export default QrScan;
