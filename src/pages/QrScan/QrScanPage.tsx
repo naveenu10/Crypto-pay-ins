@@ -117,7 +117,18 @@ function QrScanPage() {
                                                     <span style={{ fontSize: "24px" }}>0.05446</span><span style={{ fontSize: "12px", marginLeft: '4px' }}>ETH</span>
                                                 </div>
                                                 <div style={{ marginTop: '4px', color: 'blue', textDecoration: 'underline' }}>
-                                                    <span style={{ fontSize: '12px' }} onClick={() => setOpenNetworkDialog(true)}>+ Network fee <span className='circle'>i</span> </span>
+                                                    <span style={{ fontSize: '12px' }} onClick={() => setOpenNetworkDialog(true)}>+ Network fee <span style={{
+                                                        display: 'inline-block',
+                                                        textAlign: 'center',
+                                                        border: '2px solid blue',
+                                                        borderRadius: '50%',
+                                                        width: '0.9em',
+                                                        height: '0.9em',
+                                                        lineHeight: '1em',
+                                                        margin: 0,
+                                                        color: '#FFFFFF',
+                                                        backgroundColor: 'blue'
+                                                    }}>i</span> </span>
                                                 </div>
                                                 <div style={{ marginTop: '12px' }}>
                                                     <span style={{ fontSize: '12px' }}>
@@ -156,15 +167,15 @@ function QrScanPage() {
                                         </Button>
                                     </div>
                                     <BackButton open={openCloseDialog} setOpen={setOpenCloseDialog} />
-                                    <NetWorkFee openNetWorkfee={openNetworkDialog}setOpenNetworkfee={setOpenNetworkDialog}/>
+                                    <NetWorkFee openNetWorkfee={openNetworkDialog} setOpenNetworkfee={setOpenNetworkDialog} />
                                 </Container>
                             </section>
-                        </div>
-                    </section>
+                        </div >
+                    </section >
                     <div style={{ justifyContent: "flex-end" }}>
                         <Footer />
                     </div>
-                </div>
+                </div >
             </MobileContainer >
         </Layout >
     )
