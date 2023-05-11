@@ -6,24 +6,21 @@ import { useLocation, useNavigate } from 'react-router-dom';
 const useStyles = makeStyles((theme) => ({
     navBar: {
         display: 'flex',
-        flexWrap: 'wrap',
-        justifyContent: 'space-evenly',
+        justifyContent: 'center',
         marginBottom: '5%',
         marginTop: '5%',
+        width: '94%',
     },
     navBarButtons: {
         display: 'flex',
         alignItems: 'center',
-        borderRadius: '5%',
+        borderRadius: '8%',
         width: '176px',
-        justifyContent: 'space-evenly',
+        justifyContent: 'center',
         backgroundColor: '#FFFFFF',
         '&.active': {
             backgroundColor: '#D6D6D6',
         },
-    },
-    icon: {
-        marginRight: 1,
     },
 }));
 
@@ -82,9 +79,9 @@ const ScanCopyTab = (): JSX.Element => {
                         onClick={() => handleTabClick(tab)}
                     >
                         <span>
-                            <img src={tab.iconUrl} alt={tab.name} className={classes.icon} />
+                            <img src={tab.iconUrl} alt={tab.name}  />
                         </span>
-                        <span style={{ marginLeft: '6.4px' }}>
+                        <span style={{ marginLeft: '6px' }}>
                             {tab.name}
                         </span>
                     </Button>

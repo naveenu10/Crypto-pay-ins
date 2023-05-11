@@ -11,9 +11,10 @@ import LowBalSuccess from "./pages/LowBalSuccess/LowBalSuccess";
 import Wallet from "./pages/Wallet/Wallet";
 import QrScan from "./pages/QrScan/ScanCopyTab";
 import QrScanPage from "./pages/QrScan/QrScanPage";
-import Metamask from "./pages/QrScan/Metamask";
+import Metamask from "./pages/QrScan/MetamaskError";
 import QrCopy from "./pages/QrScan/QrCopy";
-import InsufficientFunds from "./pages/QrScan/InsufficientFunds";
+import InsufficientFunds from "./pages/QrScan/InsufficientFundsError";
+import MetaMaskPage from "./pages/metaMask/MetaMaskPage";
 import { ThemeProvider } from "@mui/material/styles";
 import theme from "./theme";
 
@@ -35,7 +36,9 @@ function App() {
           <Route path="/QrScanPage" element={<QrScanPage />} />
           <Route path="/QrCopy" element={<QrCopy />} />
           <Route path="/Metamask" element={<Metamask />} />
+          <Route path="/MetamaskPage" element={<MetaMaskPage />} />
           <Route path="/InsufficientFunds" element={<InsufficientFunds />} />
+
         </Routes>
       </BrowserRouter>
     </ThemeProvider>

@@ -1,0 +1,122 @@
+.input-wrap {
+    height: 5vh;
+    border: 1px solid rgba(0, 0, 0, 0.5);
+    border-radius: 8px;
+    width: 100%;
+    padding-left: 22px;
+    box-sizing: border-box;
+    margin-top: 8px;
+    outline: none;
+    color: #21146B;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 19px;
+    letter-spacing: 0.06em;
+}
+
+
+
+.continue {
+    width: 95%;
+    background: #1371BC;
+    text-transform: initial !important;
+    font-family: 'Inter' !important;
+    font-style: normal !important;
+    font-weight: 700 !important;
+    font-size: 17px !important;
+    line-height: 28px !important;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: #F5F5F5;
+    box-shadow: none;
+    padding: 10px 16px;
+    height: 55px;
+}
+
+.cancelbtn {
+    font-family: 'Inter' !important;
+    font-style: normal !important;
+    font-weight: 700 !important;
+    font-size: 18px !important;
+    line-height: 28px !important;
+    display: flex !important;
+    align-items: center !important;
+    text-align: center !important;
+    color: #2C1E66 !important;
+    text-transform: capitalize !important;
+    padding: 1rem !important;
+    width: 62px;
+
+}
+
+
+.circle {
+    display: 'inline-block';
+    text-align: 'center';
+    border: '2px solid blue';
+    border-radius: '50%';
+    width: '0.9em';
+    height: '0.9em';
+    line-height: '1em';
+    margin: 0;
+    color: '#FFFFFF';
+    background-color: 'blue';
+}
+
+.metaMaskDiv {
+    display: flex;
+    justify-content: space-around;
+    text-align: center;
+    align-items: center;
+    background: #FFFFFF;
+    box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.2);
+    border-radius: 24px;
+    width: 360px;
+    height: 104px;
+    margin-top: 72px;
+}
+
+.metamaskImage {
+    width: 56px;
+    height: 56px;
+}
+
+.choosecurrency {
+    font-size: 22px;
+    color: #2C1E66;
+    text-align: center;
+    letter-spacing: 0.02em;
+    font-style: normal;
+    font-weight: 500;
+    padding: 10px 8px 15px 10px;
+}
+
+.nivapay_ramp {
+    margin: 0 0rem;
+    margin-left: 2% !important;
+}
+
+.qrCodeDiv {
+    margin-left: 1% !important;
+    width: 95%;
+    height: 388px;
+    border: 1px solid white;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    margin-top: 8px;
+    background: #FFFFFF;
+    box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.2);
+    border-radius: 24px;
+}
+
+.appBar {
+    /* display: "flex";
+    flex-direction: "column";
+    height: "100%"; */
+    margin-left: 2%;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px
+}

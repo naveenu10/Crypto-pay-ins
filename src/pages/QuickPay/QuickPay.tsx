@@ -37,7 +37,6 @@ function QuickPay() {
     return (
         <Layout>
             <MobileContainer>
-
                 <div style={{ boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px" }}>
                     <section style={{ display: "flex", flexDirection: "column", height: "100vh", }}>
                         <AppBar position="static" style={{ backgroundColor: '#279FFE', boxShadow: 'none' }}>

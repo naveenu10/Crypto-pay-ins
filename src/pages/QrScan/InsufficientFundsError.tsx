@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react'
 import { Layout, MobileContainer } from '../../styles/layout'
 import { AppBar, Box, Button, CardHeader, IconButton, Toolbar, Typography, Container } from '@mui/material'
@@ -8,17 +9,14 @@ import { useNavigate } from 'react-router-dom';
 import Countdown, { zeroPad } from 'react-countdown';
 import { useGlobalContext } from '../../context/context';
 import BackButton from '../../dialogs/BackButton';
-import NetWorkFee from '../../dialogs/NetWorkfee';
 import Footer from '../Footer/Footer';
 import ScanCopyTab from './ScanCopyTab';
 import QrCode from './QrCode';
 
-function QrScanPage() {
+function InsufficientFunds() {
     const context = useGlobalContext();
     const [userName, setUserName] = useState('laxmi@gmail.com')
-    const [openCloseDialog, setOpenCloseDialog] = useState(false);
-    const [openNetworkDialog, setOpenNetworkDialog] = useState(false);
-
+    const [openCloseDialog, setOpenCloseDialog] = useState(false)
     var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     const navigate = useNavigate();
     const onIhavePaid = () => {
@@ -56,10 +54,10 @@ function QrScanPage() {
     // }, [date])
 
     return (
-        <Layout >
+        <Layout>
             <MobileContainer>
-                <div className='appBar'>
-                    <section style={{ display: "flex", flexDirection: "column", height: "100%", }}>
+                <div style={{ boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px" }}>
+                    <section style={{ display: "flex", flexDirection: "column", height: "100vh", }}>
                         <AppBar position="static" style={{ backgroundColor: '#279FFE', boxShadow: 'none' }}>
                             <Toolbar style={{ display: 'flex', flexDirection: 'row', flexWrap: 'nowrap', justifyContent: 'space-between', paddingLeft: '22px' }}>
                                 <div style={{ textAlign: 'left' }}>
@@ -100,7 +98,7 @@ function QrScanPage() {
                         </AppBar>
                         <div style={{ flex: 1, height: '50vh', overflowY: 'auto' }}>
                             <section className='nivapay_ramp'>
-                                <Container>
+                                <Container maxWidth="lg">
                                     <Typography style={{ fontStyle: 'normal', fontWeight: 'bold', fontSize: '16px', lineHeight: '30px', textAlign: 'center', letterSpacing: '0.06em', color: '#000000', fontFamily: 'Inter', }}>
                                         {/* Time left 15:00 mins */}
                                         Time Left: {" "}
@@ -108,47 +106,69 @@ function QrScanPage() {
                                     </Typography>
                                     <div className="choosecurrency">Complete Payment</div>
                                     <div style={{ paddingLeft: '10px' }}>
-                                        <div style={{ marginTop: '20px', display: 'flex' }}>
-                                            <ScanCopyTab />
-                                        </div>
+
                                         <div className='qrCodeDiv'>
                                             <Container>
                                                 <div style={{ marginTop: '16px' }}>
-                                                    <span style={{ fontSize: "24px" }}>0.05446</span><span style={{ fontSize: "12px", marginLeft: '4px' }}>ETH</span>
+                                                    <span style={{ fontSize: "24px", color: '#000000', fontWeight: '600' }}>0.05446</span><span style={{ fontSize: "12px", color: '#000000', fontWeight: '600', marginLeft: '4px' }}>ETH</span>
                                                 </div>
-                                                <div style={{ marginTop: '4px', color: 'blue', textDecoration: 'underline' }}>
-                                                    <span style={{ fontSize: '12px' }} onClick={() => setOpenNetworkDialog(true)}>+ Network fee <span className='circle'>i</span> </span>
+                                                <div style={{ marginTop: '4px', color: '#808080', }}>
+                                                    <span style={{ fontSize: '12px' }}>+ Network fee</span>
                                                 </div>
-                                                <div style={{ marginTop: '12px' }}>
+
+
+                                                <div style={{ marginTop: '49px', fontSize: '12px', fontWeight: '400', color: '#FF0000' }}>
+                                                    <span>Your balance is insufficient</span>
+                                                </div>
+                                                <div style={{ marginTop: '28px', justifyContent: 'center' }}>
+                                                    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                                                        <div style={{ color: '#00000080' }}>MetaMask</div>
+                                                        <div style={{ color: '#21146B', fontWeight: '600' }}>Connected</div>
+                                                    </div>
+                                                    <hr />
+
+                                                    <div style={{ display: 'flex', justifyContent: 'space-between', color: '#00000080', marginTop: '12px', fontSize: '12px' }}>
+                                                        <div>Account</div>
+                                                        <div>0xFBeCa3...09D0</div>
+                                                    </div>
+                                                    <div style={{ display: 'flex', justifyContent: 'space-between', color: '#00000080', fontSize: '12px', marginTop: '12px' }}>
+                                                        <div>Network</div>
+                                                        <div>Ethereum</div>
+                                                    </div>
+                                                    <div style={{ display: 'flex', flex: 'start', justifyContent: 'space-between', color: '#00000080', fontSize: '12px', marginTop: '12px' }}>
+                                                        <div>Balance</div>
+                                                        <div>1.05 ETH</div>
+                                                    </div>
+
+                                                </div>
+                                                <div style={{ marginTop: '16px' }}>
+
+                                                    <span style={{ fontSize: '14px', color: '#2C1E66', fontWeight: '700' }}>
+                                                        Disconnect Wallet
+                                                    </span>
+                                                </div>
+
+
+                                                <div style={{ marginTop: '35px' }}>
+
                                                     <span style={{ fontSize: '12px' }}>
-                                                        Scan this QR code using your wallet and transfer the above amount
-                                                    </span>
-                                                </div>
-                                                <div style={{ marginTop: '35px' }}>
-                                                    <span style={{ height: '270px', width: "196px", justifyContent: 'center' }}>
-                                                        <QrCode />
-                                                    </span>
-                                                </div>
-                                                <div style={{ marginTop: '35px' }}>
-                                                    <span style={{ fontSize: '13px' }}>
-                                                        Only send ETH using the Ethereum network, else the funds may get lost
+                                                        Recommended network fee for fast confirmation:<br /><span style={{ color: '#000000', fontWeight: '600' }}>64 gwei
+                                                        </span>
                                                     </span>
                                                 </div>
                                             </Container>
                                         </div>
                                     </div>
 
-                                    <div style={{ marginTop: '50px', fontSize: '13px', fontWeight: 500, fontFamily: 'Inter', lineHeight: '14.52px', marginLeft: '20px' }}>
-                                        <span>Click the below button once you have triggered the transaction</span>
-                                    </div>
-                                    <div style={{ display: 'flex', justifyContent: 'center', marginTop: '8px' }}>
+
+                                    <div style={{ display: 'flex', justifyContent: 'center', marginTop: '104px' }}>
                                         <Button
                                             className='continue'
                                             variant='contained'
                                             onClick={onIhavePaid}
                                             disabled={!userName || !re.test(userName)}
                                         >
-                                            I have Paid </Button>
+                                            Send Payment </Button>
                                     </div>
                                     <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
                                         <Button className="cancelbtn" onClick={() => setOpenCloseDialog(true)}>
@@ -156,7 +176,6 @@ function QrScanPage() {
                                         </Button>
                                     </div>
                                     <BackButton open={openCloseDialog} setOpen={setOpenCloseDialog} />
-                                    <NetWorkFee openNetWorkfee={openNetworkDialog}setOpenNetworkfee={setOpenNetworkDialog}/>
                                 </Container>
                             </section>
                         </div>
@@ -170,4 +189,4 @@ function QrScanPage() {
     )
 }
 
-export default QrScanPage;
+export default InsufficientFunds;
