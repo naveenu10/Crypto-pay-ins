@@ -9,14 +9,14 @@ import Failure from "./pages/Failure/Failure";
 import Timeout from "./pages/Timeout/Timeout";
 import LowBalSuccess from "./pages/LowBalSuccess/LowBalSuccess";
 import Wallet from "./pages/Wallet/Wallet";
-import QrScan from "./pages/QrScan/ScanCopyTab";
+import QrScan from "./pages/QrScan/QrScanPage";
 import QrScanPage from "./pages/QrScan/QrScanPage";
 import Metamask from "./pages/QrScan/MetamaskError";
 import QrCopy from "./pages/QrScan/QrCopy";
 import InsufficientFunds from "./pages/QrScan/InsufficientFundsError";
 import MetaMaskPage from "./pages/metaMask/MetaMaskPage";
 import { ThemeProvider } from "@mui/material/styles";
-import theme from "./theme";
+import theme from "./theme/theme";
 
 function App() {
   return (
