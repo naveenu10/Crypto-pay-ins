@@ -34,6 +34,7 @@
     box-shadow: none;
     padding: 10px 16px;
     height: 55px;
+    text-transform: initial !important;
 }
 
 .cancelbtn {

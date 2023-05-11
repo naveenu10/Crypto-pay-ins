@@ -18,9 +18,18 @@ function QuickPay() {
     const navigate = useNavigate()
     const context = useGlobalContext()
 
+
+    let coinName = context.state.selectedCoin;
+
     const onContinue = () => {
-        navigate('/wallet')
-    }
+        if (coinName == "ETH" || coinName === 'USDC' || coinName === 'USDT') {
+            navigate('/wallet');
+        }
+        else {
+            navigate('/QrScanPage');
+        }
+    };
+
 
     const Completionist = () => <span>You are good to go!</span>;
     const renderer = ({ minutes, seconds, completed }: { minutes: any, seconds: any, completed: any }) => {
@@ -105,8 +114,7 @@ function QuickPay() {
                                         onClick={onContinue}
                                         disabled={!context.state.selectedCoin}
                                     >
-                                        {" "}
-                                        Continue{" "}
+                                        Continue
                                     </Button>
                                 </div>
                                 <div style={{ display: 'flex', justifyContent: 'center' }}>
