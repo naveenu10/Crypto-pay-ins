@@ -1,12 +1,11 @@
-import React from 'react'
-import { AppBar, Box, Button, Divider, IconButton, Stack, Toolbar, Typography } from '@mui/material'
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
-import { useNavigate } from 'react-router-dom';
-import { Layout, MobileContainer } from '../../styles/layout';
-import NivapayLogo1 from '../../assets/images/NIcons/NivapayLogo1';
-import Footer from '../Footer/Footer';
-import FailureLogo from '../../assets/images/NIcons/FailureLogo';
+import { AppBar, Button, Divider, IconButton, Stack, Toolbar, Typography } from '@mui/material';
 import Countdown, { zeroPad } from 'react-countdown';
+import { useNavigate } from 'react-router-dom';
+import FailureLogo from '../../assets/images/NIcons/FailureLogo';
+import NivapayLogo1 from '../../assets/images/NIcons/NivapayLogo1';
+import { Layout, MobileContainer } from '../../styles/layout';
+import Footer from '../Footer/Footer';
 
 
 

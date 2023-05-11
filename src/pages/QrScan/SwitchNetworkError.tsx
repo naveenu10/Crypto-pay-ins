@@ -5,7 +5,6 @@ import React from "react";
 import { useNavigate } from 'react-router';
 
 import { Layout, MobileContainer } from '../../styles/layout';
-import ScanCopyTab from './ScanCopyTab';
 
 const useStyles = makeStyles((theme) => ({
     mainDiv: {

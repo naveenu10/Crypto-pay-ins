@@ -1,13 +1,9 @@
-import * as React from 'react';
-import ImageList from '@mui/material/ImageList';
-import ImageListItem from '@mui/material/ImageListItem';
-import { Backdrop, Box, Button, CircularProgress, Divider, Grid, Paper, Stack, Typography, styled } from '@mui/material';
-import axios from 'axios';
 import InfoIcon from '@mui/icons-material/Info';
-import { Layout, MobileContainer } from '../../styles/layout';
-import InfoModal from '../../dialogs/InfoModal';
-import './ImageList.css'
+import { Button, Divider, Paper, Stack, Typography, styled } from '@mui/material';
+import * as React from 'react';
 import { useGlobalContext } from '../../context/context';
+import InfoModal from '../../dialogs/InfoModal';
+import './ImageList.css';
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',

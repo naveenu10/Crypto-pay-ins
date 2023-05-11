@@ -1,12 +1,11 @@
-import React from 'react'
-import { Layout, MobileContainer } from '../../styles/layout'
-import { AppBar, Box, Button, Divider, IconButton, Stack, Toolbar, Typography } from '@mui/material'
-import NivapayLogo1 from '../../assets/images/NIcons/NivapayLogo1'
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
-import Processing from '../../assets/images/NIcons/Processing';
-import './Detecting.css'
-import Footer from '../Footer/Footer';
+import { AppBar, Button, Divider, IconButton, Stack, Toolbar, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import NivapayLogo1 from '../../assets/images/NIcons/NivapayLogo1';
+import Processing from '../../assets/images/NIcons/Processing';
+import { Layout, MobileContainer } from '../../styles/layout';
+import Footer from '../Footer/Footer';
+import './Detecting.css';
 
 
 

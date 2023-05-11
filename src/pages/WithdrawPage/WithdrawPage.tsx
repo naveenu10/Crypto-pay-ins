@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from 'react'
-import { Layout, MobileContainer } from '../../styles/layout'
-import { AppBar, Box, Button, CardHeader, IconButton, Toolbar, Typography } from '@mui/material'
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
-import NivapayLogo1 from '../../assets/images/NIcons/NivapayLogo1';
-import './WithdrawPage.css'
-import { useNavigate } from 'react-router-dom';
+import { AppBar, Button, IconButton, Toolbar, Typography } from '@mui/material';
+import { useState } from 'react';
 import Countdown, { zeroPad } from 'react-countdown';
+import { useNavigate } from 'react-router-dom';
+import NivapayLogo1 from '../../assets/images/NIcons/NivapayLogo1';
 import { useGlobalContext } from '../../context/context';
 import BackButton from '../../dialogs/BackButton';
+import { Layout, MobileContainer } from '../../styles/layout';
 import Footer from '../Footer/Footer';
+import './WithdrawPage.css';
 
 function WithdrawPage() {
     const context = useGlobalContext();

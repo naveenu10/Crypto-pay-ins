@@ -1,12 +1,11 @@
-import React from 'react'
-import { AppBar, Box, Button, Divider, IconButton, Stack, Toolbar, Typography } from '@mui/material'
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
+import { AppBar, Button, Divider, IconButton, Stack, Toolbar, Typography } from '@mui/material';
+import Countdown, { zeroPad } from 'react-countdown';
 import { useNavigate } from 'react-router-dom';
-import { Layout, MobileContainer } from '../../styles/layout';
 import NivapayLogo1 from '../../assets/images/NIcons/NivapayLogo1';
 import TimeoutLogo from '../../assets/images/NIcons/TimeoutLogo';
+import { Layout, MobileContainer } from '../../styles/layout';
 import Footer from '../Footer/Footer';
-import Countdown, { zeroPad } from 'react-countdown';
 
 
 function Detecting() {

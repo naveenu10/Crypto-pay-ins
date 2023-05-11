@@ -1,21 +1,18 @@
+import { ThemeProvider } from "@mui/material/styles";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Home from "./pages/Home";
-import About from "./pages/About";
-import WithdrawPage from "./pages/WithdrawPage/WithdrawPage";
-import QuickPay from "./pages/QuickPay/QuickPay";
 import Detecting from "./pages/Detecting/Detecting";
-import Success from "./pages/Success/Success";
 import Failure from "./pages/Failure/Failure";
-import Timeout from "./pages/Timeout/Timeout";
 import LowBalSuccess from "./pages/LowBalSuccess/LowBalSuccess";
-import Wallet from "./pages/Wallet/Wallet";
-import QrScan from "./pages/QrScan/QrScanPage";
-import QrScanPage from "./pages/QrScan/QrScanPage";
+import InsufficientFunds from "./pages/QrScan/InsufficientFundsError";
 import Metamask from "./pages/QrScan/MetamaskError";
 import QrCopy from "./pages/QrScan/QrCopy";
-import InsufficientFunds from "./pages/QrScan/InsufficientFundsError";
+import { default as QrScan, default as QrScanPage } from "./pages/QrScan/QrScanPage";
+import QuickPay from "./pages/QuickPay/QuickPay";
+import Success from "./pages/Success/Success";
+import Timeout from "./pages/Timeout/Timeout";
+import Wallet from "./pages/Wallet/Wallet";
+import WithdrawPage from "./pages/WithdrawPage/WithdrawPage";
 import MetaMaskPage from "./pages/metaMask/MetaMaskPage";
-import { ThemeProvider } from "@mui/material/styles";
 import theme from "./theme/theme";
 
 function App() {

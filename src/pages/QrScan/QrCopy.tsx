@@ -1,18 +1,17 @@
 
-import React, { useEffect, useState } from 'react'
-import { Layout, MobileContainer } from '../../styles/layout'
-import { AppBar, Box, Button, Container, IconButton, InputAdornment, TextField, Toolbar, FormControl, Typography } from '@mui/material';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
-import NivapayLogo1 from '../../assets/images/NIcons/NivapayLogo1';
-import './QrScanPage.css'
-import { useNavigate } from 'react-router-dom';
+import { AppBar, Box, Button, Container, FormControl, IconButton, InputAdornment, TextField, Toolbar, Typography } from '@mui/material';
+import { useState } from 'react';
 import Countdown, { zeroPad } from 'react-countdown';
+import { useNavigate } from 'react-router-dom';
+import NivapayLogo1 from '../../assets/images/NIcons/NivapayLogo1';
 import { useGlobalContext } from '../../context/context';
 import BackButton from '../../dialogs/BackButton';
 import NetWorkFee from '../../dialogs/NetWorkfee';
+import { Layout, MobileContainer } from '../../styles/layout';
 import Footer from '../Footer/Footer';
+import './QrScanPage.css';
 import ScanCopyTab from './ScanCopyTab';
-import QrCode from './QrCode';
 
 function QrCopy() {
     const context = useGlobalContext();

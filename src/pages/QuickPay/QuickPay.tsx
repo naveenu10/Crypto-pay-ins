@@ -1,14 +1,14 @@
-import { AppBar, Box, Button, IconButton, Toolbar, Typography } from '@mui/material'
-import React, { useState } from 'react'
-import NivapayLogo1 from '../../assets/images/NIcons/NivapayLogo1'
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
-import './QuickPay.css'
-import StandardImageList from '../ImageList/ImageList';
-import Footer from '../Footer/Footer';
-import { useNavigate } from 'react-router-dom';
-import { Layout, MobileContainer } from '../../styles/layout';
-import { useGlobalContext } from '../../context/context';
+import { AppBar, Button, IconButton, Toolbar, Typography } from '@mui/material';
+import React, { useState } from 'react';
 import Countdown, { zeroPad } from 'react-countdown';
+import { useNavigate } from 'react-router-dom';
+import NivapayLogo1 from '../../assets/images/NIcons/NivapayLogo1';
+import { useGlobalContext } from '../../context/context';
+import { Layout, MobileContainer } from '../../styles/layout';
+import Footer from '../Footer/Footer';
+import StandardImageList from '../ImageList/ImageList';
+import './QuickPay.css';
 
 
 function QuickPay() {

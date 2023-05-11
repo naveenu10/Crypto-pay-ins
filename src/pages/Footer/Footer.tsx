@@ -1,6 +1,4 @@
-import { Box, Stack, Typography } from "@mui/material";
-import React from "react";
-import NivaLogo from "../../assets/images/NIcons/NivaLogo";
+import { Stack, Typography } from "@mui/material";
 
 function Footer() {
     return (

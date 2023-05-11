@@ -1,16 +1,11 @@
-import React from 'react'
-import { Layout, MobileContainer } from '../../styles/layout'
-import { AppBar, Box, Button, Divider, IconButton, Stack, Toolbar, Typography } from '@mui/material'
-import NivapayLogo1 from '../../assets/images/NIcons/NivapayLogo1'
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
-import Processing from '../../assets/images/NIcons/Processing';
-import Footer from '../Footer/Footer';
+import { AppBar, Button, Divider, IconButton, Stack, Toolbar, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import ContentPasteGoIcon from '@mui/icons-material/ContentPasteGo';
-import OpenInNewIcon from '@mui/icons-material/OpenInNew';
-import copy from "copy-to-clipboard";
+import NivapayLogo1 from '../../assets/images/NIcons/NivapayLogo1';
 import SuccessLogo from '../../assets/images/NIcons/SuccessLogo';
-import './HignBalSuccessPage.css'
+import { Layout, MobileContainer } from '../../styles/layout';
+import Footer from '../Footer/Footer';
+import './HignBalSuccessPage.css';
 
 
 function HignBalSuccessPage() {
