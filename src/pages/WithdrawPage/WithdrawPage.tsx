@@ -1,37 +1,23 @@
-
 import React, { useEffect, useState } from 'react'
 import { Layout, MobileContainer } from '../../styles/layout'
 import { AppBar, Box, Button, CardHeader, IconButton, Toolbar, Typography } from '@mui/material'
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import NivapayLogo1 from '../../assets/images/NIcons/NivapayLogo1';
-import './Wallet.css'
+import './WithdrawPage.css'
 import { useNavigate } from 'react-router-dom';
 import Countdown, { zeroPad } from 'react-countdown';
 import { useGlobalContext } from '../../context/context';
 import BackButton from '../../dialogs/BackButton';
 import Footer from '../Footer/Footer';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 
-function Wallet() {
+function WithdrawPage() {
     const context = useGlobalContext();
     const [userName, setUserName] = useState('laxmi@gmail.com')
     const [openCloseDialog, setOpenCloseDialog] = useState(false)
     var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     const navigate = useNavigate();
-    const onOtherWallets = () => {
-        navigate('/QrScanPage')
-    }
-
     const onContinue = () => {
-        navigate('/QrScanPage')
-    }
-    const handleMetamask = () => {
-        navigate('/MetamaskPage');
-    }
-
-    const handleOtherWallets = () => {
-        navigate('/QrScanPage');
-
+        navigate('/quickpay')
     }
 
     const Completionist = () => <span>You are good to go!</span>;
@@ -109,37 +95,48 @@ function Wallet() {
                         </AppBar>
                         <div style={{ flex: 1, height: '50vh', overflowY: 'auto' }}>
                             <section className='nivapay_ramp'>
-
                                 <Typography style={{ fontStyle: 'normal', fontWeight: 500, fontSize: '16px', lineHeight: '30px', textAlign: 'center', letterSpacing: '0.06em', color: '#000000', fontFamily: 'Inter', padding: '10px' }}>
                                     {/* Time left 15:00 mins */}
                                     Time left: {" "}
                                     <Countdown date={Date.now() + 900000} renderer={renderer} /> mins
                                 </Typography>
-
-                                <div className="choosecurrency">Select Wallet</div>
-
-                                <div className='metaMaskDiv' onClick={handleMetamask} >
-                                    <span className='metamaskImage'>
-                                        <img src="https://upload.wikimedia.org/wikipedia/commons/3/36/MetaMask_Fox.svg" alt="metamask logo" />
-                                    </span>
-                                    <span style={{ fontSize: '20px' }}>MetaMask</span>
-                                    <span>
-                                        <ChevronRightIcon style={{ fontSize: '40px' }} />
-                                    </span>
-                                </div>
-                                <div className='metaMaskDiv' onClick={handleOtherWallets}>
-                                    <span>
-                                        <img src="https://res.cloudinary.com/dolpotacg/image/upload/v1683539144/bitcoin-wallet_1_2_s3dfsh.svg" alt="metamask logo" />
-
-                                    </span>
-                                    <span style={{ fontSize: '20px', color: '#000000' }}>Other&nbsp;Wallets</span>
-                                    <span onClick={onOtherWallets}>
-                                        <ChevronRightIcon style={{ fontSize: '40px' }} />
-                                    </span>
-                                </div>
-
-
-                                <div style={{ display: 'flex', justifyContent: 'center', marginTop: '260px' }}>
+                                <Typography style={{ fontFamily: 'Inter', fontStyle: 'normal', fontWeight: 400, fontSize: '18px', lineHeight: '32px', display: 'flex', justifyContent: 'center', color: '#2C1E66', gap: '8px' }}>
+                                    User id:
+                                    <Typography style={{ fontFamily: 'Inter', fontStyle: 'normal', fontWeight: 700, fontSize: '18px', lineHeight: '32px', display: 'flex', alignItems: 'center', textAlign: 'center', color: '#2C1E66' }}>
+                                        daemonx13
+                                    </Typography>
+                                </Typography>
+                                <Typography style={{ fontFamily: 'Inter', fontStyle: 'normal', fontWeight: 400, fontSize: '16px', lineHeight: '32px', display: 'flex', color: '#2C1E66', justifyContent: 'center', padding: '10px' }}>
+                                    Pay
+                                </Typography>
+                                <Typography style={{ fontFamily: 'Inter', fontStyle: 'normal', fontWeight: 500, fontSize: '24px', lineHeight: '29px', display: 'flex', color: '#2C1E66', justifyContent: 'center', padding: '5px' }}>
+                                    USD 100.00
+                                </Typography>
+                                <Typography style={{ fontFamily: 'Inter', fontStyle: 'normal', fontWeight: 400, fontSize: '16px', lineHeight: '32px', display: 'flex', color: '#2C1E66', justifyContent: 'center', padding: '5px' }}>
+                                    worth of crypto to
+                                </Typography>
+                                <Typography style={{ fontFamily: 'Inter', fontStyle: 'normal', fontWeight: 700, fontSize: '18px', lineHeight: '32px', display: 'flex', justifyContent: 'center', color: '#2C1E66' }}>
+                                    Cryptogames
+                                </Typography>
+                                <Typography style={{ fontFamily: 'Inter', fontStyle: 'normal', fontWeight: 400, paddingTop: '5rem', fontSize: '16px', lineHeight: '19px', display: 'flex', letterSpacing: '0.06em', color: '#21146B' }}>
+                                    <Typography>
+                                        Email Address*
+                                        <input
+                                            className="input-wrap"
+                                            name="userName"
+                                            style={{ fontSize: '16px', }}
+                                            onChange={(e) => { setUserName(e.target.value) }}
+                                            value={userName}
+                                        />
+                                    </Typography>
+                                </Typography>
+                                <Typography style={{ fontFamily: 'Inter', fontStyle: 'normal', fontWeight: 400, fontSize: '12px', lineHeight: '15px', letterSpacing: '0.06em', color: '#21146B', paddingTop: '0.5rem' }}>
+                                    Transaction status updates will be sent to this email address
+                                </Typography>
+                                <Typography style={{ fontFamily: 'Inter', fontStyle: 'normal', fontWeight: 400, fontSize: '13px', lineHeight: '15px', display: 'flex', alignItems: 'center', letterSpacing: '0.06em', color: 'rgba(0, 0, 0, 0.5)', padding: '0.5rem', marginTop: '3.5rem', flexWrap: 'wrap', gap: '4px' }} component='div'>
+                                    By clicking “Continue”, I agree to Nivapay’s <a href='www.goodle.com' style={{ color: 'rgba(0, 0, 0, 0.5)' }}>Terms of Service</a> and <a href='www.goodle.com' style={{ color: 'rgba(0, 0, 0, 0.5)' }}>Privacy Policy.</a>
+                                </Typography>
+                                <div style={{ display: 'flex', justifyContent: 'center' }}>
                                     <Button
                                         className='continue'
                                         variant='contained'
@@ -150,7 +147,7 @@ function Wallet() {
                                     </Button>
                                 </div>
                                 <div style={{ display: 'flex', justifyContent: 'center' }}>
-                                    <Button className="cancelbtn" onClick={() => setOpenCloseDialog(true)}>
+                                    <Button className="cancelbtn">
                                         Cancel
                                     </Button>
                                 </div>
@@ -167,4 +164,4 @@ function Wallet() {
     )
 }
 
-export default Wallet;
+export default WithdrawPage;

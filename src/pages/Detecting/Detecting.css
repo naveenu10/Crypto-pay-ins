@@ -1,0 +1,39 @@
+.currency {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 17px;
+    display: flex;
+    align-items: center;
+    letter-spacing: 0.06em;
+    color: rgba(0, 0, 0, 0.5);
+}
+
+.info {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    display: flex;
+    align-items: center;
+    text-align: right;
+    letter-spacing: 0.06em;
+    color: rgba(0, 0, 0, 0.5);
+}
+
+.cryptobtn {
+    text-transform: inherit !important;
+    font-family: 'Inter' !important;
+    font-style: normal !important;
+    font-weight: 700 !important;
+    font-size: 17px !important;
+    line-height: 28px !important;
+    display: flex !important;
+    align-items: center !important;
+    text-align: center !important;
+    color: #F5F5F5 !important;
+    width: 95% !important;
+    box-shadow: none !important;
+}

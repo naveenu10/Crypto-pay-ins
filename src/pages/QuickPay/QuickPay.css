@@ -1,0 +1,31 @@
+.nivapay_ramp {
+    margin: 0 1.7rem;
+}
+
+
+.choosecurrency {
+    font-size: 22px;
+    color: #2C1E66;
+    text-align: center;
+    letter-spacing: 0.02em;
+    font-style: normal;
+    font-weight: 500;
+    padding: 10px 8px 15px 10px;
+}
+
+.continue_btn {
+    width: 98%;
+    background: #1371BC;
+    text-transform: capitalize !important;
+    font-family: 'Inter' !important;
+    font-style: normal !important;
+    font-weight: 700 !important;
+    font-size: 17px !important;
+    line-height: 28px !important;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: #F5F5F5;
+    box-shadow: none;
+    padding: 10px 16px;
+}

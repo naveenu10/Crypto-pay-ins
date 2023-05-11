@@ -1,0 +1,52 @@
+.input-wrap {
+    height: 5vh;
+    border: 1px solid rgba(0, 0, 0, 0.5);
+    border-radius: 8px;
+    width: 100%;
+    padding-left: 22px;
+    box-sizing: border-box;
+    margin-top: 8px;
+    outline: none;
+    color: #21146B;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 19px;
+    letter-spacing: 0.06em;
+}
+
+.continue {
+    width: 95%;
+    background: #1371BC;
+    text-transform: capitalize !important;
+    font-family: 'Inter' !important;
+    font-style: normal !important;
+    font-weight: 700 !important;
+    font-size: 17px !important;
+    line-height: 28px !important;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: #F5F5F5;
+    box-shadow: none;
+    padding: 10px 16px;
+}
+
+.cancelbtn {
+    font-family: 'Inter' !important;
+    font-style: normal !important;
+    font-weight: 700 !important;
+    font-size: 18px !important;
+    line-height: 28px !important;
+    display: flex !important;
+    align-items: center !important;
+    text-align: center !important;
+    color: #2C1E66 !important;
+    text-transform: capitalize !important;
+    padding: 1rem !important;
+}
+
+.nivapay_ramp {
+    margin: 0 1.7rem;
+}

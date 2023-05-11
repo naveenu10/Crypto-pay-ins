@@ -6,23 +6,21 @@ import { useLocation, useNavigate } from 'react-router-dom';
 const useStyles = makeStyles((theme) => ({
     navBar: {
         display: 'flex',
-        flexWrap: 'wrap',
-        justifyContent: 'space-evenly',
+        justifyContent: 'center',
         marginBottom: '5%',
         marginTop: '5%',
+        width: '94%',
     },
     navBarButtons: {
         display: 'flex',
         alignItems: 'center',
-        borderRadius: '25%',
+        borderRadius: '8%',
         width: '176px',
+        justifyContent: 'center',
         backgroundColor: '#FFFFFF',
         '&.active': {
             backgroundColor: '#D6D6D6',
         },
-    },
-    icon: {
-        marginRight:1,
     },
 }));
 
@@ -38,14 +36,14 @@ const initData: TabData[] = [
     {
         id: 1,
         name: 'Scan',
-        path: `/QrScan`,
+        path: `/QrScanPage`,
         isActive: true,
         iconUrl: 'https://res.cloudinary.com/dolpotacg/image/upload/v1683011634/Vector_mqrntq.svg',
     },
     {
         id: 2,
         name: 'Copy',
-        path: `/QrScan/Copy`,
+        path: `/QrCopy`,
         isActive: false,
         iconUrl: 'https://res.cloudinary.com/dolpotacg/image/upload/v1683014498/Vector_2_aghej8.svg',
     },
@@ -80,8 +78,12 @@ const ScanCopyTab = (): JSX.Element => {
                         key={tab.id}
                         onClick={() => handleTabClick(tab)}
                     >
-                        <img src={tab.iconUrl} alt={tab.name} className={classes.icon} />
-                        {tab.name}
+                        <span>
+                            <img src={tab.iconUrl} alt={tab.name}  />
+                        </span>
+                        <span style={{ marginLeft: '6px' }}>
+                            {tab.name}
+                        </span>
                     </Button>
                 );
             })}
