@@ -2,6 +2,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
 import Typography from '@mui/material/Typography';
+import { useNavigate } from 'react-router-dom';
 
 const style = {
     position: 'absolute' as 'absolute',
@@ -18,9 +19,10 @@ const style = {
 
 const BackButton = (props: { open: any, setOpen: any }) => {
     const { open, setOpen } = props;
+    const navigate = useNavigate()
 
     const clickYes = () => {
-        window.location.replace('www.google.com')
+        navigate(-1)
     }
     return (
         <>

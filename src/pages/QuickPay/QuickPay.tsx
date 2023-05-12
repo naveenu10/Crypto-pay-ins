@@ -8,6 +8,7 @@ import { useGlobalContext } from '../../context/context';
 import { Layout, MobileContainer } from '../../styles/layout';
 import Footer from '../Footer/Footer';
 import StandardImageList from '../ImageList/ImageList';
+import BackButton from '../../dialogs/BackButton';
 import './QuickPay.css';
 
 
@@ -15,6 +16,8 @@ function QuickPay() {
     const [showmask, setShowMask] = React.useState(false);
     const [showEth, setShowEth] = useState(false);
     const [selectedCoinName, setselectedCoinName] = useState('');
+    const [openCloseDialog, setOpenCloseDialog] = useState(false)
+
     const navigate = useNavigate()
     const context = useGlobalContext()
 
@@ -39,9 +42,8 @@ function QuickPay() {
             return <span>{zeroPad(minutes)}:{zeroPad(seconds)}</span>;
         }
     };
+  
 
-
-    console.log(context.state.selectedCoin)
 
     return (
         <Layout>
@@ -63,6 +65,7 @@ function QuickPay() {
                                             padding: '5px',
                                             marginLeft: '-8px'
                                         }}
+                                        onClick={() => setOpenCloseDialog(true)}
                                     >
                                         <ArrowBackIosNewIcon />
                                     </IconButton>
@@ -122,6 +125,7 @@ function QuickPay() {
                                         Cancel
                                     </Button>
                                 </div>
+                                <BackButton open={openCloseDialog} setOpen={setOpenCloseDialog} />
                             </section>
                         </div>
                         <div style={{ justifyContent: "flex-end" }}>
