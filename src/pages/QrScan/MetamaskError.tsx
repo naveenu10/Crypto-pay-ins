@@ -4,6 +4,8 @@ import { makeStyles } from '@mui/styles';
 import React from "react";
 import { useNavigate } from 'react-router';
 import { Layout, MobileContainer } from '../../styles/layout';
+import Footer from '../Footer/Footer';
+import NivapayLogo1 from '../../assets/images/NIcons/NivapayLogo1';
 
 const useStyles = makeStyles((theme) => ({
     mainDiv: {
@@ -135,7 +137,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const Home = () => {
+const MetamaskError = () => {
 
     const navigate = useNavigate();
     const classes = useStyles();
@@ -151,8 +153,8 @@ const Home = () => {
 
         <Layout>
             <MobileContainer>
-                {!scannerOpen && <section className='media'>
-                    <Box sx={{ flexGrow: 1 }}>
+                <div style={{ boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px" }}>
+                    <section style={{ display: "flex", flexDirection: "column", height: "100vh", }}>
                         <AppBar position="static" style={{ backgroundColor: '#279FFE', boxShadow: 'none' }}>
                             <Toolbar style={{ display: 'flex', flexDirection: 'row', flexWrap: 'nowrap', justifyContent: 'space-between', paddingLeft: '22px' }}>
                                 <div style={{ textAlign: 'left' }}>
@@ -187,84 +189,88 @@ const Home = () => {
                                     }}>Cryptogames</Typography>
                                 </div>
                                 <div style={{ width: "30px", height: '30px' }}>
+                                    <NivapayLogo1 />
                                 </div>
                             </Toolbar>
                         </AppBar>
-                    </Box>
-                    <Container maxWidth="xl">
-                        <div className={classes.mainDiv}>
-                            <div style={{ marginTop: '16px' }}>
-                                <span className={classes.timeLeft}>Time Left: 10:40 mins</span>
-                            </div>
-                            <div style={{ marginTop: '24px' }}>
-                                <span className={classes.selectWallet}>Complete Payment</span>
-                            </div>
+
+                        <Container maxWidth="xl">
+                            <div className={classes.mainDiv}>
+                                <div style={{ marginTop: '16px' }}>
+                                    <span className={classes.timeLeft}>Time Left: 10:40 mins</span>
+                                </div>
+                                <div style={{ marginTop: '24px' }}>
+                                    <span className={classes.selectWallet}>Complete Payment</span>
+                                </div>
 
 
-                            <div className={classes.QrDiv} >
-                                <Container>
-                                    <div style={{ marginTop: '16px' }}>
-                                        <span style={{ fontSize: "24px" }}>0.05446</span><span style={{ fontSize: "12px", marginLeft: '4px' }}>ETH</span>
-                                    </div>
-                                    <div style={{ marginTop: '4px' }}>
-                                        <span style={{ fontSize: '12px' }}>+ Network fee </span>
-                                    </div>
-
-                                    <div style={{ marginTop: '85px', justifyContent: 'center' }}>
-                                        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                                            <div style={{ color: '#00000080' }}>MetaMask</div>
-                                            <div style={{ color: '#21146B' }}>Connected</div>
+                                <div className={classes.QrDiv} >
+                                    <Container>
+                                        <div style={{ marginTop: '16px' }}>
+                                            <span style={{ fontSize: "24px" }}>0.05446</span><span style={{ fontSize: "12px", marginLeft: '4px' }}>ETH</span>
                                         </div>
-                                        <hr />
-
-                                        <div style={{ display: 'flex', justifyContent: 'space-between', color: '#00000080', marginTop: '12px', fontSize: '12px' }}>
-                                            <div>Account</div>
-                                            <div>0xFBeCa3...09D0</div>
-                                        </div>
-                                        <div style={{ display: 'flex', justifyContent: 'space-between', color: '#00000080', fontSize: '12px', marginTop: '12px' }}>
-                                            <div>Network</div>
-                                            <div>Ethereum</div>
-                                        </div>
-                                        <div style={{ display: 'flex', flex: 'start', justifyContent: 'space-between', color: '#00000080', fontSize: '12px', marginTop: '12px' }}>
-                                            <div>Balance</div>
-                                            <div>1.05 ETH</div>
+                                        <div style={{ marginTop: '4px' }}>
+                                            <span style={{ fontSize: '12px' }}>+ Network fee </span>
                                         </div>
 
-                                    </div>
-                                    <div style={{ marginTop: '16px' }}>
+                                        <div style={{ marginTop: '85px', justifyContent: 'center' }}>
+                                            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                                                <div style={{ color: '#00000080' }}>MetaMask</div>
+                                                <div style={{ color: '#21146B' }}>Connected</div>
+                                            </div>
+                                            <hr />
 
-                                        <span style={{ fontSize: '14px', color: '#21146B' }}>
-                                            Disconnect Wallet
-                                        </span>
-                                    </div>
+                                            <div style={{ display: 'flex', justifyContent: 'space-between', color: '#00000080', marginTop: '12px', fontSize: '12px' }}>
+                                                <div>Account</div>
+                                                <div>0xFBeCa3...09D0</div>
+                                            </div>
+                                            <div style={{ display: 'flex', justifyContent: 'space-between', color: '#00000080', fontSize: '12px', marginTop: '12px' }}>
+                                                <div>Network</div>
+                                                <div>Ethereum</div>
+                                            </div>
+                                            <div style={{ display: 'flex', flex: 'start', justifyContent: 'space-between', color: '#00000080', fontSize: '12px', marginTop: '12px' }}>
+                                                <div>Balance</div>
+                                                <div>1.05 ETH</div>
+                                            </div>
 
-                                    <div style={{ marginTop: '35px' }}>
+                                        </div>
+                                        <div style={{ marginTop: '16px' }}>
 
-                                        <span style={{ fontSize: '12px' }}>
-                                            Recommended network fee for fast confirmation:<br /><span style={{ color: '#21146B' }}>64 gwei
+                                            <span style={{ fontSize: '14px', color: '#21146B' }}>
+                                                Disconnect Wallet
                                             </span>
-                                        </span>
-                                    </div>
-                                </Container>
-                            </div>
+                                        </div>
+
+                                        <div style={{ marginTop: '35px' }}>
+
+                                            <span style={{ fontSize: '12px' }}>
+                                                Recommended network fee for fast confirmation:<br /><span style={{ color: '#21146B' }}>64 gwei
+                                                </span>
+                                            </span>
+                                        </div>
+                                    </Container>
+                                </div>
 
 
-                            <div className={classes.btnDiv}>
-                                <Button variant="contained"
-                                    className={classes.btn}
-                                    sx={{ textTransform: 'inherit' }}
-                                >Send Payment</Button>
+                                <div className={classes.btnDiv}>
+                                    <Button variant="contained"
+                                        className={classes.btn}
+                                        sx={{ textTransform: 'inherit' }}
+                                    >Send Payment</Button>
+                                </div>
+                                <div className={classes.cancelDiv}>
+                                    <Button className={classes.cancelbtn}>Cancel</Button>
+                                </div>
                             </div>
-                            <div className={classes.cancelDiv}>
-                                <Button className={classes.cancelbtn}>Cancel</Button>
-                            </div>
-                        </div>
-                    </Container>
-                </section>}
-                {/* )} */}
+                        </Container>
+                    </section>
+                    <div style={{ justifyContent: "flex-end" }}>
+                        <Footer />
+                    </div>
+                </div>
             </MobileContainer>
         </Layout >
     );
 }
 
-export default Home;
+export default MetamaskError;

@@ -70,7 +70,7 @@ function WithdrawPage() {
                                             padding: '5px',
                                             marginLeft: '-8px'
                                         }}
-                                        onClick={() => setOpenCloseDialog(true)}
+                                        onClick={() => navigate(-1)}
                                     >
                                         <ArrowBackIosNewIcon />
                                     </IconButton>
