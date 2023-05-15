@@ -28,7 +28,7 @@ function Detecting() {
                                         edge="start"
                                         color="inherit"
                                         aria-label="menu"
-                                        disabled
+                                        // disabled
                                         sx={{
                                             mr: 2,
                                             border: '1px solid',
@@ -36,6 +36,7 @@ function Detecting() {
                                             padding: '5px',
                                             marginLeft: '-8px'
                                         }}
+                                        onClick={() => navigate(-1)}
                                     >
                                         <ArrowBackIosNewIcon />
                                     </IconButton>

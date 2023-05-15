@@ -71,7 +71,7 @@ function InsufficientFunds() {
                                             padding: '5px',
                                             marginLeft: '-8px'
                                         }}
-                                        onClick={() => setOpenCloseDialog(true)}
+                                        onClick={() => navigate(-1)}
                                     >
                                         <ArrowBackIosNewIcon />
                                     </IconButton>
@@ -147,7 +147,7 @@ function InsufficientFunds() {
                                                 </div>
 
 
-                                                <div style={{ marginTop: '35px' }}>
+                                                <div style={{ marginTop: '20px' }}>
 
                                                     <span style={{ fontSize: '12px' }}>
                                                         Recommended network fee for fast confirmation:<br /><span style={{ color: '#000000', fontWeight: '600' }}>64 gwei

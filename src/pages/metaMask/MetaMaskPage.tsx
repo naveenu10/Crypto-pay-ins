@@ -18,7 +18,7 @@ function MetaMaskPage() {
     var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     const navigate = useNavigate();
     const onContinue = () => {
-        navigate('/quickpay')
+        navigate('/InsufficientFunds')
     }
 
     const Completionist = () => <span>You are good to go!</span>;
@@ -71,7 +71,7 @@ function MetaMaskPage() {
                                             padding: '5px',
                                             marginLeft: '-8px'
                                         }}
-                                        onClick={() => setOpenCloseDialog(true)}
+                                        onClick={() => navigate(-1)}
                                     >
                                         <ArrowBackIosNewIcon />
                                     </IconButton>
