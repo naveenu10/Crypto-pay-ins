@@ -42,7 +42,7 @@ function QuickPay() {
             return <span>{zeroPad(minutes)}:{zeroPad(seconds)}</span>;
         }
     };
-  
+
 
 
     return (
@@ -65,7 +65,8 @@ function QuickPay() {
                                             padding: '5px',
                                             marginLeft: '-8px'
                                         }}
-                                        // onClick={() => setOpenCloseDialog(true)}
+                                        onClick={() => navigate(-1)}
+                                    // onClick={() => setOpenCloseDialog(true)}
                                     >
                                         <ArrowBackIosNewIcon />
                                     </IconButton>

@@ -7,7 +7,7 @@ import SuccessLogo from '../../assets/images/NIcons/SuccessLogo';
 import { Layout, MobileContainer } from '../../styles/layout';
 import Footer from '../Footer/Footer';
 import './Success.css';
-
+import copy from "copy-to-clipboard";
 
 function Detecting() {
     const navigate = useNavigate()
@@ -111,9 +111,9 @@ function Detecting() {
                                     </Stack>
                                     <Stack direction={"row"} spacing={2} sx={{ justifyContent: 'space-between', padding: '6px' }}>
                                         <Typography className='currency'>Transaction Hash</Typography>
-                                        <Typography className='info' style={{ gap: '5px' }}> <img
-                                            src='https://res.cloudinary.com/dhhxyg3tq/image/upload/v1683182823/ph_copy_lnoksz.svg' alt='copyimage' />
-                                            <img src='https://res.cloudinary.com/dhhxyg3tq/image/upload/v1683183469/Icon_lrkziq.svg' alt='redirect' />
+                                        <Typography className='info' style={{ gap: '5px' }}>
+                                            <img src='https://res.cloudinary.com/dhhxyg3tq/image/upload/v1683182823/ph_copy_lnoksz.svg' alt='copyimage' onClick={() => { copy('f0478d2b40a35e455ae640ec1b0762df8c46b975cb19672b63aaf236ad7ca2b9') }} />
+                                            <img src='https://res.cloudinary.com/dhhxyg3tq/image/upload/v1683183469/Icon_lrkziq.svg' alt='redirect' onClick={() => window.location.replace('https://blockchair.com')} />
                                         </Typography>
                                     </Stack>
                                     <Typography style={{
