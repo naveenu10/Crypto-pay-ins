@@ -12,12 +12,15 @@ import { Layout, MobileContainer } from '../../styles/layout';
 import Footer from '../Footer/Footer';
 import './QrScanPage.css';
 import ScanCopyTab from './ScanCopyTab';
+import { isAnyArrayBuffer } from 'util/types';
 
 function QrCopy() {
     const context = useGlobalContext();
     const [userName, setUserName] = useState('laxmi@gmail.com')
     const [openCloseDialog, setOpenCloseDialog] = useState(false);
     const [openNetworkDialog, setOpenNetworkDialog] = useState(false);
+
+    let coinName = context.state.selectedCoin;
 
     var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     const navigate = useNavigate();
@@ -114,7 +117,7 @@ function QrCopy() {
                                         <div className='qrCodeDiv'>
                                             <Container>
                                                 <div style={{ marginTop: '16px' }}>
-                                                    <span style={{ fontSize: "24px" }}>0.05446</span><span style={{ fontSize: "12px", marginLeft: '4px' }}>ETH</span>
+                                                    <span style={{ fontSize: "24px" }}>0.05446</span><span style={{ fontSize: "12px", marginLeft: '4px' }}>{coinName}</span>
                                                 </div>
                                                 <div style={{ marginTop: '4px', color: 'blue', textDecoration: 'underline' }}>
                                                     <span onClick={() => setOpenNetworkDialog(true)} style={{ fontSize: '12px' }}>+ Network fee  <span style={{

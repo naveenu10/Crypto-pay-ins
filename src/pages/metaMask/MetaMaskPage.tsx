@@ -21,6 +21,9 @@ function MetaMaskPage() {
         navigate('/Metamask')
     }
 
+    let coinName = context.state.selectedCoin;
+
+
     const Completionist = () => <span>You are good to go!</span>;
     const renderer = ({ minutes, seconds, completed }: { minutes: any, seconds: any, completed: any }) => {
         if (completed) {
@@ -107,7 +110,7 @@ function MetaMaskPage() {
                                         <div className='qrCodeDiv'>
                                             <Container>
                                                 <div style={{ marginTop: '16px' }}>
-                                                    <span style={{ fontSize: "24px" }}>0.05446</span><span style={{ fontSize: "12px", marginLeft: '4px' }}>ETH</span>
+                                                    <span style={{ fontSize: "24px" }}>0.05446</span><span style={{ fontSize: "12px", marginLeft: '4px' }}>{coinName}</span>
                                                 </div>
                                                 <div style={{ marginTop: '4px', color: '#808080', }}>
                                                     <span style={{ fontSize: '12px' }}>+ Network fee </span>

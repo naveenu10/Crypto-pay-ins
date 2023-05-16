@@ -19,6 +19,9 @@ function QrScanPage() {
     const [openCloseDialog, setOpenCloseDialog] = useState(false);
     const [openNetworkDialog, setOpenNetworkDialog] = useState(false);
 
+    let coinName = context.state.selectedCoin;
+
+
     var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     const navigate = useNavigate();
     const onIhavePaid = () => {
@@ -114,7 +117,7 @@ function QrScanPage() {
                                         <div className='qrCodeDiv'>
                                             <Container>
                                                 <div style={{ marginTop: '16px' }}>
-                                                    <span style={{ fontSize: "24px" }}>0.05446</span><span style={{ fontSize: "12px", marginLeft: '4px' }}>ETH</span>
+                                                    <span style={{ fontSize: "24px" }}>0.05446</span><span style={{ fontSize: "12px", marginLeft: '4px' }}>{coinName}</span>
                                                 </div>
                                                 <div style={{ marginTop: '4px', color: 'blue', textDecoration: 'underline' }}>
                                                     <span style={{ fontSize: '12px' }} onClick={() => setOpenNetworkDialog(true)}>+ Network fee <span style={{

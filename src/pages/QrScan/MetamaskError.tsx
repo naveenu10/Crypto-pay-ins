@@ -1,156 +1,58 @@
+
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
-import { AppBar, Box, Button, Container, IconButton, Toolbar, Typography } from '@mui/material';
-import { makeStyles } from '@mui/styles';
-import React from "react";
-import { useNavigate } from 'react-router';
+import { AppBar, Button, Container, IconButton, Toolbar, Typography } from '@mui/material';
+import { useState } from 'react';
+import Countdown, { zeroPad } from 'react-countdown';
+import { useNavigate } from 'react-router-dom';
+import NivapayLogo1 from '../../assets/images/NIcons/NivapayLogo1';
+import { useGlobalContext } from '../../context/context';
+import BackButton from '../../dialogs/BackButton';
 import { Layout, MobileContainer } from '../../styles/layout';
 import Footer from '../Footer/Footer';
-import NivapayLogo1 from '../../assets/images/NIcons/NivapayLogo1';
+import './QrScanPage.css';
+import MetaMaskPage from '../metaMask/MetaMaskPage';
 
-const useStyles = makeStyles((theme) => ({
-    mainDiv: {
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'space-evenly',
-        alignItems: 'center',
-    },
-    timeLeft: {
-        fontFamily: 'Inter',
-        fontStyle: 'normal',
-        marginTop: '16px',
-        fontSize: '14px',
-        fontWeight: 500,
-        letterSpacing: '0.06em',
-        lineHeight: '17px',
-        color: '#000000',
-    },
-    selectWallet: {
-        marginTop: '57px',
-        fontSize: '20px',
-        color: '#2C1E66',
-        fontWeight: 500,
-        lineHeight: '24px',
-    },
-    metaMask: {
-        display: 'flex',
-        justifyContent: 'space-evenly',
-        alignItems: 'center',
-        marginTop: '73px',
-        background: '#FFFFFF',
-        boxShadow: '0px 0px 16px rgba(0, 0, 0, 0.2)',
-        borderRadius: '24px',
-        width: '360px',
-        height: '104px',
-        textAlign: 'center',
-    },
-    otherWallets: {
-        display: 'flex',
-        justifyContent: 'space-evenly',
-        alignItems: 'center',
-        marginTop: '16px',
-        background: '#FFFFFF',
-        boxShadow: '0px 0px 16px rgba(0, 0, 0, 0.2)',
-        borderRadius: '24px',
-        width: '360px',
-        height: '104px',
-        textAlign: 'center',
-    },
-    WalletsText: {
-        height: '56px',
-        width: '56px',
-        display: 'flex',
-        alignItems: 'center',
-        color: '#000000',
-    },
-
-    WalletSvG: {
-        // marginTop: 'auto',
-        height: '56px',
-        width: '56px',
-        display: 'flex',
-        alignItems: 'initial',
-        color: '#000000',
-    },
-    MetaMaskText: {
-        fontSize: '20px',
-        fontWeight: 400,
-        fontFamily: 'Inter',
-    },
-    btnDiv: {
-        marginTop: '117px'
-    },
-    btn: {
-        width: '325px',
-        height: '55px',
-        fontSize: '20px',
-        weight: '700',
-        fontFamily: 'Inter',
-        lineHeight: '28.08px',
-        textTransform: 'inherit'
-    },
-    cancelbtn: {
-        width: '325px',
-        height: '55px',
-        fontSize: '20px',
-        weight: '700',
-        lineHeight: '28.08px',
-        fontFamily: 'Inter',
-    },
-    rightArrow: {
-        width: "28px", height: "40px"
-    },
-    cancelDiv: {
-        marginTop: "20px"
-    },
-    QrDiv: {
-        height: '388px',
-        width: '360px',
-        border: '1px solid white',
-        marginTop: '65px',
-        borderRadius: '24px',
-        background: '#FFFFFF',
-        boxShadow: '0px 0px 16px rgba(0, 0, 0, 0.2)',
-        textAlign: 'center',
-    },
-
-    btnTopText: {
-        marginTop: '66px',
-        fontSize: '14px',
-        color: "rgba(0, 0, 0, 0.5)",
-        lineHeight: '18px',
-        letterSpacing: '0.09em',
-        fontWeight: 400,
-        marginLeft: '20px'
-    },
-    circle: {
-        display: 'inline-block',
-        textAlign: 'center',
-        border: '2px solid blue',
-        borderRadius: '50%',
-        width: '0.9em',
-        height: '0.9em',
-        lineHeight: '1em',
-        margin: 0,
-        color: '#FFFFFF',
-        backgroundColor: 'blue'
-
-    }
-}));
-
-const MetamaskError = () => {
-
+function MetamaskError() {
+    const context = useGlobalContext();
+    const [userName, setUserName] = useState('laxmi@gmail.com')
+    const [openCloseDialog, setOpenCloseDialog] = useState(false)
+    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     const navigate = useNavigate();
-    const classes = useStyles();
-
-    const [scannerOpen, setScannerOpen] = React.useState(false);
-
-    const onBackbtn = () => {
-        navigate('/')
+    const onIhavePaid = () => {
+        navigate('/detecting')
     }
 
+    const Completionist = () => <span>You are good to go!</span>;
+    const renderer = ({ minutes, seconds, completed }: { minutes: any, seconds: any, completed: any }) => {
+        if (completed) {
+            return <Completionist />;
+        } else {
+            return <span>{zeroPad(minutes)}:{zeroPad(seconds)}</span>;
+        }
+    };
+
+    // const date = new Date(Date.now() + 900000);
+    // const minutes = date.getUTCMinutes().toString().padStart(2, '0');
+    // const seconds = date.getUTCSeconds().toString().padStart(2, '0');
+
+    // console.log(`${minutes}:${seconds}`);
+    // const getDate = (`${minutes}:${seconds}`)
+    // const timestamp = Date.now() + 900000; // Add 900000 ms to the current timestamp to get a timestamp 15 minutes in the future
+    // const date = new Date(timestamp);
+    // const options = { hour12: false, hour: 'numeric', minute: 'numeric' };
+    // const localTime = date.toLocaleTimeString('en-US', options);
+
+    // console.log(localTime);
+
+
+    // useEffect(() => {
+    //     context.dispatch({
+    //         type: 'IS_TIMER',
+    //         payload: getDate
+    //     })
+    // }, [date])
 
     return (
-
         <Layout>
             <MobileContainer>
                 <div style={{ boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px" }}>
@@ -170,7 +72,7 @@ const MetamaskError = () => {
                                             padding: '5px',
                                             marginLeft: '-8px'
                                         }}
-                                        onClick={onBackbtn}
+                                        onClick={() => navigate(-1)}
                                     >
                                         <ArrowBackIosNewIcon />
                                     </IconButton>
@@ -193,84 +95,94 @@ const MetamaskError = () => {
                                 </div>
                             </Toolbar>
                         </AppBar>
+                        <div style={{ flex: 1, height: '50vh', overflowY: 'auto' }}>
+                            <section className='nivapay_ramp'>
+                                <Container maxWidth="lg">
+                                    <Typography style={{ fontStyle: 'normal', fontWeight: 'bold', fontSize: '16px', lineHeight: '30px', textAlign: 'center', letterSpacing: '0.06em', color: '#000000', fontFamily: 'Inter', }}>
+                                        {/* Time left 15:00 mins */}
+                                        Time Left: {" "}
+                                        <Countdown date={Date.now() + 900000} renderer={renderer} /> mins
+                                    </Typography>
+                                    <div className="choosecurrency">Complete Payment</div>
+                                    <div style={{ paddingLeft: '10px' }}>
 
-                        <Container maxWidth="xl">
-                            <div className={classes.mainDiv}>
-                                <div style={{ marginTop: '16px' }}>
-                                    <span className={classes.timeLeft}>Time Left: 10:40 mins</span>
-                                </div>
-                                <div style={{ marginTop: '24px' }}>
-                                    <span className={classes.selectWallet}>Complete Payment</span>
-                                </div>
+                                        <div className='qrCodeDiv'>
+                                            <Container>
+                                                <div style={{ marginTop: '16px' }}>
+                                                    <span style={{ fontSize: "24px", color: '#000000', fontWeight: '600' }}>0.05446</span><span style={{ fontSize: "12px", color: '#000000', fontWeight: '600', marginLeft: '4px' }}>ETH</span>
+                                                </div>
+                                                <div style={{ marginTop: '4px', color: '#808080', }}>
+                                                    <span style={{ fontSize: '12px' }}>+ Network fee</span>
+                                                </div>
 
 
-                                <div className={classes.QrDiv} >
-                                    <Container>
-                                        <div style={{ marginTop: '16px' }}>
-                                            <span style={{ fontSize: "24px" }}>0.05446</span><span style={{ fontSize: "12px", marginLeft: '4px' }}>ETH</span>
+                                                <div style={{ marginTop: '28px', justifyContent: 'center' }}>
+                                                    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                                                        <div style={{ color: '#00000080' }}>MetaMask</div>
+                                                        <div style={{ color: '#21146B', fontWeight: '600' }}>Connected</div>
+                                                    </div>
+                                                    <hr />
+
+                                                    <div style={{ display: 'flex', justifyContent: 'space-between', color: '#00000080', marginTop: '12px', fontSize: '12px' }}>
+                                                        <div>Account</div>
+                                                        <div>0xFBeCa3...09D0</div>
+                                                    </div>
+                                                    <div style={{ display: 'flex', justifyContent: 'space-between', color: '#00000080', fontSize: '12px', marginTop: '12px' }}>
+                                                        <div>Network</div>
+                                                        <div>Ethereum</div>
+                                                    </div>
+                                                    <div style={{ display: 'flex', flex: 'start', justifyContent: 'space-between', color: '#00000080', fontSize: '12px', marginTop: '12px' }}>
+                                                        <div>Balance</div>
+                                                        <div>1.05 ETH</div>
+                                                    </div>
+
+                                                </div>
+                                                <div style={{ marginTop: '16px' }}>
+
+                                                    <span style={{ fontSize: '14px', color: '#2C1E66', fontWeight: '700' }}>
+                                                        Disconnect Wallet
+                                                    </span>
+                                                </div>
+
+
+                                                <div style={{ marginTop: '20px' }}>
+
+                                                    <span style={{ fontSize: '12px' }}>
+                                                        Recommended network fee for fast confirmation:<br /><span style={{ color: '#000000', fontWeight: '600' }}>64 gwei
+                                                        </span>
+                                                    </span>
+                                                </div>
+                                            </Container>
                                         </div>
-                                        <div style={{ marginTop: '4px' }}>
-                                            <span style={{ fontSize: '12px' }}>+ Network fee </span>
-                                        </div>
-
-                                        <div style={{ marginTop: '85px', justifyContent: 'center' }}>
-                                            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                                                <div style={{ color: '#00000080' }}>MetaMask</div>
-                                                <div style={{ color: '#21146B' }}>Connected</div>
-                                            </div>
-                                            <hr />
-
-                                            <div style={{ display: 'flex', justifyContent: 'space-between', color: '#00000080', marginTop: '12px', fontSize: '12px' }}>
-                                                <div>Account</div>
-                                                <div>0xFBeCa3...09D0</div>
-                                            </div>
-                                            <div style={{ display: 'flex', justifyContent: 'space-between', color: '#00000080', fontSize: '12px', marginTop: '12px' }}>
-                                                <div>Network</div>
-                                                <div>Ethereum</div>
-                                            </div>
-                                            <div style={{ display: 'flex', flex: 'start', justifyContent: 'space-between', color: '#00000080', fontSize: '12px', marginTop: '12px' }}>
-                                                <div>Balance</div>
-                                                <div>1.05 ETH</div>
-                                            </div>
-
-                                        </div>
-                                        <div style={{ marginTop: '16px' }}>
-
-                                            <span style={{ fontSize: '14px', color: '#21146B' }}>
-                                                Disconnect Wallet
-                                            </span>
-                                        </div>
-
-                                        <div style={{ marginTop: '35px' }}>
-
-                                            <span style={{ fontSize: '12px' }}>
-                                                Recommended network fee for fast confirmation:<br /><span style={{ color: '#21146B' }}>64 gwei
-                                                </span>
-                                            </span>
-                                        </div>
-                                    </Container>
-                                </div>
+                                    </div>
 
 
-                                <div className={classes.btnDiv}>
-                                    <Button variant="contained"
-                                        className={classes.btn}
-                                        sx={{ textTransform: 'inherit' }}
-                                    >Send Payment</Button>
-                                </div>
-                                <div className={classes.cancelDiv}>
-                                    <Button className={classes.cancelbtn}>Cancel</Button>
-                                </div>
-                            </div>
-                        </Container>
+                                    <div style={{ display: 'flex', justifyContent: 'center', marginTop: '104px' }}>
+                                        <Button
+                                            className='continue'
+                                            variant='contained'
+                                            onClick={onIhavePaid}
+                                            disabled={!userName || !re.test(userName)}
+                                        >
+                                            Send Payment </Button>
+                                    </div>
+                                    <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
+                                        <Button className="cancelbtn" onClick={() => setOpenCloseDialog(true)}>
+                                            Cancel
+                                        </Button>
+                                    </div>
+                                    <BackButton open={openCloseDialog} setOpen={setOpenCloseDialog} />
+                                </Container>
+                            </section>
+                        </div>
                     </section>
                     <div style={{ justifyContent: "flex-end" }}>
                         <Footer />
                     </div>
                 </div>
-            </MobileContainer>
+            </MobileContainer >
         </Layout >
-    );
+    )
 }
 
 export default MetamaskError;

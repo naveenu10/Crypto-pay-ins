@@ -127,4 +127,4 @@ function Detecting() {
     )
 }
 
-export default Detecting
+export default Detecting;
