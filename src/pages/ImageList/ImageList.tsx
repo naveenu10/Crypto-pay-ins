@@ -61,7 +61,7 @@ export default function StandardImageList(props: { showmask: any; setShowMask: a
                         onClick={() => selectCoin(i, item)}
                     >
 
-                        <div style={{ width: "50%" }}>
+                        <div style={{ width: "57%" }}>
                             <div style={{
                                 display: "flex", justifyContent: "start", alignItems: "start", margin: '5px'
                             }}>
@@ -69,7 +69,7 @@ export default function StandardImageList(props: { showmask: any; setShowMask: a
                                     <div style={{ paddingTop: '5px' }}><img src={item.img} alt="img" width={28} height={28} /></div>
                                     <div>
                                         <div style={{ display: 'flex', padding: '5px' }}>
-                                            <div style={{ color: '#2C1E66', fontWeight: '600', fontSize: '14px' }}>{item.heading}</div> <span style={{ paddingLeft: '7px', color: 'rgba(0, 0, 0, 0.5)', fontSize: '14px', fontWeight: 400 }}>{item.title}</span>
+                                            <div style={{ color: '#2C1E66', fontWeight: '600', fontSize: '14px' }}>{item.heading}</div> <span style={{ paddingLeft: '7px', color: 'rgba(0, 0, 0, 0.5)', fontSize: '14px', fontWeight: 400 }}>{item.name}</span>
                                         </div>
                                         <Button variant="contained" sx={{
                                             fontWeight: 400,
@@ -79,7 +79,8 @@ export default function StandardImageList(props: { showmask: any; setShowMask: a
                                             borderRadius: '4px',
                                             padding: '2px 8px',
                                             color: '#595959',
-                                            boxShadow: 'none'
+                                            boxShadow: 'none',
+                                            textTransform: 'capitalize'
                                         }}>{item.title}</Button>
                                     </div>
                                 </div>
@@ -110,6 +111,7 @@ const itemData = [
         img: 'https://res.cloudinary.com/dhhxyg3tq/image/upload/v1673250859/bitcoin_hkrwcs.svg',
         heading: "BTC",
         title: 'Bitcoin',
+        name: 'Bitcoin',
         bgColor: "",
         amount: 0.1233456,
         fiat: "~USD 28.00",
@@ -120,6 +122,7 @@ const itemData = [
         img: 'https://res.cloudinary.com/dhhxyg3tq/image/upload/v1673258424/Ellipse_2_ya5eea.svg',
         heading: "LTC",
         title: 'Litecoin',
+        name: 'Litecoin',
         bgColor: "",
         amount: 0.2334,
         fiat: "~USD 18.00",
@@ -131,6 +134,7 @@ const itemData = [
         img: 'https://res.cloudinary.com/dhhxyg3tq/image/upload/v1675225099/Eth_sdkkcj.png',
         heading: "ETH",
         title: 'Ethereum',
+        name: 'Ether',
         bgColor: "",
         amount: 0.334456,
         fiat: "~USD 22.00",
@@ -142,6 +146,7 @@ const itemData = [
         img: 'https://res.cloudinary.com/dhhxyg3tq/image/upload/v1673258770/BitcoinCash_athemu.svg',
         heading: "BCH",
         title: 'Bitcoin Cash',
+        name: 'Bitcoin Cash',
         bgColor: "",
         amount: 0.12334,
         fiat: "~USD 3.00",
@@ -153,6 +158,7 @@ const itemData = [
         img: 'https://res.cloudinary.com/dhhxyg3tq/image/upload/v1673258953/Dogecoin_w718kx.svg',
         heading: "DOGE",
         title: 'Dogecoin',
+        name: 'Dogecoin',
         bgColor: "",
         amount: 0.1,
         fiat: "~USD 98.00",
@@ -164,6 +170,7 @@ const itemData = [
         img: "https://res.cloudinary.com/dhhxyg3tq/image/upload/v1673505288/tether-usdt-logo_yxfrk7.png",
         heading: "USDT",
         title: 'Usdt',
+        name: 'Tether',
         bgColor: "",
         amount: 0.12,
         fiat: "~USD 98.00",
@@ -174,6 +181,7 @@ const itemData = [
         img: "https://res.cloudinary.com/dhhxyg3tq/image/upload/v1673505004/usd-coin-usdc-logo_h37q0s.png",
         heading: "USDC",
         title: 'Usdc',
+        name: 'Usdc',
         bgColor: "",
         amount: 0.12,
         fiat: "~USD 98.00",

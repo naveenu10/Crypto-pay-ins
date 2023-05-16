@@ -29,27 +29,6 @@ function WithdrawPage() {
         }
     };
 
-    // const date = new Date(Date.now() + 900000);
-    // const minutes = date.getUTCMinutes().toString().padStart(2, '0');
-    // const seconds = date.getUTCSeconds().toString().padStart(2, '0');
-
-    // console.log(`${minutes}:${seconds}`);
-    // const getDate = (`${minutes}:${seconds}`)
-    // const timestamp = Date.now() + 900000; // Add 900000 ms to the current timestamp to get a timestamp 15 minutes in the future
-    // const date = new Date(timestamp);
-    // const options = { hour12: false, hour: 'numeric', minute: 'numeric' };
-    // const localTime = date.toLocaleTimeString('en-US', options);
-
-    // console.log(localTime);
-
-
-    // useEffect(() => {
-    //     context.dispatch({
-    //         type: 'IS_TIMER',
-    //         payload: getDate
-    //     })
-    // }, [date])
-
     return (
         <Layout>
             <MobileContainer>
@@ -70,7 +49,7 @@ function WithdrawPage() {
                                             padding: '5px',
                                             marginLeft: '-8px'
                                         }}
-                                        onClick={() => navigate(-1)}
+                                        onClick={() => setOpenCloseDialog(true)}
                                     >
                                         <ArrowBackIosNewIcon />
                                     </IconButton>
