@@ -1,6 +1,6 @@
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import { AppBar, Button, Container, IconButton, Toolbar, Typography } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Countdown, { zeroPad } from 'react-countdown';
 import { useNavigate } from 'react-router-dom';
 import NivapayLogo1 from '../../assets/images/NIcons/NivapayLogo1';
@@ -10,6 +10,10 @@ import { Layout, MobileContainer } from '../../styles/layout';
 import Footer from '../Footer/Footer';
 import QrCode from '../QrScan/QrCode';
 import '../QrScan/QrScanPage.css';
+import { useMetaMask } from 'metamask-react';
+import MetamaskError from '../QrScan/MetamaskError';
+import detectEthereumProvider from '@metamask/detect-provider';
+import Web3 from 'web3';
 
 function MetaMaskPage() {
     const context = useGlobalContext();
@@ -17,8 +21,13 @@ function MetaMaskPage() {
     const [openCloseDialog, setOpenCloseDialog] = useState(false)
     var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     const navigate = useNavigate();
+    const { status, connect, account, chainId, ethereum } = useMetaMask();
+
+    console.log(status, "status", connect, "connect", account, "account", chainId, "chainId", ethereum, "ethereum")
+    const [chainid, setChainId] = useState(0)
     const onContinue = () => {
-        navigate('/Metamask')
+        // navigate('/Metamask')
+        // metamaskIntegration()
     }
 
     let coinName = context.state.selectedCoin;
@@ -33,26 +42,29 @@ function MetaMaskPage() {
         }
     };
 
-    // const date = new Date(Date.now() + 900000);
-    // const minutes = date.getUTCMinutes().toString().padStart(2, '0');
-    // const seconds = date.getUTCSeconds().toString().padStart(2, '0');
+    const metamaskIntegration = () => {
+        console.log('first')
+        if (status === "initializing") return <div>Synchronisation with MetaMask ongoing...</div>
 
-    // console.log(`${minutes}:${seconds}`);
-    // const getDate = (`${minutes}:${seconds}`)
-    // const timestamp = Date.now() + 900000; // Add 900000 ms to the current timestamp to get a timestamp 15 minutes in the future
-    // const date = new Date(timestamp);
-    // const options = { hour12: false, hour: 'numeric', minute: 'numeric' };
-    // const localTime = date.toLocaleTimeString('en-US', options);
+        if (status === "unavailable") return <div>MetaMask not available </div>
 
-    // console.log(localTime);
+        // if (status === "notConnected") return <button onClick={connect}>Open Metamask</button>
 
+        if (status === "connecting") return <div>Connecting...</div>
 
-    // useEffect(() => {
-    //     context.dispatch({
-    //         type: 'IS_TIMER',
-    //         payload: getDate
-    //     })
-    // }, [date])
+        // if (status === "connected") return <div>Connected account {account} on chain ID {chainId}</div>
+
+        return null;
+    }
+
+    function switchChain(chainId: any): void {
+        setChainId(chainId)
+        console.log(chainId, "chainID")
+    }
+
+    useEffect(() => {
+        switchChain(chainId)
+    }, [chainId])
 
     return (
         <Layout>
@@ -135,14 +147,16 @@ function MetaMaskPage() {
                                     </div>
 
                                     <div style={{ display: 'flex', justifyContent: 'center', marginTop: '104px' }}>
-                                        <Button
-                                            className='continue'
-                                            variant='contained'
-                                            onClick={onContinue}
-                                            disabled={!userName || !re.test(userName)}
-                                        >
-                                            Open MetaMask
-                                        </Button>
+                                        {status === "notConnected" &&
+                                            <Button
+                                                className='continue'
+                                                variant='contained'
+                                                onClick={connect}
+                                                disabled={!userName || !re.test(userName)}
+                                            >
+                                                Open MetaMask
+                                            </Button>
+                                        }
                                     </div>
                                     <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
                                         <Button className="cancelbtn" onClick={() => setOpenCloseDialog(true)}>
@@ -153,12 +167,12 @@ function MetaMaskPage() {
                                 </Container>
                             </section>
                         </div>
-
                     </section>
                     <div style={{ justifyContent: "flex-end" }}>
                         <Footer />
                     </div>
                 </div>
+                {status === "connected" && <MetamaskError />}
             </MobileContainer >
         </Layout >
     )

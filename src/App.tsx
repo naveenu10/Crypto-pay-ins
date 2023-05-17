@@ -14,6 +14,9 @@ import Wallet from "./pages/Wallet/Wallet";
 import WithdrawPage from "./pages/WithdrawPage/WithdrawPage";
 import MetaMaskPage from "./pages/metaMask/MetaMaskPage";
 import theme from "./theme/theme";
+import MeatamaskExample from "./pages/MeatamaskExample";
+import { MetaMaskProvider } from "metamask-react";
+import MetamaskError from "./pages/QrScan/MetamaskError";
 
 function App() {
   return (
@@ -32,9 +35,10 @@ function App() {
           <Route path="/QrScan" element={<QrScan />} />
           <Route path="/QrScanPage" element={<QrScanPage />} />
           <Route path="/QrCopy" element={<QrCopy />} />
-          <Route path="/Metamask" element={<Metamask />} />
-          <Route path="/MetamaskPage" element={<MetaMaskPage />} />
+          <Route path="/metamaskError" element={<MetamaskError />} />
+          <Route path="/MetamaskPage" element={<MetaMaskProvider><MetaMaskPage /></MetaMaskProvider>} />
           <Route path="/InsufficientFunds" element={<InsufficientFunds />} />
+          <Route path="/metamaskintegration" element={<MetaMaskProvider><MeatamaskExample /></MetaMaskProvider>} />
 
         </Routes>
       </BrowserRouter>
