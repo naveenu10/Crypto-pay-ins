@@ -11,7 +11,7 @@ import QuickPay from "./pages/QuickPay/QuickPay";
 import Success from "./pages/Success/Success";
 import Timeout from "./pages/Timeout/Timeout";
 import Wallet from "./pages/Wallet/Wallet";
-import WithdrawPage from "./pages/WithdrawPage/WithdrawPage";
+import DepositPage from "./pages/DepositPage/DepositPage";
 import MetaMaskPage from "./pages/metaMask/MetaMaskPage";
 import theme from "./theme/theme";
 
@@ -20,7 +20,7 @@ function App() {
     <ThemeProvider theme={theme}>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<WithdrawPage />} />
+          <Route path="/" element={<DepositPage />} />
           <Route path="/quickpay" element={<QuickPay />} />
           <Route path="/detecting" element={<Detecting />} />
           <Route path="/success" element={<Success />} />
