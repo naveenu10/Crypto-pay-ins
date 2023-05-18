@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import App from './App';
 import './global.css'
 import { AppProvider } from './context/context';
+import 'react-perfect-scrollbar/dist/css/styles.css';
 
 
 const root = ReactDOM.createRoot(

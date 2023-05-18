@@ -6,6 +6,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import NivapayLogo1 from "../../assets/images/NIcons/NivapayLogo1";
 import { useGlobalContext } from "../../context/context";
 import BackButton from "../../dialogs/BackButton";
+import CancelPayment from "../../dialogs/CancelPayment";
 import { Layout, MobileContainer } from "../../styles/layout";
 import Footer from "../Footer/Footer";
 import "./DepositPage.css";
@@ -67,11 +68,44 @@ function DepositPage() {
         const decodedToken: any = jwt_decode(res?.data?.token);
         setToken(res?.data?.token);
         setOrderDetails(decodedToken);
+        context.dispatch({
+          type: "ORDER_DETAILS",
+          payload: decodedToken,
+        });
+        context.dispatch({
+          type: "ORDER_ID",
+          payload: order_id,
+        });
+        context.dispatch({
+          type: "TOKEN",
+          payload: res?.data?.token,
+        });
         setLoading(false);
       })
       .catch((err) => {
         console.log(err);
         setLoading(false);
+      });
+  };
+
+  const fetchCryptoList = async () => {
+    // setLoading(true);
+    await axios
+      .get(`${BASE_URL}/order/${order_id}/crypto`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        context.dispatch({
+          type: "ALL_CRYPTO",
+          payload: res?.data,
+        });
+        // setLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        // setLoading(false);
       });
   };
 
@@ -91,7 +125,7 @@ function DepositPage() {
         navigate("/quickpay");
       })
       .catch((err) => {
-        console.log(err)
+        console.log(err);
         setLoading(false);
       });
   };
@@ -103,6 +137,14 @@ function DepositPage() {
   useEffect(() => {
     setUserEmail(orderDetails?.user_email_id);
   }, [orderDetails]);
+
+  useEffect(() => {
+    if (token) {
+      fetchCryptoList();
+      const interval = setInterval(() => fetchCryptoList(), 1200);
+      return () => clearInterval(interval);
+    }
+  }, [token]);
 
   return (
     <Layout>
@@ -117,7 +159,7 @@ function DepositPage() {
               style={{
                 display: "flex",
                 flexDirection: "column",
-                height: "100vh",
+                height: "96vh",
               }}
             >
               <AppBar
@@ -175,7 +217,7 @@ function DepositPage() {
                   </div>
                 </Toolbar>
               </AppBar>
-              <div style={{ flex: 1, height: "50vh", overflowY: "auto" }}>
+              <div style={{ flex: 1, height: "auto", overflowY: "auto" }}>
                 <section className="nivapay_ramp">
                   <Typography
                     style={{
@@ -296,7 +338,7 @@ function DepositPage() {
                       fontFamily: "Inter",
                       fontStyle: "normal",
                       fontWeight: 400,
-                      paddingTop: "5rem",
+                      paddingTop: "3rem",
                       fontSize: "16px",
                       lineHeight: "19px",
                       display: "flex",
@@ -369,16 +411,29 @@ function DepositPage() {
                     <Button
                       className="continue"
                       variant="contained"
+                      fullWidth
                       onClick={proceedOrder}
                       disabled={!userEmail || !validate.test(userEmail)}
                     >
                       Continue
                     </Button>
                   </div>
-                  <div style={{ display: "flex", justifyContent: "center" }}>
-                    <Button className="cancelbtn">Cancel</Button>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      width: "100%",
+                    }}
+                  >
+                    <Button
+                      className="cancelbtn"
+                      fullWidth
+                      onClick={() => setOpenCloseDialog(true)}
+                    >
+                      Cancel
+                    </Button>
                   </div>
-                  <BackButton
+                  <CancelPayment
                     open={openCloseDialog}
                     setOpen={setOpenCloseDialog}
                   />
