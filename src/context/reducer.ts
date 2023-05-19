@@ -31,6 +31,16 @@ const reducer = (state: any, action: { type: string, payload: any }): any => {
                 ...state,
                 allCryptos: action.payload
             }
+        case 'SELECTED_COIN':
+            return {
+                ...state,
+                selectedCoinData: action.payload
+            }
+        case 'GET_QR_DATA':
+            return {
+                ...state,
+                qrData: action.payload
+            }
         default:
             return state
     }

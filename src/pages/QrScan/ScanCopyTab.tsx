@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
     navBarButtons: {
         display: 'flex',
         alignItems: 'center',
-        borderRadius: '8%',
+        borderRadius: '12px',
         width: '176px',
         justifyContent: 'center',
         backgroundColor: '#FFFFFF',

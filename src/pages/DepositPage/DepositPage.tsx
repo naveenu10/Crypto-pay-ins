@@ -141,8 +141,8 @@ function DepositPage() {
   useEffect(() => {
     if (token) {
       fetchCryptoList();
-      const interval = setInterval(() => fetchCryptoList(), 1200);
-      return () => clearInterval(interval);
+      const interval = setInterval(() => fetchCryptoList(), 120000);
+      // return () => clearInterval(interval);
     }
   }, [token]);
 
