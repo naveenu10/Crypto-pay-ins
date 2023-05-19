@@ -47,8 +47,7 @@ export default function StandardImageList(props: {
   const [openInfo, setOpenInfo] = React.useState(false);
   const [loadData, setLoadData] = React.useState(false);
   const context = useGlobalContext();
-
-  console.log("crypto--", cyyptoData);
+  let coinName = context.state.selectedCoin;
 
   function selectCoin(i: any, item: any) {
     if (item) {
@@ -58,6 +57,10 @@ export default function StandardImageList(props: {
       context.dispatch({
         type: "UPDATE_NETWORK",
         payload: item.asset_symbol,
+      });
+      context.dispatch({
+        type: "SELECTED_COIN",
+        payload: item,
       });
     }
   }
@@ -123,7 +126,7 @@ export default function StandardImageList(props: {
                 sx={{
                   justifyContent: "space-around",
                   // backgroundColor: selectedInd == i || context.state.paymentRecipt.crypto == item.coin ? "#ADCFFF" : "",
-                  backgroundColor: selectedInd == i ? "#E5F0FF" : "",
+                  backgroundColor: (selectedInd == i || coinName===item?.asset_symbol) ? "#E5F0FF" : "",
                   borderRadius: "10px",
                   padding: "4px",
                 }}
@@ -211,7 +214,7 @@ export default function StandardImageList(props: {
                   </div>
                 </div>
               </Stack>
-            )):'no'}
+            )):'No Data Found'}
         </div>
       </PerfectScrollbar>
       <Divider />

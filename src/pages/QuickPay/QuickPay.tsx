@@ -58,8 +58,12 @@ function QuickPay() {
     }
   };
 
-
-
+  useEffect(() => {
+   if(!orders){
+    navigate("/failure");
+   }
+  }, [])
+  
   return (
     <Layout>
       <MobileContainer>

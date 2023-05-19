@@ -20,7 +20,8 @@ export default function Networkfee(props: {  openNetWorkfee: any, setOpenNetwork
                     style: {
                         bottom: '18%',
                         margin: '5px 12px',
-                        boxShadow: 'none'
+                        boxShadow: 'none',
+                        maxWidth:300
                     },
                 }}
             >

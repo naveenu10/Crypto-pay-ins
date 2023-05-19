@@ -6,7 +6,10 @@ import LowBalSuccess from "./pages/LowBalSuccess/LowBalSuccess";
 import InsufficientFunds from "./pages/QrScan/InsufficientFundsError";
 import Metamask from "./pages/QrScan/MetamaskError";
 import QrCopy from "./pages/QrScan/QrCopy";
-import { default as QrScan, default as QrScanPage } from "./pages/QrScan/QrScanPage";
+import {
+  default as QrScan,
+  default as QrScanPage,
+} from "./pages/QrScan/QrScanPage";
 import QuickPay from "./pages/QuickPay/QuickPay";
 import Success from "./pages/Success/Success";
 import Timeout from "./pages/Timeout/Timeout";
@@ -35,11 +38,9 @@ function App() {
           <Route path="/Metamask" element={<Metamask />} />
           <Route path="/MetamaskPage" element={<MetaMaskPage />} />
           <Route path="/InsufficientFunds" element={<InsufficientFunds />} />
-
         </Routes>
       </BrowserRouter>
     </ThemeProvider>
-
   );
 }
 
