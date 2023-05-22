@@ -28,6 +28,7 @@ import copy from "copy-to-clipboard";
 import axios from "axios";
 import { BASE_URL } from "../../config";
 import Loader from "../../utils/Loader";
+import formatCryptoAmount from "../../utils/formatCryptoAmount";
 
 function QrCopy() {
   const context = useGlobalContext();
@@ -99,7 +100,7 @@ function QrCopy() {
       .then((res) => {
         setLoading(false);
         console.log(res);
-        navigate("/detecting");
+        navigate("/detecting",{replace: true});
       })
       .catch((err) => {
         console.log(err);
@@ -221,7 +222,12 @@ function QrCopy() {
                         <Container>
                           <div style={{ marginTop: "16px" }}>
                             <span style={{ fontSize: "24px" }}>
-                              {qrData?.asset_amount && qrData?.asset_amount}
+                              {(qrData?.asset_amount &&
+                                formatCryptoAmount(
+                                  coinName,
+                                  qrData?.asset_amount
+                                )) ||
+                                0}
                             </span>
                             <span
                               style={{

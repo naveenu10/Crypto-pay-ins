@@ -23,6 +23,7 @@ import ScanCopyTab from "./ScanCopyTab";
 import axios from "axios";
 import { BASE_URL } from "../../config";
 import Loader from "../../utils/Loader";
+import formatCryptoAmount from "../../utils/formatCryptoAmount";
 
 function QrScanPage() {
   const context = useGlobalContext();
@@ -95,7 +96,7 @@ function QrScanPage() {
       .then((res) => {
         setLoading(false);
         console.log(res);
-        navigate("/detecting");
+        navigate("/detecting",{replace: true});
       })
       .catch((err) => {
         console.log(err);
@@ -133,10 +134,10 @@ function QrScanPage() {
   }, []);
 
   useEffect(() => {
-    if(!orders){
-     navigate("/failure");
+    if (!orders) {
+      navigate("/failure");
     }
-   }, [])
+  }, []);
 
   return (
     <Layout>
@@ -247,7 +248,11 @@ function QrScanPage() {
                         <Container>
                           <div style={{ marginTop: "16px" }}>
                             <span style={{ fontSize: "24px" }}>
-                              {(qrData?.asset_amount && qrData?.asset_amount) ||
+                              {(qrData?.asset_amount &&
+                                formatCryptoAmount(
+                                  coinName,
+                                  qrData?.asset_amount
+                                )) ||
                                 0}
                             </span>
                             <span

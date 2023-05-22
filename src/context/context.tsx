@@ -8,7 +8,8 @@ const initialState = {
   token: "",
   allCryptos: "",
   selectedCoinData:'',
-  qrData:''
+  qrData:'',
+  transactionDetails:'',
 };
 
 const AppContext = createContext<{
