@@ -14,6 +14,7 @@ import axios from "axios";
 import jwt_decode from "jwt-decode";
 import Loader from "../../utils/Loader";
 import { BASE_URL } from "../../config";
+import formatCryptoAmount from '../../utils/formatCryptoAmount'
 
 const validate =
   /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -302,7 +303,8 @@ function DepositPage() {
                       orderDetails?.order_fiat_symbol}{" "}
                     &nbsp;
                     {orderDetails?.order_fiat_amount &&
-                      orderDetails?.order_fiat_amount?.toFixed(2)}
+                      formatCryptoAmount(orderDetails?.order_fiat_symbol,orderDetails?.order_fiat_amount)}
+                      {/* orderDetails?.order_fiat_amount?.toFixed(2)} */}
                   </Typography>
                   <Typography
                     style={{

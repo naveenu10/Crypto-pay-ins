@@ -41,6 +41,11 @@ const reducer = (state: any, action: { type: string, payload: any }): any => {
                 ...state,
                 qrData: action.payload
             }
+        case 'UPDATE_TRANSACTION_DETAILS':
+            return {
+                ...state,
+                transactionDetails: action.payload
+            }
         default:
             return state
     }
