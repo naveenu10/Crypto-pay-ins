@@ -36,9 +36,9 @@ function App() {
           <Route path="/QrScanPage" element={<QrScanPage />} />
           <Route path="/QrCopy" element={<QrCopy />} />
           <Route path="/metamaskError" element={<MetamaskError />} />
-          <Route path="/MetamaskPage" element={<MetaMaskProvider><MetaMaskPage /></MetaMaskProvider>} />
+          <Route path="/MetamaskPage" element={<MetaMaskPage />} />
           <Route path="/InsufficientFunds" element={<InsufficientFunds />} />
-          <Route path="/metamaskintegration" element={<MetaMaskProvider><MeatamaskExample /></MetaMaskProvider>} />
+          <Route path="/metamaskExample" element={<MeatamaskExample />} />
 
         </Routes>
       </BrowserRouter>
