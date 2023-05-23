@@ -81,6 +81,7 @@ function DepositPage(props: any) {
       })
       .catch((err) => {
         console.log(err);
+        navigate("/error", { replace: true });
         setLoading(false);
       });
   };
@@ -102,6 +103,7 @@ function DepositPage(props: any) {
       })
       .catch((err) => {
         console.log(err);
+        navigate("/error", { replace: true });
         // setLoading(false);
       });
   };
@@ -142,6 +144,12 @@ function DepositPage(props: any) {
       // return () => clearInterval(interval);
     }
   }, [token]);
+
+  useEffect(() => {
+    if (props.fixedTime === "00:00") {
+      navigate("/timeout", { replace: true });
+    }
+  }, [props.fixedTime]);
 
   return (
     <Layout>
@@ -235,9 +243,7 @@ function DepositPage(props: any) {
                       date={Date.now() + 900000}
                       renderer={renderer}
                     /> */}
-                    {props.fixedTime}
-                    {" "}
-                    mins
+                    {props.fixedTime} mins
                   </Typography>
                   <Typography
                     style={{

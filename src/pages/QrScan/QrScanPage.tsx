@@ -62,33 +62,17 @@ function QrScanPage(props: any) {
     }
   };
 
-  // const date = new Date(Date.now() + 900000);
-  // const minutes = date.getUTCMinutes().toString().padStart(2, '0');
-  // const seconds = date.getUTCSeconds().toString().padStart(2, '0');
-
-  // console.log(`${minutes}:${seconds}`);
-  // const getDate = (`${minutes}:${seconds}`)
-  // const timestamp = Date.now() + 900000; // Add 900000 ms to the current timestamp to get a timestamp 15 minutes in the future
-  // const date = new Date(timestamp);
-  // const options = { hour12: false, hour: 'numeric', minute: 'numeric' };
-  // const localTime = date.toLocaleTimeString('en-US', options);
-
-  // console.log(localTime);
-
-  // useEffect(() => {
-  //     context.dispatch({
-  //         type: 'IS_TIMER',
-  //         payload: getDate
-  //     })
-  // }, [date])
 
   const onIhavePaid = async () => {
     setLoading(true);
+    const now = Date.now(); 
+    console.log(now);
     const payload = {
-      user_event: "string",
+      user_event: "i have paid",
+      "timestamp":now
     };
     await axios
-      .post(`${BASE_URL}/transaction/events/`, payload, {
+      .post(`${BASE_URL}/sdk/deposit/order/events`, payload, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -136,12 +120,15 @@ function QrScanPage(props: any) {
 
   useEffect(() => {
     if (!orders) {
-      navigate("/failure");
-    }
+      navigate("/error",{ replace: true });    }
   }, []);
 
-  console.log(props, "props")
-
+  useEffect(() => {
+    if (props.fixedTime === "00:00") {
+      navigate("/timeout", { replace: true });
+    }
+  }, [props.fixedTime]);
+  
   return (
     <Layout>
       <MobileContainer>

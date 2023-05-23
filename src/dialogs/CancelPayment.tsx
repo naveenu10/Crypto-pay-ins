@@ -2,7 +2,10 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Modal from "@mui/material/Modal";
 import Typography from "@mui/material/Typography";
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useGlobalContext } from "../context/context";
+import { BASE_URL } from "../config";
 
 const style = {
   position: "absolute" as "absolute",
@@ -19,11 +22,32 @@ const style = {
 
 const CancelPayment = (props: { open: any; setOpen: any }) => {
   const { open, setOpen } = props;
+  const context = useGlobalContext();
   const navigate = useNavigate();
+  const token = context.state.token;
 
-  const clickYes = () => {
-    navigate("/",{ replace: true });
-    setOpen(false);
+  const clickYes = async () => {
+    const now = Date.now(); 
+    console.log(now);
+    const payload = {
+      user_event: "cancel",
+      "timestamp":now
+    };
+    await axios
+      .post(`${BASE_URL}/sdk/deposit/order/events`, payload, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        console.log(res);
+        // navigate("/", { replace: true });
+        setOpen(false);
+        window.location.replace("http://google.com");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
   return (
     <>

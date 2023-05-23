@@ -16,13 +16,16 @@ import Timeout from "./pages/Timeout/Timeout";
 import Wallet from "./pages/Wallet/Wallet";
 import DepositPage from "./pages/DepositPage/DepositPage";
 import MetaMaskPage from "./pages/metaMask/MetaMaskPage";
+import WelcomePage from "./pages/Welcome/WelcomePage";
+import Error from "./pages/Error/Error";
 import theme from "./theme/theme";
 import { useEffect, useState } from "react";
 
 function App() {
+  // const navigate = useNavigate();
   const [timeFlag, setTimeFlag] = useState(false)
   const duration = 15 * 60 * 1000;
-  const [time, setTime] = useState(duration);
+  const [time, setTime] = useState<any>(duration);
   useEffect(() => {
     setTimeout(() => {
       if (time) {
@@ -39,12 +42,12 @@ function App() {
   let fixedTime = `${minitus < 10 ? `0${minitus}` : minitus}:${seconds < 10 ? `0${seconds}` : seconds
     }`;
 
-
   return (
     <ThemeProvider theme={theme}>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<DepositPage fixedTime={fixedTime} />} />
+          <Route path="/" element={<WelcomePage/>} />
+          <Route path="/deposit" element={<DepositPage fixedTime={fixedTime} />} />
           <Route path="/quickpay" element={<QuickPay fixedTime={fixedTime} />} />
           <Route path="/detecting" element={<Detecting />} />
           <Route path="/success" element={<Success />} />
@@ -55,10 +58,11 @@ function App() {
           <Route path="/wallet" element={<Wallet />} />
           <Route path="/QrScan" element={<QrScan />} />
           <Route path="/QrScanPage" element={<QrScanPage fixedTime={fixedTime} />} />
-          <Route path="/QrCopy" element={<QrCopy />} />
+          <Route path="/QrCopy" element={<QrCopy fixedTime={fixedTime}/>}/>
           <Route path="/Metamask" element={<Metamask />} />
           <Route path="/MetamaskPage" element={<MetaMaskPage />} />
           <Route path="/InsufficientFunds" element={<InsufficientFunds />} />
+          <Route path="/error" element={<Error />} />
         </Routes>
       </BrowserRouter>
     </ThemeProvider>

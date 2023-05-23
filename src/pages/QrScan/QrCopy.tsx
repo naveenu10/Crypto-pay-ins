@@ -30,7 +30,7 @@ import { BASE_URL } from "../../config";
 import Loader from "../../utils/Loader";
 import formatCryptoAmount from "../../utils/formatCryptoAmount";
 
-function QrCopy() {
+function QrCopy(props: any) {
   const context = useGlobalContext();
   const [userName, setUserName] = useState("laxmi@gmail.com");
   const [openCloseDialog, setOpenCloseDialog] = useState(false);
@@ -66,33 +66,18 @@ function QrCopy() {
     }
   };
 
-  // const date = new Date(Date.now() + 900000);
-  // const minutes = date.getUTCMinutes().toString().padStart(2, '0');
-  // const seconds = date.getUTCSeconds().toString().padStart(2, '0');
 
-  // console.log(`${minutes}:${seconds}`);
-  // const getDate = (`${minutes}:${seconds}`)
-  // const timestamp = Date.now() + 900000; // Add 900000 ms to the current timestamp to get a timestamp 15 minutes in the future
-  // const date = new Date(timestamp);
-  // const options = { hour12: false, hour: 'numeric', minute: 'numeric' };
-  // const localTime = date.toLocaleTimeString('en-US', options);
-
-  // console.log(localTime);
-
-  // useEffect(() => {
-  //     context.dispatch({
-  //         type: 'IS_TIMER',
-  //         payload: getDate
-  //     })
-  // }, [date])
 
   const onIhavePaid = async () => {
     setLoading(true);
+    const now = Date.now(); 
+    console.log(now);
     const payload = {
-      user_event: "string",
+      user_event: "i have paid",
+      "timestamp":now
     };
     await axios
-      .post(`${BASE_URL}/transaction/events/`, payload, {
+      .post(`${BASE_URL}/sdk/deposit/order/events`, payload, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -110,9 +95,14 @@ function QrCopy() {
 
   useEffect(() => {
     if (!orders) {
-      navigate("/failure");
-    }
+      navigate("/error",{ replace: true });    }
   }, []);
+
+  useEffect(() => {
+    if (props.fixedTime === "00:00") {
+      navigate("/timeout", { replace: true });
+    }
+  }, [props.fixedTime]);
 
   return (
     <Layout>
@@ -190,7 +180,7 @@ function QrCopy() {
                     <Typography
                       style={{
                         fontStyle: "normal",
-                        fontWeight: "bold",
+                        fontWeight: "500",
                         fontSize: "16px",
                         lineHeight: "30px",
                         textAlign: "center",
@@ -201,10 +191,7 @@ function QrCopy() {
                     >
                       {/* Time left 15:00 mins */}
                       Time Left:{" "}
-                      <Countdown
-                        date={Date.now() + 900000}
-                        renderer={renderer}
-                      />{" "}
+                      {props.fixedTime}
                       mins
                     </Typography>
                     <div className="choosecurrency">Complete Payment</div>
@@ -224,7 +211,7 @@ function QrCopy() {
                             <span style={{ fontSize: "24px" }}>
                               {(qrData?.asset_amount &&
                                 formatCryptoAmount(
-                                  coinName,
+                                  coinName.toUpperCase(),
                                   qrData?.asset_amount
                                 )) ||
                                 0}
@@ -236,7 +223,7 @@ function QrCopy() {
                                 fontWeight: "bold",
                               }}
                             >
-                              {coinName}
+                              { coinName.toUpperCase()}
                             </span>
                           </div>
                           <div
