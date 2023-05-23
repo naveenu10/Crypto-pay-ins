@@ -13,6 +13,7 @@ import { useGlobalContext } from "../../context/context";
 import InfoModal from "../../dialogs/InfoModal";
 import "./ImageList.css";
 import PerfectScrollbar from "react-perfect-scrollbar";
+import formatCryptoAmount from "../../utils/formatCryptoAmount";
 
 const Item = styled(Paper)(({ theme }: { theme: any }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -144,7 +145,7 @@ export default function StandardImageList(props: {
                   >
                     <div style={{ display: "flex", gap: ".5rem" }}>
                       <div style={{ paddingTop: "5px" }}>
-                        <img src={item.asset_img} alt="img" width={28} height={28} />
+                        <img src={item.asset_image} alt="img" width={28} height={28} />
                       </div>
                       <div>
                         <div style={{ display: "flex", padding: "5px" }}>
@@ -155,7 +156,7 @@ export default function StandardImageList(props: {
                               fontSize: "14px",
                             }}
                           >
-                            {item.asset_symbol}
+                              {item.asset_symbol.toUpperCase()}
                           </div>{" "}
                           <span
                             style={{
@@ -207,7 +208,12 @@ export default function StandardImageList(props: {
                           lineHeight: "48px",
                         }}
                       >
-                        {item.asset_amount}
+                        {item.asset_quote &&
+                            formatCryptoAmount(
+                              item.asset_symbol.toUpperCase(),
+                              item.asset_quote
+                            )}
+
                       </div>
                       {/* <div style={{ color: '#808080', fontSize: '14px', fontWeight: '500', padding: '5px', textAlign: "end" }}>{item.fiat}</div> */}
                     </div>
@@ -223,82 +229,3 @@ export default function StandardImageList(props: {
   );
 }
 
-const itemData = [
-  {
-    img: "https://res.cloudinary.com/dhhxyg3tq/image/upload/v1673250859/bitcoin_hkrwcs.svg",
-    heading: "BTC",
-    title: "Bitcoin",
-    name: "Bitcoin",
-    bgColor: "",
-    amount: 0.1233456,
-    fiat: "~USD 28.00",
-    currentCurrency: "btc",
-    availableNetworks: ["Bitcoin"],
-  },
-  {
-    img: "https://res.cloudinary.com/dhhxyg3tq/image/upload/v1673258424/Ellipse_2_ya5eea.svg",
-    heading: "LTC",
-    title: "Litecoin",
-    name: "Litecoin",
-    bgColor: "",
-    amount: 0.2334,
-    fiat: "~USD 18.00",
-    currentCurrency: "ltc",
-    availableNetworks: ["Litecoin"],
-  },
-  {
-    img: "https://res.cloudinary.com/dhhxyg3tq/image/upload/v1675225099/Eth_sdkkcj.png",
-    heading: "ETH",
-    title: "Ethereum",
-    name: "Ether",
-    bgColor: "",
-    amount: 0.334456,
-    fiat: "~USD 22.00",
-    currentCurrency: "eth",
-    availableNetworks: ["Ethereum"],
-  },
-  {
-    img: "https://res.cloudinary.com/dhhxyg3tq/image/upload/v1673258770/BitcoinCash_athemu.svg",
-    heading: "BCH",
-    title: "Bitcoin Cash",
-    name: "Bitcoin Cash",
-    bgColor: "",
-    amount: 0.12334,
-    fiat: "~USD 3.00",
-    currentCurrency: "bch",
-    availableNetworks: ["Bitcoin Cash"],
-  },
-  {
-    img: "https://res.cloudinary.com/dhhxyg3tq/image/upload/v1673258953/Dogecoin_w718kx.svg",
-    heading: "DOGE",
-    title: "Dogecoin",
-    name: "Dogecoin",
-    bgColor: "",
-    amount: 0.1,
-    fiat: "~USD 98.00",
-    currentCurrency: "doge",
-    availableNetworks: ["Dogecoin"],
-  },
-  {
-    img: "https://res.cloudinary.com/dhhxyg3tq/image/upload/v1673505288/tether-usdt-logo_yxfrk7.png",
-    heading: "USDT",
-    title: "Usdt",
-    name: "Tether",
-    bgColor: "",
-    amount: 0.12,
-    fiat: "~USD 98.00",
-    currentCurrency: "doge",
-    availableNetworks: ["Dogecoin"],
-  },
-  {
-    img: "https://res.cloudinary.com/dhhxyg3tq/image/upload/v1673505004/usd-coin-usdc-logo_h37q0s.png",
-    heading: "USDC",
-    title: "Usdc",
-    name: "Usdc",
-    bgColor: "",
-    amount: 0.12,
-    fiat: "~USD 98.00",
-    currentCurrency: "doge",
-    availableNetworks: ["Dogecoin"],
-  },
-];

@@ -14,7 +14,7 @@ import axios from "axios";
 import jwt_decode from "jwt-decode";
 import Loader from "../../utils/Loader";
 import { BASE_URL } from "../../config";
-import formatCryptoAmount from '../../utils/formatCryptoAmount'
+import formatCryptoAmount from "../../utils/formatCryptoAmount";
 
 const validate =
   /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -31,10 +31,6 @@ function DepositPage(props: any) {
   const [userEmail, setUserEmail] = useState("");
   const [token, setToken] = useState("");
   const [isLoading, setLoading] = useState(false);
-
-  // const onContinue = () => {
-  //   navigate("/quickpay");
-  // };
 
   const Completionist = () => <span>You are good to go!</span>;
   const renderer = ({
@@ -60,7 +56,7 @@ function DepositPage(props: any) {
   const fetchOrderDetails = async () => {
     setLoading(true);
     await axios
-      .get(`${BASE_URL}/order/${order_id}`, {
+      .get(`${BASE_URL}/sdk/deposit/order/${order_id}`, {
         headers: {
           hash: hash,
         },
@@ -92,7 +88,7 @@ function DepositPage(props: any) {
   const fetchCryptoList = async () => {
     // setLoading(true);
     await axios
-      .get(`${BASE_URL}/order/${order_id}/crypto`, {
+      .get(`${BASE_URL}/sdk/deposit/order/${order_id}/crypto`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -116,7 +112,7 @@ function DepositPage(props: any) {
       order_user_email_id: userEmail,
     };
     await axios
-      .post(`${BASE_URL}/order/${order_id}/email`, payload, {
+      .post(`${BASE_URL}/sdk/deposit/order/email`, payload, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -210,7 +206,7 @@ function DepositPage(props: any) {
                         letterSpacing: "0.05rem",
                       }}
                     >
-                      {orderDetails && orderDetails.merchant_brand_name}
+                      {orderDetails.merchant_name && orderDetails.merchant_name}
                     </Typography>
                   </div>
                   <div style={{ width: "30px", height: "30px" }}>
@@ -301,12 +297,14 @@ function DepositPage(props: any) {
                       padding: "5px",
                     }}
                   >
-                    {orderDetails?.order_fiat_symbol &&
-                      orderDetails?.order_fiat_symbol}{" "}
+                    {orderDetails?.order_currency &&
+                      orderDetails?.order_currency.toUpperCase()}
                     &nbsp;
-                    {orderDetails?.order_fiat_amount &&
-                      formatCryptoAmount(orderDetails?.order_fiat_symbol, orderDetails?.order_fiat_amount)}
-                    {/* orderDetails?.order_fiat_amount?.toFixed(2)} */}
+                    {orderDetails?.order_amount &&
+                      formatCryptoAmount(
+                        orderDetails?.order_currency.toUpperCase(),
+                        orderDetails?.order_amount
+                      )}
                   </Typography>
                   <Typography
                     style={{
@@ -335,7 +333,7 @@ function DepositPage(props: any) {
                       color: "#2C1E66",
                     }}
                   >
-                    {orderDetails && orderDetails.merchant_brand_name}
+                    {orderDetails.merchant_name && orderDetails.merchant_name}
                   </Typography>
                   <Typography
                     style={{

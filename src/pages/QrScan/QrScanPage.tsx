@@ -108,7 +108,8 @@ function QrScanPage(props: any) {
     setLoading(true);
     await axios
       .get(
-        `${BASE_URL}/address/${selectedCoinData?.asset_network}/${selectedCoinData?.asset_symbol}`,
+        // `${BASE_URL}/address/${selectedCoinData?.asset_network}/${selectedCoinData?.asset_symbol}`,
+        `${BASE_URL}/sdk/deposit/address/${selectedCoinData?.asset_network}/${selectedCoinData?.asset_symbol}/${selectedCoinData?.asset_quote}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -254,7 +255,7 @@ function QrScanPage(props: any) {
                             <span style={{ fontSize: "24px" }}>
                               {(qrData?.asset_amount &&
                                 formatCryptoAmount(
-                                  coinName,
+                                  coinName.toUpperCase(),
                                   qrData?.asset_amount
                                 )) ||
                                 0}
