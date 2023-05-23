@@ -15,7 +15,7 @@ import { BASE_URL } from "../../config";
 import Loader from "../../utils/Loader";
 import PerfectScrollbar from "react-perfect-scrollbar";
 
-function QuickPay() {
+function QuickPay(props: any) {
   const navigate = useNavigate();
   const context = useGlobalContext();
   const [showmask, setShowMask] = React.useState(false);
@@ -23,7 +23,7 @@ function QuickPay() {
   const [selectedCoinName, setselectedCoinName] = useState("");
   const [openCloseDialog, setOpenCloseDialog] = useState(false);
   const [isLoading, setLoading] = useState(false);
-//   const [cyyptoData, setCryptoData] = useState<{ [key: string]: any }[]>([]);
+  //   const [cyyptoData, setCryptoData] = useState<{ [key: string]: any }[]>([]);
 
   let coinName = context.state.selectedCoin;
   const orders = context.state.orderDetails;
@@ -59,11 +59,11 @@ function QuickPay() {
   };
 
   useEffect(() => {
-   if(!orders){
-    navigate("/failure");
-   }
+    if (!orders) {
+      navigate("/failure");
+    }
   }, [])
-  
+
   return (
     <Layout>
       <MobileContainer>
@@ -107,7 +107,7 @@ function QuickPay() {
                         marginLeft: "-8px",
                       }}
                       onClick={() => navigate(-1)}
-                      // onClick={() => setOpenCloseDialog(true)}
+                    // onClick={() => setOpenCloseDialog(true)}
                     >
                       <ArrowBackIosNewIcon />
                     </IconButton>
@@ -155,10 +155,12 @@ function QuickPay() {
                     >
                       {/* Time left 15:00 mins */}
                       Time left:{" "}
-                      <Countdown
+                      {/* <Countdown
                         date={Date.now() + 900000}
                         renderer={renderer}
-                      />{" "}
+                      /> */}
+                      {props.fixedTime}
+                      {" "}
                       mins
                     </Typography>
                     <div

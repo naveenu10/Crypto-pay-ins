@@ -17,14 +17,35 @@ import Wallet from "./pages/Wallet/Wallet";
 import DepositPage from "./pages/DepositPage/DepositPage";
 import MetaMaskPage from "./pages/metaMask/MetaMaskPage";
 import theme from "./theme/theme";
+import { useEffect, useState } from "react";
 
 function App() {
+  const [timeFlag, setTimeFlag] = useState(false)
+  const duration = 15 * 60 * 1000;
+  const [time, setTime] = useState(duration);
+  useEffect(() => {
+    setTimeout(() => {
+      if (time) {
+        setTime(time - 1000);
+      } else {
+        setTimeFlag(true)
+      }
+    }, 1000);
+  }, [time]);
+  let totalSeconds = Math.floor(time / 1000);
+  let totalMinitus = Math.floor(totalSeconds / 60);
+  let seconds = totalSeconds % 60;
+  let minitus = totalMinitus % 60
+  let fixedTime = `${minitus < 10 ? `0${minitus}` : minitus}:${seconds < 10 ? `0${seconds}` : seconds
+    }`;
+
+
   return (
     <ThemeProvider theme={theme}>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<DepositPage />} />
-          <Route path="/quickpay" element={<QuickPay />} />
+          <Route path="/" element={<DepositPage fixedTime={fixedTime} />} />
+          <Route path="/quickpay" element={<QuickPay fixedTime={fixedTime} />} />
           <Route path="/detecting" element={<Detecting />} />
           <Route path="/success" element={<Success />} />
           <Route path="/failure" element={<Failure />} />
@@ -33,7 +54,7 @@ function App() {
           <Route path="/highbalsuccesspage" element={<LowBalSuccess />} />
           <Route path="/wallet" element={<Wallet />} />
           <Route path="/QrScan" element={<QrScan />} />
-          <Route path="/QrScanPage" element={<QrScanPage />} />
+          <Route path="/QrScanPage" element={<QrScanPage fixedTime={fixedTime} />} />
           <Route path="/QrCopy" element={<QrCopy />} />
           <Route path="/Metamask" element={<Metamask />} />
           <Route path="/MetamaskPage" element={<MetaMaskPage />} />

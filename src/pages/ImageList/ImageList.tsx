@@ -14,7 +14,7 @@ import InfoModal from "../../dialogs/InfoModal";
 import "./ImageList.css";
 import PerfectScrollbar from "react-perfect-scrollbar";
 
-const Item = styled(Paper)(({ theme }) => ({
+const Item = styled(Paper)(({ theme }: { theme: any }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
   ...theme.typography.body2,
   padding: theme.spacing(1),
@@ -119,14 +119,14 @@ export default function StandardImageList(props: {
       <Divider style={{ marginTop: "1%" }} />
       <PerfectScrollbar>
         <div style={{ minHeight: 350, maxHeight: 350 }}>
-          {cyyptoData.length!==0 ?
+          {cyyptoData.length !== 0 ?
             cyyptoData?.map((item: any, i: any) => (
               <Stack
                 direction={"row"}
                 sx={{
                   justifyContent: "space-around",
                   // backgroundColor: selectedInd == i || context.state.paymentRecipt.crypto == item.coin ? "#ADCFFF" : "",
-                  backgroundColor: (selectedInd == i || coinName===item?.asset_symbol) ? "#E5F0FF" : "",
+                  backgroundColor: (selectedInd == i || coinName === item?.asset_symbol) ? "#E5F0FF" : "",
                   borderRadius: "10px",
                   padding: "4px",
                 }}
@@ -214,7 +214,7 @@ export default function StandardImageList(props: {
                   </div>
                 </div>
               </Stack>
-            )):'No Data Found'}
+            )) : 'No Data Found'}
         </div>
       </PerfectScrollbar>
       <Divider />

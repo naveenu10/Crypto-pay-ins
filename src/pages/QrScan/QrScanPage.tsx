@@ -25,7 +25,7 @@ import { BASE_URL } from "../../config";
 import Loader from "../../utils/Loader";
 import formatCryptoAmount from "../../utils/formatCryptoAmount";
 
-function QrScanPage() {
+function QrScanPage(props: any) {
   const context = useGlobalContext();
   const [userName, setUserName] = useState("laxmi@gmail.com");
   const [openCloseDialog, setOpenCloseDialog] = useState(false);
@@ -96,7 +96,7 @@ function QrScanPage() {
       .then((res) => {
         setLoading(false);
         console.log(res);
-        navigate("/detecting",{replace: true});
+        navigate("/detecting", { replace: true });
       })
       .catch((err) => {
         console.log(err);
@@ -138,6 +138,8 @@ function QrScanPage() {
       navigate("/failure");
     }
   }, []);
+
+  console.log(props, "props")
 
   return (
     <Layout>
@@ -216,7 +218,7 @@ function QrScanPage() {
                     <Typography
                       style={{
                         fontStyle: "normal",
-                        fontWeight: "bold",
+                        fontWeight: "500",
                         fontSize: "16px",
                         lineHeight: "30px",
                         textAlign: "center",
@@ -227,10 +229,12 @@ function QrScanPage() {
                     >
                       {/* Time left 15:00 mins */}
                       Time Left:{" "}
-                      <Countdown
+                      {/* <Countdown
                         date={Date.now() + 900000}
                         renderer={renderer}
-                      />{" "}
+                      /> */}
+                      {props.fixedTime}
+                      {" "}
                       mins
                     </Typography>
                     <div className="choosecurrency">Complete Payment</div>

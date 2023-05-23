@@ -19,7 +19,7 @@ import formatCryptoAmount from '../../utils/formatCryptoAmount'
 const validate =
   /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-function DepositPage() {
+function DepositPage(props: any) {
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
   const order_id = searchParams.get("order_id");
@@ -235,10 +235,12 @@ function DepositPage() {
                   >
                     {/* Time left 15:00 mins */}
                     Time left:{" "}
-                    <Countdown
+                    {/* <Countdown
                       date={Date.now() + 900000}
                       renderer={renderer}
-                    />{" "}
+                    /> */}
+                    {props.fixedTime}
+                    {" "}
                     mins
                   </Typography>
                   <Typography
@@ -303,8 +305,8 @@ function DepositPage() {
                       orderDetails?.order_fiat_symbol}{" "}
                     &nbsp;
                     {orderDetails?.order_fiat_amount &&
-                      formatCryptoAmount(orderDetails?.order_fiat_symbol,orderDetails?.order_fiat_amount)}
-                      {/* orderDetails?.order_fiat_amount?.toFixed(2)} */}
+                      formatCryptoAmount(orderDetails?.order_fiat_symbol, orderDetails?.order_fiat_amount)}
+                    {/* orderDetails?.order_fiat_amount?.toFixed(2)} */}
                   </Typography>
                   <Typography
                     style={{
