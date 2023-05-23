@@ -40,7 +40,7 @@ function Detecting() {
   const fetchTransactionDetails = async () => {
     setLoading(true);
     await axios
-      .get(`${BASE_URL}/transaction/details/`, {
+      .get(`${BASE_URL}/sdk/deposit/transaction/details/`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -72,6 +72,7 @@ function Detecting() {
       })
       .then((res) => {
         console.log(res);
+        navigate("/success",{ replace: true });  
       })
       .catch((err) => {
         console.log(err);
@@ -85,8 +86,7 @@ function Detecting() {
 
   useEffect(() => {
     if (!orders) {
-      navigate("/failure");
-    }
+      navigate("/error",{ replace: true });    }
   }, []);
 
   return (
