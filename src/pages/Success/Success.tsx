@@ -17,12 +17,14 @@ import { Layout, MobileContainer } from "../../styles/layout";
 import Footer from "../Footer/Footer";
 import "./Success.css";
 import copy from "copy-to-clipboard";
+import { useEffect, useState } from "react";
 
 function Detecting() {
   const navigate = useNavigate();
   const context = useGlobalContext();
   const orders = context.state.orderDetails;
   const transactions = context.state.transactionDetails;
+  const [timeFlag, setTimeFlag] = useState(false)
   const backtoCrypto = () => {
     window.location.replace(transactions?.merchant_redirect_url);
   };
@@ -49,6 +51,25 @@ function Detecting() {
       );
     }
   };
+
+  const duration = 1 * 30 * 1000;
+  const [time, setTime] = useState(duration);
+  useEffect(() => {
+    setTimeout(() => {
+      if (time) {
+        setTime(time - 1000);
+      } else {
+        // window.location.replace('https://google.com');
+        setTimeFlag(true)
+      }
+    }, 1000);
+  }, [time]);
+  let totalSeconds = Math.floor(time / 1000);
+  let totalMinitus = Math.floor(totalSeconds / 60);
+  let seconds = totalSeconds % 60;
+  let minitus = totalMinitus % 60
+  let fixedTime = `${minitus < 10 ? `0${minitus}` : minitus}:${seconds < 10 ? `0${seconds}` : seconds
+    }`;
 
   return (
     <Layout>
@@ -246,7 +267,7 @@ function Detecting() {
                       <img
                         src="https://res.cloudinary.com/dhhxyg3tq/image/upload/v1683182823/ph_copy_lnoksz.svg"
                         alt="copyimage"
-                        style={{cursor: "pointer"}}
+                        style={{ cursor: "pointer" }}
                         onClick={() => {
                           copy(
                             "f0478d2b40a35e455ae640ec1b0762df8c46b975cb19672b63aaf236ad7ca2b9"
@@ -256,7 +277,7 @@ function Detecting() {
                       <img
                         src="https://res.cloudinary.com/dhhxyg3tq/image/upload/v1683183469/Icon_lrkziq.svg"
                         alt="redirect"
-                        style={{cursor: "pointer"}}
+                        style={{ cursor: "pointer" }}
                         onClick={() =>
                           window.location.replace("https://blockchair.com")
                         }
@@ -298,8 +319,10 @@ function Detecting() {
                   {/* Redirecting in <span style={{ color: '#279FFE' }}>30</span> secs... */}
                   Redirecting in{" "}
                   <span style={{ color: "#279FFE" }}>
-                    <Countdown date={Date.now() + 30000} renderer={renderer} />
-                  </span>{" "}
+                    {/* <Countdown date={Date.now() + 30000} renderer={renderer} /> */}
+                    {fixedTime}
+                  </span>
+                  {" "}
                   <span>secs...</span>
                 </Typography>
                 <div
