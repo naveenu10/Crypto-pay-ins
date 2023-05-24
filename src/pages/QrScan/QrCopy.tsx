@@ -296,6 +296,7 @@ function QrCopy(props: any) {
                                               color: "#808080",
                                               boxSizing: "border-box",
                                               backgroundColor: "#D6D6D6",
+                                              cursor: "pointer",
                                             }}
                                             onClick={() =>
                                               copy(qrData?.wallet_address)
@@ -344,6 +345,7 @@ function QrCopy(props: any) {
                                             marginRight: "-14px",
                                             minWidth: "0px",
                                             backgroundColor: "#D6D6D6",
+                                            cursor: "pointer",
                                           }}
                                           onClick={() =>
                                             copy(qrData?.asset_amount)
@@ -360,7 +362,7 @@ function QrCopy(props: any) {
                             </Box>
                           </div>
 
-                          <div style={{ marginTop: "35px" }}>
+                          <div style={{ marginTop: "32px" }}>
                             <span style={{ fontSize: "12px" }}>
                               Only send ETH using the Ethereum network, else the
                               funds may get lost

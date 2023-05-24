@@ -24,9 +24,12 @@ function Detecting() {
   const orders = context.state.orderDetails;
   const transactions = context.state.transactionDetails;
   const backtoCrypto = () => {
-    navigate("/lowbalsuccess");
+    window.location.replace(transactions?.merchant_redirect_url);
   };
-  const Completionist = () => <span>You are good to go!</span>;
+  const Completionist = () => {
+    window.location.replace(transactions?.merchant_redirect_url);
+    return <span>You are good to go!</span>;
+  };
   const renderer = ({
     minutes,
     seconds,
@@ -114,7 +117,7 @@ function Detecting() {
                 </div>
               </Toolbar>
             </AppBar>
-            <div style={{ flex: 1, height: "50vh", overflowY: "auto" }}>
+            <div style={{ flex: 1, height: "50vh" }}>
               <section className="nivapay_ramp">
                 <div
                   style={{
@@ -193,7 +196,13 @@ function Detecting() {
                     <Typography className="currency">
                       Order Amount (crypto)
                     </Typography>
-                    <Typography className="info">0.003334 BTC</Typography>
+                    <Typography className="info">
+                      {" "}
+                      {transactions?.order_crypto_amount &&
+                        transactions?.order_crypto_amount}
+                      {transactions?.order_crypto_symbol &&
+                        (transactions?.order_crypto_symbol).toUpperCase()}
+                    </Typography>
                   </Stack>
                   <Stack
                     direction={"row"}
@@ -217,7 +226,13 @@ function Detecting() {
                     <Typography className="currency">
                       Received amount (crypto)
                     </Typography>
-                    <Typography className="info">0.003367 BTC</Typography>
+                    <Typography className="info">
+                      {" "}
+                      {transactions?.transaction_amount &&
+                        transactions?.transaction_amount}
+                      {transactions?.transaction_asset_symbol &&
+                        (transactions?.transaction_asset_symbol).toUpperCase()}
+                    </Typography>
                   </Stack>
                   <Stack
                     direction={"row"}
@@ -231,6 +246,7 @@ function Detecting() {
                       <img
                         src="https://res.cloudinary.com/dhhxyg3tq/image/upload/v1683182823/ph_copy_lnoksz.svg"
                         alt="copyimage"
+                        style={{cursor: "pointer"}}
                         onClick={() => {
                           copy(
                             "f0478d2b40a35e455ae640ec1b0762df8c46b975cb19672b63aaf236ad7ca2b9"
@@ -240,6 +256,7 @@ function Detecting() {
                       <img
                         src="https://res.cloudinary.com/dhhxyg3tq/image/upload/v1683183469/Icon_lrkziq.svg"
                         alt="redirect"
+                        style={{cursor: "pointer"}}
                         onClick={() =>
                           window.location.replace("https://blockchair.com")
                         }
@@ -255,10 +272,11 @@ function Detecting() {
                       lineHeight: "17px",
                       letterSpacing: "0.06em",
                       color: "rgba(0, 0, 0, 0.5)",
+                      wordBreak: "break-all",
                     }}
                   >
-                    f0478d2b40a35e455ae640ec1b0762df8c46
-                    b975cb19672b63aaf236ad7ca2b9
+                    {transactions?.transaction_hash &&
+                      transactions?.transaction_hash}
                   </Typography>
                 </div>
                 <div style={{ marginTop: "2%" }}>

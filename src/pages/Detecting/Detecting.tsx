@@ -29,12 +29,13 @@ function Detecting() {
   const transactions = context.state.transactionDetails;
   const [isLoading, setLoading] = useState(false);
 
-  function backtoCrypto() {
-    // navigate("ww");
-    // window.location.replace("www.google.com");
-    // navigate('www.google.com', {replace: true})
-    window.open('http://www.google.com', '_blank');
+  let interval:any;
 
+  function backtoCrypto() {
+    // window.location.replace("www.google.com");
+    window.open(transactions?.merchant_redirect_url, "_blank");
+    // navigate("/success");
+    clearInterval(interval)
   }
 
   const fetchTransactionDetails = async () => {
@@ -53,8 +54,9 @@ function Detecting() {
           payload: res?.data,
         });
         setLoading(false);
+        // let interval:any
         fetchTransactionStatus();
-        setInterval(() => fetchTransactionStatus(), 30000);
+        interval = setInterval(() => fetchTransactionStatus(), 30000);
       })
       .catch((err) => {
         console.log(err);
@@ -65,14 +67,17 @@ function Detecting() {
   const fetchTransactionStatus = async () => {
     // setLoading(true);
     await axios
-      .get(`${BASE_URL}/transaction/status`, {
+      .get(`${BASE_URL}/sdk/deposit/transaction/status`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       })
       .then((res) => {
         console.log(res);
-        navigate("/success",{ replace: true });  
+        if (res.data.order_status === "success") {
+          navigate("/success", { replace: true });
+          clearInterval(interval)
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -86,7 +91,8 @@ function Detecting() {
 
   useEffect(() => {
     if (!orders) {
-      navigate("/error",{ replace: true });    }
+      navigate("/error", { replace: true });
+    }
   }, []);
 
   return (
@@ -218,7 +224,13 @@ function Detecting() {
                     >
                       <Typography className="currency">Order id</Typography>
                       <Typography className="info">
-                        {transactions?.order_id && transactions?.order_id}
+                        {/* {transactions?.order_id && transactions?.order_id} */}
+                        {/* {transactions?.order_id && transactions?.order_id} */}
+                        {transactions?.order_id &&
+                          `${transactions?.order_id.slice(
+                            0,
+                            7
+                          )}...${transactions?.order_id.slice(-4)}`}
                       </Typography>
                     </Stack>
                     <Stack
@@ -251,7 +263,12 @@ function Detecting() {
                       </Typography>
                       <Typography className="info">
                         {" "}
-                        {formatCryptoAmount("BTC", "0.003334")} BTC
+                        {formatCryptoAmount(
+                          transactions?.order_crypto_symbol?.toUpperCase(),
+                          transactions?.order_crypto_amount
+                        )}{" "}
+                        {transactions?.order_crypto_symbol &&
+                          transactions?.order_crypto_symbol?.toUpperCase()}
                       </Typography>
                     </Stack>
                     <Stack
@@ -264,7 +281,12 @@ function Detecting() {
                       </Typography>
                       <Typography className="info">
                         {transactions?.destination_wallet_address &&
-                          transactions?.destination_wallet_address}
+                          `${transactions?.destination_wallet_address.slice(
+                            0,
+                            7
+                          )}...${transactions?.destination_wallet_address.slice(
+                            -4
+                          )}`}
                       </Typography>
                     </Stack>
                   </div>

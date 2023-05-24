@@ -9,7 +9,8 @@ const DummyQRCode: React.FC = () => {
 
   return (
     <div>
-      <QRCode value={qrCode} />
+      {/* <QRCode value={qrCode} /> */}
+      <img  src={`data:image/png;base64,${qrCode}`} width={180} height={180}/>
     </div>
   );
 };

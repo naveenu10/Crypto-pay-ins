@@ -214,7 +214,7 @@ function DepositPage(props: any) {
                         letterSpacing: "0.05rem",
                       }}
                     >
-                      {orderDetails.merchant_name && orderDetails.merchant_name}
+                      {orderDetails.merchant_brand_name && orderDetails.merchant_brand_name}
                     </Typography>
                   </div>
                   <div style={{ width: "30px", height: "30px" }}>
