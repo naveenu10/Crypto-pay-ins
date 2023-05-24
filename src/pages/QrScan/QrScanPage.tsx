@@ -62,14 +62,13 @@ function QrScanPage(props: any) {
     }
   };
 
-
   const onIhavePaid = async () => {
     setLoading(true);
-    const now = Date.now(); 
+    const now = Date.now();
     console.log(now);
     const payload = {
       user_event: "i have paid",
-      "timestamp":now
+      timestamp: now,
     };
     await axios
       .post(`${BASE_URL}/sdk/deposit/order/events`, payload, {
@@ -92,7 +91,6 @@ function QrScanPage(props: any) {
     setLoading(true);
     await axios
       .get(
-        // `${BASE_URL}/address/${selectedCoinData?.asset_network}/${selectedCoinData?.asset_symbol}`,
         `${BASE_URL}/sdk/deposit/address/${selectedCoinData?.asset_network}/${selectedCoinData?.asset_symbol}/${selectedCoinData?.asset_quote}`,
         {
           headers: {
@@ -119,8 +117,15 @@ function QrScanPage(props: any) {
   }, []);
 
   useEffect(() => {
+    if (token) {
+      localStorage.setItem("token", token);
+    }
+  }, [token]);
+
+  useEffect(() => {
     if (!orders) {
-      navigate("/error",{ replace: true });    }
+      navigate("/error", { replace: true });
+    }
   }, []);
 
   useEffect(() => {
@@ -128,7 +133,7 @@ function QrScanPage(props: any) {
       navigate("/timeout", { replace: true });
     }
   }, [props.fixedTime]);
-  
+
   return (
     <Layout>
       <MobileContainer>
@@ -221,9 +226,7 @@ function QrScanPage(props: any) {
                         date={Date.now() + 900000}
                         renderer={renderer}
                       /> */}
-                      {props.fixedTime}
-                      {" "}
-                      mins
+                      {props.fixedTime} mins
                     </Typography>
                     <div className="choosecurrency">Complete Payment</div>
                     <div>
@@ -254,7 +257,7 @@ function QrScanPage(props: any) {
                                 fontWeight: "bold",
                               }}
                             >
-                              {coinName}
+                              {coinName.toUpperCase()}
                             </span>
                           </div>
                           <div
@@ -293,7 +296,7 @@ function QrScanPage(props: any) {
                               the above amount
                             </span>
                           </div>
-                          <div style={{ marginTop: "35px" }}>
+                          <div style={{ marginTop: "10px" }}>
                             <span
                               style={{
                                 height: "270px",
@@ -304,7 +307,7 @@ function QrScanPage(props: any) {
                               <QrCode />
                             </span>
                           </div>
-                          <div style={{ marginTop: "35px" }}>
+                          <div style={{ marginTop: "10px" }}>
                             <span style={{ fontSize: "12px" }}>
                               Only send ETH using the Ethereum network, else the
                               funds may get lost

@@ -25,6 +25,7 @@ const CancelPayment = (props: { open: any; setOpen: any }) => {
   const context = useGlobalContext();
   const navigate = useNavigate();
   const token = context.state.token;
+  const orders = context.state.orderDetails;
 
   const clickYes = async () => {
     const now = Date.now(); 
@@ -43,7 +44,7 @@ const CancelPayment = (props: { open: any; setOpen: any }) => {
         console.log(res);
         // navigate("/", { replace: true });
         setOpen(false);
-        window.location.replace("http://google.com");
+        window.location.replace(orders?.merchant_redirect_url);
       })
       .catch((err) => {
         console.log(err);
