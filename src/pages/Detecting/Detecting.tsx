@@ -29,12 +29,12 @@ function Detecting() {
   const transactions = context.state.transactionDetails;
   const [isLoading, setLoading] = useState(false);
 
-  let interval:any;
+  let interval: any;
 
   function backtoCrypto() {
     // window.location.replace("www.google.com");
-    window.open(transactions?.merchant_redirect_url, "_blank");
-    // navigate("/success");
+    // window.open(transactions?.merchant_redirect_url, "_blank");
+    navigate("/success");
     clearInterval(interval)
   }
 

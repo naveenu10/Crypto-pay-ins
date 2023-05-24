@@ -128,11 +128,10 @@ function WelcomePage() {
           setLoading(false);
           console.log(response, "resp");
           setPostData(response.data);
-          window.open(
-            `http://crypto-payins.s3-website-us-east-1.amazonaws.com/deposit?order_id=${response?.data?.order_id}&hash=${response?.data?.hash}`,
-            "_blank"
+          window.location.replace(
+            `http://crypto-payins.s3-website-us-east-1.amazonaws.com/deposit?order_id=${response?.data?.order_id}&hash=${response?.data?.hash}`
           );
-          // `http://localhost:3000/deposit?order_id=${response?.data?.order_id}&hash=${response?.data?.hash}`,'_blank');
+          // `http://localhost:3003/deposit?order_id=${response?.data?.order_id}&hash=${response?.data?.hash}`, '_blank');
         }
         setLoading(false);
       }
@@ -165,13 +164,11 @@ function WelcomePage() {
           setLoading(false);
           console.log(response, "resp");
           setPostData(response.data);
-          window.open(
-            `http://crypto-payins.s3-website-us-east-1.amazonaws.com/deposit/?"order_id"=${
-              response?.data?.order_id
-            },"hash"=${JSON.stringify(response?.data?.hash)}`,
-            "_blank"
+          window.location.replace(
+            `http://crypto-payins.s3-website-us-east-1.amazonaws.com/deposit/?"order_id"=${response?.data?.order_id
+            },"hash"=${JSON.stringify(response?.data?.hash)}`
           );
-          // `http://localhost:3000/deposit?order_id=${response?.data?.order_id}&hash=${response?.data?.hash}`,'_blank');
+          // `http://localhost:3003/deposit?order_id=${response?.data?.order_id}&hash=${response?.data?.hash}`, '_blank');
         }
         setLoading(false);
       }
