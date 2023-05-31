@@ -10,10 +10,17 @@ import { Layout, MobileContainer } from '../../styles/layout';
 import Footer from '../Footer/Footer';
 import QrCode from '../QrScan/QrCode';
 import '../QrScan/QrScanPage.css';
-import { useMetaMask } from 'metamask-react';
 import MetamaskError from '../QrScan/MetamaskError';
+import React from 'react';
 import detectEthereumProvider from '@metamask/detect-provider';
 import Web3 from 'web3';
+import { ExternalProvider } from '@ethersproject/providers';
+
+declare global {
+    interface Window {
+        ethereum?: ExternalProvider;
+    }
+}
 
 function MetaMaskPage() {
     const context = useGlobalContext();
