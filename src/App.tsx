@@ -19,6 +19,9 @@ import MetaMaskPage from "./pages/metaMask/MetaMaskPage";
 import WelcomePage from "./pages/Welcome/WelcomePage";
 import Error from "./pages/Error/Error";
 import theme from "./theme/theme";
+import MeatamaskExample from "./pages/MeatamaskExample";
+import { MetaMaskProvider } from "metamask-react";
+import MetamaskError from "./pages/QrScan/MetamaskError";
 import { useEffect, useState } from "react";
 
 function App() {
@@ -46,7 +49,7 @@ function App() {
     <ThemeProvider theme={theme}>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<WelcomePage/>} />
+          <Route path="/" element={<WelcomePage />} />
           <Route path="/deposit" element={<DepositPage fixedTime={fixedTime} />} />
           <Route path="/quickpay" element={<QuickPay fixedTime={fixedTime} />} />
           <Route path="/detecting" element={<Detecting />} />
@@ -57,8 +60,10 @@ function App() {
           <Route path="/highbalsuccesspage" element={<LowBalSuccess />} />
           <Route path="/wallet" element={<Wallet />} />
           <Route path="/QrScan" element={<QrScan />} />
+          <Route path="/metamaskError" element={<MetamaskError />} />
+          <Route path="/metamaskExample" element={<MeatamaskExample />} />
           <Route path="/QrScanPage" element={<QrScanPage fixedTime={fixedTime} />} />
-          <Route path="/QrCopy" element={<QrCopy fixedTime={fixedTime}/>}/>
+          <Route path="/QrCopy" element={<QrCopy fixedTime={fixedTime} />} />
           <Route path="/Metamask" element={<Metamask />} />
           <Route path="/MetamaskPage" element={<MetaMaskPage />} />
           <Route path="/InsufficientFunds" element={<InsufficientFunds />} />
