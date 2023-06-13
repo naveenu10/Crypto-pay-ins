@@ -26,7 +26,7 @@ import { useEffect, useState } from "react";
 
 function App() {
   // const navigate = useNavigate();
-  const [timeFlag, setTimeFlag] = useState(false)
+  const [timeFlag, setTimeFlag] = useState(false);
   const duration = 15 * 60 * 1000;
   const [time, setTime] = useState<any>(duration);
   useEffect(() => {
@@ -34,24 +34,31 @@ function App() {
       if (time) {
         setTime(time - 1000);
       } else {
-        setTimeFlag(true)
+        setTimeFlag(true);
       }
     }, 1000);
   }, [time]);
   let totalSeconds = Math.floor(time / 1000);
   let totalMinitus = Math.floor(totalSeconds / 60);
   let seconds = totalSeconds % 60;
-  let minitus = totalMinitus % 60
-  let fixedTime = `${minitus < 10 ? `0${minitus}` : minitus}:${seconds < 10 ? `0${seconds}` : seconds
-    }`;
+  let minitus = totalMinitus % 60;
+  let fixedTime = `${minitus < 10 ? `0${minitus}` : minitus}:${
+    seconds < 10 ? `0${seconds}` : seconds
+  }`;
 
   return (
     <ThemeProvider theme={theme}>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<WelcomePage />} />
-          <Route path="/deposit" element={<DepositPage fixedTime={fixedTime} />} />
-          <Route path="/quickpay" element={<QuickPay fixedTime={fixedTime} />} />
+          <Route
+            path="/deposit"
+            element={<DepositPage fixedTime={fixedTime} />}
+          />
+          <Route
+            path="/quickpay"
+            element={<QuickPay fixedTime={fixedTime} />}
+          />
           <Route path="/detecting" element={<Detecting />} />
           <Route path="/success" element={<Success />} />
           <Route path="/failure" element={<Failure />} />
@@ -62,10 +69,16 @@ function App() {
           <Route path="/QrScan" element={<QrScan />} />
           <Route path="/metamaskError" element={<MetamaskError />} />
           <Route path="/metamaskExample" element={<MeatamaskExample />} />
-          <Route path="/QrScanPage" element={<QrScanPage fixedTime={fixedTime} />} />
+          <Route
+            path="/QrScanPage"
+            element={<QrScanPage fixedTime={fixedTime} />}
+          />
           <Route path="/QrCopy" element={<QrCopy fixedTime={fixedTime} />} />
           <Route path="/Metamask" element={<Metamask />} />
-          <Route path="/MetamaskPage" element={<MetaMaskPage />} />
+          <Route
+            path="/MetamaskPage"
+            element={<MetaMaskPage fixedTime={fixedTime} />}
+          />
           <Route path="/InsufficientFunds" element={<InsufficientFunds />} />
           <Route path="/error" element={<Error />} />
         </Routes>
