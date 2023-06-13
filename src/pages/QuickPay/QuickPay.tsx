@@ -25,15 +25,17 @@ function QuickPay(props: any) {
   const [isLoading, setLoading] = useState(false);
   //   const [cyyptoData, setCryptoData] = useState<{ [key: string]: any }[]>([]);
 
-  let coinName = context.state.selectedCoin;
+  let coinName = context.state.selectedCoin?.toUpperCase();
   const orders = context.state.orderDetails;
   const cyyptoData = context.state.allCryptos;
 
   const onContinue = () => {
-    if (coinName == "ETH" || coinName === "USDC" || coinName === "USDT") {
+    console.log(coinName, "coinName");
+    if (coinName === "ETH" || coinName === "USDC" || coinName === "USDT") {
       navigate("/wallet");
     } else {
       navigate("/QrScanPage");
+      // navigate("/MetamaskPage");
     }
   };
 
@@ -60,9 +62,9 @@ function QuickPay(props: any) {
 
   useEffect(() => {
     if (!orders) {
-      navigate("/error",{ replace: true });
+      navigate("/error", { replace: true });
     }
-  }, [])
+  }, []);
 
   useEffect(() => {
     if (props.fixedTime === "00:00") {
@@ -113,7 +115,7 @@ function QuickPay(props: any) {
                         marginLeft: "-8px",
                       }}
                       onClick={() => navigate(-1)}
-                    // onClick={() => setOpenCloseDialog(true)}
+                      // onClick={() => setOpenCloseDialog(true)}
                     >
                       <ArrowBackIosNewIcon />
                     </IconButton>
@@ -165,9 +167,7 @@ function QuickPay(props: any) {
                         date={Date.now() + 900000}
                         renderer={renderer}
                       /> */}
-                      {props.fixedTime}
-                      {" "}
-                      mins
+                      {props.fixedTime} mins
                     </Typography>
                     <div
                       style={{ boxSizing: "border-box", position: "relative" }}
