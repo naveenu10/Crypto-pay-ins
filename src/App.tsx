@@ -4,7 +4,7 @@ import Detecting from "./pages/Detecting/Detecting";
 import Failure from "./pages/Failure/Failure";
 import LowBalSuccess from "./pages/LowBalSuccess/LowBalSuccess";
 import InsufficientFunds from "./pages/QrScan/InsufficientFundsError";
-import Metamask from "./pages/QrScan/MetamaskError";
+// import Metamask from "./pages/QrScan/MetamaskError";
 import QrCopy from "./pages/QrScan/QrCopy";
 import {
   default as QrScan,
@@ -20,13 +20,11 @@ import WelcomePage from "./pages/Welcome/WelcomePage";
 import Error from "./pages/Error/Error";
 import theme from "./theme/theme";
 import MeatamaskExample from "./pages/MeatamaskExample";
-import { MetaMaskProvider } from "metamask-react";
 import MetamaskError from "./pages/QrScan/MetamaskError";
 import { useEffect, useState } from "react";
 
 function App() {
-  // const navigate = useNavigate();
-  const [timeFlag, setTimeFlag] = useState(false);
+  const [timeFlag, setTimeFlag] = useState(false)
   const duration = 15 * 60 * 1000;
   const [time, setTime] = useState<any>(duration);
   useEffect(() => {
@@ -74,9 +72,9 @@ function App() {
             element={<QrScanPage fixedTime={fixedTime} />}
           />
           <Route path="/QrCopy" element={<QrCopy fixedTime={fixedTime} />} />
-          <Route path="/Metamask" element={<Metamask />} />
+          {/* <Route path="/Metamask" element={<Metamask />} /> */}
           <Route
-            path="/MetamaskPage"
+            path="/metamask"
             element={<MetaMaskPage fixedTime={fixedTime} />}
           />
           <Route path="/InsufficientFunds" element={<InsufficientFunds />} />

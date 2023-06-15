@@ -22,6 +22,8 @@ import React from "react";
 import detectEthereumProvider from "@metamask/detect-provider";
 import Web3 from "web3";
 import { ExternalProvider } from "@ethersproject/providers";
+import { fontWeight } from "@mui/system";
+import QRCode from "qrcode.react";
 
 declare global {
   interface Window {
@@ -33,10 +35,12 @@ function MetaMaskPage(props: any) {
   const context = useGlobalContext();
   const [userName, setUserName] = useState("laxmi@gmail.com");
   const [openCloseDialog, setOpenCloseDialog] = useState(false);
-  const [address, setAddress] = useState("");
+  const [address, setAddress] = useState<any | null>("");
   const [showErr, setShowErr] = useState("");
   const [chaindid, setchaindid] = useState(0);
   const [balance, setBalance] = useState<any | null>(null);
+  const [requestAmount, setRequestedAmount] = useState<any | null>(0.05446);
+  const [serviceFee, setServiceFee] = useState<any | null>(0.000000064);
 
   var re =
     /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -46,6 +50,7 @@ function MetaMaskPage(props: any) {
     // metamaskIntegration()
   };
 
+ 
   let coinName = context.state.selectedCoin;
 
   const Completionist = () => <span>You are good to go!</span>;
@@ -71,6 +76,7 @@ function MetaMaskPage(props: any) {
 
   const startApp = (provider: any) => {
     if (provider !== window.ethereum) {
+      console.log("provider--->>", provider);
     }
   };
 
@@ -97,6 +103,7 @@ function MetaMaskPage(props: any) {
   function handleAccountsChanged(accounts: string | any[]) {
     console.log(accounts, "accounts");
     if (accounts.length === 0) {
+      setAddress("");
     } else if (accounts[0] !== currentAccount) {
       currentAccount = accounts[0];
       setAddress(currentAccount);
@@ -121,9 +128,10 @@ function MetaMaskPage(props: any) {
     const web3 = new Web3(ethereum1);
     web3.eth.getAccounts(function (err: any, accounts: any) {
       if (err != null) console.error("An error occurred: " + err);
-      else if (accounts.length == 0)
+      else if (accounts.length == 0) {
         console.log("User is not logged in to MetaMask");
-      else {
+        setAddress("");
+      } else {
         setAddress(accounts[0]);
         getBalance(accounts[0]);
       }
@@ -197,6 +205,12 @@ function MetaMaskPage(props: any) {
     handleChainChanged(chaindid);
   }, [chaindid]);
 
+  useEffect(() => {
+    if (props.fixedTime === "00:00") {
+      navigate("/timeout", { replace: true });
+    }
+  }, [props.fixedTime]);
+
   return (
     <Layout>
       <MobileContainer>
@@ -205,7 +219,7 @@ function MetaMaskPage(props: any) {
             style={{
               display: "flex",
               flexDirection: "column",
-              height: "100vh",
+              // height: "100vh",
             }}
           >
             <AppBar
@@ -264,293 +278,315 @@ function MetaMaskPage(props: any) {
               </Toolbar>
             </AppBar>
             {address !== "" ? (
-              <div style={{ flex: 1, height: "50vh", overflowY: "auto" }}>
+              <div style={{ flex: 1, height: "auto" }}>
                 <section className="nivapay_ramp">
-                  <Container maxWidth="lg">
-                    <Typography
-                      style={{
-                        fontStyle: "normal",
-                        fontWeight: "bold",
-                        fontSize: "16px",
-                        lineHeight: "30px",
-                        textAlign: "center",
-                        letterSpacing: "0.06em",
-                        color: "#000000",
-                        fontFamily: "Inter",
-                      }}
-                    >
-                      {/* Time left 15:00 mins */}
-                      Time Left: {props.fixedTime} mins
-                    </Typography>
-                    <div className="choosecurrency">Complete Payment</div>
-                    <div style={{ paddingLeft: "10px" }}>
-                      <div className="qrCodeDiv">
-                        <Container>
-                          <div style={{ marginTop: "16px" }}>
-                            <span
+                  <Typography
+                    style={{
+                      fontStyle: "normal",
+                      fontWeight: "bold",
+                      fontSize: "14px",
+                      lineHeight: "17px",
+                      textAlign: "center",
+                      letterSpacing: "0.06em",
+                      color: "#000000",
+                      fontFamily: "Inter",
+                      marginTop: "20px",
+                      marginBottom: "10px",
+                    }}
+                  >
+                    {/* Time left 15:00 mins */}
+                    Time Left: {props.fixedTime} mins
+                  </Typography>
+                  <div className="choosecurrency" style={{ fontSize: 20 }}>
+                    Complete Payment
+                  </div>
+                  <div style={{ marginTop: 30 }}>
+                    <div className="qrCodeDiv">
+                      <Container>
+                        <div style={{ marginTop: "16px" }}>
+                          <span
+                            style={{
+                              fontSize: "24px",
+                              color: "#000000",
+                              fontWeight: "600",
+                            }}
+                          >
+                            {requestAmount}
+                          </span>
+                          <span
+                            style={{
+                              fontSize: "12px",
+                              color: "#000000",
+                              fontWeight: "600",
+                              marginLeft: "4px",
+                            }}
+                          >
+                            ETH
+                          </span>
+                        </div>
+                        <div style={{ marginTop: "4px", color: "#808080" }}>
+                          <span style={{ fontSize: "12px" }}>
+                            + Network fee
+                          </span>
+                        </div>
+
+                        <div
+                          style={{
+                            marginTop: "55px",
+                            justifyContent: "center",
+                          }}
+                        >
+                          <div
+                            style={{
+                              display: "flex",
+                              justifyContent: "space-between",
+                            }}
+                          >
+                            <div style={{ color: "#00000080", fontSize: 14 }}>
+                              MetaMask
+                            </div>
+                            <div
                               style={{
-                                fontSize: "24px",
-                                color: "#000000",
+                                color: "#21146B",
                                 fontWeight: "600",
+                                fontSize: 14,
                               }}
                             >
-                              0.05446
-                            </span>
-                            <span
-                              style={{
-                                fontSize: "12px",
-                                color: "#000000",
-                                fontWeight: "600",
-                                marginLeft: "4px",
-                              }}
-                            >
-                              ETH
-                            </span>
+                              Connected
+                            </div>
                           </div>
-                          <div style={{ marginTop: "4px", color: "#808080" }}>
-                            <span style={{ fontSize: "12px" }}>
-                              + Network fee
-                            </span>
-                          </div>
+                          <hr />
 
                           <div
                             style={{
-                              marginTop: "28px",
-                              justifyContent: "center",
+                              display: "flex",
+                              justifyContent: "space-between",
+                              color: "#00000080",
+                              marginTop: "12px",
+                              fontSize: "12px",
                             }}
                           >
+                            <div>Account</div>
                             <div
                               style={{
-                                display: "flex",
-                                justifyContent: "space-between",
+                                overflowWrap: "anywhere",
+                                paddingLeft: "37px",
                               }}
                             >
-                              <div style={{ color: "#00000080" }}>MetaMask</div>
-                              <div
-                                style={{ color: "#21146B", fontWeight: "600" }}
-                              >
-                                Connected
-                              </div>
-                            </div>
-                            <hr />
-
-                            <div
-                              style={{
-                                display: "flex",
-                                justifyContent: "space-between",
-                                color: "#00000080",
-                                marginTop: "12px",
-                                fontSize: "12px",
-                              }}
-                            >
-                              <div>Account</div>
-                              <div
-                                style={{
-                                  overflowWrap: "anywhere",
-                                  paddingLeft: "37px",
-                                }}
-                              >
-                                {address}
-                              </div>
-                            </div>
-                            <div
-                              style={{
-                                display: "flex",
-                                justifyContent: "space-between",
-                                color: "#00000080",
-                                fontSize: "12px",
-                                marginTop: "12px",
-                              }}
-                            >
-                              <div>Network</div>
-                              <div>Ethereum</div>
-                            </div>
-                            <div
-                              style={{
-                                display: "flex",
-                                flex: "start",
-                                justifyContent: "space-between",
-                                color: "#00000080",
-                                fontSize: "12px",
-                                marginTop: "12px",
-                              }}
-                            >
-                              <div>Balance</div>
-                              <div>{balance} ETH</div>
+                              {address &&
+                                `${address?.slice(0, 7)}...${address.slice(
+                                  -4
+                                )}`}
                             </div>
                           </div>
-                          <div style={{ marginTop: "16px" }}>
+                          <div
+                            style={{
+                              display: "flex",
+                              justifyContent: "space-between",
+                              color: "#00000080",
+                              fontSize: "12px",
+                              marginTop: "12px",
+                            }}
+                          >
+                            <div>Network</div>
+                            <div>Ethereum</div>
+                          </div>
+                          <div
+                            style={{
+                              display: "flex",
+                              flex: "start",
+                              justifyContent: "space-between",
+                              color: "#00000080",
+                              fontSize: "12px",
+                              marginTop: "12px",
+                            }}
+                          >
+                            <div>Balance</div>
+                            <div>{balance} ETH</div>
+                          </div>
+                        </div>
+                        <div
+                          style={{
+                            marginTop: "30px",
+                            fontSize: "14px",
+                            color: "#2C1E66",
+                            fontWeight: "700",
+                            cursor: "pointer",
+                          }}
+                          onClick={() => setAddress("")}
+                        >
+                          Disconnect Wallet
+                        </div>
+
+                        <div style={{ marginTop: "45px" }}>
+                          <span style={{ fontSize: "12px" }}>
+                            Recommended network fee for fast confirmation:
+                            <br />
                             <span
-                              style={{
-                                fontSize: "14px",
-                                color: "#2C1E66",
-                                fontWeight: "700",
-                              }}
+                              style={{ color: "#000000", fontWeight: "600" }}
                             >
-                              Disconnect Wallet
+                             {serviceFee / 0.000000001} gwei
                             </span>
-                          </div>
+                          </span>
+                        </div>
+                      </Container>
+                    </div>
+                  </div>
 
-                          <div style={{ marginTop: "20px" }}>
-                            <span style={{ fontSize: "12px" }}>
-                              Recommended network fee for fast confirmation:
-                              <br />
-                              <span
-                                style={{ color: "#000000", fontWeight: "600" }}
-                              >
-                                64 gwei
-                              </span>
-                            </span>
-                          </div>
-                        </Container>
-                      </div>
-                    </div>
-
-                    <div
-                      style={{
-                        display: "flex",
-                        justifyContent: "center",
-                        marginTop: "104px",
-                      }}
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      marginTop: "64px",
+                    }}
+                  >
+                    <Button
+                      className="continue"
+                      variant="contained"
+                      // onClick={ETH}
+                      disabled={(requestAmount + serviceFee).toFixed(6)>=balance}
                     >
-                      <Button
-                        className="continue"
-                        variant="contained"
-                        onClick={ETH}
-                      >
-                        Send Payment{" "}
-                      </Button>
-                    </div>
-                    <div
-                      style={{
-                        display: "flex",
-                        justifyContent: "center",
-                        marginTop: "20px",
-                      }}
+                      Send Payment{" "}
+                    </Button>
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      marginTop: "20px",
+                    }}
+                  >
+                    <Button
+                      className="cancelbtn"
+                      fullWidth
+                      onClick={() => setOpenCloseDialog(true)}
                     >
-                      <Button
-                        className="cancelbtn"
-                        onClick={() => setOpenCloseDialog(true)}
-                      >
-                        Cancel
-                      </Button>
-                    </div>
-                    <BackButton
-                      open={openCloseDialog}
-                      setOpen={setOpenCloseDialog}
-                    />
-                  </Container>
+                      Cancel
+                    </Button>
+                  </div>
+                  <BackButton
+                    open={openCloseDialog}
+                    setOpen={setOpenCloseDialog}
+                  />
                 </section>
               </div>
             ) : (
-              <div style={{ flex: 1, height: "50vh", overflowY: "auto" }}>
+              <div style={{ flex: 1, height: "auto" }}>
                 <section className="nivapay_ramp">
-                  <Container>
-                    <Typography
-                      style={{
-                        fontStyle: "normal",
-                        fontWeight: "bold",
-                        fontSize: "16px",
-                        lineHeight: "30px",
-                        textAlign: "center",
-                        letterSpacing: "0.06em",
-                        color: "#000000",
-                        fontFamily: "Inter",
-                      }}
-                    >
-                      {/* Time left 15:00 mins */}
-                      Time Left:{" "}
-                      <Countdown
-                        date={Date.now() + 900000}
-                        renderer={renderer}
-                      />{" "}
-                      mins
-                    </Typography>
-                    <div className="choosecurrency">Complete Payment</div>
-                    <div style={{ alignItems: "center" }}>
-                      <div className="qrCodeDiv">
-                        <Container>
-                          <div style={{ marginTop: "16px" }}>
-                            <span style={{ fontSize: "24px" }}>0.05446</span>
-                            <span
-                              style={{ fontSize: "12px", marginLeft: "4px" }}
-                            >
-                              {coinName}
-                            </span>
-                          </div>
-                          <div style={{ marginTop: "4px", color: "#808080" }}>
-                            <span style={{ fontSize: "12px" }}>
-                              + Network fee{" "}
-                            </span>
-                          </div>
-                          <div style={{ marginTop: "12px" }}>
-                            <span style={{ fontSize: "12px" }}>
-                              Scan this QR code using your MetaMask wallet or
-                              connect it using the button below
-                            </span>
-                          </div>
-                          <div style={{ marginTop: "35px" }}>
-                            <span
-                              style={{
-                                height: "270px",
-                                width: "196px",
-                                justifyContent: "center",
-                              }}
-                            >
-                              <QrCode />
-                            </span>
-                          </div>
-                          <div style={{ marginTop: "35px" }}>
-                            <span style={{ fontSize: "13px" }}>
-                              Recommended network fee for fast confirmation: 64
-                              gwei
-                            </span>
-                          </div>
-                        </Container>
-                      </div>
-                    </div>
+                  <Typography
+                    style={{
+                      fontStyle: "normal",
+                      fontWeight: "bold",
+                      fontSize: "14px",
+                      lineHeight: "17px",
+                      textAlign: "center",
+                      letterSpacing: "0.06em",
+                      color: "#000000",
+                      fontFamily: "Inter",
+                      marginTop: "20px",
+                      marginBottom: "10px",
+                    }}
+                  >
+                    {/* Time left 15:00 mins */}
+                    Time Left: {props.fixedTime} mins
+                  </Typography>
+                  <div className="choosecurrency" style={{ fontSize: 20 }}>
+                    Complete Payment
+                  </div>
+                  <div style={{ marginTop: 30 }}>
+                    <div className="qrCodeDiv">
+                      <Container>
+                        <div style={{ marginTop: "16px" }}>
+                          <span
+                            style={{ fontSize: "24px", fontWeight: "600px" }}
+                          >
+                           {requestAmount}
+                          </span>
+                          <span style={{ fontSize: "12px", marginLeft: "4px" }}>
+                            {coinName}
+                          </span>
+                        </div>
+                        <div style={{ marginTop: "4px", color: "#808080" }}>
+                          <span style={{ fontSize: "12px" }}>
+                            + Network fee{" "}
+                          </span>
+                        </div>
+                        <div style={{ marginTop: "12px" }}>
+                          <span style={{ fontSize: "12px" }}>
+                            Scan this QR code using your MetaMask wallet or
+                            connect it using the button below
+                          </span>
+                        </div>
+                        <div
+                          style={{
+                            marginTop: "15px",
+                            display: "flex",
+                            height: "auto",
+                            width: "100%",
+                            justifyContent: "center",
+                          }}
+                        >
+                          {/* have to change once qr url come from api response */}
+                          {/* <QrCode /> */}
 
-                    <div
-                      style={{
-                        display: "flex",
-                        justifyContent: "center",
-                        marginTop: "104px",
-                      }}
-                    >
-                      <Button
-                        className="continue"
-                        variant="contained"
-                        onClick={connectMetamask}
-                      >
-                        Open Metamask
-                      </Button>
+                          <QRCode
+                            value={
+                              "https://metamask.app.link/send/0x2f7f783ec8c70E6614AD1bc3C6Fd9CD206B3C054@1?value=5.446e16&gasPrice=64&label=Nivapay%2063ffa75b-af3b-45b1-9abb-a310e3352e28"
+                            }
+                            size={180}
+                          />
+                        </div>
+                        <div style={{ marginTop: "15px" }}>
+                          <span style={{ fontSize: "13px" }}>
+                            Recommended network fee for fast
+                            <br />
+                            confirmation: <b>64 gwei</b>
+                          </span>
+                        </div>
+                      </Container>
                     </div>
-                    <div
-                      style={{
-                        display: "flex",
-                        justifyContent: "center",
-                        marginTop: "20px",
-                      }}
+                  </div>
+
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      marginTop: "64px",
+                    }}
+                  >
+                    <Button
+                      className="continue"
+                      variant="contained"
+                      onClick={connectMetamask}
                     >
-                      <Button
-                        className="cancelbtn"
-                        onClick={() => setOpenCloseDialog(true)}
-                      >
-                        Cancel
-                      </Button>
-                    </div>
-                    <BackButton
-                      open={openCloseDialog}
-                      setOpen={setOpenCloseDialog}
-                    />
-                  </Container>
+                      Open Metamask
+                    </Button>
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      marginTop: "20px",
+                    }}
+                  >
+                    <Button
+                      className="cancelbtn"
+                      onClick={() => setOpenCloseDialog(true)}
+                    >
+                      Cancel
+                    </Button>
+                  </div>
+                  <BackButton
+                    open={openCloseDialog}
+                    setOpen={setOpenCloseDialog}
+                  />
                 </section>
               </div>
             )}
+            <div style={{ justifyContent: "flex-end", marginBottom: 10 }}>
+              <Footer />
+            </div>
           </section>
-          <div style={{ justifyContent: "flex-end" }}>
-            <Footer />
-          </div>
         </div>
         {/* {status === "connected" && <MetamaskError />} */}
       </MobileContainer>
