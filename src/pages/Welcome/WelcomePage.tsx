@@ -128,9 +128,10 @@ function WelcomePage() {
           setLoading(false);
           console.log(response, "resp");
           setPostData(response.data);
-          window.location.replace(
-            `http://crypto-payins.s3-website-us-east-1.amazonaws.com/deposit?order_id=${response?.data?.order_id}&hash=${response?.data?.hash}`
-          );
+          navigate(`/deposit?order_id=${response?.data?.order_id}&hash=${response?.data?.hash}`)
+          // window.location.replace(
+          //   `http://crypto-payins.s3-website-us-east-1.amazonaws.com/deposit?order_id=${response?.data?.order_id}&hash=${response?.data?.hash}`
+          // );
           // `http://localhost:3003/deposit?order_id=${response?.data?.order_id}&hash=${response?.data?.hash}`, '_blank');
         }
         setLoading(false);
@@ -164,10 +165,12 @@ function WelcomePage() {
           setLoading(false);
           console.log(response, "resp");
           setPostData(response.data);
-          window.location.replace(
-            `http://crypto-payins.s3-website-us-east-1.amazonaws.com/deposit/?"order_id"=${response?.data?.order_id
-            },"hash"=${JSON.stringify(response?.data?.hash)}`
-          );
+          navigate(`/deposit?order_id=${response?.data?.order_id}&hash=${response?.data?.hash}`)
+
+          // window.location.replace(
+          //   `http://crypto-payins.s3-website-us-east-1.amazonaws.com/deposit/?"order_id"=${response?.data?.order_id
+          //   },"hash"=${JSON.stringify(response?.data?.hash)}`
+          // );
           // `http://localhost:3003/deposit?order_id=${response?.data?.order_id}&hash=${response?.data?.hash}`, '_blank');
         }
         setLoading(false);
@@ -180,26 +183,6 @@ function WelcomePage() {
 
   var re =
     /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  //   useEffect(() => {
-  //     if (!re.test(userDetails.email)) {
-  //       const interval = setInterval(() => {
-  //         setErrorMsg("Invalid email");
-  //       }, 1000);
-  //       return () => clearInterval(interval);
-  //     }
-  //     if (
-  //       !userDetails.user_name ||
-  //       !userDetails.fiat ||
-  //       !userDetails.merchant_name ||
-  //       isNaN(userDetails.amount) ||
-  //       userDetails.amount == 0 ||
-  //       userDetails.amount < 0
-  //     ) {
-  //       setErrorMsg("Please check the fields");
-  //     } else {
-  //       setErrorMsg("");
-  //     }
-  //   }, [userDetails]);
 
   const [logo, setLogo] = useState("");
   const [tenentLogo, setTenentLogo] = useState(false);
@@ -209,12 +192,6 @@ function WelcomePage() {
     console.log(e.target.value);
   };
 
-  //   useEffect(() => {
-  //     setOrderId(postData?.order_id);
-  //     console.log(postData?.order_id, "oredr_id");
-  //   }, [oredrId]);
-  //   console.log(context.state.tenent_id);
-  //   console.log(withdrawOption, "somehgg");
   return (
     <>
       <div>

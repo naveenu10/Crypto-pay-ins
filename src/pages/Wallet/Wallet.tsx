@@ -26,7 +26,7 @@ function Wallet() {
         navigate('/QrScanPage')
     }
     const handleMetamask = () => {
-        navigate('/MetamaskPage');
+        navigate('/metamaskPage');
     }
 
     const handleOtherWallets = () => {
