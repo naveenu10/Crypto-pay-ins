@@ -444,7 +444,7 @@ function MetaMaskPage(props: any) {
                       className="continue"
                       variant="contained"
                       // onClick={ETH}
-                      disabled={(requestAmount + serviceFee).toFixed(6)>=balance}
+                      disabled={(requestAmount).toFixed(6)>=balance}
                     >
                       Send Payment{" "}
                     </Button>
