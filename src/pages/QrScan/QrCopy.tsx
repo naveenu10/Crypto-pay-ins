@@ -115,7 +115,7 @@ function QrCopy(props: any) {
               style={{
                 display: "flex",
                 flexDirection: "column",
-                height: "auto",
+                height: "100vh",
               }}
             >
               <AppBar

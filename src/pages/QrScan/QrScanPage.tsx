@@ -145,7 +145,7 @@ function QrScanPage(props: any) {
               style={{
                 display: "flex",
                 flexDirection: "column",
-                height: "100%",
+                height: "100vh",
               }}
             >
               <AppBar

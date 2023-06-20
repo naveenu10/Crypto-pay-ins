@@ -63,7 +63,7 @@ function App() {
           <Route path="/timeout" element={<Timeout />} />
           <Route path="/lowbalsuccess" element={<LowBalSuccess />} />
           <Route path="/highbalsuccesspage" element={<LowBalSuccess />} />
-          <Route path="/wallet" element={<Wallet />} />
+          <Route path="/wallet" element={<Wallet fixedTime={fixedTime} />} />
           <Route path="/QrScan" element={<QrScan />} />
           <Route path="/metamaskError" element={<MetamaskError />} />
           <Route path="/metamaskExample" element={<MeatamaskExample />} />

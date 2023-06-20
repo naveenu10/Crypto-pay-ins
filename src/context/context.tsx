@@ -10,6 +10,7 @@ const initialState = {
   selectedCoinData:'',
   qrData:'',
   transactionDetails:'',
+  metamaskTransaction:''
 };
 
 const AppContext = createContext<{

@@ -44,8 +44,8 @@ function WelcomePage() {
     amount: 1,
     epoch: Date.now(),
     user_id: "1xdev",
-    merchant_id: "m12323",
-    merchant_redirect_url: "https://google.com",
+    merchant_id: "M1307305",
+    merchant_redirect_url: "https://nivapay.com",
   });
 
   const [errorMsg, setErrorMsg] = useState("");

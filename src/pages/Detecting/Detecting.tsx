@@ -263,7 +263,7 @@ function Detecting() {
                       </Typography>
                       <Typography className="info">
                         {" "}
-                        {formatCryptoAmount(
+                        {transactions?.order_crypto_amount && formatCryptoAmount(
                           transactions?.order_crypto_symbol?.toUpperCase(),
                           transactions?.order_crypto_amount
                         )}{" "}

@@ -8,22 +8,18 @@ import {
   Typography,
 } from "@mui/material";
 import { useEffect, useState } from "react";
-import Countdown, { zeroPad } from "react-countdown";
 import { useNavigate } from "react-router-dom";
 import NivapayLogo1 from "../../assets/images/NIcons/NivapayLogo1";
 import { useGlobalContext } from "../../context/context";
 import BackButton from "../../dialogs/BackButton";
 import { Layout, MobileContainer } from "../../styles/layout";
 import Footer from "../Footer/Footer";
-import QrCode from "../QrScan/QrCode";
 import "../QrScan/QrScanPage.css";
-import MetamaskError from "../QrScan/MetamaskError";
-import React from "react";
 import detectEthereumProvider from "@metamask/detect-provider";
 import Web3 from "web3";
 import { ExternalProvider } from "@ethersproject/providers";
-import { fontWeight } from "@mui/system";
 import QRCode from "qrcode.react";
+import Loader from "../../utils/Loader";
 
 declare global {
   interface Window {
@@ -33,14 +29,12 @@ declare global {
 
 function MetaMaskPage(props: any) {
   const context = useGlobalContext();
-  const [userName, setUserName] = useState("laxmi@gmail.com");
   const [openCloseDialog, setOpenCloseDialog] = useState(false);
   const [address, setAddress] = useState<any | null>("");
   const [showErr, setShowErr] = useState("");
   const [chaindid, setchaindid] = useState(0);
   const [balance, setBalance] = useState<any | null>(null);
-  const [requestAmount, setRequestedAmount] = useState<any | null>(0.05446);
-  const [serviceFee, setServiceFee] = useState<any | null>(0.000000064);
+  const [isLoading, setLoading] = useState(false);
 
   var re =
     /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -50,29 +44,10 @@ function MetaMaskPage(props: any) {
     // metamaskIntegration()
   };
 
- 
-  let coinName = context.state.selectedCoin;
+  const coinName = context.state.selectedCoin;
+  const coinData = context.state.selectedCoinData;
 
-  const Completionist = () => <span>You are good to go!</span>;
-  const renderer = ({
-    minutes,
-    seconds,
-    completed,
-  }: {
-    minutes: any;
-    seconds: any;
-    completed: any;
-  }) => {
-    if (completed) {
-      return <Completionist />;
-    } else {
-      return (
-        <span>
-          {zeroPad(minutes)}:{zeroPad(seconds)}
-        </span>
-      );
-    }
-  };
+  // console.log("---data>>>",context.state)
 
   const startApp = (provider: any) => {
     if (provider !== window.ethereum) {
@@ -116,9 +91,9 @@ function MetaMaskPage(props: any) {
     var ethereum1: any = await detectEthereumProvider();
     const web3 = new Web3(ethereum1);
     web3.eth.getBalance(account).then((res) => {
-      console.log(res, "bal");
+      // console.log(res, "bal");
       const etherValue = Web3.utils.fromWei(res, "ether");
-      console.log(Number(etherValue)?.toFixed(6));
+      // console.log(Number(etherValue)?.toFixed(6));
       setBalance(Number(etherValue)?.toFixed(6));
     });
   }
@@ -161,13 +136,14 @@ function MetaMaskPage(props: any) {
   }
 
   async function ETH() {
+    setLoading(true);
     var ethereum1: any = await detectEthereumProvider();
     const web3 = new Web3(ethereum1);
     const transactionParameters = {
-      to: "0x5215E5e0061A302886543d6AD286CDc15a36Fd1E",
+      to: "0x8cD9867098B66C81f0933d3c66a4834F7c3Aa7dC",
       from: address,
       // value: web3.utils.toHex(web3.utils.toWei(`${"updatedData.ethamount"}`, 'ether')),
-      value: web3.utils.toHex(web3.utils.toWei("0.0000001", "ether")),
+      value: web3.utils.toHex(web3.utils.toWei(coinData?.asset_quote, "ether")),
     };
     const txHash = await ethereum1.request({
       method: "eth_sendTransaction",
@@ -182,13 +158,23 @@ function MetaMaskPage(props: any) {
             if (rec) {
               var fee = (rec.gasUsed * rec.effectiveGasPrice) / 1e18;
               if (rec.status == true) {
+                console.log("receipt--->>> ", rec);
+
+                context.dispatch({
+                  type: "METAMASK_TRANSACTION_DETAILS",
+                  payload: rec,
+                });
                 // setStatus('paid');
                 // TransactionDetails(rec.transactionHash, updatedData.ethamount, fee, updatedData.nivapayaddess, updatedData.chaindid, rec.from)
                 // setLoadPay(false)
+                setLoading(false);
+                navigate("/detecting", { replace: true });
               } else {
                 // setStatus('expired')
+                setLoading(false);
               }
               clearInterval(interval);
+              // setLoading(false);
             }
           }
         );
@@ -219,7 +205,7 @@ function MetaMaskPage(props: any) {
             style={{
               display: "flex",
               flexDirection: "column",
-              // height: "100vh",
+              height: "100vh",
             }}
           >
             <AppBar
@@ -311,7 +297,7 @@ function MetaMaskPage(props: any) {
                               fontWeight: "600",
                             }}
                           >
-                            {requestAmount}
+                            {coinData?.asset_quote && coinData?.asset_quote}
                           </span>
                           <span
                             style={{
@@ -425,7 +411,7 @@ function MetaMaskPage(props: any) {
                             <span
                               style={{ color: "#000000", fontWeight: "600" }}
                             >
-                             {serviceFee / 0.000000001} gwei
+                              64 gwei
                             </span>
                           </span>
                         </div>
@@ -443,10 +429,13 @@ function MetaMaskPage(props: any) {
                     <Button
                       className="continue"
                       variant="contained"
-                      // onClick={ETH}
-                      disabled={(requestAmount).toFixed(6)>=balance}
+                      onClick={ETH}
+                      disabled={
+                        Number(coinData?.asset_quote).toFixed(6) >= balance ||
+                        isLoading
+                      }
                     >
-                      Send Payment{" "}
+                      {isLoading ? "Processing..." : "Send Payment"}
                     </Button>
                   </div>
                   <div
@@ -500,7 +489,7 @@ function MetaMaskPage(props: any) {
                           <span
                             style={{ fontSize: "24px", fontWeight: "600px" }}
                           >
-                           {requestAmount}
+                            {coinData?.asset_quote && coinData?.asset_quote}{" "}
                           </span>
                           <span style={{ fontSize: "12px", marginLeft: "4px" }}>
                             {coinName}
