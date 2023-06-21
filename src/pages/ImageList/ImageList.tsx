@@ -130,6 +130,7 @@ export default function StandardImageList(props: {
                   backgroundColor: (selectedInd == i || coinName === item?.asset_symbol) ? "#E5F0FF" : "",
                   borderRadius: "10px",
                   padding: "4px",
+                  cursor: "pointer"
                 }}
                 // onClick={() => ShowMetamask(i, item)}
                 onClick={() => selectCoin(i, item)}

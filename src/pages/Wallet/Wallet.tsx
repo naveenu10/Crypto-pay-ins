@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { AppBar, Button, IconButton, Toolbar, Typography } from "@mui/material";
@@ -13,6 +14,7 @@ import "./Wallet.css";
 
 function Wallet(props: any) {
   const context = useGlobalContext();
+  const orders = context.state.orderDetails;
   const [userName, setUserName] = useState("laxmi@gmail.com");
   const [openCloseDialog, setOpenCloseDialog] = useState(false);
   var re =
@@ -26,11 +28,11 @@ function Wallet(props: any) {
     navigate("/QrScanPage");
   };
   const handleMetamask = () => {
-    navigate("/metamask");
+    navigate("/metamask",{replace: true});
   };
 
   const handleOtherWallets = () => {
-    navigate("/QrScanPage");
+    navigate("/QrScanPage",{replace: true});
   };
 
   const Completionist = () => <span>You are good to go!</span>;
@@ -53,6 +55,12 @@ function Wallet(props: any) {
       );
     }
   };
+
+  useEffect(() => {
+    if (!orders) {
+      navigate("/error", { replace: true });
+    }
+  }, []);
 
   return (
     <Layout>
@@ -140,7 +148,9 @@ function Wallet(props: any) {
                   mins
                 </Typography>
 
-                <div className="choosecurrency" style={{ fontSize: 20 }}>Select Wallet</div>
+                <div className="choosecurrency" style={{ fontSize: 20 }}>
+                  Select Wallet
+                </div>
 
                 <div className="metaMaskDiv" onClick={handleMetamask}>
                   <span className="metamaskImage">

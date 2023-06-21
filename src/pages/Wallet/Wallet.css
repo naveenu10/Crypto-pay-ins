@@ -62,6 +62,9 @@
     height: 104px;
     margin-top: 72px;
 }
+.metaMaskDiv:hover {
+   cursor: pointer;
+}
 
 .metamaskImage{
     width: 56px;

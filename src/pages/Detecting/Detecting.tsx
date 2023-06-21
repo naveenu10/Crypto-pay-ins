@@ -34,8 +34,9 @@ function Detecting() {
   function backtoCrypto() {
     // window.location.replace("www.google.com");
     // window.open(transactions?.merchant_redirect_url, "_blank");
-    navigate("/success");
-    clearInterval(interval)
+    window.location.replace(transactions?.merchant_redirect_url);
+    // navigate("/success");
+    clearInterval(interval);
   }
 
   const fetchTransactionDetails = async () => {
@@ -76,7 +77,7 @@ function Detecting() {
         console.log(res);
         if (res.data.order_status === "success") {
           navigate("/success", { replace: true });
-          clearInterval(interval)
+          clearInterval(interval);
         }
       })
       .catch((err) => {
@@ -89,11 +90,11 @@ function Detecting() {
     fetchTransactionDetails();
   }, []);
 
-  useEffect(() => {
-    if (!orders) {
-      navigate("/error", { replace: true });
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (!orders) {
+  //     navigate("/error", { replace: true });
+  //   }
+  // }, []);
 
   return (
     <Layout>
@@ -168,7 +169,7 @@ function Detecting() {
                   </div>
                 </Toolbar>
               </AppBar>
-              <div style={{ flex: 1, height: "50vh", overflowY: "auto" }}>
+              <div style={{ flex: 1, height: "50vh" }}>
                 <section className="nivapay_ramp">
                   <div
                     style={{
@@ -178,7 +179,7 @@ function Detecting() {
                       marginTop: "8%",
                     }}
                   >
-                    <div style={{ width: "30%" }}>
+                    <div style={{ width: "20%" }}>
                       <Processing />
                     </div>
                   </div>
@@ -213,7 +214,7 @@ function Detecting() {
                     We are scanning the network to detect your transaction.This
                     process may take up to 30 mins to complete.
                   </Typography>
-                  <div style={{ marginTop: "30%" }}>
+                  <div style={{ marginTop: "20%" }}>
                     <Divider />
                   </div>
                   <div>
@@ -224,13 +225,7 @@ function Detecting() {
                     >
                       <Typography className="currency">Order id</Typography>
                       <Typography className="info">
-                        {/* {transactions?.order_id && transactions?.order_id} */}
-                        {/* {transactions?.order_id && transactions?.order_id} */}
-                        {transactions?.order_id &&
-                          `${transactions?.order_id.slice(
-                            0,
-                            7
-                          )}...${transactions?.order_id.slice(-4)}`}
+                        {transactions?.order_id && transactions?.order_id}
                       </Typography>
                     </Stack>
                     <Stack
@@ -263,10 +258,11 @@ function Detecting() {
                       </Typography>
                       <Typography className="info">
                         {" "}
-                        {transactions?.order_crypto_amount && formatCryptoAmount(
-                          transactions?.order_crypto_symbol?.toUpperCase(),
-                          transactions?.order_crypto_amount
-                        )}{" "}
+                        {transactions?.order_crypto_amount &&
+                          formatCryptoAmount(
+                            transactions?.order_crypto_symbol?.toUpperCase(),
+                            transactions?.order_crypto_amount
+                          )}{" "}
                         {transactions?.order_crypto_symbol &&
                           transactions?.order_crypto_symbol?.toUpperCase()}
                       </Typography>
@@ -335,10 +331,10 @@ function Detecting() {
                   </div>
                 </section>
               </div>
-              <div style={{ justifyContent: "flex-end" }}>
-                <Footer />
-              </div>
             </section>
+                  <div style={{ justifyContent: "flex-end",marginTop:"20px" }}>
+                    <Footer />
+                  </div>
           </div>
         )}
       </MobileContainer>

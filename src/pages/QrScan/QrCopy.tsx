@@ -12,69 +12,41 @@ import {
   Typography,
 } from "@mui/material";
 import { useState, useEffect } from "react";
-import Countdown, { zeroPad } from "react-countdown";
 import { useNavigate } from "react-router-dom";
 import NivapayLogo1 from "../../assets/images/NIcons/NivapayLogo1";
 import { useGlobalContext } from "../../context/context";
-import BackButton from "../../dialogs/BackButton";
 import CancelPayment from "../../dialogs/CancelPayment";
 import NetWorkFee from "../../dialogs/NetWorkfee";
 import { Layout, MobileContainer } from "../../styles/layout";
 import Footer from "../Footer/Footer";
 import "./QrScanPage.css";
 import ScanCopyTab from "./ScanCopyTab";
-import { isAnyArrayBuffer } from "util/types";
 import copy from "copy-to-clipboard";
 import axios from "axios";
 import { BASE_URL } from "../../config";
 import Loader from "../../utils/Loader";
 import formatCryptoAmount from "../../utils/formatCryptoAmount";
+import formatTitleCase from "../../utils/formatTitleCase";
 
 function QrCopy(props: any) {
   const context = useGlobalContext();
-  const [userName, setUserName] = useState("laxmi@gmail.com");
   const [openCloseDialog, setOpenCloseDialog] = useState(false);
   const [openNetworkDialog, setOpenNetworkDialog] = useState(false);
   const [isLoading, setLoading] = useState(false);
-  let coinName = context.state.selectedCoin;
+  const coinName = context.state.selectedCoin;
   const orders = context.state.orderDetails;
   const qrData = context.state.qrData;
   const token = context.state.token;
-
-  var re =
-    /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  const selectedCoinData = context.state.selectedCoinData;
   const navigate = useNavigate();
-
-  const Completionist = () => <span>You are good to go!</span>;
-  const renderer = ({
-    minutes,
-    seconds,
-    completed,
-  }: {
-    minutes: any;
-    seconds: any;
-    completed: any;
-  }) => {
-    if (completed) {
-      return <Completionist />;
-    } else {
-      return (
-        <span>
-          {zeroPad(minutes)}:{zeroPad(seconds)}
-        </span>
-      );
-    }
-  };
-
-
 
   const onIhavePaid = async () => {
     setLoading(true);
-    const now = Date.now(); 
+    const now = Date.now();
     console.log(now);
     const payload = {
       user_event: "i have paid",
-      "timestamp":now
+      timestamp: now,
     };
     await axios
       .post(`${BASE_URL}/sdk/deposit/order/events`, payload, {
@@ -85,7 +57,7 @@ function QrCopy(props: any) {
       .then((res) => {
         setLoading(false);
         console.log(res);
-        navigate("/detecting",{replace: true});
+        navigate("/detecting", { replace: true });
       })
       .catch((err) => {
         console.log(err);
@@ -95,7 +67,8 @@ function QrCopy(props: any) {
 
   useEffect(() => {
     if (!orders) {
-      navigate("/error",{ replace: true });    }
+      navigate("/error", { replace: true });
+    }
   }, []);
 
   useEffect(() => {
@@ -189,10 +162,7 @@ function QrCopy(props: any) {
                         fontFamily: "Inter",
                       }}
                     >
-                      {/* Time left 15:00 mins */}
-                      Time Left:{" "}
-                      {props.fixedTime}
-                      mins
+                      Time Left: {props.fixedTime} mins
                     </Typography>
                     <div className="choosecurrency">Complete Payment</div>
                     <div>
@@ -223,7 +193,7 @@ function QrCopy(props: any) {
                                 fontWeight: "bold",
                               }}
                             >
-                              { coinName.toUpperCase()}
+                              {coinName.toUpperCase()}
                             </span>
                           </div>
                           <div
@@ -364,8 +334,13 @@ function QrCopy(props: any) {
 
                           <div style={{ marginTop: "32px" }}>
                             <span style={{ fontSize: "12px" }}>
-                              Only send ETH using the Ethereum network, else the
-                              funds may get lost
+                              Only send {coinName && coinName.toUpperCase()}{" "}
+                              using the{" "}
+                              {selectedCoinData?.asset_network &&
+                                formatTitleCase(
+                                  selectedCoinData?.asset_network
+                                )}{" "}
+                              network, else the funds may get lost
                             </span>
                           </div>
                         </Container>

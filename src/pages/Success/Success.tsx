@@ -24,7 +24,7 @@ function Detecting() {
   const context = useGlobalContext();
   const orders = context.state.orderDetails;
   const transactions = context.state.transactionDetails;
-  const [timeFlag, setTimeFlag] = useState(false)
+  const [timeFlag, setTimeFlag] = useState(false);
   const backtoCrypto = () => {
     window.location.replace(transactions?.merchant_redirect_url);
   };
@@ -60,16 +60,17 @@ function Detecting() {
         setTime(time - 1000);
       } else {
         // window.location.replace('https://google.com');
-        setTimeFlag(true)
+        setTimeFlag(true);
       }
     }, 1000);
   }, [time]);
   let totalSeconds = Math.floor(time / 1000);
   let totalMinitus = Math.floor(totalSeconds / 60);
   let seconds = totalSeconds % 60;
-  let minitus = totalMinitus % 60
-  let fixedTime = `${minitus < 10 ? `0${minitus}` : minitus}:${seconds < 10 ? `0${seconds}` : seconds
-    }`;
+  let minitus = totalMinitus % 60;
+  let fixedTime = `${minitus < 10 ? `0${minitus}` : minitus}:${
+    seconds < 10 ? `0${seconds}` : seconds
+  }`;
 
   return (
     <Layout>
@@ -138,7 +139,7 @@ function Detecting() {
                 </div>
               </Toolbar>
             </AppBar>
-            <div style={{ flex: 1, height: "50vh" }}>
+            <div style={{ flex: 1 }}>
               <section className="nivapay_ramp">
                 <div
                   style={{
@@ -148,7 +149,7 @@ function Detecting() {
                     marginTop: "8%",
                   }}
                 >
-                  <div style={{ width: "30%" }}>
+                  <div style={{ width: "20%" }}>
                     <SuccessLogo />
                   </div>
                 </div>
@@ -220,7 +221,7 @@ function Detecting() {
                     <Typography className="info">
                       {" "}
                       {transactions?.order_crypto_amount &&
-                        transactions?.order_crypto_amount}
+                        transactions?.order_crypto_amount}{" "}
                       {transactions?.order_crypto_symbol &&
                         (transactions?.order_crypto_symbol).toUpperCase()}
                     </Typography>
@@ -250,7 +251,7 @@ function Detecting() {
                     <Typography className="info">
                       {" "}
                       {transactions?.transaction_amount &&
-                        transactions?.transaction_amount}
+                        transactions?.transaction_amount}{" "}
                       {transactions?.transaction_asset_symbol &&
                         (transactions?.transaction_asset_symbol).toUpperCase()}
                     </Typography>
@@ -268,18 +269,14 @@ function Detecting() {
                         src="https://res.cloudinary.com/dhhxyg3tq/image/upload/v1683182823/ph_copy_lnoksz.svg"
                         alt="copyimage"
                         style={{ cursor: "pointer" }}
-                        onClick={() => {
-                          copy(
-                            "f0478d2b40a35e455ae640ec1b0762df8c46b975cb19672b63aaf236ad7ca2b9"
-                          );
-                        }}
+                        onClick={() => copy(transactions?.transaction_hash)}
                       />
                       <img
                         src="https://res.cloudinary.com/dhhxyg3tq/image/upload/v1683183469/Icon_lrkziq.svg"
                         alt="redirect"
                         style={{ cursor: "pointer" }}
                         onClick={() =>
-                          window.location.replace("https://blockchair.com")
+                          window.open("https://blockchair.com")
                         }
                       />
                     </Typography>
@@ -321,8 +318,7 @@ function Detecting() {
                   <span style={{ color: "#279FFE" }}>
                     {/* <Countdown date={Date.now() + 30000} renderer={renderer} /> */}
                     {fixedTime}
-                  </span>
-                  {" "}
+                  </span>{" "}
                   <span>secs...</span>
                 </Typography>
                 <div

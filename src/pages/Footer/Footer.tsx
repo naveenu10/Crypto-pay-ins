@@ -4,13 +4,13 @@ function Footer() {
     return (
         <div
             style={{
-                width: "96%",
+                width: "100%",
                 color: "white",
                 fontSize: "25px",
                 justifyContent: "center",
                 alignItems: "center",
                 display: "flex",
-                padding: "10px auto"
+                padding: "10px auto",
             }}
         >
             <Stack direction={"row"} sx={{ display: "flex", alignItems: "center", width: "100%", justifyContent: "center" }} spacing={2}>

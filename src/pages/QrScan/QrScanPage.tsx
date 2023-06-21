@@ -24,6 +24,7 @@ import axios from "axios";
 import { BASE_URL } from "../../config";
 import Loader from "../../utils/Loader";
 import formatCryptoAmount from "../../utils/formatCryptoAmount";
+import formatTitleCase from "../../utils/formatTitleCase";
 
 function QrScanPage(props: any) {
   const context = useGlobalContext();
@@ -88,7 +89,7 @@ function QrScanPage(props: any) {
   };
 
   const getQrCode = async () => {
-    setLoading(true);
+    // setLoading(true);
     await axios
       .get(
         `${BASE_URL}/sdk/deposit/address/${selectedCoinData?.asset_network}/${selectedCoinData?.asset_symbol}/${selectedCoinData?.asset_quote}`,
@@ -108,6 +109,7 @@ function QrScanPage(props: any) {
       })
       .catch((err) => {
         console.log(err);
+        navigate("/error", { replace: true });
         setLoading(false);
       });
   };
@@ -145,7 +147,7 @@ function QrScanPage(props: any) {
               style={{
                 display: "flex",
                 flexDirection: "column",
-                height: "100vh",
+                // height: "100vh",
               }}
             >
               <AppBar
@@ -220,13 +222,7 @@ function QrScanPage(props: any) {
                         fontFamily: "Inter",
                       }}
                     >
-                      {/* Time left 15:00 mins */}
-                      Time Left:{" "}
-                      {/* <Countdown
-                        date={Date.now() + 900000}
-                        renderer={renderer}
-                      /> */}
-                      {props.fixedTime} mins
+                      Time Left: {props.fixedTime} mins
                     </Typography>
                     <div className="choosecurrency">Complete Payment</div>
                     <div>
@@ -257,7 +253,7 @@ function QrScanPage(props: any) {
                                 fontWeight: "bold",
                               }}
                             >
-                              {coinName.toUpperCase()}
+                              {coinName && coinName.toUpperCase()}
                             </span>
                           </div>
                           <div
@@ -309,8 +305,13 @@ function QrScanPage(props: any) {
                           </div>
                           <div style={{ marginTop: "10px" }}>
                             <span style={{ fontSize: "12px" }}>
-                              Only send ETH using the Ethereum network, else the
-                              funds may get lost
+                              Only send {coinName && coinName.toUpperCase()}{" "}
+                              using the{" "}
+                              {selectedCoinData?.asset_network &&
+                                formatTitleCase(
+                                  selectedCoinData?.asset_network
+                                )}{" "}
+                              network, else the funds may get lost
                             </span>
                           </div>
                         </Container>

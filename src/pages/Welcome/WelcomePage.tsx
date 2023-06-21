@@ -54,10 +54,13 @@ function WelcomePage() {
   const [oredrId, setOrderId] = useState("");
   const [isLoading, setLoading] = useState(false);
 
+
   const currency = [
     { label: "USD", value: "usd" },
     { label: "AUD", value: "aud" },
     { label: "EUR", value: "eur" },
+    { label: "BRL", value: "brl" },
+    { label: "GBP", value: "gbp" },
   ];
 
   const crypto = [
@@ -128,7 +131,7 @@ function WelcomePage() {
           setLoading(false);
           console.log(response, "resp");
           setPostData(response.data);
-          navigate(`/deposit?order_id=${response?.data?.order_id}&hash=${response?.data?.hash}`)
+          navigate(`/deposit?order_id=${response?.data?.order_id}&hash=${response?.data?.hash}`,{replace: true})
           // window.location.replace(
           //   `http://crypto-payins.s3-website-us-east-1.amazonaws.com/deposit?order_id=${response?.data?.order_id}&hash=${response?.data?.hash}`
           // );

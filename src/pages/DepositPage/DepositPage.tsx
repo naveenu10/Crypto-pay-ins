@@ -121,7 +121,7 @@ function DepositPage(props: any) {
       })
       .then((res) => {
         setLoading(false);
-        navigate("/quickpay");
+        navigate("/quickpay", { replace: true });
       })
       .catch((err) => {
         console.log(err);
@@ -140,7 +140,7 @@ function DepositPage(props: any) {
   useEffect(() => {
     if (token) {
       fetchCryptoList();
-      const interval = setInterval(() => fetchCryptoList(), 120000);
+      const interval = setInterval(() => fetchCryptoList(), 1200000);
       // return () => clearInterval(interval);
     }
   }, [token]);
@@ -214,7 +214,8 @@ function DepositPage(props: any) {
                         letterSpacing: "0.05rem",
                       }}
                     >
-                      {orderDetails.merchant_brand_name && orderDetails.merchant_brand_name}
+                      {orderDetails.merchant_brand_name &&
+                        orderDetails.merchant_brand_name}
                     </Typography>
                   </div>
                   <div style={{ width: "30px", height: "30px" }}>
@@ -402,15 +403,19 @@ function DepositPage(props: any) {
                   >
                     By clicking “Continue”, I agree to Nivapay’s{" "}
                     <a
-                      href="www.goodle.com"
+                      href="https://nivapay.com/privacy-policy/"
                       style={{ color: "rgba(0, 0, 0, 0.5)" }}
+                      target="_blank"
+                      rel="noopener noreferrer"
                     >
                       Terms of Service
                     </a>{" "}
                     and{" "}
                     <a
-                      href="www.goodle.com"
+                      href="https://nivapay.com/privacy-policy/"
                       style={{ color: "rgba(0, 0, 0, 0.5)" }}
+                      target="_blank"
+                      rel="noopener noreferrer"
                     >
                       Privacy Policy.
                     </a>

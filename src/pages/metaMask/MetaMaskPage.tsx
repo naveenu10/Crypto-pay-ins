@@ -19,7 +19,8 @@ import detectEthereumProvider from "@metamask/detect-provider";
 import Web3 from "web3";
 import { ExternalProvider } from "@ethersproject/providers";
 import QRCode from "qrcode.react";
-import Loader from "../../utils/Loader";
+import getChainNetworkCurrency from "../../utils/getChainNetworkCurrency";
+import getChainNameFromId from "../../utils/getChainNameFromId";
 
 declare global {
   interface Window {
@@ -29,60 +30,47 @@ declare global {
 
 function MetaMaskPage(props: any) {
   const context = useGlobalContext();
+  const navigate = useNavigate();
+  const coinName = context.state.selectedCoin;
+  const coinData = context.state.selectedCoinData;
+  const orders = context.state.orderDetails;
   const [openCloseDialog, setOpenCloseDialog] = useState(false);
   const [address, setAddress] = useState<any | null>("");
   const [showErr, setShowErr] = useState("");
   const [chaindid, setchaindid] = useState(0);
   const [balance, setBalance] = useState<any | null>(null);
   const [isLoading, setLoading] = useState(false);
-
-  var re =
-    /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  const navigate = useNavigate();
-  const onContinue = () => {
-    // navigate('/Metamask')
-    // metamaskIntegration()
-  };
-
-  const coinName = context.state.selectedCoin;
-  const coinData = context.state.selectedCoinData;
-
-  // console.log("---data>>>",context.state)
-
-  const startApp = (provider: any) => {
-    if (provider !== window.ethereum) {
-      console.log("provider--->>", provider);
-    }
-  };
+  const [desiredChainId, setDesiredChainId] = useState(1);
 
   async function metamaskprovider() {
     var provider: any = await detectEthereumProvider();
     provider.on("accountsChanged", handleAccountsChanged);
     provider.on("chainChanged", handleChainChanged);
-    if (provider) {
-      startApp(provider);
-    } else {
-    }
   }
+
+  const swtichToEth = async (chainId: any) => {
+    var ethereum1: any = await detectEthereumProvider();
+    await ethereum1.request({
+      method: "wallet_switchEthereumChain",
+      params: [{ chainId: Web3.utils.toHex(chainId) }],
+    });
+  };
 
   async function handleChainChanged(_chaindid: any) {
     var ethereum1: any = await detectEthereumProvider();
     const web3 = new Web3(ethereum1);
     const chain = web3.utils.hexToNumber(_chaindid);
     setchaindid(Number(chain));
-    console.log(chain, "chainId");
+    checkAccount();
   }
 
   let currentAccount: string;
-
   function handleAccountsChanged(accounts: string | any[]) {
-    console.log(accounts, "accounts");
     if (accounts.length === 0) {
       setAddress("");
     } else if (accounts[0] !== currentAccount) {
       currentAccount = accounts[0];
       setAddress(currentAccount);
-      console.log(currentAccount, "Account Address");
       getBalance(currentAccount);
     }
   }
@@ -91,9 +79,7 @@ function MetaMaskPage(props: any) {
     var ethereum1: any = await detectEthereumProvider();
     const web3 = new Web3(ethereum1);
     web3.eth.getBalance(account).then((res) => {
-      // console.log(res, "bal");
       const etherValue = Web3.utils.fromWei(res, "ether");
-      // console.log(Number(etherValue)?.toFixed(6));
       setBalance(Number(etherValue)?.toFixed(6));
     });
   }
@@ -104,21 +90,18 @@ function MetaMaskPage(props: any) {
     web3.eth.getAccounts(function (err: any, accounts: any) {
       if (err != null) console.error("An error occurred: " + err);
       else if (accounts.length == 0) {
-        console.log("User is not logged in to MetaMask");
         setAddress("");
       } else {
         setAddress(accounts[0]);
         getBalance(accounts[0]);
       }
     });
-
     const response = await web3.eth.net.getId();
     const chain = web3.utils.hexToNumber(response);
     setchaindid(Number(chain));
   }
 
   async function connectMetamask() {
-    // if (network.length !== 0) {
     var ethereum: any = await detectEthereumProvider();
     ethereum
       .request({ method: "eth_requestAccounts" })
@@ -129,58 +112,76 @@ function MetaMaskPage(props: any) {
           setShowErr("Please select the Network");
         }
       });
-    // }
-    // else {
-    //     setShowErr("Please select the Network")
-    // }
   }
 
-  async function ETH() {
-    setLoading(true);
-    var ethereum1: any = await detectEthereumProvider();
-    const web3 = new Web3(ethereum1);
-    const transactionParameters = {
-      to: "0x8cD9867098B66C81f0933d3c66a4834F7c3Aa7dC",
-      from: address,
-      // value: web3.utils.toHex(web3.utils.toWei(`${"updatedData.ethamount"}`, 'ether')),
-      value: web3.utils.toHex(web3.utils.toWei(coinData?.asset_quote, "ether")),
-    };
-    const txHash = await ethereum1.request({
-      method: "eth_sendTransaction",
-      params: [transactionParameters],
-    });
-    if (txHash) {
-      web3.eth.getTransaction(txHash, function (err: any, result: any) {});
-      const interval = setInterval(async function () {
-        await web3.eth.getTransactionReceipt(
-          txHash,
-          function (err: any, rec: any) {
-            if (rec) {
-              var fee = (rec.gasUsed * rec.effectiveGasPrice) / 1e18;
-              if (rec.status == true) {
-                console.log("receipt--->>> ", rec);
+  const sendPayment = async () => {
+    await ETH()
+      .then((res) => {
+        // console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+        setLoading(false);
+      });
+  };
 
-                context.dispatch({
-                  type: "METAMASK_TRANSACTION_DETAILS",
-                  payload: rec,
-                });
-                // setStatus('paid');
-                // TransactionDetails(rec.transactionHash, updatedData.ethamount, fee, updatedData.nivapayaddess, updatedData.chaindid, rec.from)
-                // setLoadPay(false)
-                setLoading(false);
-                navigate("/detecting", { replace: true });
-              } else {
-                // setStatus('expired')
-                setLoading(false);
-              }
-              clearInterval(interval);
-              // setLoading(false);
-            }
+  const ETH = async () => {
+    if (chaindid !== desiredChainId) {
+      swtichToEth(desiredChainId);
+    } else {
+      setLoading(true);
+      setchaindid(desiredChainId);
+      var ethereum1: any = await detectEthereumProvider();
+      const web3 = new Web3(ethereum1);
+      const transactionParameters = {
+        to: "0x8cD9867098B66C81f0933d3c66a4834F7c3Aa7dC",
+        from: address,
+        value: web3.utils.toHex(
+          web3.utils.toWei(coinData?.asset_quote, "ether")
+        ),
+      };
+      const txHash = await ethereum1.request({
+        method: "eth_sendTransaction",
+        params: [transactionParameters],
+      });
+      if (txHash) {
+        web3.eth.getTransaction(txHash, function (err: any, result: any) {
+          if (result) {
+            // console.log(result);
+            navigate("/detecting", { replace: true });
+          } else {
+            setLoading(false);
           }
-        );
-      }, 5000);
+        });
+
+        // const interval = setInterval(async function () {
+        //   await web3.eth.getTransactionReceipt(
+        //     txHash,
+        //     function (err: any, rec: any) {
+        //       if (rec) {
+        //         // var fee = (rec.gasUsed * rec.effectiveGasPrice) / 1e18;
+        //         if (rec.status == true) {
+        //           context.dispatch({
+        //             type: "METAMASK_TRANSACTION_DETAILS",
+        //             payload: rec,
+        //           });
+        //           setLoading(false);
+        //         } else {
+        //           setLoading(false);
+        //         }
+        //         clearInterval(interval);
+        //       }
+        //     }
+        //   );
+        // }, 5000);
+      }
     }
-  }
+  };
+
+  useEffect(() => {
+    if (!orders) {
+      navigate("/error",{ replace: true });    }
+  }, []);
 
   useEffect(() => {
     metamaskprovider();
@@ -289,7 +290,7 @@ function MetaMaskPage(props: any) {
                   <div style={{ marginTop: 30 }}>
                     <div className="qrCodeDiv">
                       <Container>
-                        <div style={{ marginTop: "16px" }}>
+                        <div style={{ marginTop: "10px" }}>
                           <span
                             style={{
                               fontSize: "24px",
@@ -297,7 +298,7 @@ function MetaMaskPage(props: any) {
                               fontWeight: "600",
                             }}
                           >
-                            {coinData?.asset_quote && coinData?.asset_quote}
+                            {coinData?.asset_quote && coinData?.asset_quote}{" "}
                           </span>
                           <span
                             style={{
@@ -307,7 +308,7 @@ function MetaMaskPage(props: any) {
                               marginLeft: "4px",
                             }}
                           >
-                            ETH
+                            {coinName && coinName.toUpperCase()}
                           </span>
                         </div>
                         <div style={{ marginTop: "4px", color: "#808080" }}>
@@ -318,10 +319,39 @@ function MetaMaskPage(props: any) {
 
                         <div
                           style={{
-                            marginTop: "55px",
+                            marginTop: "30px",
                             justifyContent: "center",
                           }}
                         >
+                          <div style={{ width: "100%", height: 40 }}>
+                            {chaindid !== desiredChainId ? (
+                              <Typography
+                                style={{
+                                  fontSize: "12px",
+                                  textAlign: "center",
+                                  color: "#FF0000",
+                                  fontFamily: "Inter",
+                                  marginBottom: "20px",
+                                }}
+                              >
+                                Switch the network in your wallet to Ethereum
+                              </Typography>
+                            ) : (
+                              Number(coinData?.asset_quote) >= balance && (
+                                <Typography
+                                  style={{
+                                    fontSize: "12px",
+                                    textAlign: "center",
+                                    color: "#FF0000",
+                                    fontFamily: "Inter",
+                                    marginBottom: "20px",
+                                  }}
+                                >
+                                  Your balance is insufficient
+                                </Typography>
+                              )
+                            )}
+                          </div>
                           <div
                             style={{
                               display: "flex",
@@ -375,7 +405,7 @@ function MetaMaskPage(props: any) {
                             }}
                           >
                             <div>Network</div>
-                            <div>Ethereum</div>
+                            <div>{getChainNameFromId(chaindid)}</div>
                           </div>
                           <div
                             style={{
@@ -388,7 +418,9 @@ function MetaMaskPage(props: any) {
                             }}
                           >
                             <div>Balance</div>
-                            <div>{balance} ETH</div>
+                         {chaindid === desiredChainId ? <div>
+                              {balance} {getChainNetworkCurrency(chaindid)}
+                            </div> : '--'}
                           </div>
                         </div>
                         <div
@@ -429,10 +461,11 @@ function MetaMaskPage(props: any) {
                     <Button
                       className="continue"
                       variant="contained"
-                      onClick={ETH}
+                      onClick={sendPayment}
                       disabled={
-                        Number(coinData?.asset_quote).toFixed(6) >= balance ||
-                        isLoading
+                        Number(coinData?.asset_quote) >= balance ||
+                        isLoading ||
+                        chaindid !== desiredChainId
                       }
                     >
                       {isLoading ? "Processing..." : "Send Payment"}
@@ -485,14 +518,21 @@ function MetaMaskPage(props: any) {
                   <div style={{ marginTop: 30 }}>
                     <div className="qrCodeDiv">
                       <Container>
-                        <div style={{ marginTop: "16px" }}>
+                        <div style={{ marginTop: "10px" }}>
                           <span
                             style={{ fontSize: "24px", fontWeight: "600px" }}
                           >
                             {coinData?.asset_quote && coinData?.asset_quote}{" "}
                           </span>
-                          <span style={{ fontSize: "12px", marginLeft: "4px" }}>
-                            {coinName}
+                          <span
+                            style={{
+                              fontSize: "12px",
+                              color: "#000000",
+                              fontWeight: "600",
+                              marginLeft: "4px",
+                            }}
+                          >
+                            {coinName && coinName.toUpperCase()}
                           </span>
                         </div>
                         <div style={{ marginTop: "4px", color: "#808080" }}>
@@ -577,7 +617,6 @@ function MetaMaskPage(props: any) {
             </div>
           </section>
         </div>
-        {/* {status === "connected" && <MetamaskError />} */}
       </MobileContainer>
     </Layout>
   );

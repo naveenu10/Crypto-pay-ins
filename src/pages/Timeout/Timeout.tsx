@@ -1,3 +1,4 @@
+import {useEffect} from 'react'
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import { AppBar, Button, Divider, IconButton, Stack, Toolbar, Typography } from '@mui/material';
 import Countdown, { zeroPad } from 'react-countdown';
@@ -6,10 +7,14 @@ import NivapayLogo1 from '../../assets/images/NIcons/NivapayLogo1';
 import TimeoutLogo from '../../assets/images/NIcons/TimeoutLogo';
 import { Layout, MobileContainer } from '../../styles/layout';
 import Footer from '../Footer/Footer';
+import { useGlobalContext } from "../../context/context";
 
 
 function Detecting() {
     const navigate = useNavigate()
+    const context = useGlobalContext();
+    const orders = context.state.orderDetails;
+
     function backtoCrypto() {
         navigate('/success')
     }
@@ -21,6 +26,12 @@ function Detecting() {
             return <span>{zeroPad(minutes)}:{zeroPad(seconds)}</span>;
         }
     };
+
+    useEffect(() => {
+        if (!orders) {
+          navigate("/error", { replace: true });
+        }
+      }, []);
     return (
         <Layout>
             <MobileContainer>
