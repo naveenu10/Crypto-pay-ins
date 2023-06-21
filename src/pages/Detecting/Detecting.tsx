@@ -32,10 +32,7 @@ function Detecting() {
   let interval: any;
 
   function backtoCrypto() {
-    // window.location.replace("www.google.com");
-    // window.open(transactions?.merchant_redirect_url, "_blank");
     window.location.replace(transactions?.merchant_redirect_url);
-    // navigate("/success");
     clearInterval(interval);
   }
 
@@ -90,11 +87,11 @@ function Detecting() {
     fetchTransactionDetails();
   }, []);
 
-  // useEffect(() => {
-  //   if (!orders) {
-  //     navigate("/error", { replace: true });
-  //   }
-  // }, []);
+  useEffect(() => {
+    if (!orders) {
+      navigate("/error", { replace: true });
+    }
+  }, []);
 
   return (
     <Layout>
@@ -169,7 +166,7 @@ function Detecting() {
                   </div>
                 </Toolbar>
               </AppBar>
-              <div style={{ flex: 1, height: "50vh" }}>
+              <div style={{ flex: 1 }}>
                 <section className="nivapay_ramp">
                   <div
                     style={{
@@ -306,35 +303,23 @@ function Detecting() {
                     below. We are processing this transaction and will update
                     you the final status through email.
                   </Typography>
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "center",
-                      marginTop: "12%",
-                    }}
-                  >
-                    {/* <a
-                     href="https://github.com"
-                     target='_blank'
-                    > */}
-                    <Button
-                      variant="contained"
-                      className="cryptobtn"
-                      onClick={backtoCrypto}
-                    >
-                      {" "}
-                      Back to{" "}
-                      {orders?.merchant_brand_name &&
-                        orders?.merchant_brand_name}
-                    </Button>
-                    {/* </a> */}
-                  </div>
                 </section>
               </div>
             </section>
-                  <div style={{ justifyContent: "flex-end",marginTop:"20px" }}>
-                    <Footer />
-                  </div>
+            <div className="footer">
+              <div style={{ marginBottom: 20 }}>
+                <Button
+                  variant="contained"
+                  className="cryptobtn"
+                  onClick={backtoCrypto}
+                >
+                  {" "}
+                  Back to{" "}
+                  {orders?.merchant_brand_name && orders?.merchant_brand_name}
+                </Button>
+              </div>
+              <Footer />
+            </div>
           </div>
         )}
       </MobileContainer>

@@ -3,7 +3,6 @@ import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { AppBar, Button, IconButton, Toolbar, Typography } from "@mui/material";
 import { useState } from "react";
-import Countdown, { zeroPad } from "react-countdown";
 import { useNavigate } from "react-router-dom";
 import NivapayLogo1 from "../../assets/images/NIcons/NivapayLogo1";
 import { useGlobalContext } from "../../context/context";
@@ -15,10 +14,7 @@ import "./Wallet.css";
 function Wallet(props: any) {
   const context = useGlobalContext();
   const orders = context.state.orderDetails;
-  const [userName, setUserName] = useState("laxmi@gmail.com");
   const [openCloseDialog, setOpenCloseDialog] = useState(false);
-  var re =
-    /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   const navigate = useNavigate();
   const onOtherWallets = () => {
     navigate("/QrScanPage");
@@ -35,32 +31,11 @@ function Wallet(props: any) {
     navigate("/QrScanPage", { replace: true });
   };
 
-  const Completionist = () => <span>You are good to go!</span>;
-  const renderer = ({
-    minutes,
-    seconds,
-    completed,
-  }: {
-    minutes: any;
-    seconds: any;
-    completed: any;
-  }) => {
-    if (completed) {
-      return <Completionist />;
-    } else {
-      return (
-        <span>
-          {zeroPad(minutes)}:{zeroPad(seconds)}
-        </span>
-      );
+  useEffect(() => {
+    if (!orders) {
+      navigate("/error", { replace: true });
     }
-  };
-
-  // useEffect(() => {
-  //   if (!orders) {
-  //     navigate("/error", { replace: true });
-  //   }
-  // }, []);
+  }, []);
 
   return (
     <Layout>
@@ -171,7 +146,6 @@ function Wallet(props: any) {
                   variant="contained"
                   fullWidth
                   onClick={onContinue}
-                  disabled={!userName || !re.test(userName)}
                 >
                   Continue
                 </Button>

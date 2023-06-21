@@ -43,7 +43,6 @@ function QrScanPage(props: any) {
   const onIhavePaid = async () => {
     setLoading(true);
     const now = Date.now();
-    console.log(now);
     const payload = {
       user_event: "i have paid",
       timestamp: now,
@@ -66,7 +65,6 @@ function QrScanPage(props: any) {
   };
 
   const getQrCode = async () => {
-    // setLoading(true);
     await axios
       .get(
         `${BASE_URL}/sdk/deposit/address/${selectedCoinData?.asset_network}/${selectedCoinData?.asset_symbol}/${selectedCoinData?.asset_quote}`,
@@ -184,166 +182,151 @@ function QrScanPage(props: any) {
                   </div>
                 </Toolbar>
               </AppBar>
-              <div style={{ flex: 1, height: "50vh" }}>
+              <div style={{ flex: 1 }}>
                 <section className="nivapay_ramp">
-                  <Container>
                   <p className="timer">Time left: {props.fixedTime} mins</p>
-                    <div className="choosecurrency">Complete Payment</div>
-                    <div>
-                      <div
-                        style={{
-                          marginTop: "20px",
-                          display: "flex",
-                          justifyContent: "center",
-                        }}
-                      >
-                        <ScanCopyTab />
-                      </div>
-                      <div className="qrCodeDiv">
-                        <Container>
-                          <div style={{ marginTop: "16px" }}>
-                            <span style={{ fontSize: "24px" }}>
-                              {(qrData?.asset_amount &&
-                                formatCryptoAmount(
-                                  coinName.toUpperCase(),
-                                  qrData?.asset_amount
-                                )) ||
-                                0}
-                            </span>
-                            <span
-                              style={{
-                                fontSize: "12px",
-                                marginLeft: "4px",
-                                fontWeight: "bold",
-                              }}
-                            >
-                              {coinName && coinName.toUpperCase()}
-                            </span>
-                          </div>
-                          <div
+                  <div className="choosecurrency">Complete Payment</div>
+                  <div>
+                    <div
+                      style={{
+                        // marginTop: "20px",
+                        display: "flex",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <ScanCopyTab />
+                    </div>
+                    <div className="qrCodeDiv">
+                      <Container>
+                        <div style={{ marginTop: "16px" }}>
+                          <span style={{ fontSize: "24px" }}>
+                            {(qrData?.asset_amount &&
+                              formatCryptoAmount(
+                                coinName.toUpperCase(),
+                                qrData?.asset_amount
+                              )) ||
+                              0}
+                          </span>
+                          <span
                             style={{
-                              marginTop: "4px",
-                              color: "blue",
-                              textDecoration: "underline",
+                              fontSize: "12px",
+                              marginLeft: "4px",
+                              fontWeight: "bold",
                             }}
                           >
-                            <span
-                              style={{ fontSize: "12px" }}
-                              onClick={() => setOpenNetworkDialog(true)}
-                            >
-                              + Network fee{" "}
-                              <span
-                                style={{
-                                  display: "inline-block",
-                                  textAlign: "center",
-                                  border: "2px solid blue",
-                                  borderRadius: "50%",
-                                  width: "0.9em",
-                                  height: "0.9em",
-                                  lineHeight: "1em",
-                                  margin: 0,
-                                  color: "#FFFFFF",
-                                  backgroundColor: "blue",
-                                }}
-                              >
-                                i
-                              </span>{" "}
-                            </span>
-                          </div>
-                          <div style={{ marginTop: "12px" }}>
-                            <span style={{ fontSize: "12px" }}>
-                              Scan this QR code using your wallet and transfer
-                              the above amount
-                            </span>
-                          </div>
-                          <div style={{ marginTop: "10px" }}>
+                            {coinName && coinName.toUpperCase()}
+                          </span>
+                        </div>
+                        <div
+                          style={{
+                            marginTop: "4px",
+                            color: "blue",
+                            textDecoration: "underline",
+                          }}
+                        >
+                          <span
+                            style={{ fontSize: "12px" }}
+                            onClick={() => setOpenNetworkDialog(true)}
+                          >
+                            + Network fee{" "}
                             <span
                               style={{
-                                height: "270px",
-                                width: "196px",
-                                justifyContent: "center",
+                                display: "inline-block",
+                                textAlign: "center",
+                                border: "2px solid blue",
+                                borderRadius: "50%",
+                                width: "0.9em",
+                                height: "0.9em",
+                                lineHeight: "1em",
+                                margin: 0,
+                                color: "#FFFFFF",
+                                backgroundColor: "blue",
                               }}
                             >
-                              <QrCode />
-                            </span>
-                          </div>
-                          <div style={{ marginTop: "10px" }}>
-                            <span style={{ fontSize: "12px" }}>
-                              Only send {coinName && coinName.toUpperCase()}{" "}
-                              using the{" "}
-                              {selectedCoinData?.asset_network &&
-                                formatTitleCase(
-                                  selectedCoinData?.asset_network
-                                )}{" "}
-                              network, else the funds may get lost
-                            </span>
-                          </div>
-                        </Container>
-                      </div>
+                              i
+                            </span>{" "}
+                          </span>
+                        </div>
+                        <div style={{ marginTop: "12px" }}>
+                          <span style={{ fontSize: "12px" }}>
+                            Scan this QR code using your wallet and transfer the
+                            above amount
+                          </span>
+                        </div>
+                        <div style={{ marginTop: "10px" }}>
+                          <span
+                            style={{
+                              height: "270px",
+                              width: "196px",
+                              justifyContent: "center",
+                            }}
+                          >
+                            <QrCode />
+                          </span>
+                        </div>
+                        <div style={{ marginTop: "10px" }}>
+                          <span style={{ fontSize: "12px" }}>
+                            Only send {coinName && coinName.toUpperCase()} using
+                            the{" "}
+                            {selectedCoinData?.asset_network &&
+                              formatTitleCase(
+                                selectedCoinData?.asset_network
+                              )}{" "}
+                            network, else the funds may get lost
+                          </span>
+                        </div>
+                      </Container>
                     </div>
+                  </div>
 
-                    <div
-                      style={{
-                        marginTop: "50px",
-                        fontSize: "12px",
-                        fontWeight: 500,
-                        fontFamily: "Inter",
-                        lineHeight: "14.52px",
-                        //   marginLeft: "20px",
-                        padding: "0px 9px",
-                      }}
-                    >
-                      <span>
-                        Click the below button once you have triggered the
-                        transaction
-                      </span>
-                    </div>
-                    <div
-                      style={{
-                        display: "flex",
-                        justifyContent: "center",
-                        marginTop: "8px",
-                      }}
-                    >
-                      <Button
-                        className="continue"
-                        variant="contained"
-                        onClick={onIhavePaid}
-                        disabled={!userName || !re.test(userName)}
-                      >
-                        I have Paid{" "}
-                      </Button>
-                    </div>
-                    <div
-                      style={{
-                        display: "flex",
-                        justifyContent: "center",
-                        marginTop: "20px",
-                      }}
-                    >
-                      <Button
-                        className="cancelbtn"
-                        fullWidth
-                        onClick={() => setOpenCloseDialog(true)}
-                      >
-                        Cancel
-                      </Button>
-                    </div>
-                    <CancelPayment
-                      open={openCloseDialog}
-                      setOpen={setOpenCloseDialog}
-                    />
-                    <NetWorkFee
-                      openNetWorkfee={openNetworkDialog}
-                      setOpenNetworkfee={setOpenNetworkDialog}
-                    />
-                  </Container>
+                  <div
+                    style={{
+                      marginTop: "50px",
+                      fontSize: "12px",
+                      fontWeight: 500,
+                      fontFamily: "Inter",
+                      lineHeight: "14.52px",
+                        marginBottom: "5px",
+                      padding: "0px 5px",
+                      color:'rgba(0, 0, 0, 0.5)'
+                    }}
+                  >
+                    <span>
+                      Click the below button once you have triggered the
+                      transaction
+                    </span>
+                  </div>
                 </section>
               </div>
+              <div className="footer" style={{position:'inherit'}}>
+                <div style={{ marginBottom: 20 }}>
+                  <Button
+                    className="continue"
+                    variant="contained"
+                    onClick={onIhavePaid}
+                    disabled={!userName || !re.test(userName)}
+                  >
+                    I have Paid{" "}
+                  </Button>
+                  <Button
+                    className="cancelbtn"
+                    fullWidth
+                    onClick={() => setOpenCloseDialog(true)}
+                  >
+                    Cancel
+                  </Button>
+                </div>
+                <Footer />
+              </div>
             </section>
-            <div style={{ justifyContent: "flex-end" }}>
-              <Footer />
-            </div>
+            <CancelPayment
+              open={openCloseDialog}
+              setOpen={setOpenCloseDialog}
+            />
+            <NetWorkFee
+              openNetWorkfee={openNetworkDialog}
+              setOpenNetworkfee={setOpenNetworkDialog}
+            />
           </div>
         )}
       </MobileContainer>

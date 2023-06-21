@@ -40,6 +40,9 @@ function DepositPage(props: any) {
       .then((res) => {
         const decodedToken: any = jwt_decode(res?.data?.token);
         setToken(res?.data?.token);
+        console.log(decodedToken)
+        localStorage.setItem('merchantUrl',decodedToken.merchant_redirect_url )
+        localStorage.setItem('merchantName',decodedToken.merchant_brand_name )
         setOrderDetails(decodedToken);
         context.dispatch({
           type: "ORDER_DETAILS",

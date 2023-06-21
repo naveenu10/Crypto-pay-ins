@@ -1,46 +1,24 @@
-import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
-import {
-  AppBar,
-  Button,
-  Divider,
-  IconButton,
-  Stack,
-  Toolbar,
-  Typography,
-} from "@mui/material";
-import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
-import Countdown, { zeroPad } from "react-countdown";
-import { useNavigate } from "react-router-dom";
-import FailureLogo from "../../assets/images/NIcons/FailureLogo";
-import NivapayLogo1 from "../../assets/images/NIcons/NivapayLogo1";
+import { useEffect } from "react";
+import { Button, Typography } from "@mui/material";
+import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import { Layout, MobileContainer } from "../../styles/layout";
 import Footer from "../Footer/Footer";
+import formatTitleCase from "../../utils/formatTitleCase";
 
 function Error() {
-  const navigate = useNavigate();
+  const merchantName: any = localStorage.getItem("merchantName");
+  const merchantUrl: any = localStorage.getItem("merchantUrl");
+
   function backtoCrypto() {
-    navigate("/timeout");
+    window.location.replace(merchantUrl);
   }
-  const Completionist = () => <span>You are good to go!</span>;
-  const renderer = ({
-    minutes,
-    seconds,
-    completed,
-  }: {
-    minutes: any;
-    seconds: any;
-    completed: any;
-  }) => {
-    if (completed) {
-      return <Completionist />;
-    } else {
-      return (
-        <span>
-          {zeroPad(minutes)}:{zeroPad(seconds)}
-        </span>
-      );
-    }
-  };
+
+  useEffect(() => {
+    return () => {
+      localStorage.clear();
+    };
+  }, []);
+
   return (
     <Layout>
       <MobileContainer>
@@ -52,62 +30,7 @@ function Error() {
               height: "100vh",
             }}
           >
-            {/* <AppBar
-              position="static"
-              style={{ backgroundColor: "#279FFE", boxShadow: "none" }}
-            >
-              <Toolbar
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  flexWrap: "nowrap",
-                  justifyContent: "space-between",
-                  paddingLeft: "22px",
-                }}
-              >
-                <div style={{ textAlign: "left" }}>
-                  <IconButton
-                    size="large"
-                    edge="start"
-                    color="inherit"
-                    aria-label="menu"
-                    disabled
-                    sx={{
-                      mr: 2,
-                      border: "1px solid",
-                      borderRadius: "20%",
-                      padding: "5px",
-                      marginLeft: "-8px",
-                    }}
-                  >
-                    <ArrowBackIosNewIcon />
-                  </IconButton>
-                </div>
-                <div style={{ textAlign: "right" }}>
-                  <Typography
-                    variant="h5"
-                    component="h3"
-                    style={{
-                      textTransform: "capitalize",
-                      fontFamily: "Inter",
-                      fontStyle: "normal",
-                      fontWeight: "700",
-                      fontSize: "20px",
-                      lineHeight: "24px",
-                      textAlign: "center",
-                      color: "#FFFFFF",
-                      letterSpacing: "0.05rem",
-                    }}
-                  >
-                    Cryptogames
-                  </Typography>
-                </div>
-                <div style={{ width: "30px", height: "30px" }}>
-                  <NivapayLogo1 />
-                </div>
-              </Toolbar>
-            </AppBar> */}
-            <div style={{ flex: 1, height: "50vh", overflowY: "auto",marginTop:'50%' }}>
+            <div style={{ flex: 1, marginTop: "20%" }}>
               <section className="nivapay_ramp">
                 <div
                   style={{
@@ -117,7 +40,7 @@ function Error() {
                     marginTop: "8%",
                   }}
                 >
-                  <ErrorOutlineIcon color="error" style={{fontSize:80}}/>
+                  <ErrorOutlineIcon color="error" style={{ fontSize: 80 }} />
                 </div>
                 <div
                   style={{
@@ -149,6 +72,7 @@ function Error() {
                     justifyContent: "center",
                     alignItems: "center",
                     marginTop: "2%",
+                    marginBottom: 20,
                   }}
                 >
                   <Typography
@@ -168,52 +92,19 @@ function Error() {
                   </Typography>
                 </div>
 
-                {/* <div style={{ marginTop: "30%" }}>
-                  <Divider />
-                </div>
-
-                <div style={{ marginTop: "2%" }}>
-                  <Divider />
-                </div> */}
-                {/* <Typography
-                  style={{
-                    fontFamily: "Inter",
-                    fontStyle: "normal",
-                    fontWeight: 500,
-                    fontSize: "14px",
-                    lineHeight: "17px",
-                    textAlign: "center",
-                    letterSpacing: "0.06em",
-                    color: "#21146B",
-                    marginTop: "20%",
-                  }}
+                <Button
+                  variant="contained"
+                  // className="cryptobtn"
+                  style={{ textTransform: "none" }}
+                  fullWidth
+                  onClick={backtoCrypto}
                 >
-               
-                  Redirecting in{" "}
-                  <span style={{ color: "#279FFE" }}>
-                    <Countdown date={Date.now() + 30000} renderer={renderer} />
-                  </span>{" "}
-                  <span>secs...</span>
-                </Typography>
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    marginTop: "4%",
-                  }}
-                >
-                  <Button
-                    variant="contained"
-                    className="cryptobtn"
-                    onClick={backtoCrypto}
-                  >
-                    {" "}
-                    Back to Cryptogames{" "}
-                  </Button>
-                </div> */}
+                  {" "}
+                  Back to {merchantName && formatTitleCase(merchantName)}
+                </Button>
               </section>
             </div>
-            <div style={{ justifyContent: "flex-end" }}>
+            <div className="footer">
               <Footer />
             </div>
           </section>

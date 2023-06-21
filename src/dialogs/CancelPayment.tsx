@@ -43,6 +43,7 @@ const CancelPayment = (props: { open: any; setOpen: any }) => {
       .then((res) => {
         console.log(res);
         // navigate("/", { replace: true });
+        localStorage.clear();
         setOpen(false);
         window.location.replace(orders?.merchant_redirect_url);
       })
