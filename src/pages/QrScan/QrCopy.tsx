@@ -150,20 +150,7 @@ function QrCopy(props: any) {
               <div style={{ flex: 1, height: "50vh" }}>
                 <section className="nivapay_ramp">
                   <Container maxWidth="lg">
-                    <Typography
-                      style={{
-                        fontStyle: "normal",
-                        fontWeight: "500",
-                        fontSize: "16px",
-                        lineHeight: "30px",
-                        textAlign: "center",
-                        letterSpacing: "0.06em",
-                        color: "#000000",
-                        fontFamily: "Inter",
-                      }}
-                    >
-                      Time Left: {props.fixedTime} mins
-                    </Typography>
+                  <p className="timer">Time left: {props.fixedTime} mins</p>
                     <div className="choosecurrency">Complete Payment</div>
                     <div>
                       <div

@@ -1,7 +1,6 @@
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import { AppBar, Button, IconButton, Toolbar, Typography } from "@mui/material";
-import React, { useState, useEffect } from "react";
-import Countdown, { zeroPad } from "react-countdown";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import NivapayLogo1 from "../../assets/images/NIcons/NivapayLogo1";
 import { useGlobalContext } from "../../context/context";
@@ -10,21 +9,14 @@ import Footer from "../Footer/Footer";
 import StandardImageList from "../ImageList/ImageList";
 import CancelPayment from "../../dialogs/CancelPayment";
 import "./QuickPay.css";
-import axios from "axios";
-import { BASE_URL } from "../../config";
 import Loader from "../../utils/Loader";
 import PerfectScrollbar from "react-perfect-scrollbar";
 
 function QuickPay(props: any) {
   const navigate = useNavigate();
   const context = useGlobalContext();
-  const [showmask, setShowMask] = React.useState(false);
-  const [showEth, setShowEth] = useState(false);
-  const [selectedCoinName, setselectedCoinName] = useState("");
   const [openCloseDialog, setOpenCloseDialog] = useState(false);
   const [isLoading, setLoading] = useState(false);
-  //   const [cyyptoData, setCryptoData] = useState<{ [key: string]: any }[]>([]);
-
   let coinName = context.state.selectedCoin?.toUpperCase();
   const orders = context.state.orderDetails;
   const cyyptoData = context.state.allCryptos;
@@ -35,28 +27,6 @@ function QuickPay(props: any) {
       navigate("/wallet");
     } else {
       navigate("/QrScanPage");
-      // navigate("/MetamaskPage");
-    }
-  };
-
-  const Completionist = () => <span>You are good to go!</span>;
-  const renderer = ({
-    minutes,
-    seconds,
-    completed,
-  }: {
-    minutes: any;
-    seconds: any;
-    completed: any;
-  }) => {
-    if (completed) {
-      return <Completionist />;
-    } else {
-      return (
-        <span>
-          {zeroPad(minutes)}:{zeroPad(seconds)}
-        </span>
-      );
     }
   };
 
@@ -114,8 +84,7 @@ function QuickPay(props: any) {
                         padding: "5px",
                         marginLeft: "-8px",
                       }}
-                      onClick={() => navigate(-1)}
-                      // onClick={() => setOpenCloseDialog(true)}
+                      onClick={() => setOpenCloseDialog(true)}
                     >
                       <ArrowBackIosNewIcon />
                     </IconButton>
@@ -146,29 +115,9 @@ function QuickPay(props: any) {
                 </Toolbar>
               </AppBar>
               <PerfectScrollbar>
-                <div style={{ flex: 1, height: "auto", overflowY: "auto" }}>
+                <div style={{ flex: 1, height: "auto" }}>
                   <section className="nivapay_ramp">
-                    <Typography
-                      style={{
-                        fontStyle: "normal",
-                        fontWeight: 500,
-                        fontSize: "16px",
-                        lineHeight: "30px",
-                        textAlign: "center",
-                        letterSpacing: "0.06em",
-                        color: "#000000",
-                        fontFamily: "Inter",
-                        padding: "10px",
-                      }}
-                    >
-                      {/* Time left 15:00 mins */}
-                      Time left:{" "}
-                      {/* <Countdown
-                        date={Date.now() + 900000}
-                        renderer={renderer}
-                      /> */}
-                      {props.fixedTime} mins
-                    </Typography>
+                    <p className="timer">Time left: {props.fixedTime} mins</p>
                     <div
                       style={{ boxSizing: "border-box", position: "relative" }}
                     >
@@ -176,62 +125,39 @@ function QuickPay(props: any) {
                         Select Currency to Withdraw
                       </div>
                       <div
-                      // style={{ maxHeight: '430px', overflowY: 'scroll' }}
                       >
-                        <StandardImageList
-                          showmask={showmask}
-                          setShowMask={setShowMask}
-                          showEth={showEth}
-                          setShowEth={setShowEth}
-                          selectedCoinName={selectedCoinName}
-                          setselectedCoinName={setselectedCoinName}
-                          cyyptoData={cyyptoData}
-                        />
+                        <StandardImageList cyyptoData={cyyptoData} />
                       </div>
                     </div>
-                    <div
-                      style={{
-                        display: "flex",
-                        marginTop: "10px",
-                        justifyContent: "center",
-                      }}
-                    >
-                      <Button
-                        variant="contained"
-                        className="continue"
-                        fullWidth
-                        onClick={onContinue}
-                        disabled={!context.state.selectedCoin}
-                      >
-                        Continue
-                      </Button>
-                    </div>
-                    <div
-                      style={{
-                        display: "flex",
-                        justifyContent: "center",
-                        width: "100%",
-                      }}
-                    >
-                      <Button
-                        fullWidth
-                        className="cancelbtn"
-                        onClick={() => setOpenCloseDialog(true)}
-                      >
-                        Cancel
-                      </Button>
-                    </div>
-                    <CancelPayment
-                      open={openCloseDialog}
-                      setOpen={setOpenCloseDialog}
-                    />
                   </section>
                 </div>
               </PerfectScrollbar>
-              <div style={{ justifyContent: "flex-end" }}>
+              <div className="footer">
+                <div style={{ marginBottom: "20px" }}>
+                  <Button
+                    variant="contained"
+                    className="continue"
+                    fullWidth
+                    onClick={onContinue}
+                    disabled={!context.state.selectedCoin}
+                  >
+                    Continue
+                  </Button>
+                  <Button
+                    fullWidth
+                    className="cancelbtn"
+                    onClick={() => setOpenCloseDialog(true)}
+                  >
+                    Cancel
+                  </Button>
+                </div>
                 <Footer />
               </div>
             </section>
+            <CancelPayment
+              open={openCloseDialog}
+              setOpen={setOpenCloseDialog}
+            />
           </div>
         )}
       </MobileContainer>

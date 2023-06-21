@@ -17,7 +17,7 @@
 }
 
 .continue {
-    width: 95%;
+    width: 100%;
     background: #1371BC;
     text-transform: capitalize !important;
     font-family: 'Inter' !important;
@@ -50,3 +50,4 @@
 .nivapay_ramp {
     margin: 0 1.7rem;
 }
+

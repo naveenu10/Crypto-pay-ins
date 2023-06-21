@@ -28,11 +28,11 @@ function Wallet(props: any) {
     navigate("/QrScanPage");
   };
   const handleMetamask = () => {
-    navigate("/metamask",{replace: true});
+    navigate("/metamask", { replace: true });
   };
 
   const handleOtherWallets = () => {
-    navigate("/QrScanPage",{replace: true});
+    navigate("/QrScanPage", { replace: true });
   };
 
   const Completionist = () => <span>You are good to go!</span>;
@@ -56,11 +56,11 @@ function Wallet(props: any) {
     }
   };
 
-  useEffect(() => {
-    if (!orders) {
-      navigate("/error", { replace: true });
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (!orders) {
+  //     navigate("/error", { replace: true });
+  //   }
+  // }, []);
 
   return (
     <Layout>
@@ -128,25 +128,9 @@ function Wallet(props: any) {
                 </div>
               </Toolbar>
             </AppBar>
-            <div style={{ flex: 1, height: "50vh", overflowY: "auto" }}>
+            <div style={{ flex: 1 }}>
               <section className="nivapay_ramp">
-                <Typography
-                  style={{
-                    fontStyle: "normal",
-                    fontWeight: "bold",
-                    fontSize: "14px",
-                    lineHeight: "17px",
-                    textAlign: "center",
-                    letterSpacing: "0.06em",
-                    color: "#000000",
-                    fontFamily: "Inter",
-                    marginTop: "20px",
-                    marginBottom: "10px",
-                  }}
-                >
-                  Time left: {props.fixedTime}
-                  mins
-                </Typography>
+                <p className="timer">Time left: {props.fixedTime} mins</p>
 
                 <div className="choosecurrency" style={{ fontSize: 20 }}>
                   Select Wallet
@@ -178,41 +162,31 @@ function Wallet(props: any) {
                     <ChevronRightIcon style={{ fontSize: "40px" }} />
                   </span>
                 </div>
-
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    marginTop: "260px",
-                  }}
-                >
-                  <Button
-                    className="continue"
-                    variant="contained"
-                    onClick={onContinue}
-                    disabled={!userName || !re.test(userName)}
-                  >
-                    Continue
-                  </Button>
-                </div>
-                <div style={{ display: "flex", justifyContent: "center" }}>
-                  <Button
-                    className="cancelbtn"
-                    onClick={() => setOpenCloseDialog(true)}
-                  >
-                    Cancel
-                  </Button>
-                </div>
-                <BackButton
-                  open={openCloseDialog}
-                  setOpen={setOpenCloseDialog}
-                />
               </section>
             </div>
+            <div className="footer">
+              <div style={{ marginBottom: "20px" }}>
+                <Button
+                  className="continue"
+                  variant="contained"
+                  fullWidth
+                  onClick={onContinue}
+                  disabled={!userName || !re.test(userName)}
+                >
+                  Continue
+                </Button>
+                <Button
+                  className="cancelbtn"
+                  fullWidth
+                  onClick={() => setOpenCloseDialog(true)}
+                >
+                  Cancel
+                </Button>
+              </div>
+              <Footer />
+            </div>
           </section>
-          <div style={{ justifyContent: "flex-end" }}>
-            <Footer />
-          </div>
+          <BackButton open={openCloseDialog} setOpen={setOpenCloseDialog} />
         </div>
       </MobileContainer>
     </Layout>

@@ -43,7 +43,8 @@ export default function formatCryptoAmount(cryptoName: string, amount: string):s
   }
 
   // Format the amount with the specified decimal places
-  const formattedAmount:string  = numericAmount.toFixed(decimalPlaces);
+  // const formattedAmount:string  = numericAmount.toFixed(decimalPlaces);
+  const formattedAmount:string  = numericAmount.toString();
 
   // Return the formatted amount with the crypto name
   return formattedAmount;

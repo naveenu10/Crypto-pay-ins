@@ -1,11 +1,9 @@
 import { useEffect, useState } from "react";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import { AppBar, Button, IconButton, Toolbar, Typography } from "@mui/material";
-import Countdown, { zeroPad } from "react-countdown";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import NivapayLogo1 from "../../assets/images/NIcons/NivapayLogo1";
 import { useGlobalContext } from "../../context/context";
-import BackButton from "../../dialogs/BackButton";
 import CancelPayment from "../../dialogs/CancelPayment";
 import { Layout, MobileContainer } from "../../styles/layout";
 import Footer from "../Footer/Footer";
@@ -24,34 +22,12 @@ function DepositPage(props: any) {
   const navigate = useNavigate();
   const order_id = searchParams.get("order_id");
   const hash = searchParams.get("hash");
-  const gayeway_url = searchParams.get("gayeway_url");
   const context = useGlobalContext();
   const [openCloseDialog, setOpenCloseDialog] = useState(false);
   const [orderDetails, setOrderDetails] = useState<{ [key: string]: any }>({});
   const [userEmail, setUserEmail] = useState("");
   const [token, setToken] = useState("");
   const [isLoading, setLoading] = useState(false);
-
-  const Completionist = () => <span>You are good to go!</span>;
-  const renderer = ({
-    minutes,
-    seconds,
-    completed,
-  }: {
-    minutes: any;
-    seconds: any;
-    completed: any;
-  }) => {
-    if (completed) {
-      return <Completionist />;
-    } else {
-      return (
-        <span>
-          {zeroPad(minutes)}:{zeroPad(seconds)}
-        </span>
-      );
-    }
-  };
 
   const fetchOrderDetails = async () => {
     setLoading(true);
@@ -87,7 +63,6 @@ function DepositPage(props: any) {
   };
 
   const fetchCryptoList = async () => {
-    // setLoading(true);
     await axios
       .get(`${BASE_URL}/sdk/deposit/order/${order_id}/crypto`, {
         headers: {
@@ -99,12 +74,10 @@ function DepositPage(props: any) {
           type: "ALL_CRYPTO",
           payload: res?.data,
         });
-        // setLoading(false);
       })
       .catch((err) => {
         console.log(err);
         navigate("/error", { replace: true });
-        // setLoading(false);
       });
   };
 
@@ -120,13 +93,13 @@ function DepositPage(props: any) {
         },
       })
       .then((res) => {
-        setLoading(false);
         navigate("/quickpay", { replace: true });
       })
       .catch((err) => {
         console.log(err);
         setLoading(false);
       });
+      setLoading(false);
   };
 
   useEffect(() => {
@@ -141,7 +114,7 @@ function DepositPage(props: any) {
     if (token) {
       fetchCryptoList();
       const interval = setInterval(() => fetchCryptoList(), 1200000);
-      // return () => clearInterval(interval);
+      return () => clearInterval(interval);
     }
   }, [token]);
 
@@ -164,7 +137,7 @@ function DepositPage(props: any) {
               style={{
                 display: "flex",
                 flexDirection: "column",
-                height: "96vh",
+                height: "100vh",
               }}
             >
               <AppBar
@@ -223,29 +196,9 @@ function DepositPage(props: any) {
                   </div>
                 </Toolbar>
               </AppBar>
-              <div style={{ flex: 1, height: "auto", overflowY: "auto" }}>
+              <div style={{ flex: 1 }}>
                 <section className="nivapay_ramp">
-                  <Typography
-                    style={{
-                      fontStyle: "normal",
-                      fontWeight: 500,
-                      fontSize: "16px",
-                      lineHeight: "30px",
-                      textAlign: "center",
-                      letterSpacing: "0.06em",
-                      color: "#000000",
-                      fontFamily: "Inter",
-                      padding: "10px",
-                    }}
-                  >
-                    {/* Time left 15:00 mins */}
-                    Time left:{" "}
-                    {/* <Countdown
-                      date={Date.now() + 900000}
-                      renderer={renderer}
-                    /> */}
-                    {props.fixedTime} mins
-                  </Typography>
+                  <p className="timer">Time left: {props.fixedTime} mins</p>
                   <Typography
                     style={{
                       fontFamily: "Inter",
@@ -347,7 +300,7 @@ function DepositPage(props: any) {
                       fontFamily: "Inter",
                       fontStyle: "normal",
                       fontWeight: 400,
-                      paddingTop: "3rem",
+                      marginTop: "3rem",
                       fontSize: "16px",
                       lineHeight: "19px",
                       display: "flex",
@@ -377,38 +330,51 @@ function DepositPage(props: any) {
                       lineHeight: "15px",
                       letterSpacing: "0.06em",
                       color: "#21146B",
-                      paddingTop: "0.5rem",
+                      marginTop: "1rem",
                     }}
                   >
                     Transaction status updates will be sent to this email
                     address
                   </Typography>
+                </section>
+              </div>
+              <div
+                style={{
+                  position: "absolute",
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  marginLeft: "1.7rem",
+                  marginRight: "1.7rem",
+                }}
+              >
+                <div style={{ marginBottom: 20 }}>
                   <Typography
                     style={{
                       fontFamily: "Inter",
                       fontStyle: "normal",
                       fontWeight: 400,
-                      fontSize: "13px",
+                      fontSize: "12px",
                       lineHeight: "15px",
                       display: "flex",
                       alignItems: "center",
                       letterSpacing: "0.06em",
                       color: "rgba(0, 0, 0, 0.5)",
-                      padding: "0.5rem",
+                      marginBottom: "0.5rem",
                       marginTop: "3.5rem",
                       flexWrap: "wrap",
                       gap: "4px",
                     }}
                     component="div"
                   >
-                    By clicking “Continue”, I agree to Nivapay’s{" "}
+                    By clicking “Continue”, I agree to Nivapay’s Terms{" "}
                     <a
                       href="https://nivapay.com/privacy-policy/"
                       style={{ color: "rgba(0, 0, 0, 0.5)" }}
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      Terms of Service
+                      of Service
                     </a>{" "}
                     and{" "}
                     <a
@@ -420,42 +386,30 @@ function DepositPage(props: any) {
                       Privacy Policy.
                     </a>
                   </Typography>
-                  <div style={{ display: "flex", justifyContent: "center" }}>
-                    <Button
-                      className="continue"
-                      variant="contained"
-                      fullWidth
-                      onClick={proceedOrder}
-                      disabled={!userEmail || !validate.test(userEmail)}
-                    >
-                      Continue
-                    </Button>
-                  </div>
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "center",
-                      width: "100%",
-                    }}
+                  <Button
+                    className="continue"
+                    variant="contained"
+                    fullWidth
+                    onClick={proceedOrder}
+                    disabled={!userEmail || !validate.test(userEmail)}
                   >
-                    <Button
-                      className="cancelbtn"
-                      fullWidth
-                      onClick={() => setOpenCloseDialog(true)}
-                    >
-                      Cancel
-                    </Button>
-                  </div>
-                  <CancelPayment
-                    open={openCloseDialog}
-                    setOpen={setOpenCloseDialog}
-                  />
-                </section>
+                    Continue
+                  </Button>
+                  <Button
+                    className="cancelbtn"
+                    fullWidth
+                    onClick={() => setOpenCloseDialog(true)}
+                  >
+                    Cancel
+                  </Button>
+                </div>
+                <Footer />
               </div>
             </section>
-            <div style={{ justifyContent: "flex-end" }}>
-              <Footer />
-            </div>
+            <CancelPayment
+              open={openCloseDialog}
+              setOpen={setOpenCloseDialog}
+            />
           </div>
         )}
       </MobileContainer>

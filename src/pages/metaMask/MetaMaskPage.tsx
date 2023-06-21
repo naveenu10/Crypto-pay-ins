@@ -267,23 +267,8 @@ function MetaMaskPage(props: any) {
             {address !== "" ? (
               <div style={{ flex: 1, height: "auto" }}>
                 <section className="nivapay_ramp">
-                  <Typography
-                    style={{
-                      fontStyle: "normal",
-                      fontWeight: "bold",
-                      fontSize: "14px",
-                      lineHeight: "17px",
-                      textAlign: "center",
-                      letterSpacing: "0.06em",
-                      color: "#000000",
-                      fontFamily: "Inter",
-                      marginTop: "20px",
-                      marginBottom: "10px",
-                    }}
-                  >
-                    {/* Time left 15:00 mins */}
-                    Time Left: {props.fixedTime} mins
-                  </Typography>
+                <p className="timer">Time left: {props.fixedTime} mins</p>
+
                   <div className="choosecurrency" style={{ fontSize: 20 }}>
                     Complete Payment
                   </div>
@@ -495,23 +480,7 @@ function MetaMaskPage(props: any) {
             ) : (
               <div style={{ flex: 1, height: "auto" }}>
                 <section className="nivapay_ramp">
-                  <Typography
-                    style={{
-                      fontStyle: "normal",
-                      fontWeight: "bold",
-                      fontSize: "14px",
-                      lineHeight: "17px",
-                      textAlign: "center",
-                      letterSpacing: "0.06em",
-                      color: "#000000",
-                      fontFamily: "Inter",
-                      marginTop: "20px",
-                      marginBottom: "10px",
-                    }}
-                  >
-                    {/* Time left 15:00 mins */}
-                    Time Left: {props.fixedTime} mins
-                  </Typography>
+                <p className="timer">Time left: {props.fixedTime} mins</p>
                   <div className="choosecurrency" style={{ fontSize: 20 }}>
                     Complete Payment
                   </div>

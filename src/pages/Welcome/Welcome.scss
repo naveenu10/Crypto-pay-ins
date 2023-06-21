@@ -16,12 +16,19 @@
 
     .receiptPay {
         width: 100%;
-        margin-top: 70px;
-        text-transform: inherit;
-        font-size: 18px;
-        // background-color: #f18b00;
-        padding: 5px;
+        background: #1371BC !important;
+        text-transform: capitalize !important;
+        font-family: 'Inter' !important;
+        font-style: normal !important;
+        font-weight: 700 !important;
+        font-size: 17px !important;
+        line-height: 28px !important;
+        display: flex;
+        align-items: center;
+        text-align: center;
+        color: #F5F5F5;
         box-shadow: none;
+        padding: 10px 16px;
     }
 
     .cancelbtn {

@@ -20,7 +20,8 @@ export default function InfoModal(props: { openInfo: any, setOpenInfo: any }) {
                     style: {
                         bottom: '18%',
                         margin: '5px 12px',
-                        boxShadow: 'none'
+                        boxShadow: 'none',
+                        maxWidth:300
                     },
                 }}
             >

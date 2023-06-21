@@ -8,11 +8,9 @@ import {
   Typography,
 } from "@mui/material";
 import { useState, useEffect } from "react";
-import Countdown, { zeroPad } from "react-countdown";
 import { useNavigate } from "react-router-dom";
 import NivapayLogo1 from "../../assets/images/NIcons/NivapayLogo1";
 import { useGlobalContext } from "../../context/context";
-import BackButton from "../../dialogs/BackButton";
 import CancelPayment from "../../dialogs/CancelPayment";
 import NetWorkFee from "../../dialogs/NetWorkfee";
 import { Layout, MobileContainer } from "../../styles/layout";
@@ -41,27 +39,6 @@ function QrScanPage(props: any) {
   var re =
     /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   const navigate = useNavigate();
-
-  const Completionist = () => <span>You are good to go!</span>;
-  const renderer = ({
-    minutes,
-    seconds,
-    completed,
-  }: {
-    minutes: any;
-    seconds: any;
-    completed: any;
-  }) => {
-    if (completed) {
-      return <Completionist />;
-    } else {
-      return (
-        <span>
-          {zeroPad(minutes)}:{zeroPad(seconds)}
-        </span>
-      );
-    }
-  };
 
   const onIhavePaid = async () => {
     setLoading(true);
@@ -210,20 +187,7 @@ function QrScanPage(props: any) {
               <div style={{ flex: 1, height: "50vh" }}>
                 <section className="nivapay_ramp">
                   <Container>
-                    <Typography
-                      style={{
-                        fontStyle: "normal",
-                        fontWeight: "500",
-                        fontSize: "16px",
-                        lineHeight: "30px",
-                        textAlign: "center",
-                        letterSpacing: "0.06em",
-                        color: "#000000",
-                        fontFamily: "Inter",
-                      }}
-                    >
-                      Time Left: {props.fixedTime} mins
-                    </Typography>
+                  <p className="timer">Time left: {props.fixedTime} mins</p>
                     <div className="choosecurrency">Complete Payment</div>
                     <div>
                       <div

@@ -1,5 +1,5 @@
-import { NButton, NHeader, NLabel } from "nivapay-ui";
-import React, { useEffect, useRef, useState } from "react";
+import { NLabel } from "nivapay-ui";
+import { useState } from "react";
 import { Layout, MobileContainer } from "../../styles/layout";
 import Input from "@mui/material/Input";
 import "./Welcome.scss";
@@ -18,23 +18,36 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { BASE_URL } from "../../config";
+import { BASE_URL, API_KEY } from "../../config";
 import Loader from "../../utils/Loader";
-import { useGlobalContext } from "../../context/context";
+
+const currency = [
+  { label: "USD", value: "usd" },
+  { label: "AUD", value: "aud" },
+  { label: "EUR", value: "eur" },
+  { label: "BRL", value: "brl" },
+  { label: "GBP", value: "gbp" },
+];
+
+const crypto = [
+  { label: "BTC", value: "btc" },
+  { label: "LTC", value: "ltc" },
+  { label: "ETH", value: "eth" },
+  { label: "BCH", value: "bch" },
+  { label: "Doge", value: "doge" },
+  { label: "USDC", value: "usdc" },
+  { label: "USDT", value: "usdt" },
+];
 
 function WelcomePage() {
-  const [params, setParams] = useSearchParams();
-  const data = params.get("data") ? params.get("data") : "";
-  //   console.log(data, "data from url");
-  const payload = JSON.parse(data || "{}");
-  //   console.log(payload.secretKey, "payload");
-  localStorage.setItem("tenent_id", payload.tenent_id);
-  const context = useGlobalContext();
   const [withdrawOption, setWithdrawOption] = useState("Fiat");
+  const [errorMsg, setErrorMsg] = useState("");
+  const navigate = useNavigate();
+  const [isLoading, setLoading] = useState(false);
+
   const [userDetails, setUserDetails] = useState({
-    tenent_id: payload.tenent_id,
     user_first_name: "arun",
     user_last_name: "kumar",
     email: "aruns@nu10.co",
@@ -47,31 +60,6 @@ function WelcomePage() {
     merchant_id: "M1307305",
     merchant_redirect_url: "https://nivapay.com",
   });
-
-  const [errorMsg, setErrorMsg] = useState("");
-  const navigate = useNavigate();
-  const [postData, setPostData] = useState<any>({});
-  const [oredrId, setOrderId] = useState("");
-  const [isLoading, setLoading] = useState(false);
-
-
-  const currency = [
-    { label: "USD", value: "usd" },
-    { label: "AUD", value: "aud" },
-    { label: "EUR", value: "eur" },
-    { label: "BRL", value: "brl" },
-    { label: "GBP", value: "gbp" },
-  ];
-
-  const crypto = [
-    { label: "BTC", value: "btc" },
-    { label: "LTC", value: "ltc" },
-    { label: "ETH", value: "eth" },
-    { label: "BCH", value: "bch" },
-    { label: "Doge", value: "doge" },
-    { label: "USDC", value: "usdc" },
-    { label: "USDT", value: "usdt" },
-  ];
 
   const handleInputChange = (e: any) => {
     const { name, value } = e.target;
@@ -87,17 +75,6 @@ function WelcomePage() {
       });
     }
   };
-  function checkFields() {
-    if (
-      userDetails.user_first_name === "" ||
-      userDetails.user_last_name === "" ||
-      userDetails.email === "" ||
-      userDetails.merchant_name === "" ||
-      userDetails.fiat === "" ||
-      userDetails.amount
-    ) {
-    }
-  }
 
   const submitDetails = async () => {
     setLoading(true);
@@ -123,19 +100,16 @@ function WelcomePage() {
           {
             headers: {
               "Content-Type": "application/json",
-              "x-api-key": "8e5a23b3-6b16-4348-9001-d5bbbb18a4f3",
+              "x-api-key": API_KEY,
             },
           }
         );
         if (response.status === 201) {
           setLoading(false);
-          console.log(response, "resp");
-          setPostData(response.data);
-          navigate(`/deposit?order_id=${response?.data?.order_id}&hash=${response?.data?.hash}`,{replace: true})
-          // window.location.replace(
-          //   `http://crypto-payins.s3-website-us-east-1.amazonaws.com/deposit?order_id=${response?.data?.order_id}&hash=${response?.data?.hash}`
-          // );
-          // `http://localhost:3003/deposit?order_id=${response?.data?.order_id}&hash=${response?.data?.hash}`, '_blank');
+          navigate(
+            `/deposit?order_id=${response?.data?.order_id}&hash=${response?.data?.hash}`,
+            { replace: true }
+          );
         }
         setLoading(false);
       }
@@ -160,21 +134,15 @@ function WelcomePage() {
           {
             headers: {
               "Content-Type": "application/json",
-              "x-api-key": "8e5a23b3-6b16-4348-9001-d5bbbb18a4f3",
+              "x-api-key": API_KEY,
             },
           }
         );
         if (response.status === 201) {
           setLoading(false);
-          console.log(response, "resp");
-          setPostData(response.data);
-          navigate(`/deposit?order_id=${response?.data?.order_id}&hash=${response?.data?.hash}`)
-
-          // window.location.replace(
-          //   `http://crypto-payins.s3-website-us-east-1.amazonaws.com/deposit/?"order_id"=${response?.data?.order_id
-          //   },"hash"=${JSON.stringify(response?.data?.hash)}`
-          // );
-          // `http://localhost:3003/deposit?order_id=${response?.data?.order_id}&hash=${response?.data?.hash}`, '_blank');
+          navigate(
+            `/deposit?order_id=${response?.data?.order_id}&hash=${response?.data?.hash}`
+          );
         }
         setLoading(false);
       }
@@ -182,17 +150,6 @@ function WelcomePage() {
       console.log(error);
       setLoading(false);
     }
-  };
-
-  var re =
-    /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-
-  const [logo, setLogo] = useState("");
-  const [tenentLogo, setTenentLogo] = useState(false);
-
-  const currencySelect = (e: any) => {
-    setWithdrawOption(e.target.value);
-    console.log(e.target.value);
   };
 
   return (
@@ -203,7 +160,12 @@ function WelcomePage() {
             {isLoading ? (
               <Loader />
             ) : (
-              <section>
+              <section
+                style={{
+                  boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
+                  fontFamily: "inter",
+                }}
+              >
                 <Box sx={{ flexGrow: 1 }}>
                   <AppBar
                     position="static"
@@ -220,12 +182,7 @@ function WelcomePage() {
                         justifyContent: "center",
                       }}
                     >
-                      <div>
-                        {/* <img src={context.state.config.logo}
-                                            width='130px' height='50px' style={{
-                                                backgroundColor: context.state.config.color
-                                            }}></img> */}
-                      </div>
+                      <div></div>
                       <div style={{ textAlign: "center" }}>
                         <Typography
                           variant="h5"
@@ -336,15 +293,25 @@ function WelcomePage() {
                       >
                         <FormControlLabel
                           value="Fiat"
-                          control={<Radio />}
+                          control={
+                            <Radio
+                              onChange={(e) =>
+                                setWithdrawOption(e.target.value)
+                              }
+                            />
+                          }
                           label="Fiat"
-                          onChange={currencySelect}
                         />
                         <FormControlLabel
                           value="Crypto"
-                          control={<Radio />}
+                          control={
+                            <Radio
+                              onChange={(e) =>
+                                setWithdrawOption(e.target.value)
+                              }
+                            />
+                          }
                           label="Crypto"
-                          onChange={currencySelect}
                         />
                       </RadioGroup>
                     </FormControl>
@@ -502,19 +469,6 @@ function WelcomePage() {
                         marginTop: 20,
                         marginBottom: 40,
                       }}
-                      // disabled={
-                      //   !userDetails.user_first_name ||
-                      //   !userDetails.email ||
-                      //   !re.test(userDetails.email) ||
-                      //   !userDetails.merchant_name ||
-                      //   !userDetails.fiat ||
-                      //   isNaN(userDetails.amount) ||
-                      //   userDetails.amount == 0 ||
-                      //   userDetails.amount < 0 ||
-                      //   !userDetails.user_id ||
-                      //   !userDetails.merchant_id ||
-                      //   !userDetails.merchant_redirect_url
-                      // }
                       onClick={submitDetails}
                     >
                       {" "}
