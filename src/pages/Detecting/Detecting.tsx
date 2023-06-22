@@ -32,8 +32,8 @@ function Detecting() {
   let interval: any;
 
   function backtoCrypto() {
-    // window.location.replace(transactions?.merchant_redirect_url);
-    navigate("/success", { replace: true });
+    window.location.replace(transactions?.merchant_redirect_url);
+    // navigate("/success", { replace: true });
     clearInterval(interval);
   }
 
