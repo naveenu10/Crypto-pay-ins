@@ -2,7 +2,6 @@ import { ThemeProvider } from "@mui/material/styles";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Detecting from "./pages/Detecting/Detecting";
 import Failure from "./pages/Failure/Failure";
-import LowBalSuccess from "./pages/LowBalSuccess/LowBalSuccess";
 import QrCopy from "./pages/QrScan/QrCopy";
 import QuickPay from "./pages/QuickPay/QuickPay";
 import Success from "./pages/Success/Success";
@@ -48,8 +47,6 @@ function App() {
           <Route path="/success" element={<Success />} />
           <Route path="/failure" element={<Failure />} />
           <Route path="/timeout" element={<Timeout />} />
-          <Route path="/lowbalsuccess" element={<LowBalSuccess />} />
-          <Route path="/highbalsuccesspage" element={<LowBalSuccess />} />
           <Route path="/wallet" element={<Wallet fixedTime={fixedTime} />} />
           <Route path="/QrScan" element={<QrScan />} />
           <Route path="/QrScanPage" element={<QrScanPage fixedTime={fixedTime} />} />

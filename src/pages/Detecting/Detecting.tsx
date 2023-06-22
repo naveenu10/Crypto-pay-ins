@@ -33,7 +33,6 @@ function Detecting() {
 
   function backtoCrypto() {
     window.location.replace(transactions?.merchant_redirect_url);
-    // navigate("/success", { replace: true });
     clearInterval(interval);
   }
 
@@ -80,7 +79,7 @@ function Detecting() {
       })
       .catch((err) => {
         console.log(err);
-        // setLoading(false);
+        navigate("/failure", { replace: true });
       });
   };
 
