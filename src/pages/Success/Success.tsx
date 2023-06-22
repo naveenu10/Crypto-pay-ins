@@ -248,9 +248,13 @@ function Detecting() {
                       Destination Wallet
                     </Typography>
                     <Typography className="info">
-                      {" "}
-                      {transactions?.destination_wallet_address &&
-                        transactions?.destination_wallet_address}
+                    {transactions?.destination_wallet_address &&
+                          `${transactions?.destination_wallet_address.slice(
+                            0,
+                            7
+                          )}...${transactions?.destination_wallet_address.slice(
+                            -4
+                          )}`}
                     </Typography>
                   </Stack>
                   <Stack

@@ -242,7 +242,7 @@ function Detecting() {
                     >
                       <Typography className="currency">Action</Typography>
                       <Typography className="info">
-                        {transactions?.action && transactions?.action}
+                       Payment
                       </Typography>
                     </Stack>
                     <Stack
