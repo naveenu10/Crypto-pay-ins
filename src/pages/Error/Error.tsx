@@ -13,12 +13,6 @@ function Error() {
     window.location.replace(merchantUrl);
   }
 
-  useEffect(() => {
-    return () => {
-      localStorage.clear();
-    };
-  }, []);
-
   return (
     <Layout>
       <MobileContainer>

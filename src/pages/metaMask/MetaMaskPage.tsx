@@ -235,7 +235,7 @@ function MetaMaskPage(props: any) {
                       padding: "5px",
                       marginLeft: "-8px",
                     }}
-                    onClick={() => navigate(-1)}
+                    onClick={() => navigate("/wallet",{replace: true})}
                   >
                     <ArrowBackIosNewIcon />
                   </IconButton>

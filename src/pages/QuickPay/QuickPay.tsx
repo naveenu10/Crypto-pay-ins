@@ -17,16 +17,16 @@ function QuickPay(props: any) {
   const context = useGlobalContext();
   const [openCloseDialog, setOpenCloseDialog] = useState(false);
   const [isLoading, setLoading] = useState(false);
-  let coinName = context.state.selectedCoin?.toUpperCase();
+  const coinName = context.state.selectedCoin?.toUpperCase();
   const orders = context.state.orderDetails;
   const cyyptoData = context.state.allCryptos;
 
   const onContinue = () => {
     console.log(coinName, "coinName");
     if (coinName === "ETH" || coinName === "USDC" || coinName === "USDT") {
-      navigate("/wallet");
+      navigate("/wallet", { replace: true });
     } else {
-      navigate("/QrScanPage");
+      navigate("/QrScanPage", { replace: true });
     }
   };
 
@@ -124,8 +124,7 @@ function QuickPay(props: any) {
                       <div className="choosecurrency">
                         Select Currency to Withdraw
                       </div>
-                      <div
-                      >
+                      <div>
                         <StandardImageList cyyptoData={cyyptoData} />
                       </div>
                     </div>

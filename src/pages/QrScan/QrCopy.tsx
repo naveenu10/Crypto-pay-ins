@@ -117,7 +117,7 @@ function QrCopy(props: any) {
                         padding: "5px",
                         marginLeft: "-8px",
                       }}
-                      onClick={() => navigate("/quickpay")}
+                      onClick={() => navigate("/quickpay",{replace: true})}
                     >
                       <ArrowBackIosNewIcon />
                     </IconButton>

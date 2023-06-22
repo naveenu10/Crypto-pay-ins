@@ -74,7 +74,7 @@ function Wallet(props: any) {
                       padding: "5px",
                       marginLeft: "-8px",
                     }}
-                    onClick={() => navigate(-1)}
+                    onClick={() => navigate('/quickpay',{replace: true})}
                   >
                     <ArrowBackIosNewIcon />
                   </IconButton>

@@ -8,7 +8,6 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
-import Countdown, { zeroPad } from "react-countdown";
 import { useNavigate } from "react-router-dom";
 import { useGlobalContext } from "../../context/context";
 import NivapayLogo1 from "../../assets/images/NIcons/NivapayLogo1";
@@ -18,38 +17,18 @@ import Footer from "../Footer/Footer";
 import "./Success.css";
 import copy from "copy-to-clipboard";
 import { useEffect, useState } from "react";
+import formatTitleCase from "../../utils/formatTitleCase";
 
 function Detecting() {
   const navigate = useNavigate();
   const context = useGlobalContext();
   const orders = context.state.orderDetails;
   const transactions = context.state.transactionDetails;
+  const [errorMsg, setErrorMsg] = useState<any>("");
+  const [getTextColor, setTextColor] = useState<any>("rgba(0, 0, 0, 0.5)");
   const [timeFlag, setTimeFlag] = useState(false);
   const backtoCrypto = () => {
     window.location.replace(transactions?.merchant_redirect_url);
-  };
-  const Completionist = () => {
-    window.location.replace(transactions?.merchant_redirect_url);
-    return <span>You are good to go!</span>;
-  };
-  const renderer = ({
-    minutes,
-    seconds,
-    completed,
-  }: {
-    minutes: any;
-    seconds: any;
-    completed: any;
-  }) => {
-    if (completed) {
-      return <Completionist />;
-    } else {
-      return (
-        <span>
-          {zeroPad(minutes)}:{zeroPad(seconds)}
-        </span>
-      );
-    }
   };
 
   const duration = 1 * 30 * 1000;
@@ -59,8 +38,8 @@ function Detecting() {
       if (time) {
         setTime(time - 1000);
       } else {
-        // window.location.replace('https://google.com');
         setTimeFlag(true);
+        window.location.replace(transactions?.merchant_redirect_url);
       }
     }, 1000);
   }, [time]);
@@ -71,6 +50,30 @@ function Detecting() {
   let fixedTime = `${minitus < 10 ? `0${minitus}` : minitus}:${
     seconds < 10 ? `0${seconds}` : seconds
   }`;
+
+  const priceComparison = (receivedAmount: any) => {
+    if (receivedAmount < transactions?.order_crypto_amount) {
+      setErrorMsg(
+        "You have paid a lower than anticipated amount. You may re-initiate the process to pay the remaining amount or contact the merchant to reconcile."
+      );
+      setTextColor("#FF0000");
+    }
+    if (receivedAmount > transactions?.order_crypto_amount) {
+      setErrorMsg(
+        "You have paid a higher than anticipated amount. You may contact the merchant to reconcile."
+      );
+      setTextColor("#FF0000");
+    } else {
+      setErrorMsg("");
+      setTextColor("rgba(0, 0, 0, 0.5) ");
+    }
+  };
+
+  useEffect(() => {
+    if (transactions?.transaction_amount) {
+      priceComparison(transactions?.transaction_amount);
+    }
+  }, [transactions?.order_crypto_amount, transactions?.transaction_amount]);
 
   return (
     <Layout>
@@ -168,12 +171,22 @@ function Detecting() {
                 >
                   Success
                 </Typography>
-                {/* <Typography style={{
-                                    fontFamily: 'Inter', fontStyle: 'normal', fontWeight: 400, fontSize: '11px', lineHeight: '15px', display: 'flex', alignItems: 'center', textAlign: 'center', color: 'rgba(0, 0, 0, 0.5)'
-                                }}>
-                                    We are scanning the network to detect your transaction.This process may take up to 30 mins to complete.
-                                </Typography> */}
-                <div style={{ marginTop: "30%" }}>
+                <Typography
+                  style={{
+                    fontFamily: "Inter",
+                    fontStyle: "normal",
+                    fontWeight: 400,
+                    fontSize: "12px",
+                    lineHeight: "15px",
+                    display: "flex",
+                    alignItems: "center",
+                    textAlign: "center",
+                    color: "#21146B",
+                  }}
+                >
+                  {errorMsg && errorMsg}
+                </Typography>
+                <div style={{ marginTop: "25px" }}>
                   <Divider />
                 </div>
                 <div>
@@ -248,7 +261,7 @@ function Detecting() {
                     <Typography className="currency">
                       Received amount (crypto)
                     </Typography>
-                    <Typography className="info">
+                    <Typography style={{ color: getTextColor }}>
                       {" "}
                       {transactions?.transaction_amount &&
                         transactions?.transaction_amount}{" "}
@@ -275,9 +288,7 @@ function Detecting() {
                         src="https://res.cloudinary.com/dhhxyg3tq/image/upload/v1683183469/Icon_lrkziq.svg"
                         alt="redirect"
                         style={{ cursor: "pointer" }}
-                        onClick={() =>
-                          window.open("https://blockchair.com")
-                        }
+                        onClick={() => window.open("https://blockchair.com")}
                       />
                     </Typography>
                   </Stack>
@@ -334,7 +345,9 @@ function Detecting() {
                     onClick={backtoCrypto}
                   >
                     {" "}
-                    Back to Cryptogames{" "}
+                    Back to{" "}
+                    {orders?.merchant_brand_name &&
+                      formatTitleCase(orders?.merchant_brand_name)}
                   </Button>
                 </div>
               </section>
