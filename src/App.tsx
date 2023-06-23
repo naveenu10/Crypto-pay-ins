@@ -40,7 +40,7 @@ function App() {
     <ThemeProvider theme={theme}>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<WelcomePage />} />
+          {/* <Route path="/" element={<WelcomePage />} /> */}
           <Route path="/deposit" element={<DepositPage fixedTime={fixedTime} />} />
           <Route path="/quickpay" element={<QuickPay fixedTime={fixedTime} />} />
           <Route path="/detecting" element={<Detecting />} />
