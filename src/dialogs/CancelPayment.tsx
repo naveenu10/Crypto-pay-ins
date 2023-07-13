@@ -18,6 +18,7 @@ const style = {
   boxShadow: 24,
   p: 4,
   outline: "none",
+  borderRadius:2
 };
 
 const CancelPayment = (props: { open: any; setOpen: any }) => {
@@ -60,7 +61,7 @@ const CancelPayment = (props: { open: any; setOpen: any }) => {
           aria-describedby="modal-modal-description"
         >
           <Box sx={style}>
-            <Typography component="div" sx={{}}>
+            <Typography component="div">
               <div style={{ marginBottom: "2rem" }}>
                 Are you sure you want to Cancel and go back to the merchant?
               </div>

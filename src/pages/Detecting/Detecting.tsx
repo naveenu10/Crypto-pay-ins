@@ -8,7 +8,9 @@ import {
   Stack,
   Toolbar,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
 import NivapayLogo1 from "../../assets/images/NIcons/NivapayLogo1";
 import Processing from "../../assets/images/NIcons/Processing";
@@ -24,6 +26,8 @@ import formatCryptoAmount from "../../utils/formatCryptoAmount";
 function Detecting() {
   const navigate = useNavigate();
   const context = useGlobalContext();
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.up("xl"));
   const token = context.state.token;
   const orders = context.state.orderDetails;
   const transactions = context.state.transactionDetails;
@@ -96,76 +100,49 @@ function Detecting() {
   return (
     <Layout>
       <MobileContainer>
-        {isLoading ? (
-          <Loader />
-        ) : (
-          <div
-            style={{ boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px" }}
+        <div className="main_section">
+          <section
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              height: matches ? "100vh" : "auto",
+              minHeight: 750,
+            }}
           >
-            <section
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                height: "100vh",
-              }}
-            >
-              <AppBar
-                position="static"
-                style={{ backgroundColor: "#279FFE", boxShadow: "none" }}
-              >
-                <Toolbar
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    flexWrap: "nowrap",
-                    justifyContent: "space-between",
-                    paddingLeft: "22px",
-                  }}
-                >
-                  <div style={{ textAlign: "left" }}>
-                    <IconButton
-                      size="large"
-                      edge="start"
-                      color="inherit"
-                      aria-label="menu"
-                      disabled
-                      sx={{
-                        mr: 2,
-                        border: "1px solid",
-                        borderRadius: "20%",
-                        padding: "5px",
-                        marginLeft: "-8px",
-                      }}
-                      onClick={() => navigate(-1)}
-                    >
-                      <ArrowBackIosNewIcon />
-                    </IconButton>
+            <AppBar position="static" className="header_main">
+              <Toolbar className="header_sub">
+                <div style={{ textAlign: "left" }}>
+                  <IconButton
+                    size="large"
+                    edge="start"
+                    color="inherit"
+                    aria-label="menu"
+                    disabled
+                    sx={{
+                      mr: 2,
+                      border: "1px solid",
+                      borderRadius: "20%",
+                      padding: "5px",
+                      marginLeft: "-8px",
+                    }}
+                    onClick={() => navigate(-1)}
+                  >
+                    <ArrowBackIosNewIcon />
+                  </IconButton>
+                </div>
+                <div style={{ textAlign: "right" }}>
+                  <div className="header_title">
+                    {orders?.merchant_brand_name && orders?.merchant_brand_name}
                   </div>
-                  <div style={{ textAlign: "right" }}>
-                    <Typography
-                      variant="h5"
-                      component="h3"
-                      style={{
-                        textTransform: "capitalize",
-                        fontFamily: "Inter",
-                        fontStyle: "normal",
-                        fontWeight: "700",
-                        fontSize: "20px",
-                        lineHeight: "24px",
-                        textAlign: "center",
-                        color: "#FFFFFF",
-                        letterSpacing: "0.05rem",
-                      }}
-                    >
-                      {orders?.merchant_brand_name &&
-                        orders?.merchant_brand_name}
-                    </Typography>
-                  </div>
-                  <div style={{ width: "30px", height: "30px" }}>
-                    <NivapayLogo1 />
-                  </div>
-                </Toolbar>
-              </AppBar>
+                </div>
+                <div className="logo">
+                  <NivapayLogo1 />
+                </div>
+              </Toolbar>
+            </AppBar>
+            {isLoading ? (
+              <Loader />
+            ) : (
               <div style={{ flex: 1 }}>
                 <section className="nivapay_ramp">
                   <div
@@ -230,20 +207,8 @@ function Detecting() {
                       spacing={2}
                       sx={{ justifyContent: "space-between", padding: "6px" }}
                     >
-                      <Typography className="currency">User id</Typography>
-                      <Typography className="info">
-                        {transactions?.user_id && transactions?.user_id}
-                      </Typography>
-                    </Stack>
-                    <Stack
-                      direction={"row"}
-                      spacing={2}
-                      sx={{ justifyContent: "space-between", padding: "6px" }}
-                    >
                       <Typography className="currency">Action</Typography>
-                      <Typography className="info">
-                       Payment
-                      </Typography>
+                      <Typography className="info">Payment</Typography>
                     </Stack>
                     <Stack
                       direction={"row"}
@@ -251,7 +216,7 @@ function Detecting() {
                       sx={{ justifyContent: "space-between", padding: "6px" }}
                     >
                       <Typography className="currency">
-                        Order Amount(crypto)
+                        Expected Amount(crypto)
                       </Typography>
                       <Typography className="info">
                         {" "}
@@ -297,31 +262,32 @@ function Detecting() {
                       letterSpacing: "0.06em",
                       color: "#808080",
                       marginTop: "6%",
+                      marginBottom: 30
                     }}
                   >
                     You may close this window or go back by clicking the button
                     below. We are processing this transaction and will update
                     you the final status through email.
                   </Typography>
+                <div >
+                  <Button
+                    variant="contained"
+                    className="cryptobtn"
+                    onClick={backtoCrypto}
+                  >
+                    {" "}
+                    Back to{" "}
+                    {orders?.merchant_brand_name && orders?.merchant_brand_name}
+                  </Button>
+                </div>
                 </section>
               </div>
-            </section>
-            <div className="footer">
-              <div style={{ marginBottom: 20 }}>
-                <Button
-                  variant="contained"
-                  className="cryptobtn"
-                  onClick={backtoCrypto}
-                >
-                  {" "}
-                  Back to{" "}
-                  {orders?.merchant_brand_name && orders?.merchant_brand_name}
-                </Button>
-              </div>
-              <Footer />
-            </div>
+            )}
+          </section>
+          <div className={matches ? "footer" : "footerSmall"}>
+            <Footer />
           </div>
-        )}
+        </div>
       </MobileContainer>
     </Layout>
   );

@@ -29,4 +29,56 @@ body {
   right: 0;
   margin-left: 1.7rem;
   margin-right: 1.7rem;
+ 
 }
+
+.footerSmall {
+  position: inherit;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin-left: 1.7rem;
+  margin-right: 1.7rem;
+}
+
+.nivapay_section {
+  margin: 0 1rem;
+}
+
+.header_main {
+  background-color: #279ffe !important;
+  box-shadow: none;
+  border-radius: 33px 33px 0px 0px;
+  height: 80px;
+}
+.header_sub {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  padding-left: 22px;
+  margin-top: 13px;
+}
+.main_section {
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  border-radius: 33px;
+}
+
+.logo {
+  width: 30px;
+  height: 30px;
+}
+
+.header_title {
+  text-transform: capitalize;
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 24px;
+  text-align: center;
+  color: #ffffff;
+  letter-spacing: 0.05rem;
+}
+
+

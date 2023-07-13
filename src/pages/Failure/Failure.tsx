@@ -175,18 +175,7 @@ function Detecting() {
                       {orders?.id && orders?.id}
                     </Typography>
                   </Stack>
-                  <Stack
-                    direction={"row"}
-                    spacing={2}
-                    sx={{ justifyContent: "space-between", padding: "6px" }}
-                  >
-                    <Typography className="currency">User id</Typography>
-                    <Typography className="info">
-                      {" "}
-                      {orders?.user_id && orders?.user_id}
-                    </Typography>
-                  </Stack>
-                  <Stack
+                                   <Stack
                     direction={"row"}
                     spacing={2}
                     sx={{ justifyContent: "space-between", padding: "6px" }}
@@ -200,7 +189,7 @@ function Detecting() {
                     sx={{ justifyContent: "space-between", padding: "6px" }}
                   >
                     <Typography className="currency">
-                      Order Amount(crypto)
+                      Expected Amount(crypto)
                     </Typography>
                     <Typography className="info">
                       {" "}

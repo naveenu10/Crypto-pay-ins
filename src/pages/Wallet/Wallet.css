@@ -32,6 +32,22 @@
     box-shadow: none;
     padding: 10px 16px;
 }
+.continue:disabled {
+    width: 95%;
+    background-color: rgba(19, 113, 188, 0.5) !important;
+    text-transform: capitalize !important;
+    font-family: 'Inter' !important;
+    font-style: normal !important;
+    font-weight: 700 !important;
+    font-size: 17px !important;
+    line-height: 28px !important;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: #F5F5F5;
+    box-shadow: none;
+    padding: 10px 16px;
+}
 
 .cancelbtn {
     font-family: 'Inter' !important;
@@ -46,7 +62,20 @@
     text-transform: capitalize !important;
     padding: 1rem !important;
 }
-
+.cancelbtn:hover {
+    background: #fff !important;
+    font-family: "Inter" !important;
+    font-style: normal !important;
+    font-weight: 700 !important;
+    font-size: 18px !important;
+    line-height: 28px !important;
+    display: flex !important;
+    align-items: center !important;
+    text-align: center !important;
+    color: #2c1e66 !important;
+    text-transform: capitalize !important;
+    padding: 1rem !important;
+  }
 
 
 .metaMaskDiv {

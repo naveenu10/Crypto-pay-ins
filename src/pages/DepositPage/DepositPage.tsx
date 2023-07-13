@@ -1,6 +1,14 @@
 import { useEffect, useState } from "react";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
-import { AppBar, Button, IconButton, Toolbar, Typography } from "@mui/material";
+import {
+  AppBar,
+  Button,
+  IconButton,
+  Toolbar,
+  Typography,
+  useMediaQuery,
+} from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import NivapayLogo1 from "../../assets/images/NIcons/NivapayLogo1";
 import { useGlobalContext } from "../../context/context";
@@ -13,6 +21,7 @@ import jwt_decode from "jwt-decode";
 import Loader from "../../utils/Loader";
 import { BASE_URL } from "../../config";
 import formatCryptoAmount from "../../utils/formatCryptoAmount";
+import formatTitleCase from "../../utils/formatTitleCase";
 
 const validate =
   /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -22,6 +31,8 @@ function DepositPage(props: any) {
   const navigate = useNavigate();
   const order_id = searchParams.get("order_id");
   const hash = searchParams.get("hash");
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.up("xl"));
   const context = useGlobalContext();
   const [openCloseDialog, setOpenCloseDialog] = useState(false);
   const [orderDetails, setOrderDetails] = useState<{ [key: string]: any }>({});
@@ -40,9 +51,8 @@ function DepositPage(props: any) {
       .then((res) => {
         const decodedToken: any = jwt_decode(res?.data?.token);
         setToken(res?.data?.token);
-        console.log(decodedToken)
-        localStorage.setItem('merchantUrl',decodedToken.merchant_redirect_url )
-        localStorage.setItem('merchantName',decodedToken.merchant_brand_name )
+        localStorage.setItem("merchantUrl", decodedToken.merchant_redirect_url);
+        localStorage.setItem("merchantName", decodedToken.merchant_brand_name);
         setOrderDetails(decodedToken);
         context.dispatch({
           type: "ORDER_DETAILS",
@@ -102,7 +112,7 @@ function DepositPage(props: any) {
         console.log(err);
         setLoading(false);
       });
-      setLoading(false);
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -130,136 +140,54 @@ function DepositPage(props: any) {
   return (
     <Layout>
       <MobileContainer>
-        {isLoading ? (
-          <Loader />
-        ) : (
-          <div
-            style={{ boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px" }}
+        <div className="main_section">
+          <section
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              height: matches ? "100vh" : "auto",
+              minHeight: 750,
+            }}
           >
-            <section
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                height: "100vh",
-              }}
-            >
-              <AppBar
-                position="static"
-                style={{ backgroundColor: "#279FFE", boxShadow: "none" }}
-              >
-                <Toolbar
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    flexWrap: "nowrap",
-                    justifyContent: "space-between",
-                    paddingLeft: "22px",
-                  }}
-                >
-                  <div style={{ textAlign: "left" }}>
-                    <IconButton
-                      size="large"
-                      edge="start"
-                      color="inherit"
-                      aria-label="menu"
-                      sx={{
-                        mr: 2,
-                        border: "1px solid",
-                        borderRadius: "20%",
-                        padding: "5px",
-                        marginLeft: "-8px",
-                      }}
-                      onClick={() => setOpenCloseDialog(true)}
-                    >
-                      <ArrowBackIosNewIcon />
-                    </IconButton>
+            <AppBar position="static" className="header_main">
+              <Toolbar className="header_sub">
+                <div style={{ textAlign: "left" }}>
+                  <IconButton
+                    size="large"
+                    edge="start"
+                    color="inherit"
+                    aria-label="menu"
+                    sx={{
+                      mr: 2,
+                      border: "1px solid",
+                      borderRadius: "20%",
+                      padding: "5px",
+                      marginLeft: "-8px",
+                    }}
+                    onClick={() => setOpenCloseDialog(true)}
+                  >
+                    <ArrowBackIosNewIcon />
+                  </IconButton>
+                </div>
+                <div style={{ textAlign: "right" }}>
+                  <div className="header_title">
+                    {orderDetails.merchant_brand_name &&
+                      orderDetails.merchant_brand_name}
                   </div>
-                  <div style={{ textAlign: "right" }}>
-                    <Typography
-                      variant="h5"
-                      component="h3"
-                      style={{
-                        textTransform: "capitalize",
-                        fontFamily: "Inter",
-                        fontStyle: "normal",
-                        fontWeight: "700",
-                        fontSize: "20px",
-                        lineHeight: "24px",
-                        textAlign: "center",
-                        color: "#FFFFFF",
-                        letterSpacing: "0.05rem",
-                      }}
-                    >
-                      {orderDetails.merchant_brand_name &&
-                        orderDetails.merchant_brand_name}
-                    </Typography>
-                  </div>
-                  <div style={{ width: "30px", height: "30px" }}>
-                    <NivapayLogo1 />
-                  </div>
-                </Toolbar>
-              </AppBar>
+                </div>
+                <div className="logo">
+                  <NivapayLogo1 />
+                </div>
+              </Toolbar>
+            </AppBar>
+            {isLoading ? (
+              <Loader />
+            ) : (
               <div style={{ flex: 1 }}>
                 <section className="nivapay_ramp">
                   <p className="timer">Time left: {props.fixedTime} mins</p>
-                  <Typography
-                    style={{
-                      fontFamily: "Inter",
-                      fontStyle: "normal",
-                      fontWeight: 400,
-                      fontSize: "18px",
-                      lineHeight: "32px",
-                      display: "flex",
-                      justifyContent: "center",
-                      color: "#2C1E66",
-                      gap: "8px",
-                    }}
-                  >
-                    User id:
-                    <Typography
-                      style={{
-                        fontFamily: "Inter",
-                        fontStyle: "normal",
-                        fontWeight: 700,
-                        fontSize: "18px",
-                        lineHeight: "32px",
-                        display: "flex",
-                        alignItems: "center",
-                        textAlign: "center",
-                        color: "#2C1E66",
-                      }}
-                    >
-                      {orderDetails && orderDetails?.user_id}
-                    </Typography>
-                  </Typography>
-                  <Typography
-                    style={{
-                      fontFamily: "Inter",
-                      fontStyle: "normal",
-                      fontWeight: 400,
-                      fontSize: "16px",
-                      lineHeight: "32px",
-                      display: "flex",
-                      color: "#2C1E66",
-                      justifyContent: "center",
-                      padding: "10px",
-                    }}
-                  >
-                    Pay
-                  </Typography>
-                  <Typography
-                    style={{
-                      fontFamily: "Inter",
-                      fontStyle: "normal",
-                      fontWeight: 500,
-                      fontSize: "24px",
-                      lineHeight: "29px",
-                      display: "flex",
-                      color: "#2C1E66",
-                      justifyContent: "center",
-                      padding: "5px",
-                    }}
-                  >
+                  <div className="pay">Pay</div>
+                  <div className="order_currency">
                     {orderDetails?.order_currency &&
                       orderDetails?.order_currency.toUpperCase()}
                     &nbsp;
@@ -268,7 +196,7 @@ function DepositPage(props: any) {
                         orderDetails?.order_currency.toUpperCase(),
                         orderDetails?.order_amount
                       )}
-                  </Typography>
+                  </div>
                   <Typography
                     style={{
                       fontFamily: "Inter",
@@ -296,7 +224,8 @@ function DepositPage(props: any) {
                       color: "#2C1E66",
                     }}
                   >
-                    {orderDetails.merchant_name && orderDetails.merchant_name}
+                    {orderDetails.merchant_brand_name &&
+                      formatTitleCase(orderDetails.merchant_brand_name)}
                   </Typography>
                   <Typography
                     style={{
@@ -339,82 +268,62 @@ function DepositPage(props: any) {
                     Transaction status updates will be sent to this email
                     address
                   </Typography>
+                  <div style={{ marginBottom: 20 }}>
+                    <div className="agree">
+                      By clicking “Continue”, I agree to Nivapay’s
+                      <a
+                        href="https://nivapay.com/privacy-policy/"
+                        style={{ color: "rgba(0, 0, 0, 0.5)" }}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        Terms{" "}
+                      </a>
+                      <br />
+                      <a
+                        href="https://nivapay.com/privacy-policy/"
+                        style={{ color: "rgba(0, 0, 0, 0.5)" }}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        of Service
+                      </a>{" "}
+                      and{" "}
+                      <a
+                        href="https://nivapay.com/privacy-policy/"
+                        style={{ color: "rgba(0, 0, 0, 0.5)" }}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        Privacy Policy.
+                      </a>
+                    </div>
+                    <Button
+                      className="continue"
+                      variant="contained"
+                      fullWidth
+                      onClick={proceedOrder}
+                      disabled={!userEmail || !validate.test(userEmail)}
+                    >
+                      Continue
+                    </Button>
+                    <Button
+                      className="cancelbtn"
+                      fullWidth
+                      onClick={() => setOpenCloseDialog(true)}
+                    >
+                      Cancel
+                    </Button>
+                  </div>
                 </section>
-              </div>
-              <div
-                style={{
-                  position: "absolute",
-                  bottom: 0,
-                  left: 0,
-                  right: 0,
-                  marginLeft: "1.7rem",
-                  marginRight: "1.7rem",
-                }}
-              >
-                <div style={{ marginBottom: 20 }}>
-                  <Typography
-                    style={{
-                      fontFamily: "Inter",
-                      fontStyle: "normal",
-                      fontWeight: 400,
-                      fontSize: "12px",
-                      lineHeight: "15px",
-                      display: "flex",
-                      alignItems: "center",
-                      letterSpacing: "0.06em",
-                      color: "rgba(0, 0, 0, 0.5)",
-                      marginBottom: "0.5rem",
-                      marginTop: "3.5rem",
-                      flexWrap: "wrap",
-                      gap: "4px",
-                    }}
-                    component="div"
-                  >
-                    By clicking “Continue”, I agree to Nivapay’s Terms{" "}
-                    <a
-                      href="https://nivapay.com/privacy-policy/"
-                      style={{ color: "rgba(0, 0, 0, 0.5)" }}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      of Service
-                    </a>{" "}
-                    and{" "}
-                    <a
-                      href="https://nivapay.com/privacy-policy/"
-                      style={{ color: "rgba(0, 0, 0, 0.5)" }}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      Privacy Policy.
-                    </a>
-                  </Typography>
-                  <Button
-                    className="continue"
-                    variant="contained"
-                    fullWidth
-                    onClick={proceedOrder}
-                    disabled={!userEmail || !validate.test(userEmail)}
-                  >
-                    Continue
-                  </Button>
-                  <Button
-                    className="cancelbtn"
-                    fullWidth
-                    onClick={() => setOpenCloseDialog(true)}
-                  >
-                    Cancel
-                  </Button>
+                <div className={matches ? "footer" : "footerSmall"}>
+                  <Footer />
                 </div>
-                <Footer />
               </div>
-            </section>
-            <CancelPayment
-              open={openCloseDialog}
-              setOpen={setOpenCloseDialog}
-            />
-          </div>
-        )}
+            )}
+          </section>
+          <CancelPayment open={openCloseDialog} setOpen={setOpenCloseDialog} />
+        </div>
       </MobileContainer>
     </Layout>
   );

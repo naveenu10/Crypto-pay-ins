@@ -21,7 +21,8 @@ export default function InfoModal(props: { openInfo: any, setOpenInfo: any }) {
                         bottom: '18%',
                         margin: '5px 12px',
                         boxShadow: 'none',
-                        maxWidth:300
+                        maxWidth:333,
+                        textAlign: 'center'
                     },
                 }}
             >

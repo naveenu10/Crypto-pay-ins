@@ -1,5 +1,13 @@
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
-import { AppBar, Button, IconButton, Toolbar, Typography } from "@mui/material";
+import {
+  AppBar,
+  Button,
+  IconButton,
+  Toolbar,
+  Typography,
+  useMediaQuery,
+} from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import NivapayLogo1 from "../../assets/images/NIcons/NivapayLogo1";
@@ -15,6 +23,8 @@ import PerfectScrollbar from "react-perfect-scrollbar";
 function QuickPay(props: any) {
   const navigate = useNavigate();
   const context = useGlobalContext();
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.up("xl"));
   const [openCloseDialog, setOpenCloseDialog] = useState(false);
   const [isLoading, setLoading] = useState(false);
   const coinName = context.state.selectedCoin?.toUpperCase();
@@ -45,77 +55,50 @@ function QuickPay(props: any) {
   return (
     <Layout>
       <MobileContainer>
-        {isLoading ? (
-          <Loader />
-        ) : (
-          <div
-            style={{ boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px" }}
+        <div className="main_section">
+          <section
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              height: matches ? "100vh" : "auto",
+              minHeight: 750,
+            }}
           >
-            <section
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                height: "100vh",
-              }}
-            >
-              <AppBar
-                position="static"
-                style={{ backgroundColor: "#279FFE", boxShadow: "none" }}
-              >
-                <Toolbar
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    flexWrap: "nowrap",
-                    justifyContent: "space-between",
-                    paddingLeft: "22px",
-                  }}
-                >
-                  <div style={{ textAlign: "left" }}>
-                    <IconButton
-                      size="large"
-                      edge="start"
-                      color="inherit"
-                      aria-label="menu"
-                      sx={{
-                        mr: 2,
-                        border: "1px solid",
-                        borderRadius: "20%",
-                        padding: "5px",
-                        marginLeft: "-8px",
-                      }}
-                      onClick={() => setOpenCloseDialog(true)}
-                    >
-                      <ArrowBackIosNewIcon />
-                    </IconButton>
+            <AppBar position="static" className="header_main">
+              <Toolbar className="header_sub">
+                <div style={{ textAlign: "left" }}>
+                  <IconButton
+                    size="large"
+                    edge="start"
+                    color="inherit"
+                    aria-label="menu"
+                    sx={{
+                      mr: 2,
+                      border: "1px solid",
+                      borderRadius: "20%",
+                      padding: "5px",
+                      marginLeft: "-8px",
+                    }}
+                    onClick={() => setOpenCloseDialog(true)}
+                  >
+                    <ArrowBackIosNewIcon />
+                  </IconButton>
+                </div>
+                <div style={{ textAlign: "right" }}>
+                  <div className="header_title">
+                    {orders?.merchant_brand_name && orders?.merchant_brand_name}
                   </div>
-                  <div style={{ textAlign: "right" }}>
-                    <Typography
-                      variant="h5"
-                      component="h3"
-                      style={{
-                        textTransform: "capitalize",
-                        fontFamily: "Inter",
-                        fontStyle: "normal",
-                        fontWeight: "700",
-                        fontSize: "20px",
-                        lineHeight: "24px",
-                        textAlign: "center",
-                        color: "#FFFFFF",
-                        letterSpacing: "0.05rem",
-                      }}
-                    >
-                      {orders?.merchant_brand_name &&
-                        orders?.merchant_brand_name}
-                    </Typography>
-                  </div>
-                  <div style={{ width: "30px", height: "30px" }}>
-                    <NivapayLogo1 />
-                  </div>
-                </Toolbar>
-              </AppBar>
+                </div>
+                <div className="logo">
+                  <NivapayLogo1 />
+                </div>
+              </Toolbar>
+            </AppBar>
+            {isLoading ? (
+              <Loader />
+            ) : (
               <PerfectScrollbar>
-                <div style={{ flex: 1, height: "auto" }}>
+                <div style={{ flex: 1 }}>
                   <section className="nivapay_ramp">
                     <p className="timer">Time left: {props.fixedTime} mins</p>
                     <div
@@ -128,37 +111,34 @@ function QuickPay(props: any) {
                         <StandardImageList cyyptoData={cyyptoData} />
                       </div>
                     </div>
+                    <div style={{ marginBottom: "20px" }}>
+                      <Button
+                        variant="contained"
+                        className="continue"
+                        fullWidth
+                        onClick={onContinue}
+                        disabled={!context.state.selectedCoin}
+                      >
+                        Continue
+                      </Button>
+                      <Button
+                        fullWidth
+                        className="cancelbtn"
+                        onClick={() => setOpenCloseDialog(true)}
+                      >
+                        Cancel
+                      </Button>
+                    </div>
                   </section>
+                  <div className={matches ? "footer" : "footerSmall"}>
+                    <Footer />
+                  </div>
                 </div>
               </PerfectScrollbar>
-              <div className="footer">
-                <div style={{ marginBottom: "20px" }}>
-                  <Button
-                    variant="contained"
-                    className="continue"
-                    fullWidth
-                    onClick={onContinue}
-                    disabled={!context.state.selectedCoin}
-                  >
-                    Continue
-                  </Button>
-                  <Button
-                    fullWidth
-                    className="cancelbtn"
-                    onClick={() => setOpenCloseDialog(true)}
-                  >
-                    Cancel
-                  </Button>
-                </div>
-                <Footer />
-              </div>
-            </section>
-            <CancelPayment
-              open={openCloseDialog}
-              setOpen={setOpenCloseDialog}
-            />
-          </div>
-        )}
+            )}
+          </section>
+          <CancelPayment open={openCloseDialog} setOpen={setOpenCloseDialog} />
+        </div>
       </MobileContainer>
     </Layout>
   );

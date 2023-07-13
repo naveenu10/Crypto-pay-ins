@@ -184,7 +184,7 @@ export default function StandardImageList(props: { cyyptoData: any }) {
                   </div>
                 </Stack>
               ))
-            : "No Data Found"}
+            : ""}
         </div>
       </PerfectScrollbar>
       <Divider />

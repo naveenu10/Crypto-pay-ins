@@ -201,18 +201,7 @@ function Detecting() {
                       {transactions?.order_id && transactions?.order_id}
                     </Typography>
                   </Stack>
-                  <Stack
-                    direction={"row"}
-                    spacing={2}
-                    sx={{ justifyContent: "space-between", padding: "6px" }}
-                  >
-                    <Typography className="currency">User id</Typography>
-                    <Typography className="info">
-                      {" "}
-                      {transactions?.user_id && transactions?.user_id}
-                    </Typography>
-                  </Stack>
-                  <Stack
+                                  <Stack
                     direction={"row"}
                     spacing={2}
                     sx={{ justifyContent: "space-between", padding: "6px" }}

@@ -13,8 +13,8 @@ export default function Loader() {
         height: "100%",
         justifyContent: "center",
         position: "fixed",
-        zIndex: 999999,
-        background: "#fff",
+        // zIndex: 999999,
+        // background: "#fff",
         flexDirection: "column",
       }}
     >
