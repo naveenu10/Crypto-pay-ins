@@ -17,7 +17,7 @@
 }
 
 .continue {
-    width: 95%;
+    width: 100%;
     background: #1371BC;
     text-transform: capitalize !important;
     font-family: 'Inter' !important;
@@ -31,9 +31,10 @@
     color: #F5F5F5;
     box-shadow: none;
     padding: 10px 16px;
+    border-radius: 8px !important;
 }
 .continue:disabled {
-    width: 95%;
+    width: 100%;
     background-color: rgba(19, 113, 188, 0.5) !important;
     text-transform: capitalize !important;
     font-family: 'Inter' !important;
@@ -47,6 +48,7 @@
     color: #F5F5F5;
     box-shadow: none;
     padding: 10px 16px;
+    border-radius: 8px !important;
 }
 
 .cancelbtn {
@@ -61,6 +63,7 @@
     color: #2C1E66 !important;
     text-transform: capitalize !important;
     padding: 1rem !important;
+    border-radius: 8px !important;
 }
 .cancelbtn:hover {
     background: #fff !important;
@@ -75,6 +78,7 @@
     color: #2c1e66 !important;
     text-transform: capitalize !important;
     padding: 1rem !important;
+    border-radius: 8px !important;
   }
 
 
@@ -86,8 +90,7 @@
     background: #FFFFFF;
     box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.2);
     border-radius: 24px;
-    margin-left: 1% !important;
-    width: 95% !important;
+    width: 100% !important;
     height: 104px;
     margin-top: 20px;
 }

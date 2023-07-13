@@ -7,7 +7,9 @@ import {
   Stack,
   Toolbar,
   Typography,
+  useMediaQuery
 } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 import Countdown, { zeroPad } from "react-countdown";
 import { useNavigate } from "react-router-dom";
 import FailureLogo from "../../assets/images/NIcons/FailureLogo";
@@ -16,9 +18,12 @@ import { Layout, MobileContainer } from "../../styles/layout";
 import Footer from "../Footer/Footer";
 import { useGlobalContext } from "../../context/context";
 import formatTitleCase from "../../utils/formatTitleCase";
+import { useEffect } from "react";
 
 function Detecting() {
   const navigate = useNavigate();
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.up("xl"));
   const context = useGlobalContext();
   const orders = context.state.orderDetails;
 
@@ -48,30 +53,27 @@ function Detecting() {
       );
     }
   };
+
+  useEffect(() => {
+    if (!orders) {
+      navigate("/error", { replace: true });
+    }
+  }, []);
+
   return (
     <Layout>
       <MobileContainer>
-        <div style={{ boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px" }}>
+        <div className="main_section">
           <section
             style={{
               display: "flex",
               flexDirection: "column",
-              height: "100vh",
+              height: matches ? "100vh" : "auto",
+              minHeight: 750,
             }}
           >
-            <AppBar
-              position="static"
-              style={{ backgroundColor: "#279FFE", boxShadow: "none" }}
-            >
-              <Toolbar
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  flexWrap: "nowrap",
-                  justifyContent: "space-between",
-                  paddingLeft: "22px",
-                }}
-              >
+            <AppBar position="static" className="header_main">
+              <Toolbar className="header_sub">
                 <div style={{ textAlign: "left" }}>
                   <IconButton
                     size="large"
@@ -91,30 +93,16 @@ function Detecting() {
                   </IconButton>
                 </div>
                 <div style={{ textAlign: "right" }}>
-                  <Typography
-                    variant="h5"
-                    component="h3"
-                    style={{
-                      textTransform: "capitalize",
-                      fontFamily: "Inter",
-                      fontStyle: "normal",
-                      fontWeight: "700",
-                      fontSize: "20px",
-                      lineHeight: "24px",
-                      textAlign: "center",
-                      color: "#FFFFFF",
-                      letterSpacing: "0.05rem",
-                    }}
-                  >
-                    Cryptogames
-                  </Typography>
+                  <div className="header_title">
+                    {orders.merchant_brand_name && orders.merchant_brand_name}
+                  </div>
                 </div>
-                <div style={{ width: "30px", height: "30px" }}>
+                <div className="logo">
                   <NivapayLogo1 />
                 </div>
               </Toolbar>
             </AppBar>
-            <div style={{ flex: 1, height: "50vh", overflowY: "auto" }}>
+            <div style={{ flex: 1 }}>
               <section className="nivapay_ramp">
                 <div
                   style={{
@@ -160,7 +148,7 @@ function Detecting() {
                   transaction kindly wait for it to get confirmed on the
                   blockchain.
                 </Typography>
-                <div style={{ marginTop: "30%" }}>
+                <div style={{ marginTop: "20%" }}>
                   <Divider />
                 </div>
                 <div>
@@ -175,7 +163,7 @@ function Detecting() {
                       {orders?.id && orders?.id}
                     </Typography>
                   </Stack>
-                                   <Stack
+                  <Stack
                     direction={"row"}
                     spacing={2}
                     sx={{ justifyContent: "space-between", padding: "6px" }}
@@ -208,13 +196,11 @@ function Detecting() {
                       Destination Wallet
                     </Typography>
                     <Typography className="info">
-                    {orders?.destination_wallet_address &&
-                          `${orders?.destination_wallet_address.slice(
-                            0,
-                            7
-                          )}...${orders?.destination_wallet_address.slice(
-                            -4
-                          )}`}
+                      {orders?.destination_wallet_address &&
+                        `${orders?.destination_wallet_address.slice(
+                          0,
+                          7
+                        )}...${orders?.destination_wallet_address.slice(-4)}`}
                     </Typography>
                   </Stack>
                 </div>
@@ -231,7 +217,7 @@ function Detecting() {
                     textAlign: "center",
                     letterSpacing: "0.06em",
                     color: "#21146B",
-                    marginTop: "20%",
+                    marginTop: "17%",
                   }}
                 >
                   {/* Redirecting in <span style={{ color: '#279FFE' }}>30</span> secs...
@@ -247,6 +233,7 @@ function Detecting() {
                     display: "flex",
                     justifyContent: "center",
                     marginTop: "4%",
+                    marginBottom:"23%"
                   }}
                 >
                   <Button
@@ -262,7 +249,7 @@ function Detecting() {
                 </div>
               </section>
             </div>
-            <div style={{ justifyContent: "flex-end" }}>
+            <div className={matches ? "footer" : "footerSmall"}>
               <Footer />
             </div>
           </section>

@@ -36,7 +36,7 @@ function QuickPay(props: any) {
     if (coinName === "ETH" || coinName === "USDC" || coinName === "USDT") {
       navigate("/wallet", { replace: true });
     } else {
-      navigate("/QrScanPage", { replace: true });
+      navigate("/QrScan", { replace: true });
     }
   };
 

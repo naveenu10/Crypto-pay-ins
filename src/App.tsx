@@ -12,10 +12,7 @@ import MetaMaskPage from "./pages/metaMask/MetaMaskPage";
 import WelcomePage from "./pages/Welcome/WelcomePage";
 import Error from "./pages/Error/Error";
 import theme from "./theme/theme";
-import {
-  default as QrScan,
-  default as QrScanPage,
-} from "./pages/QrScan/QrScanPage";
+import QrScanPage from "./pages/QrScan/QrScanPage";
 import { useEffect, useState } from "react";
 
 function App() {
@@ -41,17 +38,28 @@ function App() {
       <BrowserRouter>
         <Routes>
           {/* <Route path="/" element={<WelcomePage />} /> */}
-          <Route path="/deposit" element={<DepositPage fixedTime={fixedTime} />} />
-          <Route path="/quickpay" element={<QuickPay fixedTime={fixedTime} />} />
+          <Route
+            path="/deposit"
+            element={<DepositPage fixedTime={fixedTime} />}
+          />
+          <Route
+            path="/quickpay"
+            element={<QuickPay fixedTime={fixedTime} />}
+          />
           <Route path="/detecting" element={<Detecting />} />
           <Route path="/success" element={<Success />} />
           <Route path="/failure" element={<Failure />} />
           <Route path="/timeout" element={<Timeout />} />
           <Route path="/wallet" element={<Wallet fixedTime={fixedTime} />} />
-          <Route path="/QrScan" element={<QrScan />} />
-          <Route path="/QrScanPage" element={<QrScanPage fixedTime={fixedTime} />} />
+          <Route
+            path="/QrScan"
+            element={<QrScanPage fixedTime={fixedTime} />}
+          />
           <Route path="/QrCopy" element={<QrCopy fixedTime={fixedTime} />} />
-          <Route path="/metamask" element={<MetaMaskPage fixedTime={fixedTime} />} />
+          <Route
+            path="/metamask"
+            element={<MetaMaskPage fixedTime={fixedTime} />}
+          />
           <Route path="/error" element={<Error />} />
         </Routes>
       </BrowserRouter>

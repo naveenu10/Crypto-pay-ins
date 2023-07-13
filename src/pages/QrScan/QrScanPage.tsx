@@ -5,8 +5,9 @@ import {
   Container,
   IconButton,
   Toolbar,
-  Typography,
+  useMediaQuery,
 } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import NivapayLogo1 from "../../assets/images/NIcons/NivapayLogo1";
@@ -26,6 +27,8 @@ import formatTitleCase from "../../utils/formatTitleCase";
 
 function QrScanPage(props: any) {
   const context = useGlobalContext();
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.up("xl"));
   const [userName, setUserName] = useState("laxmi@gmail.com");
   const [openCloseDialog, setOpenCloseDialog] = useState(false);
   const [openNetworkDialog, setOpenNetworkDialog] = useState(false);
@@ -114,74 +117,49 @@ function QrScanPage(props: any) {
   return (
     <Layout>
       <MobileContainer>
-        {isLoading ? (
-          <Loader />
-        ) : (
-          <div className="appBar">
-            <section
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                // height: "100vh",
-              }}
-            >
-              <AppBar
-                position="static"
-                style={{ backgroundColor: "#279FFE", boxShadow: "none" }}
-              >
-                <Toolbar
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    flexWrap: "nowrap",
-                    justifyContent: "space-between",
-                    paddingLeft: "22px",
-                  }}
-                >
-                  <div style={{ textAlign: "left" }}>
-                    <IconButton
-                      size="large"
-                      edge="start"
-                      color="inherit"
-                      aria-label="menu"
-                      sx={{
-                        mr: 2,
-                        border: "1px solid",
-                        borderRadius: "20%",
-                        padding: "5px",
-                        marginLeft: "-8px",
-                      }}
-                      onClick={() => navigate("/quickpay",{replace: true})}
-                    >
-                      <ArrowBackIosNewIcon />
-                    </IconButton>
+        <div className="main_section">
+          <section
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              height: matches ? "100vh" : "auto",
+              minHeight: 750,
+            }}
+          >
+            <AppBar position="static" className="header_main">
+              <Toolbar className="header_sub">
+                <div style={{ textAlign: "left" }}>
+                  <IconButton
+                    size="large"
+                    edge="start"
+                    color="inherit"
+                    aria-label="menu"
+                    sx={{
+                      mr: 2,
+                      border: "1px solid",
+                      borderRadius: "20%",
+                      padding: "5px",
+                      marginLeft: "-8px",
+                    }}
+                    onClick={() => navigate("/quickpay", { replace: true })}
+                  >
+                    <ArrowBackIosNewIcon />
+                  </IconButton>
+                </div>
+                <div style={{ textAlign: "right" }}>
+                  <div className="header_title">
+                    {" "}
+                    {orders?.merchant_brand_name && orders?.merchant_brand_name}
                   </div>
-                  <div style={{ textAlign: "right" }}>
-                    <Typography
-                      variant="h5"
-                      component="h3"
-                      style={{
-                        textTransform: "capitalize",
-                        fontFamily: "Inter",
-                        fontStyle: "normal",
-                        fontWeight: "700",
-                        fontSize: "20px",
-                        lineHeight: "24px",
-                        textAlign: "center",
-                        color: "#FFFFFF",
-                        letterSpacing: "0.05rem",
-                      }}
-                    >
-                      {" "}
-                      {orders?.merchant_brand_name &&
-                        orders?.merchant_brand_name}
-                    </Typography>
-                  </div>
-                  <div style={{ width: "30px", height: "30px" }}>
-                    <NivapayLogo1 />
-                  </div>
-                </Toolbar>
-              </AppBar>
+                </div>
+                <div className="logo">
+                  <NivapayLogo1 />
+                </div>
+              </Toolbar>
+            </AppBar>
+            {isLoading ? (
+              <Loader />
+            ) : (
               <div style={{ flex: 1 }}>
                 <section className="nivapay_ramp">
                   <p className="timer">Time left: {props.fixedTime} mins</p>
@@ -286,9 +264,9 @@ function QrScanPage(props: any) {
                       fontWeight: 500,
                       fontFamily: "Inter",
                       lineHeight: "14.52px",
-                        marginBottom: "5px",
+                      marginBottom: "5px",
                       padding: "0px 5px",
-                      color:'rgba(0, 0, 0, 0.5)'
+                      color: "rgba(0, 0, 0, 0.5)",
                     }}
                   >
                     <span>
@@ -296,39 +274,36 @@ function QrScanPage(props: any) {
                       transaction
                     </span>
                   </div>
+                  <div>
+                    <Button
+                      className="continue"
+                      variant="contained"
+                      onClick={onIhavePaid}
+                      disabled={!userName || !re.test(userName)}
+                    >
+                      I have Paid{" "}
+                    </Button>
+                    <Button
+                      className="cancelbtn"
+                      fullWidth
+                      onClick={() => setOpenCloseDialog(true)}
+                    >
+                      Cancel
+                    </Button>
+                  </div>
                 </section>
-              </div>
-              <div className="footer" style={{position:'inherit'}}>
-                <div style={{ marginBottom: 20 }}>
-                  <Button
-                    className="continue"
-                    variant="contained"
-                    onClick={onIhavePaid}
-                    disabled={!userName || !re.test(userName)}
-                  >
-                    I have Paid{" "}
-                  </Button>
-                  <Button
-                    className="cancelbtn"
-                    fullWidth
-                    onClick={() => setOpenCloseDialog(true)}
-                  >
-                    Cancel
-                  </Button>
+                <div className={matches ? "footer" : "footerSmall"}>
+                  <Footer />
                 </div>
-                <Footer />
               </div>
-            </section>
-            <CancelPayment
-              open={openCloseDialog}
-              setOpen={setOpenCloseDialog}
-            />
-            <NetWorkFee
-              openNetWorkfee={openNetworkDialog}
-              setOpenNetworkfee={setOpenNetworkDialog}
-            />
-          </div>
-        )}
+            )}
+          </section>
+          <CancelPayment open={openCloseDialog} setOpen={setOpenCloseDialog} />
+          <NetWorkFee
+            openNetWorkfee={openNetworkDialog}
+            setOpenNetworkfee={setOpenNetworkDialog}
+          />
+        </div>
       </MobileContainer>
     </Layout>
   );

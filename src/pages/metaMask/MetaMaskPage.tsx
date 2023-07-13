@@ -6,7 +6,9 @@ import {
   IconButton,
   Toolbar,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import NivapayLogo1 from "../../assets/images/NIcons/NivapayLogo1";
@@ -31,6 +33,8 @@ declare global {
 function MetaMaskPage(props: any) {
   const context = useGlobalContext();
   const navigate = useNavigate();
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.up("xl"));
   const coinName = context.state.selectedCoin;
   const coinData = context.state.selectedCoinData;
   const orders = context.state.orderDetails;
@@ -180,7 +184,8 @@ function MetaMaskPage(props: any) {
 
   useEffect(() => {
     if (!orders) {
-      navigate("/error",{ replace: true });    }
+      navigate("/error", { replace: true });
+    }
   }, []);
 
   useEffect(() => {
@@ -201,27 +206,17 @@ function MetaMaskPage(props: any) {
   return (
     <Layout>
       <MobileContainer>
-        <div className="appBar">
+        <div className="main_section">
           <section
             style={{
               display: "flex",
               flexDirection: "column",
-              height: "100vh",
+              height: matches ? "100vh" : "auto",
+              minHeight: 750,
             }}
           >
-            <AppBar
-              position="static"
-              style={{ backgroundColor: "#279FFE", boxShadow: "none" }}
-            >
-              <Toolbar
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  flexWrap: "nowrap",
-                  justifyContent: "space-between",
-                  paddingLeft: "22px",
-                }}
-              >
+            <AppBar position="static" className="header_main">
+              <Toolbar className="header_sub">
                 <div style={{ textAlign: "left" }}>
                   <IconButton
                     size="large"
@@ -235,31 +230,17 @@ function MetaMaskPage(props: any) {
                       padding: "5px",
                       marginLeft: "-8px",
                     }}
-                    onClick={() => navigate("/wallet",{replace: true})}
+                    onClick={() => navigate("/wallet", { replace: true })}
                   >
                     <ArrowBackIosNewIcon />
                   </IconButton>
                 </div>
                 <div style={{ textAlign: "right" }}>
-                  <Typography
-                    variant="h5"
-                    component="h3"
-                    style={{
-                      textTransform: "capitalize",
-                      fontFamily: "Inter",
-                      fontStyle: "normal",
-                      fontWeight: "700",
-                      fontSize: "20px",
-                      lineHeight: "24px",
-                      textAlign: "center",
-                      color: "#FFFFFF",
-                      letterSpacing: "0.05rem",
-                    }}
-                  >
-                    Cryptogames
-                  </Typography>
+                  <div className="header_title">
+                    {orders.merchant_brand_name && orders.merchant_brand_name}
+                  </div>
                 </div>
-                <div style={{ width: "30px", height: "30px" }}>
+                <div className="logo">
                   <NivapayLogo1 />
                 </div>
               </Toolbar>
@@ -267,7 +248,7 @@ function MetaMaskPage(props: any) {
             {address !== "" ? (
               <div style={{ flex: 1, height: "auto" }}>
                 <section className="nivapay_ramp">
-                <p className="timer">Time left: {props.fixedTime} mins</p>
+                  <p className="timer">Time left: {props.fixedTime} mins</p>
 
                   <div className="choosecurrency" style={{ fontSize: 20 }}>
                     Complete Payment
@@ -403,9 +384,13 @@ function MetaMaskPage(props: any) {
                             }}
                           >
                             <div>Balance</div>
-                         {chaindid === desiredChainId ? <div>
-                              {balance} {getChainNetworkCurrency(chaindid)}
-                            </div> : '--'}
+                            {chaindid === desiredChainId ? (
+                              <div>
+                                {balance} {getChainNetworkCurrency(chaindid)}
+                              </div>
+                            ) : (
+                              "--"
+                            )}
                           </div>
                         </div>
                         <div
@@ -480,7 +465,7 @@ function MetaMaskPage(props: any) {
             ) : (
               <div style={{ flex: 1, height: "auto" }}>
                 <section className="nivapay_ramp">
-                <p className="timer">Time left: {props.fixedTime} mins</p>
+                  <p className="timer">Time left: {props.fixedTime} mins</p>
                   <div className="choosecurrency" style={{ fontSize: 20 }}>
                     Complete Payment
                   </div>
@@ -581,7 +566,7 @@ function MetaMaskPage(props: any) {
                 </section>
               </div>
             )}
-            <div style={{ justifyContent: "flex-end", marginBottom: 10 }}>
+            <div className={matches ? "footer" : "footerSmall"}>
               <Footer />
             </div>
           </section>

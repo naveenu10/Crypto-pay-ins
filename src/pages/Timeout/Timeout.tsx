@@ -8,7 +8,9 @@ import {
   Stack,
   Toolbar,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 import Countdown, { zeroPad } from "react-countdown";
 import { useNavigate } from "react-router-dom";
 import NivapayLogo1 from "../../assets/images/NIcons/NivapayLogo1";
@@ -19,6 +21,8 @@ import { useGlobalContext } from "../../context/context";
 import formatTitleCase from "../../utils/formatTitleCase";
 
 function Detecting() {
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.up("xl"));
   const navigate = useNavigate();
   const context = useGlobalContext();
   const orders = context.state.orderDetails;
@@ -59,27 +63,17 @@ function Detecting() {
   return (
     <Layout>
       <MobileContainer>
-        <div style={{ boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px" }}>
+        <div className="main_section">
           <section
             style={{
               display: "flex",
               flexDirection: "column",
-              height: "100vh",
+              height: matches ? "100vh" : "auto",
+              minHeight: 750,
             }}
           >
-            <AppBar
-              position="static"
-              style={{ backgroundColor: "#279FFE", boxShadow: "none" }}
-            >
-              <Toolbar
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  flexWrap: "nowrap",
-                  justifyContent: "space-between",
-                  paddingLeft: "22px",
-                }}
-              >
+            <AppBar position="static" className="header_main">
+              <Toolbar className="header_sub">
                 <div style={{ textAlign: "left" }}>
                   <IconButton
                     size="large"
@@ -99,46 +93,18 @@ function Detecting() {
                   </IconButton>
                 </div>
                 <div style={{ textAlign: "right" }}>
-                  <Typography
-                    variant="h5"
-                    component="h3"
-                    style={{
-                      textTransform: "capitalize",
-                      fontFamily: "Inter",
-                      fontStyle: "normal",
-                      fontWeight: "700",
-                      fontSize: "20px",
-                      lineHeight: "24px",
-                      textAlign: "center",
-                      color: "#FFFFFF",
-                      letterSpacing: "0.05rem",
-                    }}
-                  >
-                    Cryptogames
-                  </Typography>
+                  <div className="header_title">
+                    {orders.merchant_brand_name &&  formatTitleCase(orders?.merchant_brand_name)}
+                  </div>
                 </div>
-                <div style={{ width: "30px", height: "30px" }}>
+                <div className="logo">
                   <NivapayLogo1 />
                 </div>
               </Toolbar>
             </AppBar>
-            <div style={{ flex: 1, height: "50vh", overflowY: "auto" }}>
+            <div style={{ flex: 1}}>
               <section className="nivapay_ramp">
-                <Typography
-                  style={{
-                    fontStyle: "normal",
-                    fontWeight: 500,
-                    fontSize: "16px",
-                    lineHeight: "30px",
-                    textAlign: "center",
-                    letterSpacing: "0.06em",
-                    color: "#000000",
-                    fontFamily: "Inter",
-                    padding: "10px",
-                  }}
-                >
-                  Time left 00:00 mins
-                </Typography>
+                <p className="timer">Time left 00:00 mins</p>
                 <div
                   style={{
                     display: "flex",
@@ -182,7 +148,7 @@ function Detecting() {
                   You did not complete the payment within the prescribed time
                   duration. You may re-initiate the process to try again.
                 </Typography>
-                <div style={{ marginTop: "30%" }}>
+                <div style={{ marginTop: "20%" }}>
                   <Divider />
                 </div>
                 <div>
@@ -232,7 +198,7 @@ function Detecting() {
                     textAlign: "center",
                     letterSpacing: "0.06em",
                     color: "#21146B",
-                    marginTop: "20%",
+                    marginTop: "17%",
                   }}
                 >
                   {/* Redirecting in <span style={{ color: '#279FFE' }}>30</span> secs... */}
@@ -247,6 +213,7 @@ function Detecting() {
                     display: "flex",
                     justifyContent: "center",
                     marginTop: "4%",
+                    marginBottom:'23%'
                   }}
                 >
                   <Button

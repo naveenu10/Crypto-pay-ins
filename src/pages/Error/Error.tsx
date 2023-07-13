@@ -1,11 +1,14 @@
 import { useEffect } from "react";
-import { Button, Typography } from "@mui/material";
+import { Button, Typography,useMediaQuery } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import { Layout, MobileContainer } from "../../styles/layout";
 import Footer from "../Footer/Footer";
 import formatTitleCase from "../../utils/formatTitleCase";
 
 function Error() {
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.up("lg"));
   const merchantName: any = localStorage.getItem("merchantName");
   const merchantUrl: any = localStorage.getItem("merchantUrl");
 
@@ -16,12 +19,13 @@ function Error() {
   return (
     <Layout>
       <MobileContainer>
-        <div style={{ boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px" }}>
+        <div className="main_section">
           <section
             style={{
               display: "flex",
               flexDirection: "column",
-              height: "100vh",
+              height: matches ? "100vh" : "auto",
+              minHeight: 750,
             }}
           >
             <div style={{ flex: 1, marginTop: "20%" }}>
@@ -89,7 +93,7 @@ function Error() {
                 <Button
                   variant="contained"
                   // className="cryptobtn"
-                  style={{ textTransform: "none" }}
+                  style={{ textTransform: "none",height:55 }}
                   fullWidth
                   onClick={backtoCrypto}
                 >
@@ -98,7 +102,7 @@ function Error() {
                 </Button>
               </section>
             </div>
-            <div className="footer">
+            <div className={matches ? "footer" : "footerSmall"}>
               <Footer />
             </div>
           </section>

@@ -38,10 +38,9 @@ function DepositPage(props: any) {
   const [orderDetails, setOrderDetails] = useState<{ [key: string]: any }>({});
   const [userEmail, setUserEmail] = useState("");
   const [token, setToken] = useState("");
-  const [isLoading, setLoading] = useState(false);
+  const [isLoading, setLoading] = useState(true);
 
   const fetchOrderDetails = async () => {
-    setLoading(true);
     await axios
       .get(`${BASE_URL}/sdk/deposit/order/${order_id}`, {
         headers: {
@@ -112,7 +111,6 @@ function DepositPage(props: any) {
         console.log(err);
         setLoading(false);
       });
-    setLoading(false);
   };
 
   useEffect(() => {

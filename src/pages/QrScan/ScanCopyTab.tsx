@@ -36,7 +36,7 @@ const initData: TabData[] = [
     {
         id: 1,
         name: 'Scan',
-        path: `/QrScanPage`,
+        path: `/QrScan`,
         isActive: true,
         iconUrl: 'https://res.cloudinary.com/dolpotacg/image/upload/v1683011634/Vector_mqrntq.svg',
     },

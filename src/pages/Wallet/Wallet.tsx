@@ -1,7 +1,14 @@
 import { useEffect } from "react";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import { AppBar, Button, IconButton, Toolbar, Typography } from "@mui/material";
+import {
+  AppBar,
+  Button,
+  IconButton,
+  Toolbar,
+  useMediaQuery,
+} from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import NivapayLogo1 from "../../assets/images/NIcons/NivapayLogo1";
@@ -13,22 +20,24 @@ import "./Wallet.css";
 
 function Wallet(props: any) {
   const context = useGlobalContext();
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.up("xl"));
   const orders = context.state.orderDetails;
   const [openCloseDialog, setOpenCloseDialog] = useState(false);
   const navigate = useNavigate();
   const onOtherWallets = () => {
-    navigate("/QrScanPage");
+    navigate("/QrScan");
   };
 
   const onContinue = () => {
-    navigate("/QrScanPage");
+    navigate("/QrScan");
   };
   const handleMetamask = () => {
     navigate("/metamask", { replace: true });
   };
 
   const handleOtherWallets = () => {
-    navigate("/QrScanPage", { replace: true });
+    navigate("/QrScan", { replace: true });
   };
 
   useEffect(() => {
@@ -40,27 +49,17 @@ function Wallet(props: any) {
   return (
     <Layout>
       <MobileContainer>
-        <div style={{ boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px" }}>
+        <div className="main_section">
           <section
             style={{
               display: "flex",
               flexDirection: "column",
-              height: "100vh",
+              height: matches ? "100vh" : "auto",
+              minHeight: 750,
             }}
           >
-            <AppBar
-              position="static"
-              style={{ backgroundColor: "#279FFE", boxShadow: "none" }}
-            >
-              <Toolbar
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  flexWrap: "nowrap",
-                  justifyContent: "space-between",
-                  paddingLeft: "22px",
-                }}
-              >
+            <AppBar position="static" className="header_main">
+              <Toolbar className="header_sub">
                 <div style={{ textAlign: "left" }}>
                   <IconButton
                     size="large"
@@ -74,31 +73,19 @@ function Wallet(props: any) {
                       padding: "5px",
                       marginLeft: "-8px",
                     }}
-                    onClick={() => navigate('/quickpay',{replace: true})}
+                    onClick={() => navigate("/quickpay", { replace: true })}
                   >
                     <ArrowBackIosNewIcon />
                   </IconButton>
                 </div>
                 <div style={{ textAlign: "right" }}>
-                  <Typography
-                    variant="h5"
-                    component="h3"
-                    style={{
-                      textTransform: "capitalize",
-                      fontFamily: "Inter",
-                      fontStyle: "normal",
-                      fontWeight: "700",
-                      fontSize: "20px",
-                      lineHeight: "24px",
-                      textAlign: "center",
-                      color: "#FFFFFF",
-                      letterSpacing: "0.05rem",
-                    }}
-                  >
-                    Cryptogames
-                  </Typography>
+                  <div className="header_title">
+                    {" "}
+                    {orders.merchant_brand_name &&
+                      orders.merchant_brand_name}
+                  </div>
                 </div>
-                <div style={{ width: "30px", height: "30px" }}>
+                <div className="logo">
                   <NivapayLogo1 />
                 </div>
               </Toolbar>
@@ -107,7 +94,10 @@ function Wallet(props: any) {
               <section className="nivapay_ramp">
                 <p className="timer">Time left: {props.fixedTime} mins</p>
 
-                <div className="choosecurrency" style={{ fontSize: 20 }}>
+                <div
+                  className="choosecurrency"
+                  style={{ fontSize: 20, marginBottom: "18%" }}
+                >
                   Select Wallet
                 </div>
 
@@ -137,26 +127,26 @@ function Wallet(props: any) {
                     <ChevronRightIcon style={{ fontSize: "40px" }} />
                   </span>
                 </div>
+                <div style={{ marginTop: "40%" }}>
+                  <Button
+                    className="continue"
+                    variant="contained"
+                    fullWidth
+                    onClick={onContinue}
+                  >
+                    Continue
+                  </Button>
+                  <Button
+                    className="cancelbtn"
+                    fullWidth
+                    onClick={() => setOpenCloseDialog(true)}
+                  >
+                    Cancel
+                  </Button>
+                </div>
               </section>
             </div>
-            <div className="footer">
-              <div style={{ marginBottom: "20px" }}>
-                <Button
-                  className="continue"
-                  variant="contained"
-                  fullWidth
-                  onClick={onContinue}
-                >
-                  Continue
-                </Button>
-                <Button
-                  className="cancelbtn"
-                  fullWidth
-                  onClick={() => setOpenCloseDialog(true)}
-                >
-                  Cancel
-                </Button>
-              </div>
+            <div className={matches ? "footer" : "footerSmall"}>
               <Footer />
             </div>
           </section>
