@@ -92,7 +92,7 @@ body {
 /* LogoGlowMet.css */
 .logo-container {
   position: relative;
-  width: 150px; /* Adjust the size of the container as needed */
+  /* width: 150px; Adjust the size of the container as needed */
   height: 105px;
 }
 
