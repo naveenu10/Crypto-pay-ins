@@ -35,7 +35,9 @@ function DepositPage(props: any) {
   const matches = useMediaQuery(theme.breakpoints.up("xl"));
   const context = useGlobalContext();
   const [openCloseDialog, setOpenCloseDialog] = useState(false);
-  const [orderDetails, setOrderDetails] = useState<{ [key: string]: any }>({});
+  const [orderDetails, setOrderDetails] = useState<{ [key: string]: any }>(
+    context.state.orderDetails
+  );
   const [userEmail, setUserEmail] = useState("");
   const [token, setToken] = useState("");
   const [isLoading, setLoading] = useState(true);
@@ -114,7 +116,9 @@ function DepositPage(props: any) {
   };
 
   useEffect(() => {
-    fetchOrderDetails();
+    // fetchOrderDetails();
+
+    setLoading(false);
   }, []);
 
   useEffect(() => {
@@ -186,14 +190,10 @@ function DepositPage(props: any) {
                   <p className="timer">Time left: {props.fixedTime} mins</p>
                   <div className="pay">Pay</div>
                   <div className="order_currency">
-                    {orderDetails?.order_currency &&
-                      orderDetails?.order_currency.toUpperCase()}
+                    {orderDetails?.order_currency_symbol &&
+                      orderDetails?.order_currency_symbol?.toUpperCase()}
                     &nbsp;
-                    {orderDetails?.order_amount &&
-                      formatCryptoAmount(
-                        orderDetails?.order_currency.toUpperCase(),
-                        orderDetails?.order_amount
-                      )}
+                    {orderDetails?.order_amount && orderDetails?.order_amount}
                   </div>
                   <Typography
                     style={{
@@ -286,21 +286,13 @@ function DepositPage(props: any) {
                       >
                         of Service
                       </a>{" "}
-                      and{" "}
-                      <a
-                        href="https://nivapay.com/privacy-policy/"
-                        style={{ color: "rgba(0, 0, 0, 0.5)" }}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        Privacy Policy.
-                      </a>
                     </div>
                     <Button
                       className="continue"
                       variant="contained"
                       fullWidth
-                      onClick={proceedOrder}
+                      // onClick={proceedOrder}
+                      onClick={() => navigate("/quickpay", { replace: true })}
                       disabled={!userEmail || !validate.test(userEmail)}
                     >
                       Continue

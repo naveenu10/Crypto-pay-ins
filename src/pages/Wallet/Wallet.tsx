@@ -40,11 +40,11 @@ function Wallet(props: any) {
     navigate("/QrScan", { replace: true });
   };
 
-  useEffect(() => {
-    if (!orders) {
-      navigate("/error", { replace: true });
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (!orders) {
+  //     navigate("/error", { replace: true });
+  //   }
+  // }, []);
 
   return (
     <Layout>
@@ -127,11 +127,12 @@ function Wallet(props: any) {
                     <ChevronRightIcon style={{ fontSize: "40px" }} />
                   </span>
                 </div>
-                <div style={{ marginTop: "40%" }}>
+                <div style={{ marginTop: "30%",marginBottom:"10%" }}>
                   <Button
                     className="continue"
                     variant="contained"
                     fullWidth
+                    disabled
                     onClick={onContinue}
                   >
                     Continue

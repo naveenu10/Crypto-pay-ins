@@ -332,7 +332,9 @@ function QrCopy(props: any) {
                       className="continue"
                       variant="contained"
                       fullWidth
-                      onClick={onIhavePaid}
+                      // onClick={onIhavePaid}
+                      onClick={()=> navigate("/detecting", { replace: true })}
+                      
                     >
                       I have Paid
                     </Button>

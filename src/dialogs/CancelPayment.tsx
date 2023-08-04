@@ -86,7 +86,8 @@ const CancelPayment = (props: { open: any; setOpen: any }) => {
                     borderRadius: " 8px",
                     width: "40%",
                   }}
-                  onClick={clickYes}
+                  // onClick={clickYes}
+                  onClick={()=> window.location.replace(orders?.merchant_redirect_url)}
                 >
                   Yes
                 </Button>

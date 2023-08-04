@@ -29,7 +29,6 @@ body {
   right: 0;
   margin-left: 1.7rem;
   margin-right: 1.7rem;
- 
 }
 
 .footerSmall {
@@ -81,4 +80,40 @@ body {
   letter-spacing: 0.05rem;
 }
 
+@media screen and (max-width: 414px) {
+  .header_main {
+    border-radius: 0px;
+  }
+  .main_section {
+    border-radius: 0px;
+  }
+}
+
+/* LogoGlowMet.css */
+.logo-container {
+  position: relative;
+  width: 150px; /* Adjust the size of the container as needed */
+  height: 105px;
+}
+
+.logo-glow {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.5); /* Adjust the glow color and opacity */
+  animation: logoGlowAnimation 2s ease-in-out infinite;
+  z-index: -1;
+}
+
+
+
+@keyframes logoGlowAnimation {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+}
 

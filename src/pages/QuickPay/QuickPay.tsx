@@ -79,7 +79,8 @@ function QuickPay(props: any) {
                       padding: "5px",
                       marginLeft: "-8px",
                     }}
-                    onClick={() => setOpenCloseDialog(true)}
+                    // onClick={() => setOpenCloseDialog(true)}
+                    onClick={() =>  navigate("/deposit", { replace: true })}
                   >
                     <ArrowBackIosNewIcon />
                   </IconButton>

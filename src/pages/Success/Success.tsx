@@ -79,7 +79,7 @@ function Detecting() {
     }
   }, [transactions?.order_crypto_amount, transactions?.transaction_amount]);
 
-    useEffect(() => {
+  useEffect(() => {
     if (!orders) {
       navigate("/error", { replace: true });
     }
@@ -271,21 +271,25 @@ function Detecting() {
                       />
                     </Typography>
                   </Stack>
-                  <Typography
-                    style={{
-                      fontFamily: "Inter",
-                      fontStyle: "normal",
-                      fontWeight: 400,
-                      fontSize: "14px",
-                      lineHeight: "17px",
-                      letterSpacing: "0.06em",
-                      color: "rgba(0, 0, 0, 0.5)",
-                      wordBreak: "break-all",
-                    }}
+                  <Stack
+                    sx={{ justifyContent: "space-between", padding: "6px" }}
                   >
-                    {transactions?.transaction_hash &&
-                      transactions?.transaction_hash}
-                  </Typography>
+                    <Typography
+                      style={{
+                        fontFamily: "Inter",
+                        fontStyle: "normal",
+                        fontWeight: 400,
+                        fontSize: "14px",
+                        lineHeight: "17px",
+                        letterSpacing: "0.06em",
+                        color: "rgba(0, 0, 0, 0.5)",
+                        wordBreak: "break-all",
+                      }}
+                    >
+                      {transactions?.transaction_hash &&
+                        transactions?.transaction_hash}
+                    </Typography>
+                  </Stack>
                 </div>
                 <div style={{ marginTop: "2%" }}>
                   <Divider />

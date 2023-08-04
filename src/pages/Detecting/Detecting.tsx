@@ -22,6 +22,9 @@ import axios from "axios";
 import Loader from "../../utils/Loader";
 import { BASE_URL } from "../../config";
 import formatCryptoAmount from "../../utils/formatCryptoAmount";
+// import timer_icon from "../../assets/images/timer_icon.png";
+
+const timer_icon = require("../../assets/images/timer_icon.png");
 
 function Detecting() {
   const navigate = useNavigate();
@@ -154,7 +157,11 @@ function Detecting() {
                     }}
                   >
                     <div style={{ width: "20%" }}>
-                      <Processing />
+                      <div className="logo-container">
+                        <div className="logo-glow">
+                          <img src={timer_icon} alt="timer_icon" />
+                        </div>
+                      </div>
                     </div>
                   </div>
                   <Typography
@@ -262,24 +269,25 @@ function Detecting() {
                       letterSpacing: "0.06em",
                       color: "#808080",
                       marginTop: "6%",
-                      marginBottom: 30
+                      marginBottom: 30,
                     }}
                   >
                     You may close this window or go back by clicking the button
                     below. We are processing this transaction and will update
                     you the final status through email.
                   </Typography>
-                <div >
-                  <Button
-                    variant="contained"
-                    className="cryptobtn"
-                    onClick={backtoCrypto}
-                  >
-                    {" "}
-                    Back to{" "}
-                    {orders?.merchant_brand_name && orders?.merchant_brand_name}
-                  </Button>
-                </div>
+                  <div>
+                    <Button
+                      variant="contained"
+                      className="cryptobtn"
+                      onClick={backtoCrypto}
+                    >
+                      {" "}
+                      Back to{" "}
+                      {orders?.merchant_brand_name &&
+                        orders?.merchant_brand_name}
+                    </Button>
+                  </div>
                 </section>
               </div>
             )}

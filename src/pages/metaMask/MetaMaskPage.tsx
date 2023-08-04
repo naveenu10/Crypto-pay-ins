@@ -182,11 +182,13 @@ function MetaMaskPage(props: any) {
     }
   };
 
-  useEffect(() => {
-    if (!orders) {
-      navigate("/error", { replace: true });
-    }
-  }, []);
+  const handleIhavePaid = () => navigate("/detecting", { replace: true });
+
+  // useEffect(() => {
+  //   if (!orders) {
+  //     navigate("/error", { replace: true });
+  //   }
+  // }, []);
 
   useEffect(() => {
     metamaskprovider();
@@ -549,6 +551,22 @@ function MetaMaskPage(props: any) {
                     style={{
                       display: "flex",
                       justifyContent: "center",
+                      marginTop: "10px",
+                    }}
+                  >
+                    <Button
+                      className="paidBtn"
+                      variant="outlined"
+                      onClick={handleIhavePaid}
+                      sx={{ textTransform: "none" }}
+                    >
+                      I have Paid
+                    </Button>
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
                       marginTop: "20px",
                     }}
                   >
@@ -564,11 +582,11 @@ function MetaMaskPage(props: any) {
                     setOpen={setOpenCloseDialog}
                   />
                 </section>
+                <div className={"footerSmall"} style={{marginTop:30}}>
+                  <Footer />
+                </div>
               </div>
             )}
-            <div className={matches ? "footer" : "footerSmall"}>
-              <Footer />
-            </div>
           </section>
         </div>
       </MobileContainer>

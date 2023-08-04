@@ -87,13 +87,13 @@ function QrScanPage(props: any) {
       })
       .catch((err) => {
         console.log(err);
-        navigate("/error", { replace: true });
+        // navigate("/error", { replace: true });
         setLoading(false);
       });
   };
 
   useEffect(() => {
-    getQrCode();
+    // getQrCode();
   }, []);
 
   useEffect(() => {
@@ -203,7 +203,7 @@ function QrScanPage(props: any) {
                           }}
                         >
                           <span
-                            style={{ fontSize: "12px" }}
+                            style={{ fontSize: "12px", color: "#1856E7",cursor:'pointer' }}
                             onClick={() => setOpenNetworkDialog(true)}
                           >
                             + Network fee{" "}
@@ -278,7 +278,8 @@ function QrScanPage(props: any) {
                     <Button
                       className="continue"
                       variant="contained"
-                      onClick={onIhavePaid}
+                      // onClick={onIhavePaid}
+                      onClick={()=> navigate("/detecting", { replace: true })}
                       disabled={!userName || !re.test(userName)}
                     >
                       I have Paid{" "}
