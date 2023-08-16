@@ -40,11 +40,11 @@ function QuickPay(props: any) {
     }
   };
 
-  useEffect(() => {
-    if (!orders) {
-      navigate("/error", { replace: true });
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (!orders) {
+  //     navigate("/error", { replace: true });
+  //   }
+  // }, []);
 
   useEffect(() => {
     if (props.fixedTime === "00:00") {
@@ -60,8 +60,8 @@ function QuickPay(props: any) {
             style={{
               display: "flex",
               flexDirection: "column",
-              height: matches ? "100vh" : "auto",
-              minHeight: 750,
+              // height: matches ? "100vh" : "auto",
+              // minHeight: 750,
             }}
           >
             <AppBar position="static" className="header_main">
@@ -80,7 +80,12 @@ function QuickPay(props: any) {
                       marginLeft: "-8px",
                     }}
                     // onClick={() => setOpenCloseDialog(true)}
-                    onClick={() =>  navigate("/deposit", { replace: true })}
+                    onClick={() =>
+                      navigate(
+                        `/deposit/order?order_id=${orders?.order_id}&hash=${orders?.hash}`,
+                        { replace: true }
+                      )
+                    }
                   >
                     <ArrowBackIosNewIcon />
                   </IconButton>
@@ -98,45 +103,45 @@ function QuickPay(props: any) {
             {isLoading ? (
               <Loader />
             ) : (
-              <PerfectScrollbar>
-                <div style={{ flex: 1 }}>
-                  <section className="nivapay_ramp">
-                    <p className="timer">Time left: {props.fixedTime} mins</p>
-                    <div
-                      style={{ boxSizing: "border-box", position: "relative" }}
-                    >
-                      <div className="choosecurrency">
-                        Select Currency to Withdraw
-                      </div>
+              <div className="nivapay_section_container">
+                <section className="nivapay_section">
+                  <p className="timer">Time left: {props.fixedTime} mins</p>
+                  <div
+                    style={{ boxSizing: "border-box", position: "relative" }}
+                  >
+                    <div className="choosecurrency">
+                      Select Currency to Pay With
+                    </div>
+                    <PerfectScrollbar>
                       <div>
-                        <StandardImageList cyyptoData={cyyptoData} />
+                        <StandardImageList />
                       </div>
-                    </div>
-                    <div style={{ marginBottom: "20px" }}>
-                      <Button
-                        variant="contained"
-                        className="continue"
-                        fullWidth
-                        onClick={onContinue}
-                        disabled={!context.state.selectedCoin}
-                      >
-                        Continue
-                      </Button>
-                      <Button
-                        fullWidth
-                        className="cancelbtn"
-                        onClick={() => setOpenCloseDialog(true)}
-                      >
-                        Cancel
-                      </Button>
-                    </div>
-                  </section>
-                  <div className={matches ? "footer" : "footerSmall"}>
-                    <Footer />
+                    </PerfectScrollbar>
                   </div>
-                </div>
-              </PerfectScrollbar>
+                </section>
+              </div>
             )}
+            <div className="footer">
+              <div style={{ marginBottom: "20px", marginTop: 10,width:"325px" }}>
+                <Button
+                  variant="contained"
+                  className="continue"
+                  fullWidth
+                  onClick={onContinue}
+                  disabled={!context.state.selectedCoin}
+                >
+                  Continue
+                </Button>
+                <Button
+                  fullWidth
+                  className="cancelbtn"
+                  onClick={() => setOpenCloseDialog(true)}
+                >
+                  Cancel
+                </Button>
+              </div>
+              <Footer />
+            </div>
           </section>
           <CancelPayment open={openCloseDialog} setOpen={setOpenCloseDialog} />
         </div>

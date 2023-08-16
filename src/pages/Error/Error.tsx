@@ -53,7 +53,7 @@ function Error() {
                   </div>
                   <div style={{ textAlign: "right" }}>
                     <div className="header_title">
-                      {merchantName && formatTitleCase(merchantName)}
+                      {/* {merchantName && formatTitleCase(merchantName)} */}
                     </div>
                   </div>
                   <div className="logo">
@@ -62,10 +62,10 @@ function Error() {
                 </Toolbar>
               </AppBar>
 
-              <div>
+              <div style={{height: "640px",  display: 'flex', alignItems: 'center',justifyContent: 'center'}}>
                 <section
                   style={{
-                    height: "80vh",
+                    // height: "80vh",
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",

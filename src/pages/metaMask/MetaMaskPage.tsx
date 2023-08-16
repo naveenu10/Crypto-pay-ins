@@ -35,16 +35,20 @@ function MetaMaskPage(props: any) {
   const navigate = useNavigate();
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.up("xl"));
-  const coinName = context.state.selectedCoin;
-  const coinData = context.state.selectedCoinData;
-  const orders = context.state.orderDetails;
+  const coinName = context?.state?.selectedCoin;
+  const coinData = context?.state?.selectedCoinData;
+  const orders = context?.state?.orderDetails;
+  const token = context?.state?.token;
+  const paymentDetails = context?.state?.metamaskPaymentDetails;
   const [openCloseDialog, setOpenCloseDialog] = useState(false);
   const [address, setAddress] = useState<any | null>("");
   const [showErr, setShowErr] = useState("");
-  const [chaindid, setchaindid] = useState(0);
+  const [chaindid, setchaindid] = useState(paymentDetails?.chain_id);
   const [balance, setBalance] = useState<any | null>(null);
   const [isLoading, setLoading] = useState(false);
   const [desiredChainId, setDesiredChainId] = useState(1);
+
+  // console.log(context?.state?.metamaskPaymentDetails);
 
   async function metamaskprovider() {
     var provider: any = await detectEthereumProvider();
@@ -184,11 +188,11 @@ function MetaMaskPage(props: any) {
 
   const handleIhavePaid = () => navigate("/detecting", { replace: true });
 
-  // useEffect(() => {
-  //   if (!orders) {
-  //     navigate("/error", { replace: true });
-  //   }
-  // }, []);
+  useEffect(() => {
+    if (!token) {
+      navigate("/error", { replace: true });
+    }
+  }, []);
 
   useEffect(() => {
     metamaskprovider();
@@ -198,6 +202,11 @@ function MetaMaskPage(props: any) {
   useEffect(() => {
     handleChainChanged(chaindid);
   }, [chaindid]);
+
+  useEffect(() => {
+    swtichToEth(chaindid);
+  }, [chaindid]);
+
 
   useEffect(() => {
     if (props.fixedTime === "00:00") {
@@ -266,7 +275,7 @@ function MetaMaskPage(props: any) {
                               fontWeight: "600",
                             }}
                           >
-                            {coinData?.asset_quote && coinData?.asset_quote}{" "}
+                            {paymentDetails?.asset_amount && paymentDetails?.asset_amount}{" "}
                           </span>
                           <span
                             style={{
@@ -276,7 +285,7 @@ function MetaMaskPage(props: any) {
                               marginLeft: "4px",
                             }}
                           >
-                            {coinName && coinName.toUpperCase()}
+                            {paymentDetails?.asset_symbol && (paymentDetails?.asset_symbol).toUpperCase()}
                           </span>
                         </div>
                         <div style={{ marginTop: "4px", color: "#808080" }}>
@@ -305,7 +314,7 @@ function MetaMaskPage(props: any) {
                                 Switch the network in your wallet to Ethereum
                               </Typography>
                             ) : (
-                              Number(coinData?.asset_quote) >= balance && (
+                              Number(paymentDetails?.asset_amount) >= balance && (
                                 <Typography
                                   style={{
                                     fontSize: "12px",
@@ -478,7 +487,7 @@ function MetaMaskPage(props: any) {
                           <span
                             style={{ fontSize: "24px", fontWeight: "600px" }}
                           >
-                            {coinData?.asset_quote && coinData?.asset_quote}{" "}
+                            {paymentDetails?.asset_amount && paymentDetails?.asset_amount}{" "}
                           </span>
                           <span
                             style={{
@@ -488,7 +497,7 @@ function MetaMaskPage(props: any) {
                               marginLeft: "4px",
                             }}
                           >
-                            {coinName && coinName.toUpperCase()}
+                            {paymentDetails?.asset_symbol && (paymentDetails?.asset_symbol)?.toUpperCase()}
                           </span>
                         </div>
                         <div style={{ marginTop: "4px", color: "#808080" }}>
@@ -511,14 +520,10 @@ function MetaMaskPage(props: any) {
                             justifyContent: "center",
                           }}
                         >
-                          {/* have to change once qr url come from api response */}
-                          {/* <QrCode /> */}
-
-                          <QRCode
-                            value={
-                              "https://metamask.app.link/send/0x2f7f783ec8c70E6614AD1bc3C6Fd9CD206B3C054@1?value=5.446e16&gasPrice=64&label=Nivapay%2063ffa75b-af3b-45b1-9abb-a310e3352e28"
-                            }
-                            size={180}
+                          <img
+                            src={`data:image/png;base64,${paymentDetails?.qr_string}`}
+                            width={180}
+                            height={180}
                           />
                         </div>
                         <div style={{ marginTop: "15px" }}>
@@ -582,7 +587,7 @@ function MetaMaskPage(props: any) {
                     setOpen={setOpenCloseDialog}
                   />
                 </section>
-                <div className={"footerSmall"} style={{marginTop:30}}>
+                <div className={"footerSmall"} style={{ marginTop: 30 }}>
                   <Footer />
                 </div>
               </div>

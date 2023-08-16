@@ -29,6 +29,18 @@ const theme = createTheme({
     // contrastThreshold: 3,
     // tonalOffset: 0.2,
   // },
+  components: {
+    // Name of the component
+    MuiButton: {
+      styleOverrides: {
+        // Name of the slot
+        root: {
+          // Some CSS
+          borderRadius:8
+        },
+      },
+    },
+  },
 });
 
 export default theme;

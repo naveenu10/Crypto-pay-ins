@@ -7,12 +7,16 @@ import "./ImageList.css";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import formatCryptoAmount from "../../utils/formatCryptoAmount";
 
-export default function StandardImageList(props: { cyyptoData: any }) {
-  const { cyyptoData } = props;
+export default function StandardImageList() {
+  // const { cyyptoData } = props;
   const [selectedInd, setselectedInd] = React.useState(null);
   const [openInfo, setOpenInfo] = React.useState(false);
   const context = useGlobalContext();
   let coinName = context.state.selectedCoin;
+  let coinNetwork = context.state.selectedCoinNetwork;
+  const cyyptoData = context.state.allCryptos;
+
+  // console.log(cyyptoData)
 
   function selectCoin(i: any, item: any) {
     if (item) {
@@ -25,6 +29,10 @@ export default function StandardImageList(props: { cyyptoData: any }) {
       context.dispatch({
         type: "SELECTED_COIN",
         payload: item,
+      });
+      context.dispatch({
+        type: "SELECTED_COIN_NETWORK",
+        payload: item?.asset_network,
       });
     }
   }
@@ -78,15 +86,15 @@ export default function StandardImageList(props: { cyyptoData: any }) {
       </Stack>
       <Divider style={{ marginTop: "1%" }} />
       <PerfectScrollbar>
-        <div style={{ minHeight: 350, maxHeight: 350 }}>
-          {cyyptoData.length !== 0
+        <div style={{ minHeight: 400, maxHeight: 400,paddingRight:10 }}>
+          {cyyptoData?.length !== 0
             ? cyyptoData?.map((item: any, i: any) => (
                 <Stack
                   direction={"row"}
                   sx={{
                     justifyContent: "space-around",
                     backgroundColor:
-                      selectedInd == i || coinName === item?.asset_symbol
+                      selectedInd == i || (coinName === item?.asset_symbol && coinNetwork === item?.asset_network)
                         ? "#E5F0FF"
                         : "",
                     borderRadius: "10px",
@@ -146,6 +154,8 @@ export default function StandardImageList(props: { cyyptoData: any }) {
                               color: "#595959",
                               boxShadow: "none",
                               textTransform: "capitalize",
+                              width:'fit-content',
+                              marginLeft:5
                             }}
                           >
                             {item.asset_network}
@@ -173,11 +183,7 @@ export default function StandardImageList(props: { cyyptoData: any }) {
                             lineHeight: "48px",
                           }}
                         >
-                          {item.asset_quote &&
-                            formatCryptoAmount(
-                              item.asset_symbol.toUpperCase(),
-                              item.asset_quote
-                            )}
+                          {item.asset_amount && item.asset_amount}
                         </div>
                       </div>
                     </div>

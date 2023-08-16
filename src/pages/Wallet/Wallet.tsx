@@ -17,14 +17,18 @@ import BackButton from "../../dialogs/BackButton";
 import { Layout, MobileContainer } from "../../styles/layout";
 import Footer from "../Footer/Footer";
 import "./Wallet.css";
+import { getMetamaskPaymentDetails } from "../../services/depositServices";
 
 function Wallet(props: any) {
   const context = useGlobalContext();
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.up("xl"));
   const orders = context.state.orderDetails;
+  const coinData = context.state.selectedCoinData;
+  const token = context.state.token;
   const [openCloseDialog, setOpenCloseDialog] = useState(false);
   const navigate = useNavigate();
+
   const onOtherWallets = () => {
     navigate("/QrScan");
   };
@@ -40,8 +44,32 @@ function Wallet(props: any) {
     navigate("/QrScan", { replace: true });
   };
 
+  const fetchMetamaskPaymentDetails = async () => {
+    const payload = {
+      network: coinData?.asset_network,
+      crypto: coinData?.asset_symbol,
+      amount: Number(coinData?.asset_amount),
+    };
+    const res: any = await getMetamaskPaymentDetails(payload, token);
+    console.log(res);
+    if (res?.status === 201) {
+      context.dispatch({
+        type: "METAMASK_PAYMENT_DETAILS",
+        payload: res?.data,
+      });
+    } else {
+      navigate("/error", { replace: true });
+    }
+  };
+
+  useEffect(() => {
+    if (token) {
+      fetchMetamaskPaymentDetails();
+    }
+  }, []);
+
   // useEffect(() => {
-  //   if (!orders) {
+  //   if (!token) {
   //     navigate("/error", { replace: true });
   //   }
   // }, []);
@@ -81,8 +109,7 @@ function Wallet(props: any) {
                 <div style={{ textAlign: "right" }}>
                   <div className="header_title">
                     {" "}
-                    {orders.merchant_brand_name &&
-                      orders.merchant_brand_name}
+                    {orders.merchant_brand_name && orders.merchant_brand_name}
                   </div>
                 </div>
                 <div className="logo">
@@ -127,7 +154,7 @@ function Wallet(props: any) {
                     <ChevronRightIcon style={{ fontSize: "40px" }} />
                   </span>
                 </div>
-                <div style={{ marginTop: "30%",marginBottom:"10%" }}>
+                <div style={{ marginTop: "30%", marginBottom: "10%" }}>
                   <Button
                     className="continue"
                     variant="contained"

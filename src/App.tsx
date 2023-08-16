@@ -9,11 +9,11 @@ import Timeout from "./pages/Timeout/Timeout";
 import Wallet from "./pages/Wallet/Wallet";
 import DepositPage from "./pages/DepositPage/DepositPage";
 import MetaMaskPage from "./pages/metaMask/MetaMaskPage";
-import WelcomePage from "./pages/Welcome/WelcomePage";
 import Error from "./pages/Error/Error";
 import theme from "./theme/theme";
 import QrScanPage from "./pages/QrScan/QrScanPage";
 import { useEffect, useState } from "react";
+import WelcomePage from "./pages/Welcome/WelcomePage";
 
 function App() {
   const duration = 15 * 60 * 1000;
@@ -32,14 +32,17 @@ function App() {
   let fixedTime = `${minitus < 10 ? `0${minitus}` : minitus}:${
     seconds < 10 ? `0${seconds}` : seconds
   }`;
-
+  
   return (
     <ThemeProvider theme={theme}>
       <BrowserRouter>
         <Routes>
-          {/* <Route path="/" element={<WelcomePage />} /> */}
           <Route
-            path="/deposit"
+            path="/order"
+            element={<WelcomePage />}
+          />
+          <Route
+            path="/deposit/order"
             element={<DepositPage fixedTime={fixedTime} />}
           />
           <Route
