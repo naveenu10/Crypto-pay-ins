@@ -29,19 +29,12 @@ function Wallet(props: any) {
   const [openCloseDialog, setOpenCloseDialog] = useState(false);
   const navigate = useNavigate();
 
-  const onOtherWallets = () => {
-    navigate("/QrScan");
-  };
-
-  const onContinue = () => {
-    navigate("/QrScan");
-  };
-  const handleMetamask = () => {
+   const handleMetamask = () => {
     navigate("/metamask_scan", { replace: true });
   };
 
   const handleOtherWallets = () => {
-    navigate("/QrScan", { replace: true });
+    navigate("/QrMounting", { replace: true });
   };
 
   const fetchMetamaskPaymentDetails = async () => {
@@ -71,11 +64,11 @@ function Wallet(props: any) {
     }
   }, []);
 
-  // useEffect(() => {
-  //   if (!token) {
-  //     navigate("/error", { replace: true });
-  //   }
-  // }, []);
+  useEffect(() => {
+    if (!token) {
+      navigate("/error", { replace: true });
+    }
+  }, []);
 
   return (
     <Layout>
@@ -153,7 +146,7 @@ function Wallet(props: any) {
                   <span style={{ fontSize: "20px", color: "#000000" }}>
                     Other&nbsp;Wallets
                   </span>
-                  <span onClick={onOtherWallets}>
+                  <span>
                     <ChevronRightIcon style={{ fontSize: "40px" }} />
                   </span>
                 </div>
@@ -170,7 +163,7 @@ function Wallet(props: any) {
                     style={{ width: "325px", alignSelf: "center" }}
                     fullWidth
                     disabled
-                    onClick={onContinue}
+                  
                   >
                     Continue
                   </Button>
