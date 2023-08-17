@@ -1,94 +1,53 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import { AppBar, IconButton, Toolbar, useMediaQuery } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import NivapayLogo1 from "../../assets/images/NIcons/NivapayLogo1";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useGlobalContext } from "../../context/context";
 import { Layout, MobileContainer } from "../../styles/layout";
 import Loader from "../../utils/Loader";
-import {
-  getOrderCrypto,
-  getOrderDetails,
-  validateOrder,
-} from "../../services/depositServices";
+import { getCryptoPaymentDetails } from "../../services/depositServices";
 
-function WelcomePage() {
-  const [searchParams, setSearchParams] = useSearchParams();
+function QrMounting() {
   const navigate = useNavigate();
-  const order_id: string = searchParams.get("order_id")!;
-  const hash: string = searchParams.get("hash")!;
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.up("xl"));
   const context = useGlobalContext();
-  const [token, setToken] = useState("");
+  const coinData = context.state.selectedCoinData;
+  const token = context.state.token;
 
-  let interval: any = "";
+  const fetchCryptoPayment = async () => {
+    const network: string = coinData?.asset_network;
+    const crypto: string = coinData?.asset_symbol;
+    const amount: number = Number(coinData?.asset_amount);
+    const res: any = await getCryptoPaymentDetails(
+      network,
+      crypto,
+      amount,
+      token
+    );
 
-  const getValidateOrder = async () => {
-    const res: any = await validateOrder(order_id, hash);
     if (res?.status === 200) {
-      fetchOrderDetails(res?.data?.token);
-      fetchCryptoList(res?.data?.token);
-      interval = setInterval(() => fetchCryptoList(res?.data?.token), 1200000);
       context.dispatch({
-        type: "TOKEN",
-        payload: res?.data?.token,
-      });
-      navigate(`/deposit/order?order_id=${order_id}&hash=${hash}`, {
-        replace: true,
-      });
-    } else {
-      navigate(`/error`, {
-        replace: true,
-      });
-    }
-  };
-
-  const fetchOrderDetails = async (tokenId: string) => {
-    const res: any = await getOrderDetails(tokenId);
-    if (res?.status === 200) {
-      console.log(res);
-      localStorage.setItem("merchantUrl", res?.data?.merchant_redirect_url);
-      localStorage.setItem("merchantName", res?.data?.merchant_brand_name);
-      context.dispatch({
-        type: "ORDER_DETAILS",
+        type: "GET_QR_DATA",
         payload: res?.data,
       });
-      context.dispatch({
-        type: "ORDER_ID",
-        payload: res?.data?.order_id,
-      });
-      context.dispatch({
-        type: "UPDATE_EMAIL",
-        payload: res?.data?.user_email_id,
-      });
+      navigate("/QrScan", { replace: true });
     } else {
       navigate("/error", { replace: true });
     }
   };
-
-  const fetchCryptoList = async (tokenId: string) => {
-    const res: any = await getOrderCrypto(order_id, tokenId);
-
-    if (res?.status === 200) {
-      context.dispatch({
-        type: "ALL_CRYPTO",
-        payload: res?.data?.quotes,
-      });
-    } else {
-      navigate("/error", { replace: true });
-    }
-  };
-
-  useEffect(() => {
-    getValidateOrder();
-  }, []);
 
   useEffect(() => {
     if (token) {
-      // const interval = setInterval(() => fetchCryptoList(), 1200000);
-      return () => clearInterval(interval);
+      fetchCryptoPayment();
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!token) {
+      navigate("/error", { replace: true });
     }
   }, [token]);
 
@@ -140,4 +99,4 @@ function WelcomePage() {
   );
 }
 
-export default WelcomePage;
+export default QrMounting;

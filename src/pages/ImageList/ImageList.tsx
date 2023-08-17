@@ -20,7 +20,7 @@ export default function StandardImageList() {
 
   function selectCoin(i: any, item: any) {
     if (item) {
-      console.log(item);
+      // console.log(item);
       setselectedInd(i);
       context.dispatch({
         type: "UPDATE_NETWORK",

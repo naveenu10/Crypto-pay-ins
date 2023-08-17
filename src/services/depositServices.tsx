@@ -28,6 +28,20 @@ const sendEmail = async (payload: any, token: string) => {
   }
 };
 
+const sendOrderEvent = async (payload: any, token: string) => {
+  try {
+    const response = await http.post(`/sdk/deposit/transaction/events`, payload, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response;
+  } catch (e) {
+    return e;
+  }
+};
+
 const getTransactionDetails = async (token: string) => {
   try {
     const response = await http.get(`/sdk/deposit/transaction/details`, {
@@ -42,7 +56,35 @@ const getTransactionDetails = async (token: string) => {
   }
 };
 
-const getOrderCrypto = async (orderId:string,token: string) => {
+const getTransactionStatus = async (token: string) => {
+  try {
+    const response = await http.get(`/sdk/deposit/transaction/status`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response;
+  } catch (e) {
+    return e;
+  }
+};
+
+const getOrderDetails = async (token: string) => {
+  try {
+    const response = await http.get(`/sdk/deposit/order`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response;
+  } catch (e) {
+    return e;
+  }
+};
+
+const getOrderCrypto = async (orderId: string, token: string) => {
   try {
     const response = await http.get(`/sdk/deposit/order/${orderId}/crypto`, {
       headers: {
@@ -56,19 +98,58 @@ const getOrderCrypto = async (orderId:string,token: string) => {
   }
 };
 
-
-const getMetamaskPaymentDetails = async (payload: any, token: string) => {
+const getMetamaskPaymentDetails = async (
+  network: string,
+  symbol: string,
+  amount: number,
+  token: string
+) => {
   try {
-    const response = await http.post(`/sdk/deposit/address/metamask`, payload, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await http.get(
+      `/sdk/deposit/address/metamask/${network}/${symbol}/${amount}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
     return response;
   } catch (e) {
     return e;
   }
 };
 
-export { validateOrder, sendEmail, getTransactionDetails,getOrderCrypto,getMetamaskPaymentDetails };
+const getCryptoPaymentDetails = async (
+  network: string,
+  symbol: string,
+  amount: number,
+  token: string
+) => {
+  try {
+    const response = await http.get(
+      `/sdk/deposit/address/${network}/${symbol}/${amount}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response;
+  } catch (e) {
+    return e;
+  }
+};
+
+export {
+  sendEmail,
+  validateOrder,
+  getOrderCrypto,
+  sendOrderEvent,
+  getOrderDetails,
+  getTransactionStatus,
+  getTransactionDetails,
+  getCryptoPaymentDetails,
+  getMetamaskPaymentDetails,
+};

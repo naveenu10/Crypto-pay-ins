@@ -13,11 +13,11 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import NivapayLogo1 from "../../assets/images/NIcons/NivapayLogo1";
 import { useGlobalContext } from "../../context/context";
-import BackButton from "../../dialogs/BackButton";
 import { Layout, MobileContainer } from "../../styles/layout";
 import Footer from "../Footer/Footer";
 import "./Wallet.css";
 import { getMetamaskPaymentDetails } from "../../services/depositServices";
+import CancelPayment from "../../dialogs/CancelPayment";
 
 function Wallet(props: any) {
   const context = useGlobalContext();
@@ -37,7 +37,7 @@ function Wallet(props: any) {
     navigate("/QrScan");
   };
   const handleMetamask = () => {
-    navigate("/metamask", { replace: true });
+    navigate("/metamask_scan", { replace: true });
   };
 
   const handleOtherWallets = () => {
@@ -45,14 +45,17 @@ function Wallet(props: any) {
   };
 
   const fetchMetamaskPaymentDetails = async () => {
-    const payload = {
-      network: coinData?.asset_network,
-      crypto: coinData?.asset_symbol,
-      amount: Number(coinData?.asset_amount),
-    };
-    const res: any = await getMetamaskPaymentDetails(payload, token);
+    const network: string = coinData?.asset_network;
+    const crypto: string = coinData?.asset_symbol;
+    const amount: number = Number(coinData?.asset_amount);
+    const res: any = await getMetamaskPaymentDetails(
+      network,
+      crypto,
+      amount,
+      token
+    );
     console.log(res);
-    if (res?.status === 201) {
+    if (res?.status === 200) {
       context.dispatch({
         type: "METAMASK_PAYMENT_DETAILS",
         payload: res?.data,
@@ -154,10 +157,17 @@ function Wallet(props: any) {
                     <ChevronRightIcon style={{ fontSize: "40px" }} />
                   </span>
                 </div>
-                <div style={{ marginTop: "30%", marginBottom: "10%" }}>
+                <div
+                  style={{
+                    marginTop: "40%",
+                    display: "flex",
+                    flexDirection: "column",
+                  }}
+                >
                   <Button
                     className="continue"
                     variant="contained"
+                    style={{ width: "325px", alignSelf: "center" }}
                     fullWidth
                     disabled
                     onClick={onContinue}
@@ -166,19 +176,24 @@ function Wallet(props: any) {
                   </Button>
                   <Button
                     className="cancelbtn"
+                    style={{ width: "325px", alignSelf: "center" }}
                     fullWidth
                     onClick={() => setOpenCloseDialog(true)}
                   >
                     Cancel
                   </Button>
+                  <div className="footer">
+                    <Footer />
+                  </div>
                 </div>
               </section>
             </div>
-            <div className={matches ? "footer" : "footerSmall"}>
-              <Footer />
-            </div>
           </section>
-          <BackButton open={openCloseDialog} setOpen={setOpenCloseDialog} />
+          <CancelPayment
+            open={openCloseDialog}
+            setOpen={setOpenCloseDialog}
+            left_time={props?.fixedTime}
+          />
         </div>
       </MobileContainer>
     </Layout>

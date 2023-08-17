@@ -14,8 +14,11 @@ import theme from "./theme/theme";
 import QrScanPage from "./pages/QrScan/QrScanPage";
 import { useEffect, useState } from "react";
 import WelcomePage from "./pages/Welcome/WelcomePage";
+import MetaMaskConnectedComponent from "./pages/metaMask/MetaMaskConnectedComponent";
+import QrMounting from "./pages/QrScan/QrMounting";
 
 function App() {
+
   const duration = 15 * 60 * 1000;
   const [time, setTime] = useState<any>(duration);
   useEffect(() => {
@@ -32,15 +35,12 @@ function App() {
   let fixedTime = `${minitus < 10 ? `0${minitus}` : minitus}:${
     seconds < 10 ? `0${seconds}` : seconds
   }`;
-  
+
   return (
     <ThemeProvider theme={theme}>
       <BrowserRouter>
         <Routes>
-          <Route
-            path="/order"
-            element={<WelcomePage />}
-          />
+          <Route path="/order" element={<WelcomePage />} />
           <Route
             path="/deposit/order"
             element={<DepositPage fixedTime={fixedTime} />}
@@ -52,16 +52,21 @@ function App() {
           <Route path="/detecting" element={<Detecting />} />
           <Route path="/success" element={<Success />} />
           <Route path="/failure" element={<Failure />} />
-          <Route path="/timeout" element={<Timeout />} />
+          <Route path="/timeout" element={<Timeout fixedTime={fixedTime}/>} />
           <Route path="/wallet" element={<Wallet fixedTime={fixedTime} />} />
+          <Route path="/QrMounting" element={<QrMounting />} />
           <Route
             path="/QrScan"
             element={<QrScanPage fixedTime={fixedTime} />}
           />
           <Route path="/QrCopy" element={<QrCopy fixedTime={fixedTime} />} />
           <Route
-            path="/metamask"
+            path="/metamask_scan"
             element={<MetaMaskPage fixedTime={fixedTime} />}
+          />
+          <Route
+            path="/metamask_wallet"
+            element={<MetaMaskConnectedComponent fixedTime={fixedTime} />}
           />
           <Route path="/error" element={<Error />} />
         </Routes>

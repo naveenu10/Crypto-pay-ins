@@ -19,13 +19,16 @@ import { Layout, MobileContainer } from "../../styles/layout";
 import Footer from "../Footer/Footer";
 import { useGlobalContext } from "../../context/context";
 import formatTitleCase from "../../utils/formatTitleCase";
+import { sendOrderEvent } from "../../services/depositServices";
 
-function Detecting() {
+function Detecting(props: any) {
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.up("xl"));
   const navigate = useNavigate();
   const context = useGlobalContext();
   const orders = context.state.orderDetails;
+  const token = context.state.token;
+  const selectedCoinData = context.state.selectedCoinData;
 
   function backtoCrypto() {
     window.location.replace(orders?.merchant_redirect_url);
@@ -54,9 +57,34 @@ function Detecting() {
     }
   };
 
+  const sendTimeoutEvent = async () => {
+    const hms = props.fixedTime;
+    const a = hms.split(":");
+    const seconds = +a[0] * 60 + +a[1];
+    const now = new Date().toISOString();
+
+    const payload = {
+      user_event: "user.action.session.timeout",
+      asset_network: selectedCoinData?.asset_network,
+      asset_symbol: selectedCoinData?.asset_symbol,
+      asset_amount: selectedCoinData?.asset_amount,
+      session_time_left_seconds: seconds,
+      event_time: now,
+    };
+    const res: any = await sendOrderEvent(payload, token);
+    if (res.status !== 201) {
+      navigate("/error", { replace: true });
+    }
+  };
+
   useEffect(() => {
     if (!orders) {
       navigate("/error", { replace: true });
+    }
+  }, []);
+  useEffect(() => {
+    if (token) {
+      sendTimeoutEvent();
     }
   }, []);
 
@@ -94,7 +122,8 @@ function Detecting() {
                 </div>
                 <div style={{ textAlign: "right" }}>
                   <div className="header_title">
-                    {orders.merchant_brand_name &&  formatTitleCase(orders?.merchant_brand_name)}
+                    {orders.merchant_brand_name &&
+                      formatTitleCase(orders?.merchant_brand_name)}
                   </div>
                 </div>
                 <div className="logo">
@@ -102,7 +131,7 @@ function Detecting() {
                 </div>
               </Toolbar>
             </AppBar>
-            <div style={{ flex: 1}}>
+            <div style={{ flex: 1 }}>
               <section className="nivapay_ramp">
                 <p className="timer">Time left 00:00 mins</p>
                 <div
@@ -213,7 +242,7 @@ function Detecting() {
                     display: "flex",
                     justifyContent: "center",
                     marginTop: "4%",
-                    marginBottom:'23%'
+                    marginBottom: "23%",
                   }}
                 >
                   <Button

@@ -7,9 +7,7 @@ import {
   Stack,
   Toolbar,
   Typography,
-  useMediaQuery,
 } from "@mui/material";
-import { useTheme } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
 import { useGlobalContext } from "../../context/context";
 import NivapayLogo1 from "../../assets/images/NIcons/NivapayLogo1";
@@ -23,8 +21,6 @@ import formatTitleCase from "../../utils/formatTitleCase";
 
 function Detecting() {
   const navigate = useNavigate();
-  const theme = useTheme();
-  const matches = useMediaQuery(theme.breakpoints.up("xl"));
   const context = useGlobalContext();
   const orders = context.state.orderDetails;
   const transactions = context.state.transactionDetails;
@@ -32,7 +28,7 @@ function Detecting() {
   const [getTextColor, setTextColor] = useState<any>("rgba(0, 0, 0, 0.5)");
   const [timeFlag, setTimeFlag] = useState(false);
   const backtoCrypto = () => {
-    window.location.replace(transactions?.merchant_redirect_url);
+    window.location.replace(orders?.merchant_redirect_url);
   };
 
   const duration = 1 * 30 * 1000;
@@ -55,29 +51,29 @@ function Detecting() {
     seconds < 10 ? `0${seconds}` : seconds
   }`;
 
-  const priceComparison = (receivedAmount: any) => {
-    if (receivedAmount < transactions?.order_crypto_amount) {
-      setErrorMsg(
-        "You have paid a lower than anticipated amount. You may re-initiate the process to pay the remaining amount or contact the merchant to reconcile."
-      );
-      setTextColor("#FF0000");
-    }
-    if (receivedAmount > transactions?.order_crypto_amount) {
-      setErrorMsg(
-        "You have paid a higher than anticipated amount. You may contact the merchant to reconcile."
-      );
-      setTextColor("#FF0000");
-    } else {
-      setErrorMsg("");
-      setTextColor("rgba(0, 0, 0, 0.5) ");
-    }
-  };
+  // const priceComparison = (receivedAmount: any) => {
+  //   if (receivedAmount < transactions?.order_crypto_amount) {
+  //     setErrorMsg(
+  //       "You have paid a lower than anticipated amount. You may re-initiate the process to pay the remaining amount or contact the merchant to reconcile."
+  //     );
+  //     setTextColor("#FF0000");
+  //   }
+  //   if (receivedAmount > transactions?.order_crypto_amount) {
+  //     setErrorMsg(
+  //       "You have paid a higher than anticipated amount. You may contact the merchant to reconcile."
+  //     );
+  //     setTextColor("#FF0000");
+  //   } else {
+  //     setErrorMsg("");
+  //     setTextColor("rgba(0, 0, 0, 0.5) ");
+  //   }
+  // };
 
-  useEffect(() => {
-    if (transactions?.transaction_amount) {
-      priceComparison(transactions?.transaction_amount);
-    }
-  }, [transactions?.order_crypto_amount, transactions?.transaction_amount]);
+  // useEffect(() => {
+  //   if (transactions?.transaction_amount) {
+  //     priceComparison(transactions?.transaction_amount);
+  //   }
+  // }, [transactions?.order_crypto_amount, transactions?.transaction_amount]);
 
   useEffect(() => {
     if (!orders) {
@@ -93,8 +89,6 @@ function Detecting() {
             style={{
               display: "flex",
               flexDirection: "column",
-              height: matches ? "100vh" : "auto",
-              minHeight: 750,
             }}
           >
             <AppBar position="static" className="header_main">
@@ -157,7 +151,7 @@ function Detecting() {
                 >
                   Success
                 </Typography>
-                <Typography
+                {/* <Typography
                   style={{
                     fontFamily: "Inter",
                     fontStyle: "normal",
@@ -171,7 +165,7 @@ function Detecting() {
                   }}
                 >
                   {errorMsg && errorMsg}
-                </Typography>
+                </Typography> */}
                 <div style={{ marginTop: "25px" }}>
                   <Divider />
                 </div>
@@ -240,7 +234,7 @@ function Detecting() {
                     <Typography className="currency">
                       Received amount (crypto)
                     </Typography>
-                    <Typography style={{ color: getTextColor }}>
+                    <Typography style={{ color: "rgba(0, 0, 0, 0.5)" }}>
                       {" "}
                       {transactions?.transaction_amount &&
                         transactions?.transaction_amount}{" "}
@@ -307,35 +301,33 @@ function Detecting() {
                     marginTop: "15%",
                   }}
                 >
-                  {/* Redirecting in <span style={{ color: '#279FFE' }}>30</span> secs... */}
                   Redirecting in{" "}
-                  <span style={{ color: "#279FFE" }}>
-                    {/* <Countdown date={Date.now() + 30000} renderer={renderer} /> */}
-                    {fixedTime}
-                  </span>{" "}
+                  <span style={{ color: "#279FFE" }}>{fixedTime}</span>{" "}
                   <span>secs...</span>
                 </Typography>
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    marginTop: "3%",
-                  }}
-                >
-                  <Button
-                    variant="contained"
-                    className="cryptobtn"
-                    onClick={backtoCrypto}
-                  >
-                    {" "}
-                    Back to{" "}
-                    {orders?.merchant_brand_name &&
-                      formatTitleCase(orders?.merchant_brand_name)}
-                  </Button>
-                </div>
               </section>
             </div>
-            <div className={matches ? "footer" : "footerSmall"}>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                marginTop: "3%",
+                width: "325px",
+                alignSelf: "center",
+              }}
+            >
+              <Button
+                variant="contained"
+                className="cryptobtn"
+                onClick={backtoCrypto}
+              >
+                {" "}
+                Back to{" "}
+                {orders?.merchant_brand_name &&
+                  formatTitleCase(orders?.merchant_brand_name)}
+              </Button>
+            </div>
+            <div className="footer">
               <Footer />
             </div>
           </section>

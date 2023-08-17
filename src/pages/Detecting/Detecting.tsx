@@ -13,16 +13,16 @@ import {
 import { useTheme } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
 import NivapayLogo1 from "../../assets/images/NIcons/NivapayLogo1";
-import Processing from "../../assets/images/NIcons/Processing";
 import { Layout, MobileContainer } from "../../styles/layout";
 import Footer from "../Footer/Footer";
 import { useGlobalContext } from "../../context/context";
 import "./Detecting.css";
-import axios from "axios";
 import Loader from "../../utils/Loader";
-import { BASE_URL } from "../../config";
 import formatCryptoAmount from "../../utils/formatCryptoAmount";
-// import timer_icon from "../../assets/images/timer_icon.png";
+import {
+  getTransactionDetails,
+  getTransactionStatus,
+} from "../../services/depositServices";
 
 const timer_icon = require("../../assets/images/timer_icon.png");
 
@@ -34,60 +34,42 @@ function Detecting() {
   const token = context.state.token;
   const orders = context.state.orderDetails;
   const transactions = context.state.transactionDetails;
-  const [isLoading, setLoading] = useState(false);
+  const [isLoading, setLoading] = useState(true);
 
   let interval: any;
 
   function backtoCrypto() {
-    window.location.replace(transactions?.merchant_redirect_url);
+    window.location.replace(orders?.merchant_redirect_url);
     clearInterval(interval);
   }
 
   const fetchTransactionDetails = async () => {
-    setLoading(true);
-    await axios
-      .get(`${BASE_URL}/sdk/deposit/transaction/details/`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((res) => {
-        console.log(res);
-
-        context.dispatch({
-          type: "UPDATE_TRANSACTION_DETAILS",
-          payload: res?.data,
-        });
-        setLoading(false);
-        // let interval:any
-        fetchTransactionStatus();
-        interval = setInterval(() => fetchTransactionStatus(), 30000);
-      })
-      .catch((err) => {
-        console.log(err);
-        setLoading(false);
+    const res: any = await getTransactionDetails(token);
+    if (res.status === 200) {
+      console.log(res);
+      context.dispatch({
+        type: "UPDATE_TRANSACTION_DETAILS",
+        payload: res?.data,
       });
+      setLoading(false);
+      fetchTransactionStatus();
+      interval = setInterval(() => fetchTransactionStatus(), 30000);
+    } else {
+      setLoading(false);
+    }
   };
 
   const fetchTransactionStatus = async () => {
-    // setLoading(true);
-    await axios
-      .get(`${BASE_URL}/sdk/deposit/transaction/status`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((res) => {
-        console.log(res);
-        if (res.data.order_status === "success") {
-          navigate("/success", { replace: true });
-          clearInterval(interval);
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-        navigate("/failure", { replace: true });
-      });
+    const res: any = await getTransactionStatus(token);
+    if (res.status === 200) {
+      console.log(res);
+      if (res.data.order_status === "success") {
+        navigate("/success", { replace: true });
+        clearInterval(interval);
+      }
+    } else {
+      navigate("/failure", { replace: true });
+    }
   };
 
   useEffect(() => {
@@ -108,8 +90,6 @@ function Detecting() {
             style={{
               display: "flex",
               flexDirection: "column",
-              height: matches ? "100vh" : "auto",
-              minHeight: 750,
             }}
           >
             <AppBar position="static" className="header_main">
@@ -124,7 +104,7 @@ function Detecting() {
                     sx={{
                       mr: 2,
                       border: "1px solid",
-                      borderRadius: "20%",
+                      borderRadius: "30%",
                       padding: "5px",
                       marginLeft: "-8px",
                     }}
@@ -146,14 +126,14 @@ function Detecting() {
             {isLoading ? (
               <Loader />
             ) : (
-              <div style={{ flex: 1 }}>
-                <section className="nivapay_ramp">
+              <div className="nivapay_section_container">
+                <section className="nivapay_section">
                   <div
                     style={{
                       display: "flex",
                       justifyContent: "center",
                       alignItems: "center",
-                      marginTop: "8%",
+                      marginTop: "12%",
                     }}
                   >
                     <div style={{ width: "20%" }}>
@@ -269,17 +249,25 @@ function Detecting() {
                       letterSpacing: "0.06em",
                       color: "#808080",
                       marginTop: "6%",
-                      marginBottom: 30,
+                      marginBottom: 40,
                     }}
                   >
                     You may close this window or go back by clicking the button
                     below. We are processing this transaction and will update
                     you the final status through email.
                   </Typography>
-                  <div>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      width: "325px",
+                      alignSelf: "center",
+                    }}
+                  >
                     <Button
                       variant="contained"
                       className="cryptobtn"
+                      style={{ width: "325px", alignSelf: "center" }}
                       onClick={backtoCrypto}
                     >
                       {" "}
@@ -292,7 +280,7 @@ function Detecting() {
               </div>
             )}
           </section>
-          <div className={matches ? "footer" : "footerSmall"}>
+          <div className="footer">
             <Footer />
           </div>
         </div>

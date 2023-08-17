@@ -1,13 +1,5 @@
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
-import {
-  AppBar,
-  Button,
-  IconButton,
-  Toolbar,
-  Typography,
-  useMediaQuery,
-} from "@mui/material";
-import { useTheme } from "@mui/material/styles";
+import { AppBar, Button, IconButton, Toolbar } from "@mui/material";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import NivapayLogo1 from "../../assets/images/NIcons/NivapayLogo1";
@@ -23,28 +15,24 @@ import PerfectScrollbar from "react-perfect-scrollbar";
 function QuickPay(props: any) {
   const navigate = useNavigate();
   const context = useGlobalContext();
-  const theme = useTheme();
-  const matches = useMediaQuery(theme.breakpoints.up("xl"));
   const [openCloseDialog, setOpenCloseDialog] = useState(false);
   const [isLoading, setLoading] = useState(false);
   const coinName = context.state.selectedCoin?.toUpperCase();
   const orders = context.state.orderDetails;
-  const cyyptoData = context.state.allCryptos;
 
   const onContinue = () => {
-    console.log(coinName, "coinName");
     if (coinName === "ETH" || coinName === "USDC" || coinName === "USDT") {
       navigate("/wallet", { replace: true });
     } else {
-      navigate("/QrScan", { replace: true });
+      navigate("/QrMounting", { replace: true });
     }
   };
 
-  // useEffect(() => {
-  //   if (!orders) {
-  //     navigate("/error", { replace: true });
-  //   }
-  // }, []);
+  useEffect(() => {
+    if (!orders) {
+      navigate("/error", { replace: true });
+    }
+  }, []);
 
   useEffect(() => {
     if (props.fixedTime === "00:00") {
@@ -60,8 +48,6 @@ function QuickPay(props: any) {
             style={{
               display: "flex",
               flexDirection: "column",
-              // height: matches ? "100vh" : "auto",
-              // minHeight: 750,
             }}
           >
             <AppBar position="static" className="header_main">
@@ -79,7 +65,6 @@ function QuickPay(props: any) {
                       padding: "5px",
                       marginLeft: "-8px",
                     }}
-                    // onClick={() => setOpenCloseDialog(true)}
                     onClick={() =>
                       navigate(
                         `/deposit/order?order_id=${orders?.order_id}&hash=${orders?.hash}`,
@@ -122,13 +107,15 @@ function QuickPay(props: any) {
               </div>
             )}
             <div className="footer">
-              <div style={{ marginBottom: "20px", marginTop: 10,width:"325px" }}>
+              <div
+                style={{ marginBottom: "20px", marginTop: 10, width: "325px" }}
+              >
                 <Button
                   variant="contained"
                   className="continue"
                   fullWidth
                   onClick={onContinue}
-                  disabled={!context.state.selectedCoin}
+                  disabled={!coinName}
                 >
                   Continue
                 </Button>
@@ -143,7 +130,7 @@ function QuickPay(props: any) {
               <Footer />
             </div>
           </section>
-          <CancelPayment open={openCloseDialog} setOpen={setOpenCloseDialog} />
+          <CancelPayment open={openCloseDialog} setOpen={setOpenCloseDialog} left_time={props?.fixedTime}/>
         </div>
       </MobileContainer>
     </Layout>

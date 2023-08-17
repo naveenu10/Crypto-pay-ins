@@ -2,10 +2,8 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Modal from "@mui/material/Modal";
 import Typography from "@mui/material/Typography";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
 import { useGlobalContext } from "../context/context";
-import { BASE_URL } from "../config";
+import { sendOrderEvent } from "../services/depositServices";
 
 const style = {
   position: "absolute" as "absolute",
@@ -18,40 +16,45 @@ const style = {
   boxShadow: 24,
   p: 4,
   outline: "none",
-  borderRadius:2
+  borderRadius: 2,
 };
 
-const CancelPayment = (props: { open: any; setOpen: any }) => {
-  const { open, setOpen } = props;
+const CancelPayment = (props: {
+  open: any;
+  setOpen: any;
+  left_time: string;
+}) => {
+  const { open, setOpen, left_time } = props;
   const context = useGlobalContext();
-  const navigate = useNavigate();
   const token = context.state.token;
   const orders = context.state.orderDetails;
+  const selectedCoinData = context.state.selectedCoinData;
 
-  const clickYes = async () => {
-    const now = Date.now(); 
-    console.log(now);
+  const handleCancel = async () => {
+    const hms = left_time;
+    const a = hms.split(":");
+    const seconds = +a[0] * 60 + +a[1];
+    const now = new Date().toISOString();
+
     const payload = {
-      user_event: "cancel",
-      "timestamp":now
+      user_event: "user.action.session.cancelled",
+      asset_network: selectedCoinData?.asset_network,
+      asset_symbol: selectedCoinData?.asset_symbol,
+      asset_amount: selectedCoinData?.asset_amount,
+      session_time_left_seconds: seconds,
+      event_time: now,
     };
-    await axios
-      .post(`${BASE_URL}/sdk/deposit/order/events`, payload, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((res) => {
-        console.log(res);
-        // navigate("/", { replace: true });
-        localStorage.clear();
-        setOpen(false);
-        window.location.replace(orders?.merchant_redirect_url);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    const res: any = await sendOrderEvent(payload, token);
+    if (res.status === 201) {
+      localStorage.clear();
+      setOpen(false);
+      window.location.replace(orders?.merchant_redirect_url);
+    } else {
+      // setLoading(false);
+    }
   };
+
+ 
   return (
     <>
       <div>
@@ -86,8 +89,7 @@ const CancelPayment = (props: { open: any; setOpen: any }) => {
                     borderRadius: " 8px",
                     width: "40%",
                   }}
-                  // onClick={clickYes}
-                  onClick={()=> window.location.replace(orders?.merchant_redirect_url)}
+                  onClick={handleCancel}
                 >
                   Yes
                 </Button>

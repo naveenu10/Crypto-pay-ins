@@ -1,13 +1,5 @@
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
-import {
-  AppBar,
-  Button,
-  Container,
-  IconButton,
-  Toolbar,
-  useMediaQuery,
-} from "@mui/material";
-import { useTheme } from "@mui/material/styles";
+import { AppBar, Button, Container, IconButton, Toolbar } from "@mui/material";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import NivapayLogo1 from "../../assets/images/NIcons/NivapayLogo1";
@@ -19,16 +11,13 @@ import Footer from "../Footer/Footer";
 import QrCode from "./QrCode";
 import "./QrScanPage.css";
 import ScanCopyTab from "./ScanCopyTab";
-import axios from "axios";
-import { BASE_URL } from "../../config";
 import Loader from "../../utils/Loader";
 import formatCryptoAmount from "../../utils/formatCryptoAmount";
 import formatTitleCase from "../../utils/formatTitleCase";
+import { sendOrderEvent } from "../../services/depositServices";
 
 function QrScanPage(props: any) {
   const context = useGlobalContext();
-  const theme = useTheme();
-  const matches = useMediaQuery(theme.breakpoints.up("xl"));
   const [userName, setUserName] = useState("laxmi@gmail.com");
   const [openCloseDialog, setOpenCloseDialog] = useState(false);
   const [openNetworkDialog, setOpenNetworkDialog] = useState(false);
@@ -45,64 +34,30 @@ function QrScanPage(props: any) {
 
   const onIhavePaid = async () => {
     setLoading(true);
-    const now = Date.now();
+    const hms = props.fixedTime;
+    const a = hms.split(":");
+    const seconds = +a[0] * 60 + +a[1];
+    const now = new Date().toISOString();
+
     const payload = {
-      user_event: "i have paid",
-      timestamp: now,
+      user_event: "user.action.transactionInitiated",
+      asset_network: selectedCoinData?.asset_network,
+      asset_symbol: selectedCoinData?.asset_symbol,
+      asset_amount: selectedCoinData?.asset_amount,
+      session_time_left_seconds: seconds,
+      event_time: now,
     };
-    await axios
-      .post(`${BASE_URL}/sdk/deposit/order/events`, payload, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((res) => {
-        setLoading(false);
-        console.log(res);
-        navigate("/detecting", { replace: true });
-      })
-      .catch((err) => {
-        console.log(err);
-        setLoading(false);
-      });
-  };
-
-  const getQrCode = async () => {
-    await axios
-      .get(
-        `${BASE_URL}/sdk/deposit/address/${selectedCoinData?.asset_network}/${selectedCoinData?.asset_symbol}/${selectedCoinData?.asset_quote}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      )
-      .then((res) => {
-        setLoading(false);
-        console.log(res);
-        context.dispatch({
-          type: "GET_QR_DATA",
-          payload: res?.data,
-        });
-      })
-      .catch((err) => {
-        console.log(err);
-        // navigate("/error", { replace: true });
-        setLoading(false);
-      });
-  };
-
-  useEffect(() => {
-    // getQrCode();
-  }, []);
-
-  useEffect(() => {
-    if (token) {
-      localStorage.setItem("token", token);
+    const res:any = await sendOrderEvent(payload, token);
+    if (res.status === 201) {
+      setLoading(false);
+      console.log(res);
+      navigate("/detecting", { replace: true });
+    } else {
+      setLoading(false);
     }
-  }, [token]);
+  };
 
-  useEffect(() => {
+    useEffect(() => {
     if (!orders) {
       navigate("/error", { replace: true });
     }
@@ -122,8 +77,6 @@ function QrScanPage(props: any) {
             style={{
               display: "flex",
               flexDirection: "column",
-              height: matches ? "100vh" : "auto",
-              minHeight: 750,
             }}
           >
             <AppBar position="static" className="header_main">
@@ -160,14 +113,13 @@ function QrScanPage(props: any) {
             {isLoading ? (
               <Loader />
             ) : (
-              <div style={{ flex: 1 }}>
-                <section className="nivapay_ramp">
+              <div className="nivapay_section_container">
+                <section className="nivapay_section">
                   <p className="timer">Time left: {props.fixedTime} mins</p>
                   <div className="choosecurrency">Complete Payment</div>
                   <div>
                     <div
                       style={{
-                        // marginTop: "20px",
                         display: "flex",
                         justifyContent: "center",
                       }}
@@ -203,7 +155,11 @@ function QrScanPage(props: any) {
                           }}
                         >
                           <span
-                            style={{ fontSize: "12px", color: "#1856E7",cursor:'pointer' }}
+                            style={{
+                              fontSize: "12px",
+                              color: "#1856E7",
+                              cursor: "pointer",
+                            }}
                             onClick={() => setOpenNetworkDialog(true)}
                           >
                             + Network fee{" "}
@@ -231,7 +187,7 @@ function QrScanPage(props: any) {
                             above amount
                           </span>
                         </div>
-                        <div style={{ marginTop: "10px" }}>
+                        <div>
                           <span
                             style={{
                               height: "270px",
@@ -242,7 +198,7 @@ function QrScanPage(props: any) {
                             <QrCode />
                           </span>
                         </div>
-                        <div style={{ marginTop: "10px" }}>
+                        <div>
                           <span style={{ fontSize: "12px" }}>
                             Only send {coinName && coinName.toUpperCase()} using
                             the{" "}
@@ -250,42 +206,45 @@ function QrScanPage(props: any) {
                               formatTitleCase(
                                 selectedCoinData?.asset_network
                               )}{" "}
-                            network, else the funds may get lost
+                            network, else <br /> the funds may get lost
                           </span>
                         </div>
                       </Container>
                     </div>
                   </div>
 
-                  <div
-                    style={{
-                      marginTop: "50px",
-                      fontSize: "12px",
-                      fontWeight: 500,
-                      fontFamily: "Inter",
-                      lineHeight: "14.52px",
-                      marginBottom: "5px",
-                      padding: "0px 5px",
-                      color: "rgba(0, 0, 0, 0.5)",
-                    }}
-                  >
-                    <span>
-                      Click the below button once you have triggered the
-                      transaction
-                    </span>
-                  </div>
-                  <div>
+                  <div style={{ display: "flex", flexDirection: "column" }}>
+                    <div
+                      style={{
+                        marginTop: "30px",
+                        fontSize: "12px",
+                        fontWeight: 500,
+                        fontFamily: "Inter",
+                        lineHeight: "14.52px",
+                        marginBottom: "5px",
+                        padding: "0px 5px",
+                        color: "rgba(0, 0, 0, 0.5)",
+                        width: "325px",
+                        alignSelf: "center",
+                      }}
+                    >
+                      <span>
+                        Click the below button once you have triggered the
+                        transaction
+                      </span>
+                    </div>
                     <Button
                       className="continue"
+                      style={{ width: "325px", alignSelf: "center" }}
                       variant="contained"
-                      // onClick={onIhavePaid}
-                      onClick={()=> navigate("/detecting", { replace: true })}
+                      onClick={onIhavePaid}
                       disabled={!userName || !re.test(userName)}
                     >
                       I have Paid{" "}
                     </Button>
                     <Button
                       className="cancelbtn"
+                      style={{ width: "325px", alignSelf: "center" }}
                       fullWidth
                       onClick={() => setOpenCloseDialog(true)}
                     >
@@ -293,13 +252,13 @@ function QrScanPage(props: any) {
                     </Button>
                   </div>
                 </section>
-                <div className={matches ? "footer" : "footerSmall"}>
+                <div className="footer">
                   <Footer />
                 </div>
               </div>
             )}
           </section>
-          <CancelPayment open={openCloseDialog} setOpen={setOpenCloseDialog} />
+          <CancelPayment open={openCloseDialog} setOpen={setOpenCloseDialog} left_time={props?.fixedTime}/>
           <NetWorkFee
             openNetWorkfee={openNetworkDialog}
             setOpenNetworkfee={setOpenNetworkDialog}

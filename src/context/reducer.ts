@@ -61,6 +61,11 @@ const reducer = (state: any, action: { type: string; payload: any }): any => {
         ...state,
         metamaskPaymentDetails: action.payload,
       };
+    case "UPDATE_EMAIL":
+      return {
+        ...state,
+        email: action.payload,
+      };
     default:
       return state;
   }

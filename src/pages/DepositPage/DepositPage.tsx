@@ -21,6 +21,7 @@ function DepositPage(props: any) {
   const token = context.state.token;
   const [openCloseDialog, setOpenCloseDialog] = useState(false);
   const orderDetails = context.state.orderDetails;
+  const email = context.state.email;
   const [userEmail, setUserEmail] = useState("");
   const [isLoading, setLoading] = useState(true);
 
@@ -52,11 +53,11 @@ function DepositPage(props: any) {
     }
   }, [props.fixedTime]);
 
-  // useEffect(() => {
-  //   if (!context.state.token) {
-  //     navigate("/error", { replace: true });
-  //   }
-  // }, []);
+  useEffect(() => {
+    if (!context.state.token) {
+      navigate("/error", { replace: true });
+    }
+  }, []);
 
   return (
     <Layout>
@@ -102,9 +103,7 @@ function DepositPage(props: any) {
             {isLoading ? (
               <Loader />
             ) : (
-              <div
-               className="nivapay_section_container"
-              >
+              <div className="nivapay_section_container">
                 <section className="nivapay_section">
                   <p className="timer">Time left: {props.fixedTime} mins</p>
                   <div className="pay" style={{ marginTop: 30 }}>
@@ -150,12 +149,37 @@ function DepositPage(props: any) {
                   <input
                     className="input-wrap"
                     name="userEmail"
-                    style={{ fontSize: "16px" }}
+                    style={
+                      !validate.test(userEmail)
+                        ? { fontSize: "16px", border: "1px solid #f44336" }
+                        : { fontSize: "16px" }
+                    }
                     onChange={(e) => {
                       setUserEmail(e.target.value);
+                      context.dispatch({
+                        type: "UPDATE_EMAIL",
+                        payload: e.target.value,
+                      });
                     }}
-                    value={userEmail}
+                    value={email}
                   />
+                  {!validate.test(userEmail) && (
+                    <div
+                      style={{
+                        fontFamily: "Inter",
+                        fontStyle: "normal",
+                        fontWeight: 400,
+                        marginTop: "5px",
+                        fontSize: "12px",
+                        lineHeight: "19px",
+                        letterSpacing: "0.06em",
+                        color: "#f44336",
+                        paddingLeft: "5px",
+                      }}
+                    >
+                      Invalid email address
+                    </div>
+                  )}
                   <div
                     style={{
                       fontFamily: "Inter",
@@ -217,7 +241,7 @@ function DepositPage(props: any) {
               </div>
             )}
           </section>
-          <CancelPayment open={openCloseDialog} setOpen={setOpenCloseDialog} />
+          <CancelPayment open={openCloseDialog} setOpen={setOpenCloseDialog} left_time={props?.fixedTime}/>
         </div>
       </MobileContainer>
     </Layout>

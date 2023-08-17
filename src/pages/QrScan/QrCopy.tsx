@@ -9,10 +9,7 @@ import {
   InputAdornment,
   TextField,
   Toolbar,
-  Typography,
-  useMediaQuery,
 } from "@mui/material";
-import { useTheme } from "@mui/material/styles";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import NivapayLogo1 from "../../assets/images/NIcons/NivapayLogo1";
@@ -24,16 +21,14 @@ import Footer from "../Footer/Footer";
 import "./QrScanPage.css";
 import ScanCopyTab from "./ScanCopyTab";
 import copy from "copy-to-clipboard";
-import axios from "axios";
-import { BASE_URL } from "../../config";
 import Loader from "../../utils/Loader";
 import formatCryptoAmount from "../../utils/formatCryptoAmount";
 import formatTitleCase from "../../utils/formatTitleCase";
+import { sendOrderEvent } from "../../services/depositServices";
 
 function QrCopy(props: any) {
   const context = useGlobalContext();
-  const theme = useTheme();
-  const matches = useMediaQuery(theme.breakpoints.up("xl"));
+  const navigate = useNavigate();
   const [openCloseDialog, setOpenCloseDialog] = useState(false);
   const [openNetworkDialog, setOpenNetworkDialog] = useState(false);
   const [isLoading, setLoading] = useState(false);
@@ -42,31 +37,30 @@ function QrCopy(props: any) {
   const qrData = context.state.qrData;
   const token = context.state.token;
   const selectedCoinData = context.state.selectedCoinData;
-  const navigate = useNavigate();
 
   const onIhavePaid = async () => {
     setLoading(true);
-    const now = Date.now();
-    console.log(now);
+    const hms = props.fixedTime;
+    const a = hms.split(":");
+    const seconds = +a[0] * 60 + +a[1];
+    const now = new Date().toISOString();
+
     const payload = {
-      user_event: "i have paid",
-      timestamp: now,
+      user_event: "user.action.transactionInitiated",
+      asset_network: selectedCoinData?.asset_network,
+      asset_symbol: selectedCoinData?.asset_symbol,
+      asset_amount: selectedCoinData?.asset_amount,
+      session_time_left_seconds: seconds,
+      event_time: now,
     };
-    await axios
-      .post(`${BASE_URL}/sdk/deposit/order/events`, payload, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((res) => {
-        setLoading(false);
-        console.log(res);
-        navigate("/detecting", { replace: true });
-      })
-      .catch((err) => {
-        console.log(err);
-        setLoading(false);
-      });
+    const res: any = await sendOrderEvent(payload, token);
+    if (res.status === 201) {
+      setLoading(false);
+      console.log(res);
+      navigate("/detecting", { replace: true });
+    } else {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -89,8 +83,6 @@ function QrCopy(props: any) {
             style={{
               display: "flex",
               flexDirection: "column",
-              height: matches ? "100vh" : "auto",
-              minHeight: 750,
             }}
           >
             <AppBar position="static" className="header_main">
@@ -126,8 +118,8 @@ function QrCopy(props: any) {
             {isLoading ? (
               <Loader />
             ) : (
-              <div style={{ flex: 1 }}>
-                <section className="nivapay_ramp">
+              <div className="nivapay_section_container">
+                <section className="nivapay_section">
                   <p className="timer">Time left: {props.fixedTime} mins</p>
                   <div className="choosecurrency">Complete Payment</div>
                   <div>
@@ -196,7 +188,7 @@ function QrCopy(props: any) {
                             the payment
                           </span>
                         </div>
-                        <div style={{ marginTop: "35px" }}>
+                        <div style={{ marginTop: "28px" }}>
                           <div
                             style={{
                               fontSize: "12px",
@@ -296,7 +288,7 @@ function QrCopy(props: any) {
                           </Box>
                         </div>
 
-                        <div style={{ marginTop: "32px" }}>
+                        <div style={{ marginTop: "19px" }}>
                           <span style={{ fontSize: "12px" }}>
                             Only send {coinName && coinName.toUpperCase()} using
                             the{" "}
@@ -304,16 +296,17 @@ function QrCopy(props: any) {
                               formatTitleCase(
                                 selectedCoinData?.asset_network
                               )}{" "}
-                            network, else the funds may get lost
+                            network, else <br />
+                            the funds may get lost
                           </span>
                         </div>
                       </Container>
                     </div>
                   </div>
-                  <div>
+                  <div style={{ display: "flex", flexDirection: "column" }}>
                     <div
                       style={{
-                        marginTop: "50px",
+                        marginTop: "30px",
                         fontSize: "12px",
                         fontWeight: 500,
                         fontFamily: "Inter",
@@ -321,6 +314,8 @@ function QrCopy(props: any) {
                         marginBottom: "5px",
                         color: "rgba(0, 0, 0, 0.5)",
                         padding: "0px 5px",
+                        width: "325px",
+                        alignSelf: "center",
                       }}
                     >
                       <span>
@@ -332,14 +327,14 @@ function QrCopy(props: any) {
                       className="continue"
                       variant="contained"
                       fullWidth
-                      // onClick={onIhavePaid}
-                      onClick={()=> navigate("/detecting", { replace: true })}
-                      
+                      style={{ width: "325px", alignSelf: "center" }}
+                      onClick={onIhavePaid}
                     >
                       I have Paid
                     </Button>
                     <Button
                       className="cancelbtn"
+                      style={{ width: "325px", alignSelf: "center" }}
                       fullWidth
                       onClick={() => setOpenCloseDialog(true)}
                     >
@@ -347,13 +342,13 @@ function QrCopy(props: any) {
                     </Button>
                   </div>
                 </section>
-                <div className={matches ? "footer" : "footerSmall"}>
+                <div className="footer">
                   <Footer />
                 </div>
               </div>
             )}
           </section>
-          <CancelPayment open={openCloseDialog} setOpen={setOpenCloseDialog} />
+          <CancelPayment open={openCloseDialog} setOpen={setOpenCloseDialog} left_time={props?.fixedTime}/>
           <NetWorkFee
             openNetWorkfee={openNetworkDialog}
             setOpenNetworkfee={setOpenNetworkDialog}

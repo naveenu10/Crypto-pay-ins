@@ -59,7 +59,7 @@ body {
   background-color: #279ffe !important;
   box-shadow: none;
   border-radius: 33px 33px 0px 0px;
-  height: 98px;
+  height: 85px;
   display: flex;
   justify-content: flex-end;
   padding-bottom: 10px;
@@ -71,6 +71,7 @@ body {
   justify-content: space-between;
   padding-left: 22px;
   margin-top: 13px;
+  min-height:0px !important;
 }
 .main_section {
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;

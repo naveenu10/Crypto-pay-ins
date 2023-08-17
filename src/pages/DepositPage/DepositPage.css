@@ -94,7 +94,7 @@
   display: flex;
   color: #2c1e66;
   justify-content: center;
-  padding: 10px;
+  /* padding: 10px; */
 }
 
 .order_currency {

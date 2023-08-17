@@ -8,7 +8,7 @@ const useStyles = makeStyles((theme: any) => ({
     display: "flex",
     justifyContent: "space-between",
     // marginBottom: "5px",
-    marginTop: "5%",
+    // marginTop: "5%",
     width: "100%",
   },
   navBarButtons: {
