@@ -48,7 +48,6 @@ function WelcomePage() {
   const fetchOrderDetails = async (tokenId: string) => {
     const res: any = await getOrderDetails(tokenId);
     if (res?.status === 200) {
-      console.log(res);
       localStorage.setItem("merchantUrl", res?.data?.merchant_redirect_url);
       localStorage.setItem("merchantName", res?.data?.merchant_brand_name);
       context.dispatch({

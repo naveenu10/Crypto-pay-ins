@@ -1,5 +1,5 @@
 const reducer = (state: any, action: { type: string; payload: any }): any => {
-  console.log(action.type, action.payload);
+  // console.log(action.type, action.payload);
   switch (action.type) {
     case "IS_TIMER":
       return {

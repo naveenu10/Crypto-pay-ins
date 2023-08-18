@@ -47,7 +47,6 @@ function Wallet(props: any) {
       amount,
       token
     );
-    console.log(res);
     if (res?.status === 200) {
       context.dispatch({
         type: "GET_QR_DATA",

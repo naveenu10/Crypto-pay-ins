@@ -50,7 +50,6 @@ function QrScanPage(props: any) {
     const res:any = await sendOrderEvent(payload, token);
     if (res.status === 201) {
       setLoading(false);
-      console.log(res);
       navigate("/detecting", { replace: true });
     } else {
       setLoading(false);

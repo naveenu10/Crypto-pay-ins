@@ -8,7 +8,6 @@ import PerfectScrollbar from "react-perfect-scrollbar";
 import formatCryptoAmount from "../../utils/formatCryptoAmount";
 
 export default function StandardImageList() {
-  // const { cyyptoData } = props;
   const [selectedInd, setselectedInd] = React.useState(null);
   const [openInfo, setOpenInfo] = React.useState(false);
   const context = useGlobalContext();
@@ -16,11 +15,9 @@ export default function StandardImageList() {
   let coinNetwork = context.state.selectedCoinNetwork;
   const cyyptoData = context.state.allCryptos;
 
-  // console.log(cyyptoData)
 
   function selectCoin(i: any, item: any) {
     if (item) {
-      // console.log(item);
       setselectedInd(i);
       context.dispatch({
         type: "UPDATE_NETWORK",
