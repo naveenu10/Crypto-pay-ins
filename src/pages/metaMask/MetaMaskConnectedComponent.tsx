@@ -233,11 +233,11 @@ function MetaMaskConnectedComponent(props: any) {
                     color="inherit"
                     aria-label="menu"
                     sx={{
-                      mr: 2,
+                      // mr: 2,
                       border: "1px solid",
                       borderRadius: "20%",
                       padding: "5px",
-                      marginLeft: "-8px",
+                      marginLeft: "0px",
                     }}
                     onClick={() =>
                       navigate("/metamask_scan", { replace: true })

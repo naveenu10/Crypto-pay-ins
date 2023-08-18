@@ -78,11 +78,11 @@ function MetaMaskPage(props: any) {
                     color="inherit"
                     aria-label="menu"
                     sx={{
-                      mr: 2,
-                      border: "1px solid",
-                      borderRadius: "20%",
-                      padding: "5px",
-                      marginLeft: "-8px",
+                     // mr: 2,
+                     border: "1px solid",
+                     borderRadius: "20%",
+                     padding: "5px",
+                     marginLeft: "0px",
                     }}
                     onClick={() => navigate("/wallet", { replace: true })}
                   >

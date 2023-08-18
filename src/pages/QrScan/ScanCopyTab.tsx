@@ -22,9 +22,9 @@ const useStyles = makeStyles((theme: any) => ({
     "&.active": {
       backgroundColor: "#D6D6D6",
       color: "#2C1E66",
-      '&:hover': {
-          backgroundColor: '#D6D6D6',
-          color: "#2C1E66",
+      "&:hover": {
+        backgroundColor: "#D6D6D6",
+        color: "#2C1E66",
       },
     },
   },
@@ -87,12 +87,10 @@ const ScanCopyTab = (): JSX.Element => {
             className={buttonClasses}
             key={tab.id}
             onClick={() => handleTabClick(tab)}
-            style={{margin:5, color: "#2C1E66"}}
+            style={{ margin: 5, color: "#2C1E66",textTransform:"none" }}
           >
-            <span>
-              <img src={tab.iconUrl} alt={tab.name} />
-            </span>
-            <span style={{ marginLeft: "6px"}}>{tab.name}</span>
+            <img src={tab.iconUrl} alt={tab.name} />
+            <span style={{ marginLeft: "6px" }}>{tab.name}</span>
           </Button>
         );
       })}

@@ -109,11 +109,11 @@ function QrCopy(props: any) {
                     color="inherit"
                     aria-label="menu"
                     sx={{
-                      mr: 2,
+                      // mr: 2,
                       border: "1px solid",
                       borderRadius: "20%",
                       padding: "5px",
-                      marginLeft: "-8px",
+                      marginLeft: "0px",
                     }}
                     onClick={() => navigate("/quickpay", { replace: true })}
                   >
@@ -152,7 +152,7 @@ function QrCopy(props: any) {
                     <div className="qrCodeDiv">
                       <Container>
                         <div style={{ marginTop: "16px" }}>
-                          <span style={{ fontSize: "24px" }}>
+                          <span style={{ fontSize: "24px", fontWeight: 600 }}>
                             {(qrData?.asset_amount &&
                               formatCryptoAmount(
                                 coinName.toUpperCase(),
@@ -204,11 +204,15 @@ function QrCopy(props: any) {
                             </span>{" "}
                           </span>
                         </div>
-                        <div style={{ marginTop: "12px" }}>
-                          <span style={{ fontSize: "12px", fontWeight: 400 }}>
-                            Copy-paste below details to your wallet and complete
-                            the payment
-                          </span>
+                        <div
+                          style={{
+                            marginTop: "12px",
+                            fontSize: "12px",
+                            fontWeight: 400,
+                          }}
+                        >
+                          Copy-paste below details to your wallet and complete
+                          the payment
                         </div>
                         <div style={{ marginTop: "28px" }}>
                           <div
@@ -344,17 +348,21 @@ function QrCopy(props: any) {
                           </Box>
                         </div>
 
-                        <div style={{ marginTop: "19px" }}>
-                          <span style={{ fontSize: "12px" }}>
-                            Only send {coinName && coinName.toUpperCase()} using
-                            the{" "}
-                            {selectedCoinData?.asset_network &&
-                              formatTitleCase(
-                                selectedCoinData?.asset_network
-                              )}{" "}
-                            network, else <br />
-                            the funds may get lost
-                          </span>
+                        <div
+                          style={{
+                            marginTop: "19px",
+                            fontSize: "12px",
+                            fontWeight: 400,
+                          }}
+                        >
+                          Only send {coinName && coinName.toUpperCase()} using
+                          the{" "}
+                          {selectedCoinData?.asset_network &&
+                            formatTitleCase(
+                              selectedCoinData?.asset_network
+                            )}{" "}
+                          network, else <br />
+                          the funds may get lost
                         </div>
                       </Container>
                     </div>

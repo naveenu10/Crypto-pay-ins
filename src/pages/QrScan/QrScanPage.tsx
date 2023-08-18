@@ -47,7 +47,7 @@ function QrScanPage(props: any) {
       session_time_left_seconds: seconds,
       event_time: now,
     };
-    const res:any = await sendOrderEvent(payload, token);
+    const res: any = await sendOrderEvent(payload, token);
     if (res.status === 201) {
       setLoading(false);
       navigate("/detecting", { replace: true });
@@ -56,7 +56,7 @@ function QrScanPage(props: any) {
     }
   };
 
-    useEffect(() => {
+  useEffect(() => {
     if (!orders) {
       navigate("/error", { replace: true });
     }
@@ -87,11 +87,11 @@ function QrScanPage(props: any) {
                     color="inherit"
                     aria-label="menu"
                     sx={{
-                      mr: 2,
+                      // mr: 2,
                       border: "1px solid",
                       borderRadius: "20%",
                       padding: "5px",
-                      marginLeft: "-8px",
+                      marginLeft: "0px",
                     }}
                     onClick={() => navigate("/quickpay", { replace: true })}
                   >
@@ -104,7 +104,10 @@ function QrScanPage(props: any) {
                     {orders?.merchant_brand_name && orders?.merchant_brand_name}
                   </div>
                 </div>
-                <div className="logo" onClick={()=> window.open("https://nivapay.com/")}>
+                <div
+                  className="logo"
+                  onClick={() => window.open("https://nivapay.com/")}
+                >
                   <NivapayLogo1 />
                 </div>
               </Toolbar>
@@ -128,7 +131,7 @@ function QrScanPage(props: any) {
                     <div className="qrCodeDiv">
                       <Container>
                         <div style={{ marginTop: "16px" }}>
-                          <span style={{ fontSize: "24px" }}>
+                          <span style={{ fontSize: "24px", fontWeight: 600 }}>
                             {(qrData?.asset_amount &&
                               formatCryptoAmount(
                                 coinName.toUpperCase(),
@@ -140,7 +143,7 @@ function QrScanPage(props: any) {
                             style={{
                               fontSize: "12px",
                               marginLeft: "4px",
-                              fontWeight: "bold",
+                              fontWeight: 600,
                             }}
                           >
                             {coinName && coinName.toUpperCase()}
@@ -180,11 +183,15 @@ function QrScanPage(props: any) {
                             </span>{" "}
                           </span>
                         </div>
-                        <div style={{ marginTop: "12px" }}>
-                          <span style={{ fontSize: "12px" }}>
-                            Scan this QR code using your wallet and transfer the
-                            above amount
-                          </span>
+                        <div
+                          style={{
+                            marginTop: "12px",
+                            fontSize: "12px",
+                            fontWeight: 400,
+                          }}
+                        >
+                          Scan this QR code using your wallet and transfer the
+                          above amount
                         </div>
                         <div>
                           <span
@@ -197,16 +204,14 @@ function QrScanPage(props: any) {
                             <QrCode />
                           </span>
                         </div>
-                        <div>
-                          <span style={{ fontSize: "12px" }}>
-                            Only send {coinName && coinName.toUpperCase()} using
-                            the{" "}
-                            {selectedCoinData?.asset_network &&
-                              formatTitleCase(
-                                selectedCoinData?.asset_network
-                              )}{" "}
-                            network, else <br /> the funds may get lost
-                          </span>
+                        <div style={{ fontSize: "12px", fontWeight: 400 }}>
+                          Only send {coinName && coinName.toUpperCase()} using
+                          the{" "}
+                          {selectedCoinData?.asset_network &&
+                            formatTitleCase(
+                              selectedCoinData?.asset_network
+                            )}{" "}
+                          network, else <br /> the funds may get lost
                         </div>
                       </Container>
                     </div>
@@ -227,10 +232,8 @@ function QrScanPage(props: any) {
                         alignSelf: "center",
                       }}
                     >
-                      <span>
-                        Click the below button once you have triggered the
-                        transaction
-                      </span>
+                      Click the below button once you have triggered the
+                      transaction
                     </div>
                     <Button
                       className="continue"
@@ -257,7 +260,11 @@ function QrScanPage(props: any) {
               </div>
             )}
           </section>
-          <CancelPayment open={openCloseDialog} setOpen={setOpenCloseDialog} left_time={props?.fixedTime}/>
+          <CancelPayment
+            open={openCloseDialog}
+            setOpen={setOpenCloseDialog}
+            left_time={props?.fixedTime}
+          />
           <NetWorkFee
             openNetWorkfee={openNetworkDialog}
             setOpenNetworkfee={setOpenNetworkDialog}

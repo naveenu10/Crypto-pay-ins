@@ -26,7 +26,7 @@ function Footer() {
         }}
         spacing={2}
              >
-        <img src={logo} alt="nivalogo" width={100} style={{cursor:'pointer'}}  onClick={()=> window.open("https://nivapay.com/")}/>
+        <img src={logo} alt="nivalogo" width={100}/>
       </Stack>
     </div>
   );

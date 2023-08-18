@@ -59,11 +59,11 @@ function QuickPay(props: any) {
                     color="inherit"
                     aria-label="menu"
                     sx={{
-                      mr: 2,
+                      // mr: 2,
                       border: "1px solid",
                       borderRadius: "20%",
                       padding: "5px",
-                      marginLeft: "-8px",
+                      marginLeft: "0px",
                     }}
                     onClick={() =>
                       navigate(
@@ -80,7 +80,7 @@ function QuickPay(props: any) {
                     {orders?.merchant_brand_name && orders?.merchant_brand_name}
                   </div>
                 </div>
-                <div className="logo" onClick={()=> window.open("https://nivapay.com/")}>
+                <div className="logo" >
                   <NivapayLogo1 />
                 </div>
               </Toolbar>

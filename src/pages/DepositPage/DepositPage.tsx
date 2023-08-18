@@ -78,11 +78,11 @@ function DepositPage(props: any) {
                     color="inherit"
                     aria-label="menu"
                     sx={{
-                      mr: 2,
+                      // mr: 2,
                       border: "1px solid",
                       borderRadius: "20%",
                       padding: "5px",
-                      marginLeft: "-8px",
+                      marginLeft: "0px",
                     }}
                     onClick={() => setOpenCloseDialog(true)}
                   >
@@ -95,7 +95,7 @@ function DepositPage(props: any) {
                       orderDetails.merchant_brand_name}
                   </div>
                 </div>
-                <div className="logo" onClick={()=> window.open("https://nivapay.com/")}>
+                <div className="logo">
                   <NivapayLogo1 />
                 </div>
               </Toolbar>
@@ -151,8 +151,8 @@ function DepositPage(props: any) {
                     name="userEmail"
                     style={
                       !validate.test(userEmail)
-                        ? { fontSize: "16px", border: "1px solid #f44336" }
-                        : { fontSize: "16px" }
+                        ? { border: "1px solid #f44336" }
+                        : { border: "1px solid rgba(0, 0, 0, 0.5)" }
                     }
                     onChange={(e) => {
                       setUserEmail(e.target.value);
@@ -241,7 +241,11 @@ function DepositPage(props: any) {
               </div>
             )}
           </section>
-          <CancelPayment open={openCloseDialog} setOpen={setOpenCloseDialog} left_time={props?.fixedTime}/>
+          <CancelPayment
+            open={openCloseDialog}
+            setOpen={setOpenCloseDialog}
+            left_time={props?.fixedTime}
+          />
         </div>
       </MobileContainer>
     </Layout>
