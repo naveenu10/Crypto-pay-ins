@@ -64,7 +64,7 @@ function Detecting(props: any) {
     const now = new Date().toISOString();
 
     const payload = {
-      user_event: "user.action.session.timeout",
+      user_event: "session.timeout",
       asset_network: selectedCoinData?.asset_network,
       asset_symbol: selectedCoinData?.asset_symbol,
       asset_amount: selectedCoinData?.asset_amount,
