@@ -14,7 +14,7 @@ function MetaMaskPage(props: any) {
   const navigate = useNavigate();
   const orders = context?.state?.orderDetails;
   const token = context?.state?.token;
-  const paymentDetails = context?.state?.metamaskPaymentDetails;
+  const paymentDetails = context?.state?.qrData;
   const [openCloseDialog, setOpenCloseDialog] = useState(false);
 
   const handleIhavePaid = () => navigate("/detecting", { replace: true });
@@ -66,7 +66,7 @@ function MetaMaskPage(props: any) {
                     {orders.merchant_brand_name && orders.merchant_brand_name}
                   </div>
                 </div>
-                <div className="logo">
+                <div className="logo" onClick={()=> window.open("https://nivapay.com/")}>
                   <NivapayLogo1 />
                 </div>
               </Toolbar>
@@ -126,7 +126,7 @@ function MetaMaskPage(props: any) {
                         <span style={{ fontSize: "13px" }}>
                           Recommended network fee for fast
                           <br />
-                          confirmation: <b>64 gwei</b>
+                          confirmation: <b>{paymentDetails?.gas_price_fast_ethereum_gwei} gwei</b>
                         </span>
                       </div>
                     </Container>

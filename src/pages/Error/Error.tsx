@@ -56,7 +56,7 @@ function Error() {
                       {/* {merchantName && formatTitleCase(merchantName)} */}
                     </div>
                   </div>
-                  <div className="logo">
+                  <div className="logo" onClick={()=> window.open("https://nivapay.com/")}>
                     <NivapayLogo1 />
                   </div>
                 </Toolbar>

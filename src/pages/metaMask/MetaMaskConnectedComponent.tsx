@@ -36,7 +36,7 @@ function MetaMaskConnectedComponent(props: any) {
   const coinData = context?.state?.selectedCoinData;
   const orders = context?.state?.orderDetails;
   const token = context?.state?.token;
-  const paymentDetails = context?.state?.metamaskPaymentDetails;
+  const paymentDetails = context?.state?.qrData;
   const [openCloseDialog, setOpenCloseDialog] = useState(false);
   const [address, setAddress] = useState<any | null>("");
   const [showErr, setShowErr] = useState("");
@@ -248,7 +248,7 @@ function MetaMaskConnectedComponent(props: any) {
                     {orders.merchant_brand_name && orders.merchant_brand_name}
                   </div>
                 </div>
-                <div className="logo">
+                <div className="logo" onClick={()=> window.open("https://nivapay.com/")}>
                   <NivapayLogo1 />
                 </div>
               </Toolbar>

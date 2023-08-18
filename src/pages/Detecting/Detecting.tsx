@@ -8,9 +8,7 @@ import {
   Stack,
   Toolbar,
   Typography,
-  useMediaQuery,
 } from "@mui/material";
-import { useTheme } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
 import NivapayLogo1 from "../../assets/images/NIcons/NivapayLogo1";
 import { Layout, MobileContainer } from "../../styles/layout";
@@ -18,7 +16,6 @@ import Footer from "../Footer/Footer";
 import { useGlobalContext } from "../../context/context";
 import "./Detecting.css";
 import Loader from "../../utils/Loader";
-import formatCryptoAmount from "../../utils/formatCryptoAmount";
 import {
   getTransactionDetails,
   getTransactionStatus,
@@ -29,11 +26,10 @@ const timer_icon = require("../../assets/images/timer_icon.png");
 function Detecting() {
   const navigate = useNavigate();
   const context = useGlobalContext();
-  const theme = useTheme();
-  const matches = useMediaQuery(theme.breakpoints.up("xl"));
   const token = context.state.token;
   const orders = context.state.orderDetails;
   const transactions = context.state.transactionDetails;
+  const paymentDetails = context?.state?.qrData;
   const [isLoading, setLoading] = useState(true);
 
   let interval: any;
@@ -46,7 +42,6 @@ function Detecting() {
   const fetchTransactionDetails = async () => {
     const res: any = await getTransactionDetails(token);
     if (res.status === 200) {
-      console.log(res);
       context.dispatch({
         type: "UPDATE_TRANSACTION_DETAILS",
         payload: res?.data,
@@ -62,13 +57,16 @@ function Detecting() {
   const fetchTransactionStatus = async () => {
     const res: any = await getTransactionStatus(token);
     if (res.status === 200) {
-      console.log(res);
-      if (res.data.order_status === "success") {
+      if (res?.data?.order_status === "SUCCESS") {
         navigate("/success", { replace: true });
         clearInterval(interval);
       }
+      if (res?.data?.order_status === "FAILED") {
+        navigate("/failure", { replace: true });
+        clearInterval(interval);
+      }
     } else {
-      navigate("/failure", { replace: true });
+      navigate("/error", { replace: true });
     }
   };
 
@@ -118,7 +116,7 @@ function Detecting() {
                     {orders?.merchant_brand_name && orders?.merchant_brand_name}
                   </div>
                 </div>
-                <div className="logo">
+                <div className="logo" onClick={()=> window.open("https://nivapay.com/")}>
                   <NivapayLogo1 />
                 </div>
               </Toolbar>
@@ -207,13 +205,10 @@ function Detecting() {
                       </Typography>
                       <Typography className="info">
                         {" "}
-                        {transactions?.order_crypto_amount &&
-                          formatCryptoAmount(
-                            transactions?.order_crypto_symbol?.toUpperCase(),
-                            transactions?.order_crypto_amount
-                          )}{" "}
-                        {transactions?.order_crypto_symbol &&
-                          transactions?.order_crypto_symbol?.toUpperCase()}
+                        {paymentDetails?.asset_amount &&
+                          paymentDetails?.asset_amount}{" "}
+                        {paymentDetails?.asset_symbol &&
+                          paymentDetails?.asset_symbol?.toUpperCase()}
                       </Typography>
                     </Stack>
                     <Stack
@@ -225,13 +220,11 @@ function Detecting() {
                         Destination Wallet
                       </Typography>
                       <Typography className="info">
-                        {transactions?.destination_wallet_address &&
-                          `${transactions?.destination_wallet_address.slice(
+                        {paymentDetails?.wallet_address &&
+                          `${paymentDetails?.wallet_address.slice(
                             0,
                             7
-                          )}...${transactions?.destination_wallet_address.slice(
-                            -4
-                          )}`}
+                          )}...${paymentDetails?.wallet_address.slice(-4)}`}
                       </Typography>
                     </Stack>
                   </div>

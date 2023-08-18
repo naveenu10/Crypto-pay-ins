@@ -127,7 +127,7 @@ function WelcomePage() {
                 <div style={{ textAlign: "right" }}>
                   <div className="header_title"></div>
                 </div>
-                <div className="logo">
+                <div className="logo" onClick={()=> window.open("https://nivapay.com/")}>
                   <NivapayLogo1 />
                 </div>
               </Toolbar>

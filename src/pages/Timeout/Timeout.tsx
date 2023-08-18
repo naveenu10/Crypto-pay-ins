@@ -126,7 +126,7 @@ function Detecting(props: any) {
                       formatTitleCase(orders?.merchant_brand_name)}
                   </div>
                 </div>
-                <div className="logo">
+                <div className="logo" onClick={()=> window.open("https://nivapay.com/")}>
                   <NivapayLogo1 />
                 </div>
               </Toolbar>

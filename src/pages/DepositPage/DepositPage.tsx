@@ -95,7 +95,7 @@ function DepositPage(props: any) {
                       orderDetails.merchant_brand_name}
                   </div>
                 </div>
-                <div className="logo">
+                <div className="logo" onClick={()=> window.open("https://nivapay.com/")}>
                   <NivapayLogo1 />
                 </div>
               </Toolbar>
@@ -202,7 +202,7 @@ function DepositPage(props: any) {
                     <div className="agree">
                       By clicking “Continue”, I agree to Nivapay’s
                       <a
-                        href="https://nivapay.com/privacy-policy/"
+                        href="https://nivapay.com/terms-of-service/"
                         style={{ color: "rgba(0, 0, 0, 0.5)" }}
                         target="_blank"
                         rel="noopener noreferrer"
@@ -211,7 +211,7 @@ function DepositPage(props: any) {
                       </a>
                       <br />
                       <a
-                        href="https://nivapay.com/privacy-policy/"
+                        href="https://nivapay.com/terms-of-service/"
                         style={{ color: "rgba(0, 0, 0, 0.5)" }}
                         target="_blank"
                         rel="noopener noreferrer"

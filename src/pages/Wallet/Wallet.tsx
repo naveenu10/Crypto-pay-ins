@@ -50,7 +50,7 @@ function Wallet(props: any) {
     console.log(res);
     if (res?.status === 200) {
       context.dispatch({
-        type: "METAMASK_PAYMENT_DETAILS",
+        type: "GET_QR_DATA",
         payload: res?.data,
       });
     } else {
@@ -108,7 +108,7 @@ function Wallet(props: any) {
                     {orders.merchant_brand_name && orders.merchant_brand_name}
                   </div>
                 </div>
-                <div className="logo">
+                <div className="logo" onClick={()=> window.open("https://nivapay.com/")}>
                   <NivapayLogo1 />
                 </div>
               </Toolbar>
