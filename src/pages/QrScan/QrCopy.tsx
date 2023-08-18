@@ -9,7 +9,9 @@ import {
   InputAdornment,
   TextField,
   Toolbar,
+  Tooltip,
 } from "@mui/material";
+import { makeStyles } from "@mui/styles";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import NivapayLogo1 from "../../assets/images/NIcons/NivapayLogo1";
@@ -26,12 +28,26 @@ import formatCryptoAmount from "../../utils/formatCryptoAmount";
 import formatTitleCase from "../../utils/formatTitleCase";
 import { sendOrderEvent } from "../../services/depositServices";
 
+const useStyles = makeStyles((theme) => ({
+  tooltip: {
+    backgroundColor: "#1976d2",
+    color: "#fff",
+    fontSize: "12px",
+    fontWeight: "bold",
+    borderRadius: "4px",
+    padding: "8px 12px",
+  },
+}));
+
 function QrCopy(props: any) {
   const context = useGlobalContext();
   const navigate = useNavigate();
+  const classes = useStyles();
   const [openCloseDialog, setOpenCloseDialog] = useState(false);
   const [openNetworkDialog, setOpenNetworkDialog] = useState(false);
   const [isLoading, setLoading] = useState(false);
+  const [showCopyTooltip, setShowCopyTooltip] = useState(false);
+  const [showAmountTooltip, setShowAmountTooltip] = useState(false);
   const coinName = context.state.selectedCoin;
   const orders = context.state.orderDetails;
   const qrData = context.state.qrData;
@@ -109,7 +125,10 @@ function QrCopy(props: any) {
                     {orders?.merchant_brand_name && orders?.merchant_brand_name}
                   </div>
                 </div>
-                <div className="logo" onClick={()=> window.open("https://nivapay.com/")}>
+                <div
+                  className="logo"
+                  onClick={() => window.open("https://nivapay.com/")}
+                >
                   <NivapayLogo1 />
                 </div>
               </Toolbar>
@@ -160,7 +179,11 @@ function QrCopy(props: any) {
                         >
                           <span
                             onClick={() => setOpenNetworkDialog(true)}
-                            style={{ fontSize: "12px" }}
+                            style={{
+                              fontSize: "12px",
+                              cursor: "pointer",
+                              color: "#1856E7",
+                            }}
                           >
                             + Network fee{" "}
                             <span
@@ -204,35 +227,52 @@ function QrCopy(props: any) {
                             >
                               <TextField
                                 value={qrData?.wallet_address}
-                                disabled
+                                // disabled
                                 InputProps={{
                                   sx: {
                                     color: "#2C1E66",
                                     height: 35,
+                                    fontWeight: 500,
+                                    "& .MuiInputBase-input.Mui-disabled": {
+                                      WebkitTextFillColor: "#2C1E66",
+                                    },
                                   },
                                   endAdornment: (
                                     <div style={{}}>
                                       <InputAdornment position="end">
-                                        <Button
-                                          style={{
-                                            padding: "9px",
-                                            marginRight: "-14px",
-                                            minWidth: "0px",
-                                            color: "#808080",
-                                            boxSizing: "border-box",
-                                            backgroundColor: "#D6D6D6",
-                                            cursor: "pointer",
-                                          }}
-                                          onClick={() =>
-                                            copy(qrData?.wallet_address)
-                                          }
+                                        <Tooltip
+                                          title="Copied"
+                                          open={showCopyTooltip}
+                                          placement={"top"}
+                                          classes={{ tooltip: classes.tooltip }}
                                         >
-                                          <img src="https://res.cloudinary.com/dolpotacg/image/upload/v1683014498/Vector_2_aghej8.svg" />
-                                        </Button>
+                                          <Button
+                                            style={{
+                                              padding: "9px",
+                                              marginRight: "-14px",
+                                              minWidth: "0px",
+                                              color: "#808080",
+                                              boxSizing: "border-box",
+                                              backgroundColor: "#D6D6D6",
+                                              cursor: "pointer",
+                                              borderRadius: "4px 4px 4px 0px",
+                                            }}
+                                            onClick={() => {
+                                              copy(qrData?.wallet_address);
+                                              setShowCopyTooltip(true);
+                                              setShowAmountTooltip(false);
+                                              setTimeout(() => {
+                                                setShowCopyTooltip(false);
+                                              }, 1000);
+                                            }}
+                                          >
+                                            <img src="https://res.cloudinary.com/dolpotacg/image/upload/v1683014498/Vector_2_aghej8.svg" />
+                                          </Button>
+                                        </Tooltip>
                                       </InputAdornment>
                                     </div>
                                   ),
-                                  disableUnderline: true,
+                                  // disableUnderline: true,
                                 }}
                               />
                             </FormControl>
@@ -256,31 +296,48 @@ function QrCopy(props: any) {
                             >
                               <TextField
                                 value={qrData?.asset_amount}
-                                disabled
+                                // disabled
                                 InputProps={{
                                   sx: {
                                     color: "#2C1E66",
                                     height: 35,
+                                    fontWeight: 500,
+                                    "& .MuiInputBase-input.Mui-disabled": {
+                                      WebkitTextFillColor: "#2C1E66",
+                                    },
                                   },
                                   endAdornment: (
                                     <InputAdornment position="end">
-                                      <Button
-                                        style={{
-                                          padding: "9px",
-                                          marginRight: "-14px",
-                                          minWidth: "0px",
-                                          backgroundColor: "#D6D6D6",
-                                          cursor: "pointer",
-                                        }}
-                                        onClick={() =>
-                                          copy(qrData?.asset_amount)
-                                        }
+                                      <Tooltip
+                                        title="Copied"
+                                        open={showAmountTooltip}
+                                        placement={"top"}
+                                        classes={{ tooltip: classes.tooltip }}
                                       >
-                                        <img src="https://res.cloudinary.com/dolpotacg/image/upload/v1683014498/Vector_2_aghej8.svg" />
-                                      </Button>
+                                        <Button
+                                          style={{
+                                            padding: "9px",
+                                            marginRight: "-14px",
+                                            minWidth: "0px",
+                                            backgroundColor: "#D6D6D6",
+                                            cursor: "pointer",
+                                            borderRadius: "4px 4px 4px 4px",
+                                          }}
+                                          onClick={() => {
+                                            copy(qrData?.asset_amount);
+                                            setShowAmountTooltip(true);
+                                            setShowCopyTooltip(false);
+                                            setTimeout(() => {
+                                              setShowAmountTooltip(false);
+                                            }, 1000);
+                                          }}
+                                        >
+                                          <img src="https://res.cloudinary.com/dolpotacg/image/upload/v1683014498/Vector_2_aghej8.svg" />
+                                        </Button>
+                                      </Tooltip>
                                     </InputAdornment>
                                   ),
-                                  disableUnderline: true,
+                                  // disableUnderline: true,
                                 }}
                               />
                             </FormControl>
@@ -347,7 +404,11 @@ function QrCopy(props: any) {
               </div>
             )}
           </section>
-          <CancelPayment open={openCloseDialog} setOpen={setOpenCloseDialog} left_time={props?.fixedTime}/>
+          <CancelPayment
+            open={openCloseDialog}
+            setOpen={setOpenCloseDialog}
+            left_time={props?.fixedTime}
+          />
           <NetWorkFee
             openNetWorkfee={openNetworkDialog}
             setOpenNetworkfee={setOpenNetworkDialog}

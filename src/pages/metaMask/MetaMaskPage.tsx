@@ -1,8 +1,9 @@
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
-import { AppBar, Button, Container, IconButton, Toolbar } from "@mui/material";
+import { AppBar, Button, Container, IconButton, Skeleton, Toolbar } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import NivapayLogo1 from "../../assets/images/NIcons/NivapayLogo1";
+import detectEthereumProvider from "@metamask/detect-provider";
 import { useGlobalContext } from "../../context/context";
 import CancelPayment from "../../dialogs/CancelPayment";
 import { Layout, MobileContainer } from "../../styles/layout";
@@ -16,8 +17,35 @@ function MetaMaskPage(props: any) {
   const token = context?.state?.token;
   const paymentDetails = context?.state?.qrData;
   const [openCloseDialog, setOpenCloseDialog] = useState(false);
+  const [address, setAddress] = useState<any | null>("");
+  const [showErr, setShowErr] = useState("");
 
   const handleIhavePaid = () => navigate("/detecting", { replace: true });
+
+  let currentAccount: string;
+  function handleAccountsChanged(accounts: string | any[]) {
+    if (accounts.length === 0) {
+      setAddress("");
+    } else if (accounts[0] !== currentAccount) {
+      navigate("/metamask_wallet", { replace: true });
+      currentAccount = accounts[0];
+      setAddress(currentAccount);
+      // getBalance(currentAccount);
+    }
+  }
+
+  async function connectMetamask() {
+    var ethereum: any = await detectEthereumProvider();
+    ethereum
+      .request({ method: "eth_requestAccounts" })
+      .then(handleAccountsChanged)
+      .catch((err: { code: number | any }) => {
+        if (err.code === 4001) {
+        } else {
+          setShowErr("Please select the Network");
+        }
+      });
+  }
 
   useEffect(() => {
     if (!token) {
@@ -66,7 +94,10 @@ function MetaMaskPage(props: any) {
                     {orders.merchant_brand_name && orders.merchant_brand_name}
                   </div>
                 </div>
-                <div className="logo" onClick={()=> window.open("https://nivapay.com/")}>
+                <div
+                  className="logo"
+                  onClick={() => window.open("https://nivapay.com/")}
+                >
                   <NivapayLogo1 />
                 </div>
               </Toolbar>
@@ -116,17 +147,29 @@ function MetaMaskPage(props: any) {
                           justifyContent: "center",
                         }}
                       >
-                        <img
-                          src={`data:image/png;base64,${paymentDetails?.qr_string}`}
-                          width={180}
-                          height={180}
-                        />
+                        {paymentDetails?.qr_string ? (
+                          <img
+                            src={`data:image/png;base64,${paymentDetails?.qr_string}`}
+                            width={180}
+                            height={180}
+                          />
+                        ) : (
+                          <Skeleton
+                            variant="rounded"
+                            width={160}
+                            height={160}
+                            style={{margin:10}}
+                          />
+                        )}
                       </div>
                       <div style={{ marginTop: "5px" }}>
                         <span style={{ fontSize: "13px" }}>
                           Recommended network fee for fast
                           <br />
-                          confirmation: <b>{paymentDetails?.gas_price_fast_ethereum_gwei} gwei</b>
+                          confirmation:{" "}
+                          <b>
+                            {paymentDetails?.gas_price_fast_ethereum_gwei} gwei
+                          </b>
                         </span>
                       </div>
                     </Container>
@@ -147,9 +190,7 @@ function MetaMaskPage(props: any) {
                         className="continue"
                         variant="contained"
                         style={{ width: "325px", alignSelf: "center" }}
-                        onClick={() =>
-                          navigate("/metamask_wallet", { replace: true })
-                        }
+                        onClick={connectMetamask}
                       >
                         Open Metamask
                       </Button>
@@ -180,7 +221,6 @@ function MetaMaskPage(props: any) {
                       <Button
                         className="cancelbtn"
                         style={{ width: "325px", alignSelf: "center" }}
-
                         onClick={() => setOpenCloseDialog(true)}
                       >
                         Cancel
@@ -194,7 +234,11 @@ function MetaMaskPage(props: any) {
               </section>
             </div>
           </section>
-          <CancelPayment open={openCloseDialog} setOpen={setOpenCloseDialog} left_time={props?.fixedTime}/>
+          <CancelPayment
+            open={openCloseDialog}
+            setOpen={setOpenCloseDialog}
+            left_time={props?.fixedTime}
+          />
         </div>
       </MobileContainer>
     </Layout>

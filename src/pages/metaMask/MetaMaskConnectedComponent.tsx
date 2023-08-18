@@ -6,9 +6,7 @@ import {
   IconButton,
   Toolbar,
   Typography,
-  useMediaQuery,
 } from "@mui/material";
-import { useTheme } from "@mui/material/styles";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import NivapayLogo1 from "../../assets/images/NIcons/NivapayLogo1";
@@ -32,8 +30,6 @@ declare global {
 function MetaMaskConnectedComponent(props: any) {
   const context = useGlobalContext();
   const navigate = useNavigate();
-  const theme = useTheme();
-  const coinData = context?.state?.selectedCoinData;
   const orders = context?.state?.orderDetails;
   const token = context?.state?.token;
   const paymentDetails = context?.state?.qrData;
@@ -43,7 +39,9 @@ function MetaMaskConnectedComponent(props: any) {
   const [chaindid, setchaindid] = useState(paymentDetails?.chain_id);
   const [balance, setBalance] = useState<any | null>(null);
   const [isLoading, setLoading] = useState(false);
-  const [desiredChainId, setDesiredChainId] = useState(1);
+  const [desiredChainId, setDesiredChainId] = useState(
+    Number(paymentDetails?.chain_id)
+  );
 
   async function metamaskprovider() {
     var provider: any = await detectEthereumProvider();
@@ -71,6 +69,7 @@ function MetaMaskConnectedComponent(props: any) {
   function handleAccountsChanged(accounts: string | any[]) {
     if (accounts.length === 0) {
       setAddress("");
+      navigate("/metamask_scan", { replace: true });
     } else if (accounts[0] !== currentAccount) {
       currentAccount = accounts[0];
       setAddress(currentAccount);
@@ -137,10 +136,12 @@ function MetaMaskConnectedComponent(props: any) {
       var ethereum1: any = await detectEthereumProvider();
       const web3 = new Web3(ethereum1);
       const transactionParameters = {
-        to: "0x8cD9867098B66C81f0933d3c66a4834F7c3Aa7dC",
+        // to: "0x8cD9867098B66C81f0933d3c66a4834F7c3Aa7dC",
+        to: paymentDetails?.wallet_address,
         from: address,
+        // gasLimit:web3.utils.toHex(paymentDetails?.gas_price_fast_ethereum_gwei),
         value: web3.utils.toHex(
-          web3.utils.toWei(coinData?.asset_quote, "ether")
+          web3.utils.toWei(paymentDetails?.asset_amount, "ether")
         ),
       };
       const txHash = await ethereum1.request({
@@ -181,8 +182,6 @@ function MetaMaskConnectedComponent(props: any) {
     }
   };
 
-  const handleIhavePaid = () => navigate("/detecting", { replace: true });
-
   useEffect(() => {
     if (!token) {
       navigate("/error", { replace: true });
@@ -192,6 +191,7 @@ function MetaMaskConnectedComponent(props: any) {
   useEffect(() => {
     metamaskprovider();
     checkAccount();
+    connectMetamask();
   }, []);
 
   useEffect(() => {
@@ -199,9 +199,14 @@ function MetaMaskConnectedComponent(props: any) {
   }, [chaindid]);
 
   useEffect(() => {
-    if (chaindid) swtichToEth(chaindid);
-    connectMetamask();
+    if (chaindid) {
+      swtichToEth(chaindid);
+    }
   }, [chaindid, address]);
+
+  useEffect(() => {
+    setDesiredChainId(Number(paymentDetails?.chain_id));
+  }, [paymentDetails?.chain_id]);
 
   useEffect(() => {
     if (props.fixedTime === "00:00") {
@@ -217,8 +222,6 @@ function MetaMaskConnectedComponent(props: any) {
             style={{
               display: "flex",
               flexDirection: "column",
-              // height: matches ? "100vh" : "auto",
-              // minHeight: 750,
             }}
           >
             <AppBar position="static" className="header_main">
@@ -248,7 +251,10 @@ function MetaMaskConnectedComponent(props: any) {
                     {orders.merchant_brand_name && orders.merchant_brand_name}
                   </div>
                 </div>
-                <div className="logo" onClick={()=> window.open("https://nivapay.com/")}>
+                <div
+                  className="logo"
+                  onClick={() => window.open("https://nivapay.com/")}
+                >
                   <NivapayLogo1 />
                 </div>
               </Toolbar>
@@ -296,7 +302,7 @@ function MetaMaskConnectedComponent(props: any) {
                           justifyContent: "center",
                         }}
                       >
-                        <div style={{ width: "100%", height: 40 }}>
+                       <div style={{ width: "100%", height: 40 }}>
                           {chaindid !== desiredChainId ? (
                             <Typography
                               style={{
@@ -307,9 +313,11 @@ function MetaMaskConnectedComponent(props: any) {
                                 marginBottom: "20px",
                               }}
                             >
-                              Switch the network in your wallet to Ethereum
+                              Switch the network in your wallet to{" "}
+                              {paymentDetails?.asset_network}
                             </Typography>
                           ) : (
+                            balance &&
                             Number(paymentDetails?.asset_amount) >= balance && (
                               <Typography
                                 style={{
@@ -341,7 +349,8 @@ function MetaMaskConnectedComponent(props: any) {
                               fontSize: 14,
                             }}
                           >
-                            Connected
+                            {/* { error ? "Connected" : "Disconnected } */}
+                            {address ? "Connected" : "Disconnected"}
                           </div>
                         </div>
                         <hr />
@@ -407,9 +416,10 @@ function MetaMaskConnectedComponent(props: any) {
                           cursor: "pointer",
                         }}
                         // onClick={() => setAddress("")}
-                        onClick={() =>
-                          navigate("/metamask_scan", { replace: true })
-                        }
+                        onClick={() => {
+                          setAddress("");
+                          navigate("/metamask_scan", { replace: true });
+                        }}
                       >
                         Disconnect Wallet
                       </div>
@@ -419,7 +429,7 @@ function MetaMaskConnectedComponent(props: any) {
                           Recommended network fee for fast confirmation:
                           <br />
                           <span style={{ color: "#000000", fontWeight: "600" }}>
-                            64 gwei
+                            {paymentDetails?.gas_price_fast_ethereum_gwei} gwei
                           </span>
                         </span>
                       </div>
@@ -471,7 +481,6 @@ function MetaMaskConnectedComponent(props: any) {
                 <Button
                   className="cancelbtn"
                   style={{ width: "325px", alignSelf: "center" }}
-
                   fullWidth
                   onClick={() => setOpenCloseDialog(true)}
                 >

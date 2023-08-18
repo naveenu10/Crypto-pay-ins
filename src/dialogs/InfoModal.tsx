@@ -19,7 +19,7 @@ export default function InfoModal(props: { openInfo: any, setOpenInfo: any }) {
                 PaperProps={{
                     style: {
                         bottom: '18%',
-                        margin: '5px 12px',
+                        // margin: '5px 12px',
                         boxShadow: 'none',
                         maxWidth:333,
                         textAlign: 'center'
