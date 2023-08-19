@@ -62,7 +62,7 @@ function Error() {
                 </Toolbar>
               </AppBar>
 
-              <div style={{height: "640px",  display: 'flex', alignItems: 'center',justifyContent: 'center'}}>
+              <div style={{height: "685px",  display: 'flex', alignItems: 'center',justifyContent: 'center'}}>
                 <section
                   style={{
                     // height: "80vh",

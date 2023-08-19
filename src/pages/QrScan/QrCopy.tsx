@@ -138,7 +138,12 @@ function QrCopy(props: any) {
             ) : (
               <div className="nivapay_section_container">
                 <section className="nivapay_section">
-                  <p className="timer">Time left: {props.fixedTime} mins</p>
+                  <p className="timer">
+                    Time left:{" "}
+                    <span style={{ fontWeight: 600 }}>
+                      {props.fixedTime} mins
+                    </span>
+                  </p>{" "}
                   <div className="choosecurrency">Complete Payment</div>
                   <div>
                     <div
@@ -185,23 +190,7 @@ function QrCopy(props: any) {
                               color: "#1856E7",
                             }}
                           >
-                            + Network fee{" "}
-                            <span
-                              style={{
-                                display: "inline-block",
-                                textAlign: "center",
-                                border: "2px solid blue",
-                                borderRadius: "50%",
-                                width: "0.9em",
-                                height: "0.9em",
-                                lineHeight: "1em",
-                                margin: 0,
-                                color: "#FFFFFF",
-                                backgroundColor: "blue",
-                              }}
-                            >
-                              i
-                            </span>{" "}
+                            + Network fee <span className="network-fee">i</span>{" "}
                           </span>
                         </div>
                         <div
@@ -259,7 +248,7 @@ function QrCopy(props: any) {
                                               boxSizing: "border-box",
                                               backgroundColor: "#D6D6D6",
                                               cursor: "pointer",
-                                              borderRadius: "4px 4px 4px 0px",
+                                              borderRadius: "0px",
                                             }}
                                             onClick={() => {
                                               copy(qrData?.wallet_address);
@@ -276,14 +265,13 @@ function QrCopy(props: any) {
                                       </InputAdornment>
                                     </div>
                                   ),
-                                  // disableUnderline: true,
                                 }}
                               />
                             </FormControl>
                           </Box>
                         </div>
 
-                        <div style={{ marginTop: "5px" }}>
+                        <div style={{ marginTop: "15px" }}>
                           <div
                             style={{
                               fontSize: "12px",
@@ -325,7 +313,7 @@ function QrCopy(props: any) {
                                             minWidth: "0px",
                                             backgroundColor: "#D6D6D6",
                                             cursor: "pointer",
-                                            borderRadius: "4px 4px 4px 4px",
+                                            borderRadius: "0px",
                                           }}
                                           onClick={() => {
                                             copy(qrData?.asset_amount);
@@ -341,7 +329,6 @@ function QrCopy(props: any) {
                                       </Tooltip>
                                     </InputAdornment>
                                   ),
-                                  // disableUnderline: true,
                                 }}
                               />
                             </FormControl>
@@ -350,7 +337,7 @@ function QrCopy(props: any) {
 
                         <div
                           style={{
-                            marginTop: "19px",
+                            marginTop: "41px",
                             fontSize: "12px",
                             fontWeight: 400,
                           }}
@@ -367,21 +354,10 @@ function QrCopy(props: any) {
                       </Container>
                     </div>
                   </div>
-                  <div style={{ display: "flex", flexDirection: "column" }}>
-                    <div
-                      style={{
-                        marginTop: "30px",
-                        fontSize: "12px",
-                        fontWeight: 500,
-                        fontFamily: "Inter",
-                        lineHeight: "14.52px",
-                        marginBottom: "5px",
-                        color: "rgba(0, 0, 0, 0.5)",
-                        padding: "0px 5px",
-                        width: "325px",
-                        alignSelf: "center",
-                      }}
-                    >
+                </section>
+                <div className="footer">
+                  <div className="footer-buttons-container">
+                    <div className="qr-button-info">
                       <span>
                         Click the below button once you have triggered the
                         transaction
@@ -391,22 +367,20 @@ function QrCopy(props: any) {
                       className="continue"
                       variant="contained"
                       fullWidth
-                      style={{ width: "325px", alignSelf: "center" }}
+                      style={{ maxWidth: "325px", alignSelf: "center" }}
                       onClick={onIhavePaid}
                     >
                       I have Paid
                     </Button>
                     <Button
                       className="cancelbtn"
-                      style={{ width: "325px", alignSelf: "center" }}
+                      style={{ maxWidth: "325px", alignSelf: "center" }}
                       fullWidth
                       onClick={() => setOpenCloseDialog(true)}
                     >
                       Cancel
                     </Button>
                   </div>
-                </section>
-                <div className="footer">
                   <Footer />
                 </div>
               </div>

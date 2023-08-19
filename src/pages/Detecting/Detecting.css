@@ -24,6 +24,7 @@
 }
 
 .cryptobtn {
+    max-width: 325px !important;
     text-transform: inherit !important;
     font-family: 'Inter' !important;
     font-style: normal !important;

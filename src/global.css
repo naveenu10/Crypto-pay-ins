@@ -11,7 +11,7 @@ body {
 
 .timer {
   font-style: normal;
-  font-weight: bold;
+  font-weight: 500 !important;
   font-size: 14px;
   line-height: 17px;
   text-align: center;
@@ -48,6 +48,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 0px 10px 0px 10px;
 }
 .nivapay_section {
   display: flex;
@@ -96,14 +97,23 @@ body {
   letter-spacing: 0.05rem;
 }
 
-@media screen and (max-width: 414px) {
+@media screen and (max-width: 428px) {
   .header_main {
     border-radius: 0px;
   }
   .main_section {
     border-radius: 0px;
   }
+  
 }
+
+@media screen and (max-width: 370px) {
+ 
+  .nivapay_section{
+    width: auto;
+  }
+}
+
 
 /* LogoGlowMet.css */
 .logo-container {

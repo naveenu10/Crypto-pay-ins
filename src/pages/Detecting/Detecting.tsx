@@ -100,11 +100,10 @@ function Detecting() {
                     aria-label="menu"
                     disabled
                     sx={{
-                     // mr: 2,
-                     border: "1px solid",
-                     borderRadius: "20%",
-                     padding: "5px",
-                     marginLeft: "0px",
+                      border: "1px solid",
+                      borderRadius: "20%",
+                      padding: "5px",
+                      marginLeft: "0px",
                     }}
                     onClick={() => navigate(-1)}
                   >
@@ -116,7 +115,7 @@ function Detecting() {
                     {orders?.merchant_brand_name && orders?.merchant_brand_name}
                   </div>
                 </div>
-                <div className="logo" >
+                <div className="logo">
                   <NivapayLogo1 />
                 </div>
               </Toolbar>
@@ -131,7 +130,7 @@ function Detecting() {
                       display: "flex",
                       justifyContent: "center",
                       alignItems: "center",
-                      marginTop: "12%",
+                      marginTop: "20%",
                     }}
                   >
                     <div style={{ width: "20%" }}>
@@ -162,8 +161,8 @@ function Detecting() {
                       fontFamily: "Inter",
                       fontStyle: "normal",
                       fontWeight: 400,
-                      fontSize: "11px",
-                      lineHeight: "15px",
+                      fontSize: "12px",
+                      lineHeight: "14.52px",
                       display: "flex",
                       alignItems: "center",
                       textAlign: "center",
@@ -173,14 +172,14 @@ function Detecting() {
                     We are scanning the network to detect your transaction.This
                     process may take up to 30 mins to complete.
                   </Typography>
-                  <div style={{ marginTop: "20%" }}>
-                    <Divider />
+                  <div style={{ marginTop: "43%", marginBottom: "1%" }}>
+                    <Divider sx={{ borderBottomWidth: "1.5px" }} />
                   </div>
                   <div>
                     <Stack
                       direction={"row"}
                       spacing={2}
-                      sx={{ justifyContent: "space-between", padding: "6px" }}
+                      sx={{ justifyContent: "space-between", padding: "7px" }}
                     >
                       <Typography className="currency">Order id</Typography>
                       <Typography className="info">
@@ -190,7 +189,7 @@ function Detecting() {
                     <Stack
                       direction={"row"}
                       spacing={2}
-                      sx={{ justifyContent: "space-between", padding: "6px" }}
+                      sx={{ justifyContent: "space-between", padding: "7px" }}
                     >
                       <Typography className="currency">Action</Typography>
                       <Typography className="info">Payment</Typography>
@@ -198,10 +197,10 @@ function Detecting() {
                     <Stack
                       direction={"row"}
                       spacing={2}
-                      sx={{ justifyContent: "space-between", padding: "6px" }}
+                      sx={{ justifyContent: "space-between", padding: "7px" }}
                     >
                       <Typography className="currency">
-                        Expected Amount(crypto)
+                        Expected Amount (crypto)
                       </Typography>
                       <Typography className="info">
                         {" "}
@@ -214,7 +213,7 @@ function Detecting() {
                     <Stack
                       direction={"row"}
                       spacing={2}
-                      sx={{ justifyContent: "space-between", padding: "6px" }}
+                      sx={{ justifyContent: "space-between", padding: "7px" }}
                     >
                       <Typography className="currency">
                         Destination Wallet
@@ -228,8 +227,8 @@ function Detecting() {
                       </Typography>
                     </Stack>
                   </div>
-                  <div style={{ marginTop: "2%" }}>
-                    <Divider />
+                  <div style={{ marginTop: "1%" }}>
+                    <Divider sx={{ borderBottomWidth: "1.5px" }} />
                   </div>
                   <Typography
                     style={{
@@ -249,31 +248,30 @@ function Detecting() {
                     below. We are processing this transaction and will update
                     you the final status through email.
                   </Typography>
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      width: "325px",
-                      alignSelf: "center",
-                    }}
-                  >
-                    <Button
-                      variant="contained"
-                      className="cryptobtn"
-                      style={{ width: "325px", alignSelf: "center" }}
-                      onClick={backtoCrypto}
-                    >
-                      {" "}
-                      Back to{" "}
-                      {orders?.merchant_brand_name &&
-                        orders?.merchant_brand_name}
-                    </Button>
-                  </div>
                 </section>
               </div>
             )}
           </section>
           <div className="footer">
+            <div
+              style={{
+                marginBottom: "5rem",
+                width: "100%",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+            >
+              <Button
+                variant="contained"
+                className="cryptobtn"
+                onClick={backtoCrypto}
+              >
+                {" "}
+                Back to{" "}
+                {orders?.merchant_brand_name && orders?.merchant_brand_name}
+              </Button>
+            </div>
             <Footer />
           </div>
         </div>

@@ -27,7 +27,6 @@ function DepositPage(props: any) {
 
   const proceedOrder = async () => {
     setLoading(true);
-
     const payload = {
       order_user_email_id: userEmail,
     };
@@ -53,11 +52,11 @@ function DepositPage(props: any) {
     }
   }, [props.fixedTime]);
 
-  useEffect(() => {
-    if (!context.state.token) {
-      navigate("/error", { replace: true });
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (!context.state.token) {
+  //     navigate("/error", { replace: true });
+  //   }
+  // }, []);
 
   return (
     <Layout>
@@ -78,7 +77,6 @@ function DepositPage(props: any) {
                     color="inherit"
                     aria-label="menu"
                     sx={{
-                      // mr: 2,
                       border: "1px solid",
                       borderRadius: "20%",
                       padding: "5px",
@@ -105,8 +103,9 @@ function DepositPage(props: any) {
             ) : (
               <div className="nivapay_section_container">
                 <section className="nivapay_section">
-                  <p className="timer">Time left: {props.fixedTime} mins</p>
-                  <div className="pay" style={{ marginTop: 30 }}>
+                  <p className="timer">Time left: <span style={{fontWeight:600}}>{props.fixedTime} mins
+                  </span></p>
+                  <div className="pay" style={{ marginTop: 40 }}>
                     Pay
                   </div>
                   <div className="order_currency">
@@ -116,33 +115,14 @@ function DepositPage(props: any) {
                     {orderDetails?.order_amount && orderDetails?.order_amount}
                   </div>
                   <div className="pay">worth of crypto to</div>
-                  <Typography
-                    style={{
-                      fontFamily: "Inter",
-                      fontStyle: "normal",
-                      fontWeight: 700,
-                      fontSize: "18px",
-                      lineHeight: "32px",
-                      display: "flex",
-                      justifyContent: "center",
-                      color: "#2C1E66",
-                    }}
+                  <div
+                   className="brand-name"
                   >
                     {orderDetails.merchant_brand_name &&
                       formatTitleCase(orderDetails.merchant_brand_name)}
-                  </Typography>
+                  </div>
                   <div
-                    style={{
-                      fontFamily: "Inter",
-                      fontStyle: "normal",
-                      fontWeight: 400,
-                      marginTop: "5rem",
-                      fontSize: "16px",
-                      lineHeight: "19px",
-                      letterSpacing: "0.06em",
-                      color: "#21146B",
-                      paddingLeft: "5px",
-                    }}
+                   className="email"
                   >
                     Email Address*
                   </div>
@@ -165,40 +145,20 @@ function DepositPage(props: any) {
                   />
                   {!validate.test(userEmail) && (
                     <div
-                      style={{
-                        fontFamily: "Inter",
-                        fontStyle: "normal",
-                        fontWeight: 400,
-                        marginTop: "5px",
-                        fontSize: "12px",
-                        lineHeight: "19px",
-                        letterSpacing: "0.06em",
-                        color: "#f44336",
-                        paddingLeft: "5px",
-                      }}
+                      className="invalid-email"
                     >
                       Invalid email address
                     </div>
                   )}
                   <div
-                    style={{
-                      fontFamily: "Inter",
-                      fontStyle: "normal",
-                      fontWeight: 400,
-                      fontSize: "12px",
-                      lineHeight: "15px",
-                      letterSpacing: "0.06em",
-                      color: "#21146B",
-                      marginTop: "1rem",
-                      paddingLeft: "5px",
-                    }}
+                   className="email-info"
                   >
                     Transaction status updates will be sent to this email
                     address
                   </div>
                 </section>
                 <div className="footer">
-                  <div style={{ marginBottom: 30, width: 325 }}>
+                  <div style={{ marginBottom: 30, maxWidth: 325 }}>
                     <div className="agree">
                       By clicking “Continue”, I agree to Nivapay’s
                       <a
@@ -229,7 +189,7 @@ function DepositPage(props: any) {
                       Continue
                     </Button>
                     <Button
-                      className="cancelbtn"
+                      className="cancelbtn1"
                       fullWidth
                       onClick={() => setOpenCloseDialog(true)}
                     >

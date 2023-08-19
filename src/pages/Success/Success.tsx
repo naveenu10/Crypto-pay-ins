@@ -19,6 +19,9 @@ import copy from "copy-to-clipboard";
 import { useEffect, useState } from "react";
 import formatTitleCase from "../../utils/formatTitleCase";
 
+const success_icon = require("../../assets/images/Success.png");
+
+
 function Detecting() {
   const navigate = useNavigate();
   const context = useGlobalContext();
@@ -117,23 +120,28 @@ function Detecting() {
                     {orders?.merchant_brand_name && orders?.merchant_brand_name}
                   </div>
                 </div>
-                <div className="logo" >
+                <div className="logo">
                   <NivapayLogo1 />
                 </div>
               </Toolbar>
             </AppBar>
-            <div style={{ flex: 1 }}>
-              <section className="nivapay_ramp">
+            <div className="nivapay_section_container">
+              <section className="nivapay_section">
                 <div
                   style={{
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
-                    marginTop: "8%",
+                    marginTop: "20%",
                   }}
                 >
                   <div style={{ width: "20%" }}>
-                    <SuccessLogo />
+                    <div className="logo-container">
+                      <div className="logo-glow">
+                        <img src={success_icon} alt="success_icon" />
+                      </div>
+                    </div>
+                    {/* <SuccessLogo /> */}
                   </div>
                 </div>
                 <Typography
@@ -143,7 +151,6 @@ function Detecting() {
                     fontWeight: 600,
                     fontSize: "24px",
                     lineHeight: "29px",
-                    padding: "1rem",
                     display: "flex",
                     color: "#2C1E66",
                     justifyContent: "center",
@@ -166,14 +173,14 @@ function Detecting() {
                 >
                   {errorMsg && errorMsg}
                 </Typography> */}
-                <div style={{ marginTop: "25px" }}>
-                  <Divider />
+                <div style={{ marginTop: "30%", marginBottom: "1%" }}>
+                  <Divider sx={{ borderBottomWidth: "1.5px" }} />
                 </div>
                 <div>
                   <Stack
                     direction={"row"}
                     spacing={2}
-                    sx={{ justifyContent: "space-between", padding: "6px" }}
+                    sx={{ justifyContent: "space-between", padding: "7px" }}
                   >
                     <Typography className="currency">Order id</Typography>
                     <Typography className="info">
@@ -184,7 +191,7 @@ function Detecting() {
                   <Stack
                     direction={"row"}
                     spacing={2}
-                    sx={{ justifyContent: "space-between", padding: "6px" }}
+                    sx={{ justifyContent: "space-between", padding: "7px" }}
                   >
                     <Typography className="currency">Action</Typography>
                     <Typography className="info">
@@ -195,7 +202,7 @@ function Detecting() {
                   <Stack
                     direction={"row"}
                     spacing={2}
-                    sx={{ justifyContent: "space-between", padding: "6px" }}
+                    sx={{ justifyContent: "space-between", padding: "7px" }}
                   >
                     <Typography className="currency">
                       Order Amount (crypto)
@@ -211,7 +218,7 @@ function Detecting() {
                   <Stack
                     direction={"row"}
                     spacing={2}
-                    sx={{ justifyContent: "space-between", padding: "6px" }}
+                    sx={{ justifyContent: "space-between", padding: "7px" }}
                   >
                     <Typography className="currency">
                       Destination Wallet
@@ -229,7 +236,7 @@ function Detecting() {
                   <Stack
                     direction={"row"}
                     spacing={2}
-                    sx={{ justifyContent: "space-between", padding: "6px" }}
+                    sx={{ justifyContent: "space-between", padding: "7px" }}
                   >
                     <Typography className="currency">
                       Received amount (crypto)
@@ -245,7 +252,7 @@ function Detecting() {
                   <Stack
                     direction={"row"}
                     spacing={2}
-                    sx={{ justifyContent: "space-between", padding: "6px" }}
+                    sx={{ justifyContent: "space-between", padding: "7px" }}
                   >
                     <Typography className="currency">
                       Transaction Hash
@@ -266,7 +273,7 @@ function Detecting() {
                     </Typography>
                   </Stack>
                   <Stack
-                    sx={{ justifyContent: "space-between", padding: "6px" }}
+                    sx={{ justifyContent: "space-between", padding: "7px" }}
                   >
                     <Typography
                       style={{
@@ -285,49 +292,49 @@ function Detecting() {
                     </Typography>
                   </Stack>
                 </div>
-                <div style={{ marginTop: "2%" }}>
-                  <Divider />
+                <div style={{ marginTop: "1%" }}>
+                  <Divider sx={{ borderBottomWidth: "1.5px" }} />
                 </div>
-                <Typography
-                  style={{
-                    fontFamily: "Inter",
-                    fontStyle: "normal",
-                    fontWeight: 500,
-                    fontSize: "14px",
-                    lineHeight: "17px",
-                    textAlign: "center",
-                    letterSpacing: "0.06em",
-                    color: "#21146B",
-                    marginTop: "15%",
-                  }}
-                >
-                  Redirecting in{" "}
-                  <span style={{ color: "#279FFE" }}>{fixedTime}</span>{" "}
-                  <span>secs...</span>
-                </Typography>
               </section>
             </div>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                marginTop: "3%",
-                width: "325px",
-                alignSelf: "center",
-              }}
-            >
-              <Button
-                variant="contained"
-                className="cryptobtn"
-                onClick={backtoCrypto}
-              >
-                {" "}
-                Back to{" "}
-                {orders?.merchant_brand_name &&
-                  formatTitleCase(orders?.merchant_brand_name)}
-              </Button>
-            </div>
             <div className="footer">
+              <div
+                style={{
+                  fontFamily: "Inter",
+                  fontStyle: "normal",
+                  fontWeight: 500,
+                  fontSize: "14px",
+                  lineHeight: "17px",
+                  textAlign: "center",
+                  letterSpacing: "0.06em",
+                  color: "#21146B",
+                  marginBottom: "5%",
+                }}
+              >
+                Redirecting in{" "}
+                <span style={{ color: "#279FFE" }}>{fixedTime}</span>{" "}
+                <span>secs...</span>
+              </div>
+              <div
+                style={{
+                  marginBottom: "5rem",
+                  width: "100%",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                }}
+              >
+                <Button
+                  variant="contained"
+                  className="cryptobtn"
+                  onClick={backtoCrypto}
+                >
+                  {" "}
+                  Back to{" "}
+                  {orders?.merchant_brand_name &&
+                    formatTitleCase(orders?.merchant_brand_name)}
+                </Button>
+              </div>
               <Footer />
             </div>
           </section>

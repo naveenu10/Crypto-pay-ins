@@ -29,7 +29,7 @@ function Wallet(props: any) {
   const [openCloseDialog, setOpenCloseDialog] = useState(false);
   const navigate = useNavigate();
 
-   const handleMetamask = () => {
+  const handleMetamask = () => {
     navigate("/metamask_scan", { replace: true });
   };
 
@@ -107,15 +107,19 @@ function Wallet(props: any) {
                     {orders.merchant_brand_name && orders.merchant_brand_name}
                   </div>
                 </div>
-                <div className="logo" >
+                <div className="logo">
                   <NivapayLogo1 />
                 </div>
               </Toolbar>
             </AppBar>
             <div style={{ flex: 1 }}>
               <section className="nivapay_ramp">
-                <p className="timer">Time left: {props.fixedTime} mins</p>
-
+                <p className="timer">
+                  Time left:{" "}
+                  <span style={{ fontWeight: 600 }}>
+                    {props.fixedTime} mins
+                  </span>
+                </p>
                 <div
                   className="choosecurrency"
                   style={{ fontSize: 20, marginBottom: "18%" }}
@@ -149,34 +153,33 @@ function Wallet(props: any) {
                     <ChevronRightIcon style={{ fontSize: "40px" }} />
                   </span>
                 </div>
-                <div
-                  style={{
-                    marginTop: "40%",
-                    display: "flex",
-                    flexDirection: "column",
-                  }}
-                >
-                  <Button
-                    className="continue"
-                    variant="contained"
-                    style={{ width: "325px", alignSelf: "center" }}
-                    fullWidth
-                    disabled
-                  
+                <div className="footer">
+                  <div
+                    style={{
+                      marginBottom: "35px",
+                      width: "100%",
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                    }}
                   >
-                    Continue
-                  </Button>
-                  <Button
-                    className="cancelbtn"
-                    style={{ width: "325px", alignSelf: "center" }}
-                    fullWidth
-                    onClick={() => setOpenCloseDialog(true)}
-                  >
-                    Cancel
-                  </Button>
-                  <div className="footer">
-                    <Footer />
+                    <Button
+                      className="continue"
+                      variant="contained"
+                      fullWidth
+                      disabled
+                    >
+                      Continue
+                    </Button>
+                    <Button
+                      className="cancelbtn"
+                      fullWidth
+                      onClick={() => setOpenCloseDialog(true)}
+                    >
+                      Cancel
+                    </Button>
                   </div>
+                  <Footer />
                 </div>
               </section>
             </div>

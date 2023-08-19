@@ -1,5 +1,12 @@
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
-import { AppBar, Button, Container, IconButton, Skeleton, Toolbar } from "@mui/material";
+import {
+  AppBar,
+  Button,
+  Container,
+  IconButton,
+  Skeleton,
+  Toolbar,
+} from "@mui/material";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import NivapayLogo1 from "../../assets/images/NIcons/NivapayLogo1";
@@ -78,11 +85,11 @@ function MetaMaskPage(props: any) {
                     color="inherit"
                     aria-label="menu"
                     sx={{
-                     // mr: 2,
-                     border: "1px solid",
-                     borderRadius: "20%",
-                     padding: "5px",
-                     marginLeft: "0px",
+                      // mr: 2,
+                      border: "1px solid",
+                      borderRadius: "20%",
+                      padding: "5px",
+                      marginLeft: "0px",
                     }}
                     onClick={() => navigate("/wallet", { replace: true })}
                   >
@@ -105,15 +112,20 @@ function MetaMaskPage(props: any) {
 
             <div className="nivapay_section_container">
               <section className="nivapay_section">
-                <p className="timer">Time left: {props.fixedTime} mins</p>
+                <p className="timer">
+                  Time left:{" "}
+                  <span style={{ fontWeight: 600 }}>
+                    {props.fixedTime} mins
+                  </span>
+                </p>{" "}
                 <div className="choosecurrency" style={{ fontSize: 20 }}>
                   Complete Payment
                 </div>
-                <div style={{ marginTop: 10 }}>
+                <div style={{ marginTop: 30 }}>
                   <div className="qrCodeDivMetamask">
                     <Container>
                       <div style={{ marginTop: "10px" }}>
-                        <span style={{ fontSize: "24px", fontWeight: "600px" }}>
+                        <span style={{ fontSize: "24px", fontWeight: 600 }}>
                           {paymentDetails?.asset_amount &&
                             paymentDetails?.asset_amount}{" "}
                         </span>
@@ -121,7 +133,7 @@ function MetaMaskPage(props: any) {
                           style={{
                             fontSize: "12px",
                             color: "#000000",
-                            fontWeight: "600",
+                            fontWeight: 600,
                             marginLeft: "4px",
                           }}
                         >
@@ -140,25 +152,24 @@ function MetaMaskPage(props: any) {
                       </div>
                       <div
                         style={{
-                          marginTop: "5px",
+                          padding: "10px",
                           display: "flex",
                           height: "auto",
-                          width: "100%",
                           justifyContent: "center",
                         }}
                       >
                         {paymentDetails?.qr_string ? (
                           <img
                             src={`data:image/png;base64,${paymentDetails?.qr_string}`}
-                            width={180}
-                            height={180}
+                            width={191}
+                            height={196}
                           />
                         ) : (
                           <Skeleton
                             variant="rounded"
                             width={160}
                             height={160}
-                            style={{margin:10}}
+                            style={{ margin: 10 }}
                           />
                         )}
                       </div>
@@ -185,48 +196,42 @@ function MetaMaskPage(props: any) {
                         display: "flex",
                         justifyContent: "center",
                       }}
-                    >
-                      <Button
-                        className="continue"
-                        variant="contained"
-                        style={{ width: "325px", alignSelf: "center" }}
-                        onClick={connectMetamask}
-                      >
-                        Open Metamask
-                      </Button>
-                    </div>
-                    <div
-                      style={{
-                        display: "flex",
-                        justifyContent: "center",
-                        marginTop: "10px",
-                      }}
-                    >
-                      <Button
-                        className="paidBtn"
-                        variant="outlined"
-                        style={{ width: "325px", alignSelf: "center" }}
-                        onClick={handleIhavePaid}
-                        sx={{ textTransform: "none" }}
-                      >
-                        I have Paid
-                      </Button>
-                    </div>
-                    <div
-                      style={{
-                        display: "flex",
-                        justifyContent: "center",
-                      }}
-                    >
-                      <Button
-                        className="cancelbtn"
-                        style={{ width: "325px", alignSelf: "center" }}
-                        onClick={() => setOpenCloseDialog(true)}
-                      >
-                        Cancel
-                      </Button>
-                    </div>
+                    ></div>
+
                     <div className="footer">
+                      <div
+                        style={{
+                          marginBottom: "35px",
+                          width: "100%",
+                          display: "flex",
+                          flexDirection: "column",
+                          alignItems: "center",
+                        }}
+                      >
+                        <Button
+                          className="continue"
+                          variant="contained"
+                          style={{ marginBottom: "10px" }}
+                          onClick={connectMetamask}
+                        >
+                          Open Metamask
+                        </Button>
+                        <Button
+                          className="continue"
+                          variant="outlined"
+                          onClick={handleIhavePaid}
+                          sx={{ textTransform: "none" }}
+                        >
+                          I have Paid
+                        </Button>
+                        <Button
+                          className="cancelbtn"
+                          style={{width:"inherit"}}
+                          onClick={() => setOpenCloseDialog(true)}
+                        >
+                          Cancel
+                        </Button>
+                      </div>
                       <Footer />
                     </div>
                   </div>

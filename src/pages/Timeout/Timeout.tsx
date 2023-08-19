@@ -126,14 +126,19 @@ function Detecting(props: any) {
                       formatTitleCase(orders?.merchant_brand_name)}
                   </div>
                 </div>
-                <div className="logo" >
+                <div className="logo">
                   <NivapayLogo1 />
                 </div>
               </Toolbar>
             </AppBar>
             <div style={{ flex: 1 }}>
               <section className="nivapay_ramp">
-                <p className="timer">Time left 00:00 mins</p>
+                <p className="timer">
+                  Time left:{" "}
+                  <span style={{ fontWeight: 600 }}>
+                    {props.fixedTime} mins
+                  </span>
+                </p>{" "}
                 <div
                   style={{
                     display: "flex",

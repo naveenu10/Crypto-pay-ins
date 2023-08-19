@@ -18,7 +18,6 @@ import { sendOrderEvent } from "../../services/depositServices";
 
 function QrScanPage(props: any) {
   const context = useGlobalContext();
-  const [userName, setUserName] = useState("laxmi@gmail.com");
   const [openCloseDialog, setOpenCloseDialog] = useState(false);
   const [openNetworkDialog, setOpenNetworkDialog] = useState(false);
   const [isLoading, setLoading] = useState(false);
@@ -27,9 +26,6 @@ function QrScanPage(props: any) {
   const selectedCoinData = context.state.selectedCoinData;
   const token = context.state.token;
   const qrData = context.state.qrData;
-
-  var re =
-    /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   const navigate = useNavigate();
 
   const onIhavePaid = async () => {
@@ -87,7 +83,6 @@ function QrScanPage(props: any) {
                     color="inherit"
                     aria-label="menu"
                     sx={{
-                      // mr: 2,
                       border: "1px solid",
                       borderRadius: "20%",
                       padding: "5px",
@@ -117,7 +112,12 @@ function QrScanPage(props: any) {
             ) : (
               <div className="nivapay_section_container">
                 <section className="nivapay_section">
-                  <p className="timer">Time left: {props.fixedTime} mins</p>
+                  <p className="timer">
+                    Time left:{" "}
+                    <span style={{ fontWeight: 600 }}>
+                      {props.fixedTime} mins
+                    </span>
+                  </p>{" "}
                   <div className="choosecurrency">Complete Payment</div>
                   <div>
                     <div
@@ -164,23 +164,7 @@ function QrScanPage(props: any) {
                             }}
                             onClick={() => setOpenNetworkDialog(true)}
                           >
-                            + Network fee{" "}
-                            <span
-                              style={{
-                                display: "inline-block",
-                                textAlign: "center",
-                                border: "2px solid blue",
-                                borderRadius: "50%",
-                                width: "0.9em",
-                                height: "0.9em",
-                                lineHeight: "1em",
-                                margin: 0,
-                                color: "#FFFFFF",
-                                backgroundColor: "blue",
-                              }}
-                            >
-                              i
-                            </span>{" "}
+                            + Network fee <span className="network-fee">i</span>{" "}
                           </span>
                         </div>
                         <div
@@ -194,15 +178,7 @@ function QrScanPage(props: any) {
                           above amount
                         </div>
                         <div>
-                          <span
-                            style={{
-                              height: "270px",
-                              width: "196px",
-                              justifyContent: "center",
-                            }}
-                          >
-                            <QrCode />
-                          </span>
+                          <QrCode />
                         </div>
                         <div style={{ fontSize: "12px", fontWeight: 400 }}>
                           Only send {coinName && coinName.toUpperCase()} using
@@ -216,45 +192,28 @@ function QrScanPage(props: any) {
                       </Container>
                     </div>
                   </div>
-
-                  <div style={{ display: "flex", flexDirection: "column" }}>
-                    <div
-                      style={{
-                        marginTop: "30px",
-                        fontSize: "12px",
-                        fontWeight: 500,
-                        fontFamily: "Inter",
-                        lineHeight: "14.52px",
-                        marginBottom: "5px",
-                        padding: "0px 5px",
-                        color: "rgba(0, 0, 0, 0.5)",
-                        width: "325px",
-                        alignSelf: "center",
-                      }}
-                    >
+                </section>
+                <div className="footer">
+                  <div className="footer-buttons-container">
+                    <div className="qr-button-info">
                       Click the below button once you have triggered the
                       transaction
                     </div>
                     <Button
                       className="continue"
-                      style={{ width: "325px", alignSelf: "center" }}
                       variant="contained"
                       onClick={onIhavePaid}
-                      disabled={!userName || !re.test(userName)}
                     >
                       I have Paid{" "}
                     </Button>
                     <Button
                       className="cancelbtn"
-                      style={{ width: "325px", alignSelf: "center" }}
                       fullWidth
                       onClick={() => setOpenCloseDialog(true)}
                     >
                       Cancel
                     </Button>
                   </div>
-                </section>
-                <div className="footer">
                   <Footer />
                 </div>
               </div>

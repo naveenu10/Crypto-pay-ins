@@ -80,7 +80,7 @@ function QuickPay(props: any) {
                     {orders?.merchant_brand_name && orders?.merchant_brand_name}
                   </div>
                 </div>
-                <div className="logo" >
+                <div className="logo">
                   <NivapayLogo1 />
                 </div>
               </Toolbar>
@@ -90,7 +90,12 @@ function QuickPay(props: any) {
             ) : (
               <div className="nivapay_section_container">
                 <section className="nivapay_section">
-                  <p className="timer">Time left: {props.fixedTime} mins</p>
+                  <p className="timer">
+                    Time left:{" "}
+                    <span style={{ fontWeight: 600 }}>
+                      {props.fixedTime} mins
+                    </span>
+                  </p>{" "}
                   <div
                     style={{ boxSizing: "border-box", position: "relative" }}
                   >
@@ -103,34 +108,44 @@ function QuickPay(props: any) {
                       </div>
                     </PerfectScrollbar>
                   </div>
+                  <div className="footer">
+                    <div
+                      style={{
+                        marginBottom: "35px",
+                        width: "100%",
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                      }}
+                    >
+                      <Button
+                        variant="contained"
+                        className="continue"
+                        fullWidth
+                        onClick={onContinue}
+                        disabled={!coinName}
+                      >
+                        Continue
+                      </Button>
+                      <Button
+                        fullWidth
+                        className="cancelbtn"
+                        onClick={() => setOpenCloseDialog(true)}
+                      >
+                        Cancel
+                      </Button>
+                    </div>
+                    <Footer />
+                  </div>
                 </section>
               </div>
             )}
-            <div className="footer">
-              <div
-                style={{ marginBottom: "20px", marginTop: 10, width: "325px" }}
-              >
-                <Button
-                  variant="contained"
-                  className="continue"
-                  fullWidth
-                  onClick={onContinue}
-                  disabled={!coinName}
-                >
-                  Continue
-                </Button>
-                <Button
-                  fullWidth
-                  className="cancelbtn"
-                  onClick={() => setOpenCloseDialog(true)}
-                >
-                  Cancel
-                </Button>
-              </div>
-              <Footer />
-            </div>
           </section>
-          <CancelPayment open={openCloseDialog} setOpen={setOpenCloseDialog} left_time={props?.fixedTime}/>
+          <CancelPayment
+            open={openCloseDialog}
+            setOpen={setOpenCloseDialog}
+            left_time={props?.fixedTime}
+          />
         </div>
       </MobileContainer>
     </Layout>

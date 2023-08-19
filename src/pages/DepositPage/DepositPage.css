@@ -17,7 +17,7 @@
 }
 
 .continue {
-  width: 100%;
+  max-width: 325px !important;
   background: #1371bc;
   text-transform: capitalize !important;
   font-family: "Inter" !important;
@@ -34,7 +34,7 @@
   border-radius: 8px !important;
 }
 .continue:disabled {
-  width: 100%;
+  max-width: 325px !important;
   background-color: rgba(19, 113, 188, 0.5) !important;
   text-transform: capitalize !important;
   font-family: "Inter" !important;
@@ -51,7 +51,8 @@
   border-radius: 8px !important;
 }
 
-.cancelbtn {
+.cancelbtn1 {
+  max-width: 325px !important;
   font-family: "Inter" !important;
   font-style: normal !important;
   font-weight: 700 !important;
@@ -64,8 +65,10 @@
   text-transform: capitalize !important;
   padding: 1rem !important;
   border-radius: 8px !important;
+  margin-top: 10px !important;
 }
-.cancelbtn:hover {
+.cancelbtn1:hover {
+  max-width: 325px !important;
   background: #fff !important;
   font-family: "Inter" !important;
   font-style: normal !important;
@@ -79,6 +82,7 @@
   text-transform: capitalize !important;
   padding: 1rem !important;
   border-radius: 8px !important;
+  margin-top: 10px !important;
 }
 
 .nivapay_ramp {
@@ -123,4 +127,47 @@
   margin-top: 3.5rem;
   flex-wrap: wrap;
   gap: 4px;
+}
+.brand-name {
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 32px;
+  display: flex;
+  justify-content: center;
+  color: #2c1e66;
+}
+.email {
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 400;
+  margin-top: 8rem;
+  font-size: 16px;
+  line-height: 19px;
+  letter-spacing: 0.06em;
+  color: #21146b;
+  padding-left: 5px;
+}
+.invalid-email{
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 400;
+  margin-top: 5px;
+  font-size: 12px;
+  line-height: 19px;
+  letter-spacing: 0.06em;
+  color: #f44336;
+  padding-left: 5px;
+}
+.email-info{
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 15px;
+  letter-spacing: 0.06em;
+  color: #21146B;
+  margin-top: 1.5rem;
+  padding-left: 5px;
 }

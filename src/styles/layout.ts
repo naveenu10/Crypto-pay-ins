@@ -10,7 +10,7 @@ export const Layout = styled.div`
 `;
 
 export const MobileContainer = styled.div`
-  height: 828px;
+  height: 926px;
   width: 428px;
   position: relative;
 `;

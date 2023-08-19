@@ -233,7 +233,6 @@ function MetaMaskConnectedComponent(props: any) {
                     color="inherit"
                     aria-label="menu"
                     sx={{
-                      // mr: 2,
                       border: "1px solid",
                       borderRadius: "20%",
                       padding: "5px",
@@ -261,12 +260,16 @@ function MetaMaskConnectedComponent(props: any) {
             </AppBar>
             <div className="nivapay_section_container">
               <section className="nivapay_section">
-                <p className="timer">Time left: {props.fixedTime} mins</p>
-
+                <p className="timer">
+                  Time left:{" "}
+                  <span style={{ fontWeight: 600 }}>
+                    {props.fixedTime} mins
+                  </span>
+                </p>
                 <div className="choosecurrency" style={{ fontSize: 20 }}>
                   Complete Payment
                 </div>
-                <div style={{ marginTop: 10 }}>
+                <div style={{ marginTop: 30 }}>
                   <div className="qrMetamaskConnected">
                     <Container>
                       <div style={{ marginTop: "10px" }}>
@@ -274,7 +277,7 @@ function MetaMaskConnectedComponent(props: any) {
                           style={{
                             fontSize: "24px",
                             color: "#000000",
-                            fontWeight: "600",
+                            fontWeight: 600,
                           }}
                         >
                           {paymentDetails?.asset_amount &&
@@ -284,7 +287,7 @@ function MetaMaskConnectedComponent(props: any) {
                           style={{
                             fontSize: "12px",
                             color: "#000000",
-                            fontWeight: "600",
+                            fontWeight: 600,
                             marginLeft: "4px",
                           }}
                         >
@@ -302,7 +305,7 @@ function MetaMaskConnectedComponent(props: any) {
                           justifyContent: "center",
                         }}
                       >
-                       <div style={{ width: "100%", height: 40 }}>
+                        <div style={{ width: "100%", height: 40 }}>
                           {chaindid !== desiredChainId ? (
                             <Typography
                               style={{
@@ -345,7 +348,7 @@ function MetaMaskConnectedComponent(props: any) {
                           <div
                             style={{
                               color: "#21146B",
-                              fontWeight: "600",
+                              fontWeight: 600,
                               fontSize: 14,
                             }}
                           >
@@ -412,10 +415,9 @@ function MetaMaskConnectedComponent(props: any) {
                           marginTop: "30px",
                           fontSize: "14px",
                           color: "#2C1E66",
-                          fontWeight: "700",
+                          fontWeight: 700,
                           cursor: "pointer",
                         }}
-                        // onClick={() => setAddress("")}
                         onClick={() => {
                           setAddress("");
                           navigate("/metamask_scan", { replace: true });
@@ -428,7 +430,7 @@ function MetaMaskConnectedComponent(props: any) {
                         <span style={{ fontSize: "12px" }}>
                           Recommended network fee for fast confirmation:
                           <br />
-                          <span style={{ color: "#000000", fontWeight: "600" }}>
+                          <span style={{ color: "#000000", fontWeight: 700 }}>
                             {paymentDetails?.gas_price_fast_ethereum_gwei} gwei
                           </span>
                         </span>
@@ -442,54 +444,40 @@ function MetaMaskConnectedComponent(props: any) {
                   setOpen={setOpenCloseDialog}
                   left_time={props?.fixedTime}
                 />
+
+                <div className="footer">
+                  <div
+                    style={{
+                      marginBottom: "35px",
+                      width: "100%",
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Button
+                      className="continue"
+                      variant="contained"
+                      onClick={sendPayment}
+                      disabled={
+                        Number(paymentDetails?.asset_amount) >= balance ||
+                        isLoading ||
+                        chaindid !== desiredChainId
+                      }
+                    >
+                      {isLoading ? "Processing..." : "Send Payment"}
+                    </Button>
+                    <Button
+                      className="cancelbtn"
+                      fullWidth
+                      onClick={() => setOpenCloseDialog(true)}
+                    >
+                      Cancel
+                    </Button>
+                  </div>
+                  <Footer />
+                </div>
               </section>
-            </div>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-              }}
-            >
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  marginTop: "30px",
-                }}
-              >
-                <Button
-                  className="continue"
-                  variant="contained"
-                  onClick={sendPayment}
-                  style={{ width: "325px", alignSelf: "center" }}
-                  disabled={
-                    Number(paymentDetails?.asset_amount) >= balance ||
-                    isLoading ||
-                    chaindid !== desiredChainId
-                  }
-                >
-                  {isLoading ? "Processing..." : "Send Payment"}
-                </Button>
-              </div>
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  marginTop: "10px",
-                }}
-              >
-                <Button
-                  className="cancelbtn"
-                  style={{ width: "325px", alignSelf: "center" }}
-                  fullWidth
-                  onClick={() => setOpenCloseDialog(true)}
-                >
-                  Cancel
-                </Button>
-              </div>
-              <div className="footer">
-                <Footer />
-              </div>
             </div>
           </section>
         </div>

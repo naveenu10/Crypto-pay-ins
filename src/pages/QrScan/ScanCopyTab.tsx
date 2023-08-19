@@ -87,10 +87,23 @@ const ScanCopyTab = (): JSX.Element => {
             className={buttonClasses}
             key={tab.id}
             onClick={() => handleTabClick(tab)}
-            style={{ margin: 5, color: "#2C1E66",textTransform:"none" }}
+            style={{ margin: 5, color: "#2C1E66", textTransform: "none" }}
           >
             <img src={tab.iconUrl} alt={tab.name} />
-            <span style={{ marginLeft: "6px" }}>{tab.name}</span>
+            <span
+              style={{
+                marginLeft: "6px",
+                fontFamily: "Inter",
+                fontSize: "14px",
+                fontWeight: 500,
+                lineHeight: "21px",
+                letterSpacing: "0em",
+                textAlign: "center",
+                color: "#2C1E66"
+              }}
+            >
+              {tab.name}
+            </span>
           </Button>
         );
       })}

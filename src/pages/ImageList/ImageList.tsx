@@ -79,9 +79,9 @@ export default function StandardImageList() {
           />
         </Typography>
       </Stack>
-      <Divider style={{ marginTop: "1%" }} />
       <PerfectScrollbar>
-        <div style={{ minHeight: 400, maxHeight: 400, paddingRight: 10 }}>
+        <div style={{ minHeight: 500, maxHeight: 500, paddingRight: 10 }}>
+          <Divider />
           {cyyptoData?.length !== 0 ? (
             cyyptoData?.map((item: any, i: any) => (
               <Stack
@@ -190,7 +190,7 @@ export default function StandardImageList() {
             ))
           ) : (
             <div>
-              {["1", "2", "3", "4", "5", "6"].map((value, index): any => (
+              {["1", "2", "3", "4", "5", "6","7"].map((value, index): any => (
                 <Skeleton
                   key={index}
                   variant="rounded"
@@ -201,9 +201,9 @@ export default function StandardImageList() {
               ))}
             </div>
           )}
+          <Divider />
         </div>
       </PerfectScrollbar>
-      <Divider />
       {openInfo && <InfoModal openInfo={openInfo} setOpenInfo={setOpenInfo} />}
     </div>
   );
