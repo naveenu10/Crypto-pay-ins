@@ -55,6 +55,7 @@ function MetaMaskPage(props: any) {
   }
 
   useEffect(() => {
+    window.scrollTo(0,0);
     if (!token) {
       navigate("/error", { replace: true });
     }

@@ -52,11 +52,12 @@ function DepositPage(props: any) {
     }
   }, [props.fixedTime]);
 
-  // useEffect(() => {
-  //   if (!context.state.token) {
-  //     navigate("/error", { replace: true });
-  //   }
-  // }, []);
+  useEffect(() => {
+    window.scrollTo(0,0);
+    if (!context.state.token) {
+      navigate("/error", { replace: true });
+    }
+  }, []);
 
   return (
     <Layout>

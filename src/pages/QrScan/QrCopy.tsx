@@ -79,6 +79,7 @@ function QrCopy(props: any) {
   };
 
   useEffect(() => {
+    window.scrollTo(0,0);
     if (!orders) {
       navigate("/error", { replace: true });
     }

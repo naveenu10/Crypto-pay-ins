@@ -1,22 +1,17 @@
-import { AppBar, IconButton, useMediaQuery, Toolbar } from "@mui/material";
-import { useTheme } from "@mui/material/styles";
+import { AppBar, IconButton, Toolbar } from "@mui/material";
 import { Layout, MobileContainer } from "../../styles/layout";
 import Footer from "../Footer/Footer";
-import formatTitleCase from "../../utils/formatTitleCase";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import NivapayLogo1 from "../../assets/images/NIcons/NivapayLogo1";
+import { useEffect } from "react";
 
 const Signs = require("../../assets/images/Signs.png");
 
 function Error() {
-  const theme = useTheme();
-  const matches = useMediaQuery(theme.breakpoints.up("lg"));
-  const merchantName: any = localStorage.getItem("merchantName");
-  const merchantUrl: any = localStorage.getItem("merchantUrl");
-
-  function backtoCrypto() {
-    window.location.replace(merchantUrl);
-  }
+ 
+   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <div>
@@ -56,13 +51,20 @@ function Error() {
                       {/* {merchantName && formatTitleCase(merchantName)} */}
                     </div>
                   </div>
-                  <div className="logo" >
+                  <div className="logo">
                     <NivapayLogo1 />
                   </div>
                 </Toolbar>
               </AppBar>
 
-              <div style={{height: "685px",  display: 'flex', alignItems: 'center',justifyContent: 'center'}}>
+              <div
+                style={{
+                  height: "685px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
                 <section
                   style={{
                     // height: "80vh",
