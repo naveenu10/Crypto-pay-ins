@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
-import { AppBar, Button, IconButton, Toolbar, Typography } from "@mui/material";
+import { AppBar, Button, IconButton, Toolbar } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import NivapayLogo1 from "../../assets/images/NIcons/NivapayLogo1";
 import { useGlobalContext } from "../../context/context";
@@ -19,6 +19,7 @@ function DepositPage(props: any) {
   const navigate = useNavigate();
   const context = useGlobalContext();
   const token = context.state.token;
+  const containerRef = React.useRef(null);
   const [openCloseDialog, setOpenCloseDialog] = useState(false);
   const orderDetails = context.state.orderDetails;
   const email = context.state.email;
@@ -34,7 +35,6 @@ function DepositPage(props: any) {
     if (res?.status === 201) {
       navigate("/quickpay", { replace: true });
     } else {
-      console.log(res);
       setLoading(false);
     }
   };
@@ -53,7 +53,7 @@ function DepositPage(props: any) {
   }, [props.fixedTime]);
 
   useEffect(() => {
-    window.scrollTo(0,0);
+    window.scrollTo(0, 0);
     if (!context.state.token) {
       navigate("/error", { replace: true });
     }
@@ -62,7 +62,7 @@ function DepositPage(props: any) {
   return (
     <Layout>
       <MobileContainer>
-        <div className="main_section">
+        <div className="main_section" ref={containerRef}>
           <section
             style={{
               display: "flex",
@@ -104,8 +104,12 @@ function DepositPage(props: any) {
             ) : (
               <div className="nivapay_section_container">
                 <section className="nivapay_section">
-                  <p className="timer">Time left: <span style={{fontWeight:600}}>{props.fixedTime} mins
-                  </span></p>
+                  <p className="timer">
+                    Time left:{" "}
+                    <span style={{ fontWeight: 600 }}>
+                      {props.fixedTime} mins
+                    </span>
+                  </p>
                   <div className="pay" style={{ marginTop: 40 }}>
                     Pay
                   </div>
@@ -116,17 +120,11 @@ function DepositPage(props: any) {
                     {orderDetails?.order_amount && orderDetails?.order_amount}
                   </div>
                   <div className="pay">worth of crypto to</div>
-                  <div
-                   className="brand-name"
-                  >
+                  <div className="brand-name">
                     {orderDetails.merchant_brand_name &&
                       formatTitleCase(orderDetails.merchant_brand_name)}
                   </div>
-                  <div
-                   className="email"
-                  >
-                    Email Address*
-                  </div>
+                  <div className="email">Email Address*</div>
                   <input
                     className="input-wrap"
                     name="userEmail"
@@ -145,21 +143,23 @@ function DepositPage(props: any) {
                     value={email}
                   />
                   {!validate.test(userEmail) && (
-                    <div
-                      className="invalid-email"
-                    >
-                      Invalid email address
-                    </div>
+                    <div className="invalid-email">Invalid email address</div>
                   )}
-                  <div
-                   className="email-info"
-                  >
+                  <div className="email-info">
                     Transaction status updates will be sent to this email
                     address
                   </div>
                 </section>
                 <div className="footer">
-                  <div style={{ marginBottom: 30, maxWidth: 325 }}>
+                  <div
+                    style={{
+                      marginBottom: "35px",
+                      width: "325px",
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                    }}
+                  >
                     <div className="agree">
                       By clicking “Continue”, I agree to Nivapay’s
                       <a
@@ -205,6 +205,7 @@ function DepositPage(props: any) {
           <CancelPayment
             open={openCloseDialog}
             setOpen={setOpenCloseDialog}
+            containerRef={containerRef}
             left_time={props?.fixedTime}
           />
         </div>

@@ -5,6 +5,7 @@ const initialState = {
   selectedCoin: "",
   orderDetails: "",
   orderId: "",
+  hash: "",
   token: "",
   allCryptos: "",
   selectedCoinData: "",

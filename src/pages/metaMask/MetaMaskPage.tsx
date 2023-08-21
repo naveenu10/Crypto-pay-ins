@@ -7,7 +7,7 @@ import {
   Skeleton,
   Toolbar,
 } from "@mui/material";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import NivapayLogo1 from "../../assets/images/NIcons/NivapayLogo1";
 import detectEthereumProvider from "@metamask/detect-provider";
@@ -20,6 +20,7 @@ import "../QrScan/QrScanPage.css";
 function MetaMaskPage(props: any) {
   const context = useGlobalContext();
   const navigate = useNavigate();
+  const containerRef = React.useRef(null);
   const orders = context?.state?.orderDetails;
   const token = context?.state?.token;
   const paymentDetails = context?.state?.qrData;
@@ -70,7 +71,7 @@ function MetaMaskPage(props: any) {
   return (
     <Layout>
       <MobileContainer>
-        <div className="main_section">
+        <div className="main_section" ref={containerRef}>
           <section
             style={{
               display: "flex",
@@ -244,6 +245,7 @@ function MetaMaskPage(props: any) {
             open={openCloseDialog}
             setOpen={setOpenCloseDialog}
             left_time={props?.fixedTime}
+            containerRef={containerRef}
           />
         </div>
       </MobileContainer>

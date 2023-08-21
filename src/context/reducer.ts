@@ -21,6 +21,11 @@ const reducer = (state: any, action: { type: string; payload: any }): any => {
         ...state,
         orderId: action.payload,
       };
+    case "UPDATE_HASH":
+      return {
+        ...state,
+        hash: action.payload,
+      };
     case "TOKEN":
       return {
         ...state,

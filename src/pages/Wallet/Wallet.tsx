@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import {
@@ -22,6 +22,7 @@ import CancelPayment from "../../dialogs/CancelPayment";
 function Wallet(props: any) {
   const context = useGlobalContext();
   const theme = useTheme();
+  const containerRef = React.useRef(null);
   const matches = useMediaQuery(theme.breakpoints.up("xl"));
   const orders = context.state.orderDetails;
   const coinData = context.state.selectedCoinData;
@@ -73,7 +74,7 @@ function Wallet(props: any) {
   return (
     <Layout>
       <MobileContainer>
-        <div className="main_section">
+        <div className="main_section" ref={containerRef}>
           <section
             style={{
               display: "flex",
@@ -189,6 +190,7 @@ function Wallet(props: any) {
             open={openCloseDialog}
             setOpen={setOpenCloseDialog}
             left_time={props?.fixedTime}
+            containerRef={containerRef}
           />
         </div>
       </MobileContainer>

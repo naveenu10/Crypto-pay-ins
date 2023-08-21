@@ -1,6 +1,6 @@
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import { AppBar, Button, Container, IconButton, Toolbar } from "@mui/material";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import NivapayLogo1 from "../../assets/images/NIcons/NivapayLogo1";
 import { useGlobalContext } from "../../context/context";
@@ -18,6 +18,7 @@ import { sendOrderEvent } from "../../services/depositServices";
 
 function QrScanPage(props: any) {
   const context = useGlobalContext();
+  const containerRef = React.useRef(null);
   const [openCloseDialog, setOpenCloseDialog] = useState(false);
   const [openNetworkDialog, setOpenNetworkDialog] = useState(false);
   const [isLoading, setLoading] = useState(false);
@@ -68,7 +69,7 @@ function QrScanPage(props: any) {
   return (
     <Layout>
       <MobileContainer>
-        <div className="main_section">
+        <div className="main_section" ref={containerRef}>
           <section
             style={{
               display: "flex",
@@ -224,6 +225,7 @@ function QrScanPage(props: any) {
             open={openCloseDialog}
             setOpen={setOpenCloseDialog}
             left_time={props?.fixedTime}
+            containerRef={containerRef}
           />
           <NetWorkFee
             openNetWorkfee={openNetworkDialog}

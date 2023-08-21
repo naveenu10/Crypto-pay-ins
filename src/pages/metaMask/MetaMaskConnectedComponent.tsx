@@ -7,7 +7,7 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import NivapayLogo1 from "../../assets/images/NIcons/NivapayLogo1";
 import { useGlobalContext } from "../../context/context";
@@ -30,6 +30,7 @@ declare global {
 function MetaMaskConnectedComponent(props: any) {
   const context = useGlobalContext();
   const navigate = useNavigate();
+  const containerRef = React.useRef(null);
   const orders = context?.state?.orderDetails;
   const token = context?.state?.token;
   const paymentDetails = context?.state?.qrData;
@@ -189,7 +190,7 @@ function MetaMaskConnectedComponent(props: any) {
   }, []);
 
   useEffect(() => {
-    window.scrollTo(0,0);
+    window.scrollTo(0, 0);
     metamaskprovider();
     checkAccount();
     connectMetamask();
@@ -218,7 +219,7 @@ function MetaMaskConnectedComponent(props: any) {
   return (
     <Layout>
       <MobileContainer>
-        <div className="main_section">
+        <div className="main_section" ref={containerRef}>
           <section
             style={{
               display: "flex",
@@ -440,12 +441,6 @@ function MetaMaskConnectedComponent(props: any) {
                   </div>
                 </div>
 
-                <CancelPayment
-                  open={openCloseDialog}
-                  setOpen={setOpenCloseDialog}
-                  left_time={props?.fixedTime}
-                />
-
                 <div className="footer">
                   <div
                     style={{
@@ -481,6 +476,12 @@ function MetaMaskConnectedComponent(props: any) {
               </section>
             </div>
           </section>
+          <CancelPayment
+            open={openCloseDialog}
+            setOpen={setOpenCloseDialog}
+            left_time={props?.fixedTime}
+            containerRef={containerRef}
+          />
         </div>
       </MobileContainer>
     </Layout>

@@ -1,36 +1,24 @@
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import Modal from "@mui/material/Modal";
-import Typography from "@mui/material/Typography";
+import { Box, Button } from "@mui/material";
+import { useState } from "react";
 import { useGlobalContext } from "../context/context";
 import { sendOrderEvent } from "../services/depositServices";
-
-const style = {
-  position: "absolute" as "absolute",
-  top: "88%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 326,
-  bgcolor: "background.paper",
-  border: "none !important",
-  boxShadow: 24,
-  p: 4,
-  outline: "none",
-  borderRadius: 2,
-};
+import Slide from "@mui/material/Slide";
 
 const CancelPayment = (props: {
   open: any;
   setOpen: any;
-  left_time: string;
+  left_time: any;
+  containerRef: any;
 }) => {
-  const { open, setOpen, left_time } = props;
+  const { open, setOpen, left_time, containerRef } = props;
+  const [loading, serLoading] = useState(false);
   const context = useGlobalContext();
   const token = context.state.token;
   const orders = context.state.orderDetails;
   const selectedCoinData = context.state.selectedCoinData;
 
   const handleCancel = async () => {
+    serLoading(true);
     const hms = left_time;
     const a = hms.split(":");
     const seconds = +a[0] * 60 + +a[1];
@@ -47,58 +35,88 @@ const CancelPayment = (props: {
     const res: any = await sendOrderEvent(payload, token);
     if (res.status === 201) {
       localStorage.clear();
-      setOpen(false);
       window.location.replace(orders?.merchant_redirect_url);
     } else {
-      // setLoading(false);
+      serLoading(false);
     }
   };
 
- 
   return (
-    <>
-      <div>
-        <Modal
-          open={open}
-          aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description"
-        >
-          <Box sx={style}>
-            <Typography component="div">
-              <div style={{ marginBottom: "2rem" }}>
-                Are you sure you want to Cancel and go back to the merchant?
-              </div>
-            </Typography>
-            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-              <div style={{ display: "flex", gap: "3rem" }}>
-                <Button
-                  variant="contained"
-                  style={{
-                    background: "#1371BC",
-                    borderRadius: " 8px",
-                    width: "40%",
-                  }}
-                  onClick={() => setOpen(false)}
-                >
-                  No
-                </Button>
-                <Button
-                  variant="outlined"
-                  style={{
-                    border: "1px solid #1371BC",
-                    borderRadius: " 8px",
-                    width: "40%",
-                  }}
-                  onClick={handleCancel}
-                >
-                  Yes
-                </Button>
-              </div>
-            </Typography>
-          </Box>
-        </Modal>
-      </div>
-    </>
+    <Slide direction="up" in={open} container={containerRef.current}>
+      <Box
+        sx={{
+          width: "100%",
+          height: "276px",
+          bgcolor: "#fff",
+          borderRadius: 5,
+          position: "absolute",
+          bottom: 0,
+          display: "flex",
+          alignItems: "center",
+          boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px",
+        }}
+      >
+        <div id="modal-modal-description" style={{ marginTop: 2, padding: 20 }}>
+          <div
+            style={{
+              marginBottom: "2rem",
+              fontFamily: "Inter",
+              fontSize: "20px",
+              fontWeight: 500,
+              lineHeight: "30px",
+              letterSpacing: "0em",
+              textAlign: "center",
+            }}
+          >
+            Are you sure you want <br /> to Cancel and go back to the <br />{" "}
+            merchant?
+          </div>
+          <div
+            style={{ display: "flex", gap: "3rem", justifyContent: "center" }}
+          >
+            <Button
+              variant="contained"
+              style={{
+                background: "#1371BC",
+                borderRadius: " 8px",
+                width: "160px",
+                height: "55px",
+                textTransform: "none",
+                fontFamily: "Inter",
+                fontSize: "18px",
+                fontWeight: 700,
+                lineHeight: "28px",
+                letterSpacing: "0px",
+                textAlign: "center",
+              }}
+              onClick={() => setOpen(false)}
+              disabled={loading}
+            >
+              No
+            </Button>
+            <Button
+              variant="outlined"
+              style={{
+                border: "1px solid #1371BC",
+                borderRadius: " 8px",
+                width: "160px",
+                height: "55px",
+                textTransform: "none",
+                fontFamily: "Inter",
+                fontSize: "18px",
+                fontWeight: 700,
+                lineHeight: "28px",
+                letterSpacing: "0px",
+                textAlign: "center",
+              }}
+              onClick={handleCancel}
+            >
+              {loading ? "Redirecting..." : "Yes"}
+            </Button>
+          </div>
+        </div>
+      </Box>
+    </Slide>
   );
 };
 

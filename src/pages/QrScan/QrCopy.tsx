@@ -12,7 +12,7 @@ import {
   Tooltip,
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import NivapayLogo1 from "../../assets/images/NIcons/NivapayLogo1";
 import { useGlobalContext } from "../../context/context";
@@ -43,6 +43,7 @@ function QrCopy(props: any) {
   const context = useGlobalContext();
   const navigate = useNavigate();
   const classes = useStyles();
+  const containerRef = React.useRef(null);
   const [openCloseDialog, setOpenCloseDialog] = useState(false);
   const [openNetworkDialog, setOpenNetworkDialog] = useState(false);
   const [isLoading, setLoading] = useState(false);
@@ -79,7 +80,7 @@ function QrCopy(props: any) {
   };
 
   useEffect(() => {
-    window.scrollTo(0,0);
+    window.scrollTo(0, 0);
     if (!orders) {
       navigate("/error", { replace: true });
     }
@@ -94,7 +95,7 @@ function QrCopy(props: any) {
   return (
     <Layout>
       <MobileContainer>
-        <div className="main_section">
+        <div className="main_section" ref={containerRef}>
           <section
             style={{
               display: "flex",
@@ -391,6 +392,7 @@ function QrCopy(props: any) {
             open={openCloseDialog}
             setOpen={setOpenCloseDialog}
             left_time={props?.fixedTime}
+            containerRef={containerRef}
           />
           <NetWorkFee
             openNetWorkfee={openNetworkDialog}

@@ -75,7 +75,8 @@ body {
   min-height:0px !important;
 }
 .main_section {
-  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  /* box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; */
+  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
   border-radius: 33px;
   height: 100%;
 }
@@ -96,6 +97,30 @@ body {
   color: #ffffff;
   letter-spacing: 0.05rem;
 }
+
+
+/* SlideInFromBottomPopup.css */
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.slide-in-popup {
+  position: fixed;
+  bottom: -100%;
+  left: 0;
+  width: 100%;
+  background-color: white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  transition: bottom 0.3s ease-in-out;
+}
+
+.slide-in-popup.show {
+  bottom: 0;
+}
+
 
 @media screen and (max-width: 428px) {
   .header_main {

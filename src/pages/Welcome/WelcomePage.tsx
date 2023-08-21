@@ -59,6 +59,10 @@ function WelcomePage() {
         payload: res?.data?.order_id,
       });
       context.dispatch({
+        type: "UPDATE_HASH",
+        payload: hash,
+      });
+      context.dispatch({
         type: "UPDATE_EMAIL",
         payload: res?.data?.user_email_id,
       });
@@ -82,14 +86,8 @@ function WelcomePage() {
 
   useEffect(() => {
     getValidateOrder();
+    return () => clearInterval(interval);
   }, []);
-
-  useEffect(() => {
-    if (token) {
-      // const interval = setInterval(() => fetchCryptoList(), 1200000);
-      return () => clearInterval(interval);
-    }
-  }, [token]);
 
   return (
     <Layout>
@@ -126,7 +124,7 @@ function WelcomePage() {
                 <div style={{ textAlign: "right" }}>
                   <div className="header_title"></div>
                 </div>
-                <div className="logo" >
+                <div className="logo">
                   <NivapayLogo1 />
                 </div>
               </Toolbar>

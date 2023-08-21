@@ -1,6 +1,6 @@
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import { AppBar, Button, IconButton, Toolbar } from "@mui/material";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import NivapayLogo1 from "../../assets/images/NIcons/NivapayLogo1";
 import { useGlobalContext } from "../../context/context";
@@ -14,11 +14,13 @@ import PerfectScrollbar from "react-perfect-scrollbar";
 
 function QuickPay(props: any) {
   const navigate = useNavigate();
+  const containerRef = React.useRef(null);
   const context = useGlobalContext();
   const [openCloseDialog, setOpenCloseDialog] = useState(false);
   const [isLoading, setLoading] = useState(false);
   const coinName = context.state.selectedCoin?.toUpperCase();
   const orders = context.state.orderDetails;
+  const hash = context.state.hash;
 
   const onContinue = () => {
     if (coinName === "ETH" || coinName === "USDC" || coinName === "USDT") {
@@ -29,7 +31,7 @@ function QuickPay(props: any) {
   };
 
   useEffect(() => {
-    window.scrollTo(0,0);
+    window.scrollTo(0, 0);
     if (!orders) {
       navigate("/error", { replace: true });
     }
@@ -44,7 +46,7 @@ function QuickPay(props: any) {
   return (
     <Layout>
       <MobileContainer>
-        <div className="main_section">
+        <div className="main_section" ref={containerRef}>
           <section
             style={{
               display: "flex",
@@ -60,7 +62,6 @@ function QuickPay(props: any) {
                     color="inherit"
                     aria-label="menu"
                     sx={{
-                      // mr: 2,
                       border: "1px solid",
                       borderRadius: "20%",
                       padding: "5px",
@@ -68,7 +69,7 @@ function QuickPay(props: any) {
                     }}
                     onClick={() =>
                       navigate(
-                        `/deposit/order?order_id=${orders?.order_id}&hash=${orders?.hash}`,
+                        `/deposit/order?order_id=${orders?.order_id}&hash=${hash}`,
                         { replace: true }
                       )
                     }
@@ -146,6 +147,7 @@ function QuickPay(props: any) {
             open={openCloseDialog}
             setOpen={setOpenCloseDialog}
             left_time={props?.fixedTime}
+            containerRef={containerRef}
           />
         </div>
       </MobileContainer>

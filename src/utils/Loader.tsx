@@ -6,13 +6,13 @@ export default function Loader() {
     <div
       style={{
         display: "flex",
-        // flexDirection: "column",
         alignItems: "center",
         width: "428px",
-        // left: 0,
-        // top: 0,
-        height: "680px",
+        height: "780px",
         justifyContent: "center",
+        // top: 0,
+        // left: 0,
+        // flexDirection: "column",
         // position: "fixed",
         // zIndex: 999999,
         // background: "#fff",
@@ -41,7 +41,6 @@ export default function Loader() {
           "Back" or Close button of your browser
         </p>
       </div>
-      {/* <p></p> */}
     </div>
   );
 }
