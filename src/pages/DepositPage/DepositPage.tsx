@@ -184,6 +184,7 @@ function DepositPage(props: any) {
                       className="continue"
                       variant="contained"
                       fullWidth
+                      style={{width: "100%"}}
                       onClick={proceedOrder}
                       disabled={!userEmail || !validate.test(userEmail)}
                     >
