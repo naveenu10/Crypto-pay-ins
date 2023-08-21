@@ -80,7 +80,7 @@ export default function StandardImageList() {
         </Typography>
       </Stack>
       <PerfectScrollbar>
-        <div style={{ minHeight: 500, maxHeight: 500, paddingRight: 10 }}>
+        <div className="crypto-list-container">
           <Divider />
           {cyyptoData?.length !== 0 ? (
             cyyptoData?.map((item: any, i: any) => (

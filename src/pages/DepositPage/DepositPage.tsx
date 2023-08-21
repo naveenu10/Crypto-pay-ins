@@ -154,7 +154,7 @@ function DepositPage(props: any) {
                   <div
                     style={{
                       marginBottom: "35px",
-                      width: "325px",
+                      maxWidth: "325px",
                       display: "flex",
                       flexDirection: "column",
                       alignItems: "center",

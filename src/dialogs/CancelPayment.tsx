@@ -54,6 +54,7 @@ const CancelPayment = (props: {
           display: "flex",
           alignItems: "center",
           boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px",
+          justifyContent: "center",
         }}
       >
         <div id="modal-modal-description" style={{ marginTop: 2, padding: 20 }}>
@@ -72,7 +73,7 @@ const CancelPayment = (props: {
             merchant?
           </div>
           <div
-            style={{ display: "flex", gap: "3rem", justifyContent: "center" }}
+           className="btn-container"
           >
             <Button
               variant="contained"

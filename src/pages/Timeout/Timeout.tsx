@@ -78,11 +78,12 @@ function Detecting(props: any) {
   };
 
   useEffect(() => {
-    window.scrollTo(0,0);
+    window.scrollTo(0, 0);
     if (!orders) {
       navigate("/error", { replace: true });
     }
   }, []);
+
   useEffect(() => {
     if (token) {
       sendTimeoutEvent();
@@ -97,8 +98,6 @@ function Detecting(props: any) {
             style={{
               display: "flex",
               flexDirection: "column",
-              height: matches ? "100vh" : "auto",
-              minHeight: 750,
             }}
           >
             <AppBar position="static" className="header_main">
@@ -137,7 +136,7 @@ function Detecting(props: any) {
                 <p className="timer">
                   Time left:{" "}
                   <span style={{ fontWeight: 600 }}>
-                    {props.fixedTime} mins
+                    00:00 mins
                   </span>
                 </p>{" "}
                 <div
@@ -223,48 +222,48 @@ function Detecting(props: any) {
                 <div style={{ marginTop: "2%" }}>
                   <Divider />
                 </div>
-                <Typography
-                  style={{
-                    fontFamily: "Inter",
-                    fontStyle: "normal",
-                    fontWeight: 500,
-                    fontSize: "14px",
-                    lineHeight: "17px",
-                    textAlign: "center",
-                    letterSpacing: "0.06em",
-                    color: "#21146B",
-                    marginTop: "17%",
-                  }}
-                >
-                  {/* Redirecting in <span style={{ color: '#279FFE' }}>30</span> secs... */}
-                  Redirecting in{" "}
-                  <span style={{ color: "#279FFE" }}>
-                    <Countdown date={Date.now() + 30000} renderer={renderer} />
-                  </span>{" "}
-                  <span>secs...</span>
-                </Typography>
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    marginTop: "4%",
-                    marginBottom: "23%",
-                  }}
-                >
-                  <Button
-                    variant="contained"
-                    className="cryptobtn"
-                    onClick={backtoCrypto}
-                  >
-                    {" "}
-                    Back to{" "}
-                    {orders?.merchant_brand_name &&
-                      formatTitleCase(orders?.merchant_brand_name)}
-                  </Button>
-                </div>
               </section>
             </div>
-            <div style={{ justifyContent: "flex-end" }}>
+            <div className="footer">
+              <Typography
+                style={{
+                  fontFamily: "Inter",
+                  fontStyle: "normal",
+                  fontWeight: 500,
+                  fontSize: "14px",
+                  lineHeight: "17px",
+                  textAlign: "center",
+                  letterSpacing: "0.06em",
+                  color: "#21146B",
+                  marginBottom: "4%",
+                }}
+              >
+                Redirecting in{" "}
+                <span style={{ color: "#279FFE" }}>
+                  <Countdown date={Date.now() + 30000} renderer={renderer} />
+                </span>{" "}
+                <span>secs...</span>
+              </Typography>
+              <div
+                style={{
+                  marginBottom: "5rem",
+                  width: "100%",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                }}
+              >
+                <Button
+                  variant="contained"
+                  className="cryptobtn"
+                  onClick={backtoCrypto}
+                >
+                  {" "}
+                  Back to{" "}
+                  {orders?.merchant_brand_name &&
+                    formatTitleCase(orders?.merchant_brand_name)}
+                </Button>
+              </div>
               <Footer />
             </div>
           </section>
