@@ -110,6 +110,7 @@ body {
   min-height: 500px;
   max-height: 500px;
   padding-right: 10px;
+  padding-left: 10px;
 }
 
 @media screen and (max-width: 428px) {
@@ -136,6 +137,7 @@ body {
     min-height: 450px;
     max-height: 450px; 
     padding-right: 10px;
+    padding-left: 10px;
     margin-bottom: 15px;
   }
 }
