@@ -445,7 +445,7 @@ function MetaMaskConnectedComponent(props: any) {
                   <div
                     style={{
                       marginBottom: "35px",
-                      maxWidth: "100%",
+                      width: "100%",
                       display: "flex",
                       flexDirection: "column",
                       alignItems: "center",

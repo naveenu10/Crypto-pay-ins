@@ -17,7 +17,8 @@
 }
 
 .continue {
-  /* max-width: 325px !important; */
+  max-width: 325px !important;
+  width: inherit !important;
   background: #1371bc;
   text-transform: capitalize !important;
   font-family: "Inter" !important;
@@ -34,7 +35,7 @@
   border-radius: 8px !important;
 }
 .continue:disabled {
-  /* width: inherit !important; */
+  width: inherit !important;
   background-color: rgba(19, 113, 188, 0.5) !important;
   text-transform: capitalize !important;
   font-family: "Inter" !important;
