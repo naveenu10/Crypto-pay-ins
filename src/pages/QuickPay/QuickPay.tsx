@@ -43,6 +43,21 @@ function QuickPay(props: any) {
     }
   }, [props.fixedTime]);
 
+  useEffect(() => {
+    if (openCloseDialog) {
+      window.onbeforeunload = null;
+      return;
+    }
+        window.onbeforeunload = function () {
+      const msg = "Are you sure you want to leave?";
+      return msg;
+    }
+
+    return () => {
+      window.onbeforeunload = null;
+    };
+  }, [openCloseDialog]);
+
   return (
     <Layout>
       <MobileContainer>

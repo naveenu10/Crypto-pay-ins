@@ -16,6 +16,7 @@ import CancelPayment from "../../dialogs/CancelPayment";
 import { Layout, MobileContainer } from "../../styles/layout";
 import Footer from "../Footer/Footer";
 import "../QrScan/QrScanPage.css";
+import MetamaskError from "../../dialogs/MetamaskError";
 
 function MetaMaskPage(props: any) {
   const context = useGlobalContext();
@@ -26,7 +27,7 @@ function MetaMaskPage(props: any) {
   const paymentDetails = context?.state?.qrData;
   const [openCloseDialog, setOpenCloseDialog] = useState(false);
   const [address, setAddress] = useState<any | null>("");
-  const [showErr, setShowErr] = useState("");
+  const [showErr, setShowErr] = useState(false);
 
   const handleIhavePaid = () => navigate("/detecting", { replace: true });
 
@@ -44,19 +45,24 @@ function MetaMaskPage(props: any) {
 
   async function connectMetamask() {
     var ethereum: any = await detectEthereumProvider();
-    ethereum
-      .request({ method: "eth_requestAccounts" })
-      .then(handleAccountsChanged)
-      .catch((err: { code: number | any }) => {
-        if (err.code === 4001) {
-        } else {
-          setShowErr("Please select the Network");
-        }
-      });
+    console.log(ethereum);
+    if (ethereum) {
+      ethereum
+        .request({ method: "eth_requestAccounts" })
+        .then(handleAccountsChanged)
+        .catch((err: { code: number | any }) => {
+          if (err.code === 4001) {
+          } else {
+            console.log("Please select the Network");
+          }
+        });
+    } else {
+      setShowErr(true);
+    }
   }
 
   useEffect(() => {
-    window.scrollTo(0,0);
+    window.scrollTo(0, 0);
     if (!token) {
       navigate("/error", { replace: true });
     }
@@ -67,6 +73,21 @@ function MetaMaskPage(props: any) {
       navigate("/timeout", { replace: true });
     }
   }, [props.fixedTime]);
+
+  useEffect(() => {
+    if (openCloseDialog) {
+      window.onbeforeunload = null;
+      return;
+    }
+    window.onbeforeunload = function () {
+      const msg = "Are you sure you want to leave?";
+      return msg;
+    };
+
+    return () => {
+      window.onbeforeunload = null;
+    };
+  }, [openCloseDialog]);
 
   return (
     <Layout>
@@ -228,7 +249,7 @@ function MetaMaskPage(props: any) {
                         </Button>
                         <Button
                           className="cancelbtn"
-                          style={{width:"inherit"}}
+                          style={{ width: "inherit" }}
                           onClick={() => setOpenCloseDialog(true)}
                         >
                           Cancel
@@ -247,6 +268,7 @@ function MetaMaskPage(props: any) {
             left_time={props?.fixedTime}
             containerRef={containerRef}
           />
+          <MetamaskError error={showErr} setError={setShowErr} />
         </div>
       </MobileContainer>
     </Layout>

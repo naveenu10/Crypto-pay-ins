@@ -64,7 +64,7 @@ const ScanCopyTab = (): JSX.Element => {
   const location = useLocation();
 
   const handleTabClick = (tab: TabData): void => {
-    navigate(tab.path);
+    navigate(tab.path,{replace: true});
     setTabs((current) => {
       return current.map((cur) => {
         if (cur.id === tab.id) {
