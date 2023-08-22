@@ -11,12 +11,12 @@ const DummyQRCode: React.FC = () => {
   return (
     <>
       {qrCode ? (
-        <div style={{margin: "8px"}}>
+        <div className="qr-scan-div">
           {/* <QRCode value={qrCode} size={180}/> */}
           <img
             src={`data:image/png;base64,${qrCode}`}
             width={194}
-            height={196}
+            height={194}
           />
         </div>
       ) : (

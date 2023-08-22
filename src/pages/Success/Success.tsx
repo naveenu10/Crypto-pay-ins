@@ -316,13 +316,7 @@ function Detecting() {
                 <span>secs...</span>
               </div>
               <div
-                style={{
-                  marginBottom: "5rem",
-                  width: "100%",
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                }}
+               className="footer-height"
               >
                 <Button
                   variant="contained"

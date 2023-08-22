@@ -173,7 +173,7 @@ function Detecting() {
                     We are scanning the network to detect your transaction.This
                     process may take up to 30 mins to complete.
                   </Typography>
-                  <div style={{ marginTop: "43%", marginBottom: "1%" }}>
+                  <div className="detecting-divider">
                     <Divider sx={{ borderBottomWidth: "1.5px" }} />
                   </div>
                   <div>

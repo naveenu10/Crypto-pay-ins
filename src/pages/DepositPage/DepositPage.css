@@ -172,3 +172,18 @@
   margin-top: 1.5rem;
   padding-left: 5px;
 }
+
+
+@media screen and (max-width: 1600px) {
+  .email {
+    font-family: Inter;
+    font-style: normal;
+    font-weight: 400;
+    margin-top: 5rem;
+    font-size: 16px;
+    line-height: 19px;
+    letter-spacing: 0.06em;
+    color: #21146b;
+    padding-left: 5px;
+  } 
+}

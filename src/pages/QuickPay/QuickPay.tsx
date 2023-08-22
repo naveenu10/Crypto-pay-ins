@@ -48,10 +48,10 @@ function QuickPay(props: any) {
       window.onbeforeunload = null;
       return;
     }
-        window.onbeforeunload = function () {
+    window.onbeforeunload = function () {
       const msg = "Are you sure you want to leave?";
       return msg;
-    }
+    };
 
     return () => {
       window.onbeforeunload = null;
@@ -127,8 +127,9 @@ function QuickPay(props: any) {
                   </div>
                   <div className="footer">
                     <div
+                      className="footer-margin"
                       style={{
-                        marginBottom: "35px",
+                        // marginBottom: "15px",
                         width: "100%",
                         display: "flex",
                         flexDirection: "column",

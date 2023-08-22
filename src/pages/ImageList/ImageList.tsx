@@ -79,9 +79,9 @@ export default function StandardImageList() {
           />
         </Typography>
       </Stack>
+          <Divider />
       <PerfectScrollbar>
         <div className="crypto-list-container">
-          <Divider />
           {cyyptoData?.length !== 0 ? (
             cyyptoData?.map((item: any, i: any) => (
               <Stack
@@ -201,9 +201,9 @@ export default function StandardImageList() {
               ))}
             </div>
           )}
-          <Divider />
         </div>
       </PerfectScrollbar>
+          <Divider/>
       {openInfo && <InfoModal openInfo={openInfo} setOpenInfo={setOpenInfo} />}
     </div>
   );

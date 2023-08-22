@@ -144,7 +144,7 @@ function MetaMaskPage(props: any) {
                 <div className="choosecurrency" style={{ fontSize: 20 }}>
                   Complete Payment
                 </div>
-                <div style={{ marginTop: 30 }}>
+                <div className="m-qr-card">
                   <div className="qrCodeDivMetamask">
                     <Container>
                       <div style={{ marginTop: "10px" }}>
@@ -174,12 +174,7 @@ function MetaMaskPage(props: any) {
                         </span>
                       </div>
                       <div
-                        style={{
-                          padding: "10px",
-                          display: "flex",
-                          height: "auto",
-                          justifyContent: "center",
-                        }}
+                        className="m-qr-div"
                       >
                         {paymentDetails?.qr_string ? (
                           <img
@@ -223,13 +218,7 @@ function MetaMaskPage(props: any) {
 
                     <div className="footer">
                       <div
-                        style={{
-                          marginBottom: "35px",
-                          width: "100%",
-                          display: "flex",
-                          flexDirection: "column",
-                          alignItems: "center",
-                        }}
+                      className="footer-buttons-container"
                       >
                         <Button
                           className="continue"

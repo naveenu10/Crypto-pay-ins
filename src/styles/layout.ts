@@ -8,10 +8,17 @@ export const Layout = styled.div`
   position: relative;
   font-family: "Inter";
   overflow: hidden;
+  @media (max-width: 1600px) {
+    height: 853px;
+  }
+}
 `;
 
 export const MobileContainer = styled.div`
-  height: 926px;
-  width: 428px;
-  position: relative;
+height: 926px;
+width: 428px;
+position: relative;
+@media (max-width: 1600px) {
+  height: 850px;
+}
 `;

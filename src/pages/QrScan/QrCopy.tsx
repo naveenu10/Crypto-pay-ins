@@ -353,11 +353,7 @@ function QrCopy(props: any) {
                         </div>
 
                         <div
-                          style={{
-                            marginTop: "41px",
-                            fontSize: "12px",
-                            fontWeight: 400,
-                          }}
+                         className="qr-copy-div"
                         >
                           Only send {coinName && coinName.toUpperCase()} using
                           the{" "}

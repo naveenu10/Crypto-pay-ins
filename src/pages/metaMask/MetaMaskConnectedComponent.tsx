@@ -286,7 +286,7 @@ function MetaMaskConnectedComponent(props: any) {
                 <div className="choosecurrency" style={{ fontSize: 20 }}>
                   Complete Payment
                 </div>
-                <div style={{ marginTop: 30 }}>
+                <div className="m-qr-card">
                   <div className="qrMetamaskConnected">
                     <Container>
                       <div style={{ marginTop: "10px" }}>
