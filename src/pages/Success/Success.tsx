@@ -48,7 +48,7 @@ function Detecting() {
         setTime(time - 1000);
       } else {
         setTimeFlag(true);
-        window.location.replace(transactions?.merchant_redirect_url);
+        window.location.replace(orders?.merchant_redirect_url);
       }
     }, 1000);
   }, [time]);
