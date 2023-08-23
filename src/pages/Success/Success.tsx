@@ -18,18 +18,24 @@ import "./Success.css";
 import copy from "copy-to-clipboard";
 import { useEffect, useState } from "react";
 import formatTitleCase from "../../utils/formatTitleCase";
+import { getTransactionDetails } from "../../services/depositServices";
+import Loader from "../../utils/Loader";
 
 const success_icon = require("../../assets/images/Success.png");
-
 
 function Detecting() {
   const navigate = useNavigate();
   const context = useGlobalContext();
   const orders = context.state.orderDetails;
   const transactions = context.state.transactionDetails;
+  const token = context.state.token;
   const [errorMsg, setErrorMsg] = useState<any>("");
   const [getTextColor, setTextColor] = useState<any>("rgba(0, 0, 0, 0.5)");
   const [timeFlag, setTimeFlag] = useState(false);
+  const [isLoading, setLoading] = useState(true);
+  const [data, setData] = useState<any>("");
+  const qrData = context.state.qrData;
+
   const backtoCrypto = () => {
     window.location.replace(orders?.merchant_redirect_url);
   };
@@ -78,9 +84,29 @@ function Detecting() {
   //   }
   // }, [transactions?.order_crypto_amount, transactions?.transaction_amount]);
 
+  const fetchTransactionDetails = async () => {
+    const res: any = await getTransactionDetails(token);
+    if (res.status === 200) {
+      context.dispatch({
+        type: "UPDATE_TRANSACTION_DETAILS",
+        payload: res?.data,
+      });
+      setData(res?.data?.transactions[0]);
+      setLoading(false);
+    } else {
+      navigate("/error", { replace: true });
+    }
+  };
+
   useEffect(() => {
     if (!orders) {
       navigate("/error", { replace: true });
+    }
+  }, []);
+
+  useEffect(() => {
+    if (token) {
+      fetchTransactionDetails();
     }
   }, []);
 
@@ -125,40 +151,43 @@ function Detecting() {
                 </div>
               </Toolbar>
             </AppBar>
-            <div className="nivapay_section_container">
-              <section className="nivapay_section">
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    marginTop: "20%",
-                  }}
-                >
-                  <div style={{ width: "20%" }}>
-                    <div className="logo-container">
-                      <div className="logo-glow">
-                        <img src={success_icon} alt="success_icon" />
+            {isLoading ? (
+              <Loader />
+            ) : (
+              <div className="nivapay_section_container">
+                <section className="nivapay_section">
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      marginTop: "20%",
+                    }}
+                  >
+                    <div style={{ width: "20%" }}>
+                      <div className="logo-container">
+                        <div className="logo-glow">
+                          <img src={success_icon} alt="success_icon" />
+                        </div>
                       </div>
+                      {/* <SuccessLogo /> */}
                     </div>
-                    {/* <SuccessLogo /> */}
                   </div>
-                </div>
-                <Typography
-                  style={{
-                    fontFamily: "Inter",
-                    fontStyle: "normal",
-                    fontWeight: 600,
-                    fontSize: "24px",
-                    lineHeight: "29px",
-                    display: "flex",
-                    color: "#2C1E66",
-                    justifyContent: "center",
-                  }}
-                >
-                  Success
-                </Typography>
-                {/* <Typography
+                  <Typography
+                    style={{
+                      fontFamily: "Inter",
+                      fontStyle: "normal",
+                      fontWeight: 600,
+                      fontSize: "24px",
+                      lineHeight: "29px",
+                      display: "flex",
+                      color: "#2C1E66",
+                      justifyContent: "center",
+                    }}
+                  >
+                    Success
+                  </Typography>
+                  {/* <Typography
                   style={{
                     fontFamily: "Inter",
                     fontStyle: "normal",
@@ -173,164 +202,160 @@ function Detecting() {
                 >
                   {errorMsg && errorMsg}
                 </Typography> */}
-                <div style={{ marginTop: "30%", marginBottom: "1%" }}>
-                  <Divider sx={{ borderBottomWidth: "1.5px" }} />
-                </div>
-                <div>
-                  <Stack
-                    direction={"row"}
-                    spacing={2}
-                    sx={{ justifyContent: "space-between", padding: "7px" }}
-                  >
-                    <Typography className="currency">Order id</Typography>
-                    <Typography className="info">
-                      {" "}
-                      {transactions?.order_id && transactions?.order_id}
-                    </Typography>
-                  </Stack>
-                  <Stack
-                    direction={"row"}
-                    spacing={2}
-                    sx={{ justifyContent: "space-between", padding: "7px" }}
-                  >
-                    <Typography className="currency">Action</Typography>
-                    <Typography className="info">
-                      {" "}
-                      {transactions?.action && transactions?.action}
-                    </Typography>
-                  </Stack>
-                  <Stack
-                    direction={"row"}
-                    spacing={2}
-                    sx={{ justifyContent: "space-between", padding: "7px" }}
-                  >
-                    <Typography className="currency">
-                      Order Amount (crypto)
-                    </Typography>
-                    <Typography className="info">
-                      {" "}
-                      {transactions?.order_crypto_amount &&
-                        transactions?.order_crypto_amount}{" "}
-                      {transactions?.order_crypto_symbol &&
-                        (transactions?.order_crypto_symbol).toUpperCase()}
-                    </Typography>
-                  </Stack>
-                  <Stack
-                    direction={"row"}
-                    spacing={2}
-                    sx={{ justifyContent: "space-between", padding: "7px" }}
-                  >
-                    <Typography className="currency">
-                      Destination Wallet
-                    </Typography>
-                    <Typography className="info">
-                      {transactions?.destination_wallet_address &&
-                        `${transactions?.destination_wallet_address.slice(
-                          0,
-                          7
-                        )}...${transactions?.destination_wallet_address.slice(
-                          -4
-                        )}`}
-                    </Typography>
-                  </Stack>
-                  <Stack
-                    direction={"row"}
-                    spacing={2}
-                    sx={{ justifyContent: "space-between", padding: "7px" }}
-                  >
-                    <Typography className="currency">
-                      Received amount (crypto)
-                    </Typography>
-                    <Typography style={{ color: "rgba(0, 0, 0, 0.5)" }}>
-                      {" "}
-                      {transactions?.transaction_amount &&
-                        transactions?.transaction_amount}{" "}
-                      {transactions?.transaction_asset_symbol &&
-                        (transactions?.transaction_asset_symbol).toUpperCase()}
-                    </Typography>
-                  </Stack>
-                  <Stack
-                    direction={"row"}
-                    spacing={2}
-                    sx={{ justifyContent: "space-between", padding: "7px" }}
-                  >
-                    <Typography className="currency">
-                      Transaction Hash
-                    </Typography>
-                    <Typography className="info" style={{ gap: "5px" }}>
-                      <img
-                        src="https://res.cloudinary.com/dhhxyg3tq/image/upload/v1683182823/ph_copy_lnoksz.svg"
-                        alt="copyimage"
-                        style={{ cursor: "pointer" }}
-                        onClick={() => copy(transactions?.transaction_hash)}
-                      />
-                      <img
-                        src="https://res.cloudinary.com/dhhxyg3tq/image/upload/v1683183469/Icon_lrkziq.svg"
-                        alt="redirect"
-                        style={{ cursor: "pointer" }}
-                        onClick={() => window.open("https://blockchair.com")}
-                      />
-                    </Typography>
-                  </Stack>
-                  <Stack
-                    sx={{ justifyContent: "space-between", padding: "7px" }}
-                  >
-                    <Typography
-                      style={{
-                        fontFamily: "Inter",
-                        fontStyle: "normal",
-                        fontWeight: 400,
-                        fontSize: "14px",
-                        lineHeight: "17px",
-                        letterSpacing: "0.06em",
-                        color: "rgba(0, 0, 0, 0.5)",
-                        wordBreak: "break-all",
-                      }}
+                  <div style={{ marginTop: "23%", marginBottom: "1%" }}>
+                    <Divider sx={{ borderBottomWidth: "1.5px" }} />
+                  </div>
+                  <div>
+                    <Stack
+                      direction={"row"}
+                      spacing={2}
+                      sx={{ justifyContent: "space-between", padding: "7px" }}
                     >
-                      {transactions?.transaction_hash &&
-                        transactions?.transaction_hash}
-                    </Typography>
-                  </Stack>
+                      <Typography className="currency">Order id</Typography>
+                      <Typography className="info">
+                        {" "}
+                        {transactions?.order_id && transactions?.order_id}
+                      </Typography>
+                    </Stack>
+                    <Stack
+                      direction={"row"}
+                      spacing={2}
+                      sx={{ justifyContent: "space-between", padding: "7px" }}
+                    >
+                      <Typography className="currency">Action</Typography>
+                      <Typography className="info">Payment</Typography>
+                    </Stack>
+                    <Stack
+                      direction={"row"}
+                      spacing={2}
+                      sx={{ justifyContent: "space-between", padding: "7px" }}
+                    >
+                      <Typography className="currency">
+                        Expected amount (crypto)
+                      </Typography>
+                      <Typography className="info">
+                        {qrData?.asset_amount && qrData?.asset_amount}
+                        &nbsp;
+                        {qrData?.asset_symbol &&
+                          qrData?.asset_symbol?.toUpperCase()}
+                      </Typography>
+                    </Stack>
+                    <Stack
+                      direction={"row"}
+                      spacing={2}
+                      sx={{ justifyContent: "space-between", padding: "7px" }}
+                    >
+                      <Typography className="currency">
+                        Destination Wallet
+                      </Typography>
+                      <Typography className="info">
+                        {data &&
+                          `${data?.destination_wallet_address.slice(
+                            0,
+                            7
+                          )}...${data?.destination_wallet_address.slice(-4)}`}
+                      </Typography>
+                    </Stack>
+                    <Stack
+                      direction={"row"}
+                      spacing={2}
+                      sx={{ justifyContent: "space-between", padding: "7px" }}
+                    >
+                      <Typography className="currency">
+                        Received amount (crypto)
+                      </Typography>
+                      <Typography style={{ color: "rgba(0, 0, 0, 0.5)" }}>
+                        {" "}
+                        {data?.transaction_amount &&
+                          data?.transaction_amount}{" "}
+                        {data?.transaction_asset_symbol &&
+                          (data?.transaction_asset_symbol).toUpperCase()}
+                      </Typography>
+                    </Stack>
+                    <Stack
+                      direction={"row"}
+                      spacing={2}
+                      sx={{ justifyContent: "space-between", padding: "7px" }}
+                    >
+                      <Typography className="currency">
+                        Transaction Hash
+                      </Typography>
+                      <Typography className="info" style={{ gap: "5px" }}>
+                        <img
+                          src="https://res.cloudinary.com/dhhxyg3tq/image/upload/v1683182823/ph_copy_lnoksz.svg"
+                          alt="copyimage"
+                          style={{ cursor: "pointer" }}
+                          onClick={() =>
+                            copy(
+                              transactions?.transactions[0]?.transaction_hash
+                            )
+                          }
+                        />
+                        <img
+                          src="https://res.cloudinary.com/dhhxyg3tq/image/upload/v1683183469/Icon_lrkziq.svg"
+                          alt="redirect"
+                          style={{ cursor: "pointer" }}
+                          onClick={() => window.open("https://blockchair.com")}
+                        />
+                      </Typography>
+                    </Stack>
+                    <Stack
+                      sx={{ justifyContent: "space-between", padding: "7px" }}
+                    >
+                      <Typography
+                        style={{
+                          fontFamily: "Inter",
+                          fontStyle: "normal",
+                          fontWeight: 400,
+                          fontSize: "14px",
+                          lineHeight: "17px",
+                          letterSpacing: "0.06em",
+                          color: "rgba(0, 0, 0, 0.5)",
+                          wordBreak: "break-all",
+                        }}
+                      >
+                        {data?.transaction_hash && data?.transaction_hash}
+                      </Typography>
+                    </Stack>
+                  </div>
+                  <div style={{ marginTop: "1%" }}>
+                    <Divider sx={{ borderBottomWidth: "1.5px" }} />
+                  </div>
+                </section>
+                <div className="footer">
+                  <div
+                    style={{
+                      fontFamily: "Inter",
+                      fontStyle: "normal",
+                      fontWeight: 500,
+                      fontSize: "14px",
+                      lineHeight: "17px",
+                      textAlign: "center",
+                      letterSpacing: "0.06em",
+                      color: "#21146B",
+                      marginBottom: "5%",
+                    }}
+                  >
+                    Redirecting in{" "}
+                    <span style={{ color: "#279FFE" }}>{fixedTime}</span>{" "}
+                    <span>secs...</span>
+                  </div>
+                  <div className="footer-height">
+                    <Button
+                      variant="contained"
+                      className="cryptobtn"
+                      onClick={backtoCrypto}
+                    >
+                      {" "}
+                      Back to{" "}
+                      {orders?.merchant_brand_name &&
+                        formatTitleCase(orders?.merchant_brand_name)}
+                    </Button>
+                  </div>
+                  <Footer />
                 </div>
-                <div style={{ marginTop: "1%" }}>
-                  <Divider sx={{ borderBottomWidth: "1.5px" }} />
-                </div>
-              </section>
-            </div>
-            <div className="footer">
-              <div
-                style={{
-                  fontFamily: "Inter",
-                  fontStyle: "normal",
-                  fontWeight: 500,
-                  fontSize: "14px",
-                  lineHeight: "17px",
-                  textAlign: "center",
-                  letterSpacing: "0.06em",
-                  color: "#21146B",
-                  marginBottom: "5%",
-                }}
-              >
-                Redirecting in{" "}
-                <span style={{ color: "#279FFE" }}>{fixedTime}</span>{" "}
-                <span>secs...</span>
               </div>
-              <div
-               className="footer-height"
-              >
-                <Button
-                  variant="contained"
-                  className="cryptobtn"
-                  onClick={backtoCrypto}
-                >
-                  {" "}
-                  Back to{" "}
-                  {orders?.merchant_brand_name &&
-                    formatTitleCase(orders?.merchant_brand_name)}
-                </Button>
-              </div>
-              <Footer />
-            </div>
+            )}
           </section>
         </div>
       </MobileContainer>
