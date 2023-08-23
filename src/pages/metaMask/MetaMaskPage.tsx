@@ -17,6 +17,7 @@ import { Layout, MobileContainer } from "../../styles/layout";
 import Footer from "../Footer/Footer";
 import "../QrScan/QrScanPage.css";
 import MetamaskError from "../../dialogs/MetamaskError";
+import { sendOrderEvent } from "../../services/depositServices";
 
 function MetaMaskPage(props: any) {
   const context = useGlobalContext();
@@ -28,8 +29,29 @@ function MetaMaskPage(props: any) {
   const [openCloseDialog, setOpenCloseDialog] = useState(false);
   const [address, setAddress] = useState<any | null>("");
   const [showErr, setShowErr] = useState(false);
+  const qrData = context.state.qrData;
 
-  const handleIhavePaid = () => navigate("/detecting", { replace: true });
+  const handleIhavePaid = async () => {
+    const hms = props.fixedTime;
+    const a = hms.split(":");
+    const seconds = +a[0] * 60 + +a[1];
+    const now = new Date().toISOString();
+
+    const payload = {
+      user_event: "user.action.transactionInitiated",
+      asset_network: qrData?.asset_network,
+      asset_symbol: qrData?.asset_symbol,
+      asset_amount: qrData?.asset_amount,
+      session_time_left_seconds: seconds,
+      event_time: now,
+    };
+    const res: any = await sendOrderEvent(payload, token);
+    if (res.status === 201) {
+      navigate("/detecting", { replace: true });
+    } else {
+      // setLoading(false);
+    }
+  };
 
   let currentAccount: string;
   function handleAccountsChanged(accounts: string | any[]) {
@@ -173,9 +195,7 @@ function MetaMaskPage(props: any) {
                           connect it using the button below
                         </span>
                       </div>
-                      <div
-                        className="m-qr-div"
-                      >
+                      <div className="m-qr-div">
                         {paymentDetails?.qr_string ? (
                           <img
                             src={`data:image/png;base64,${paymentDetails?.qr_string}`}
@@ -217,9 +237,7 @@ function MetaMaskPage(props: any) {
                     ></div>
 
                     <div className="footer">
-                      <div
-                      className="footer-buttons-container"
-                      >
+                      <div className="footer-buttons-container">
                         <Button
                           className="continue"
                           variant="contained"
