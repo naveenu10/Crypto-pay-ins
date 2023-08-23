@@ -26,9 +26,15 @@ function Wallet(props: any) {
   const matches = useMediaQuery(theme.breakpoints.up("xl"));
   const orders = context.state.orderDetails;
   const coinData = context.state.selectedCoinData;
+  const hash = context.state.hash;
+
   const token = context.state.token;
   const [openCloseDialog, setOpenCloseDialog] = useState(false);
   const navigate = useNavigate();
+
+  let network: string;
+  let crypto: string;
+  let amount: number;
 
   const handleMetamask = () => {
     navigate("/metamask_scan", { replace: true });
@@ -39,9 +45,17 @@ function Wallet(props: any) {
   };
 
   const fetchMetamaskPaymentDetails = async () => {
-    const network: string = coinData?.asset_network;
-    const crypto: string = coinData?.asset_symbol;
-    const amount: number = Number(coinData?.asset_amount);
+    if (orders?.order_currency_type === "virtual") {
+      network = orders?.order_currency_network;
+      crypto = orders?.order_currency_symbol;
+      amount = Number(orders?.order_amount);
+    }
+    if (orders?.order_currency_type === "fiat") {
+      network = coinData?.asset_network;
+      crypto = coinData?.asset_symbol;
+      amount = Number(coinData?.asset_amount);
+    }
+
     const res: any = await getMetamaskPaymentDetails(
       network,
       crypto,
@@ -58,8 +72,19 @@ function Wallet(props: any) {
     }
   };
 
+  const handleBack = () => {
+    if (orders?.order_currency_type === "virtual") {
+      navigate(`/deposit/order?order_id=${orders?.order_id}&hash=${hash}`, {
+        replace: true,
+      });
+    }
+    if (orders?.order_currency_type === "fiat") {
+      navigate("/quickpay", { replace: true });
+    }
+  };
+
   useEffect(() => {
-    window.scrollTo(0,0);
+    window.scrollTo(0, 0);
     if (token) {
       fetchMetamaskPaymentDetails();
     }
@@ -76,10 +101,10 @@ function Wallet(props: any) {
       window.onbeforeunload = null;
       return;
     }
-        window.onbeforeunload = function () {
+    window.onbeforeunload = function () {
       const msg = "Are you sure you want to leave?";
       return msg;
-    }
+    };
 
     return () => {
       window.onbeforeunload = null;
@@ -113,7 +138,7 @@ function Wallet(props: any) {
                       padding: "5px",
                       marginLeft: "0px",
                     }}
-                    onClick={() => navigate("/quickpay", { replace: true })}
+                    onClick={handleBack}
                   >
                     <ArrowBackIosNewIcon />
                   </IconButton>

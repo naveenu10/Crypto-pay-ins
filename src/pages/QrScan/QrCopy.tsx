@@ -24,7 +24,6 @@ import "./QrScanPage.css";
 import ScanCopyTab from "./ScanCopyTab";
 import copy from "copy-to-clipboard";
 import Loader from "../../utils/Loader";
-import formatCryptoAmount from "../../utils/formatCryptoAmount";
 import formatTitleCase from "../../utils/formatTitleCase";
 import { sendOrderEvent } from "../../services/depositServices";
 
@@ -49,11 +48,9 @@ function QrCopy(props: any) {
   const [isLoading, setLoading] = useState(false);
   const [showCopyTooltip, setShowCopyTooltip] = useState(false);
   const [showAmountTooltip, setShowAmountTooltip] = useState(false);
-  const coinName = context.state.selectedCoin;
   const orders = context.state.orderDetails;
   const qrData = context.state.qrData;
   const token = context.state.token;
-  const selectedCoinData = context.state.selectedCoinData;
 
   const onIhavePaid = async () => {
     setLoading(true);
@@ -64,9 +61,9 @@ function QrCopy(props: any) {
 
     const payload = {
       user_event: "user.action.transactionInitiated",
-      asset_network: selectedCoinData?.asset_network,
-      asset_symbol: selectedCoinData?.asset_symbol,
-      asset_amount: selectedCoinData?.asset_amount,
+      asset_network: qrData?.asset_network,
+      asset_symbol: qrData?.asset_symbol,
+      asset_amount: qrData?.asset_amount,
       session_time_left_seconds: seconds,
       event_time: now,
     };
@@ -97,10 +94,10 @@ function QrCopy(props: any) {
       window.onbeforeunload = null;
       return;
     }
-        window.onbeforeunload = function () {
+    window.onbeforeunload = function () {
       const msg = "Are you sure you want to leave?";
       return msg;
-    }
+    };
 
     return () => {
       window.onbeforeunload = null;
@@ -175,21 +172,17 @@ function QrCopy(props: any) {
                       <Container>
                         <div style={{ marginTop: "16px" }}>
                           <span style={{ fontSize: "24px", fontWeight: 600 }}>
-                            {(qrData?.asset_amount &&
-                              formatCryptoAmount(
-                                coinName.toUpperCase(),
-                                qrData?.asset_amount
-                              )) ||
+                            {(qrData?.asset_amount && qrData?.asset_amount) ||
                               0}
                           </span>
                           <span
                             style={{
                               fontSize: "12px",
-                              marginLeft: "4px",
+                              marginLeft: "2px",
                               fontWeight: "bold",
                             }}
                           >
-                            {coinName.toUpperCase()}
+                            {qrData?.asset_symbol?.toUpperCase()}
                           </span>
                         </div>
                         <div
@@ -352,14 +345,12 @@ function QrCopy(props: any) {
                           </Box>
                         </div>
 
-                        <div
-                         className="qr-copy-div"
-                        >
-                          Only send {coinName && coinName.toUpperCase()} using
+                        <div className="qr-copy-div">
+                          Only send {qrData?.asset_symbol && qrData?.asset_symbol?.toUpperCase()} using
                           the{" "}
-                          {selectedCoinData?.asset_network &&
+                          {qrData?.asset_network &&
                             formatTitleCase(
-                              selectedCoinData?.asset_network
+                              qrData?.asset_network
                             )}{" "}
                           network, else <br />
                           the funds may get lost

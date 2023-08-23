@@ -16,11 +16,24 @@ function QrMounting() {
   const context = useGlobalContext();
   const coinData = context.state.selectedCoinData;
   const token = context.state.token;
+  const orderDetails = context.state.orderDetails;
+
+  let network: string;
+  let crypto: string;
+  let amount: number;
 
   const fetchCryptoPayment = async () => {
-    const network: string = coinData?.asset_network;
-    const crypto: string = coinData?.asset_symbol;
-    const amount: number = Number(coinData?.asset_amount);
+    if (orderDetails?.order_currency_type === "virtual") {
+      network = orderDetails?.order_currency_network;
+      crypto = orderDetails?.order_currency_symbol;
+      amount = Number(orderDetails?.order_amount);
+    }
+    if (orderDetails?.order_currency_type === "fiat") {
+      network = coinData?.asset_network;
+      crypto = coinData?.asset_symbol;
+      amount = Number(coinData?.asset_amount);
+    }
+
     const res: any = await getCryptoPaymentDetails(
       network,
       crypto,
@@ -72,11 +85,11 @@ function QrMounting() {
                     color="inherit"
                     aria-label="menu"
                     sx={{
-                     // mr: 2,
-                     border: "1px solid",
-                     borderRadius: "20%",
-                     padding: "5px",
-                     marginLeft: "0px",
+                      // mr: 2,
+                      border: "1px solid",
+                      borderRadius: "20%",
+                      padding: "5px",
+                      marginLeft: "0px",
                     }}
                     disabled
                   >
@@ -86,7 +99,7 @@ function QrMounting() {
                 <div style={{ textAlign: "right" }}>
                   <div className="header_title"></div>
                 </div>
-                <div className="logo" >
+                <div className="logo">
                   <NivapayLogo1 />
                 </div>
               </Toolbar>

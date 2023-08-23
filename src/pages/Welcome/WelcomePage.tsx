@@ -29,8 +29,8 @@ function WelcomePage() {
     const res: any = await validateOrder(order_id, hash);
     if (res?.status === 200) {
       fetchOrderDetails(res?.data?.token);
-      fetchCryptoList(res?.data?.token);
-      interval = setInterval(() => fetchCryptoList(res?.data?.token), 1200000);
+      // fetchCryptoList(res?.data?.token);
+      // interval = setInterval(() => fetchCryptoList(res?.data?.token), 1200000);
       context.dispatch({
         type: "TOKEN",
         payload: res?.data?.token,
@@ -50,6 +50,12 @@ function WelcomePage() {
     if (res?.status === 200) {
       localStorage.setItem("merchantUrl", res?.data?.merchant_redirect_url);
       localStorage.setItem("merchantName", res?.data?.merchant_brand_name);
+
+      if (res?.data?.order_currency_type !== "virtual") {
+        fetchCryptoList(tokenId);
+        interval = setInterval(() => fetchCryptoList(tokenId), 1200000);
+      }
+
       context.dispatch({
         type: "ORDER_DETAILS",
         payload: res?.data,

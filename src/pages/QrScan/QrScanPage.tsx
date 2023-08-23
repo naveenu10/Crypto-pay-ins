@@ -12,7 +12,6 @@ import QrCode from "./QrCode";
 import "./QrScanPage.css";
 import ScanCopyTab from "./ScanCopyTab";
 import Loader from "../../utils/Loader";
-import formatCryptoAmount from "../../utils/formatCryptoAmount";
 import formatTitleCase from "../../utils/formatTitleCase";
 import { sendOrderEvent } from "../../services/depositServices";
 
@@ -22,12 +21,13 @@ function QrScanPage(props: any) {
   const [openCloseDialog, setOpenCloseDialog] = useState(false);
   const [openNetworkDialog, setOpenNetworkDialog] = useState(false);
   const [isLoading, setLoading] = useState(false);
-  let coinName = context.state.selectedCoin;
   const orders = context.state.orderDetails;
   const selectedCoinData = context.state.selectedCoinData;
   const token = context.state.token;
   const qrData = context.state.qrData;
   const navigate = useNavigate();
+
+  console.log(qrData);
 
   const onIhavePaid = async () => {
     setLoading(true);
@@ -38,9 +38,9 @@ function QrScanPage(props: any) {
 
     const payload = {
       user_event: "user.action.transactionInitiated",
-      asset_network: selectedCoinData?.asset_network,
-      asset_symbol: selectedCoinData?.asset_symbol,
-      asset_amount: selectedCoinData?.asset_amount,
+      asset_network: qrData?.asset_network,
+      asset_symbol: qrData?.asset_symbol,
+      asset_amount: qrData?.asset_amount,
       session_time_left_seconds: seconds,
       event_time: now,
     };
@@ -54,7 +54,7 @@ function QrScanPage(props: any) {
   };
 
   useEffect(() => {
-    window.scrollTo(0,0);
+    window.scrollTo(0, 0);
     if (!orders) {
       navigate("/error", { replace: true });
     }
@@ -71,10 +71,10 @@ function QrScanPage(props: any) {
       window.onbeforeunload = null;
       return;
     }
-        window.onbeforeunload = function () {
+    window.onbeforeunload = function () {
       const msg = "Are you sure you want to leave?";
       return msg;
-    }
+    };
 
     return () => {
       window.onbeforeunload = null;
@@ -149,21 +149,18 @@ function QrScanPage(props: any) {
                       <Container>
                         <div style={{ marginTop: "16px" }}>
                           <span style={{ fontSize: "24px", fontWeight: 600 }}>
-                            {(qrData?.asset_amount &&
-                              formatCryptoAmount(
-                                coinName.toUpperCase(),
-                                qrData?.asset_amount
-                              )) ||
+                            {(qrData?.asset_amount && qrData?.asset_amount) ||
                               0}
                           </span>
                           <span
                             style={{
                               fontSize: "12px",
-                              marginLeft: "4px",
+                              marginLeft: "2px",
                               fontWeight: 600,
                             }}
                           >
-                            {coinName && coinName.toUpperCase()}
+                            {qrData?.asset_symbol &&
+                              qrData?.asset_symbol?.toUpperCase()}
                           </span>
                         </div>
                         <div
@@ -198,11 +195,11 @@ function QrScanPage(props: any) {
                           <QrCode />
                         </div>
                         <div style={{ fontSize: "12px", fontWeight: 400 }}>
-                          Only send {coinName && coinName.toUpperCase()} using
+                          Only send {qrData?.asset_symbol && qrData?.asset_symbol?.toUpperCase()} using
                           the{" "}
-                          {selectedCoinData?.asset_network &&
+                          {qrData?.asset_network &&
                             formatTitleCase(
-                              selectedCoinData?.asset_network
+                              qrData?.asset_network
                             )}{" "}
                           network, else <br /> the funds may get lost
                         </div>

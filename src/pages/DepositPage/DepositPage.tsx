@@ -33,7 +33,19 @@ function DepositPage(props: any) {
     };
     const res: any = await sendEmail(payload, token);
     if (res?.status === 201) {
-      navigate("/quickpay", { replace: true });
+      if (orderDetails?.order_currency_type === "virtual") {
+        if (
+          orderDetails?.order_currency_symbol === "ETH" ||
+          orderDetails?.order_currency_symbol === "USDC" ||
+          orderDetails?.order_currency_symbol === "USDT"
+        ) {
+          navigate("/wallet", { replace: true });
+        } else {
+          navigate("/QrMounting", { replace: true });
+        }
+      } else {
+        navigate("/quickpay", { replace: true });
+      }
     } else {
       setLoading(false);
     }
@@ -59,16 +71,15 @@ function DepositPage(props: any) {
     }
   }, []);
 
-
   useEffect(() => {
     if (openCloseDialog) {
       window.onbeforeunload = null;
       return;
     }
-        window.onbeforeunload = function () {
+    window.onbeforeunload = function () {
       const msg = "Are you sure you want to leave?";
       return msg;
-    }
+    };
 
     return () => {
       window.onbeforeunload = null;
@@ -129,12 +140,21 @@ function DepositPage(props: any) {
                   <div className="pay" style={{ marginTop: 40 }}>
                     Pay
                   </div>
-                  <div className="order_currency">
-                    {orderDetails?.order_currency_symbol &&
-                      orderDetails?.order_currency_symbol?.toUpperCase()}
-                    &nbsp;
-                    {orderDetails?.order_amount && orderDetails?.order_amount}
-                  </div>
+                  {orderDetails?.order_currency_type === "virtual" ? (
+                    <div className="order_currency">
+                      {orderDetails?.order_amount && orderDetails?.order_amount}
+                      &nbsp;
+                      {orderDetails?.order_currency_symbol &&
+                        orderDetails?.order_currency_symbol?.toUpperCase()}
+                    </div>
+                  ) : (
+                    <div className="order_currency">
+                      {orderDetails?.order_currency_symbol &&
+                        orderDetails?.order_currency_symbol?.toUpperCase()}
+                      &nbsp;
+                      {orderDetails?.order_amount && orderDetails?.order_amount}
+                    </div>
+                  )}
                   <div className="pay">worth of crypto to</div>
                   <div className="brand-name">
                     {orderDetails.merchant_brand_name &&
@@ -200,7 +220,7 @@ function DepositPage(props: any) {
                       className="continue"
                       variant="contained"
                       fullWidth
-                      style={{width: "100%"}}
+                      style={{ width: "100%" }}
                       onClick={proceedOrder}
                       disabled={!userEmail || !validate.test(userEmail)}
                     >
