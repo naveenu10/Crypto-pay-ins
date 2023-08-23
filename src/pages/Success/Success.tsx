@@ -264,7 +264,7 @@ function Detecting() {
                       <Typography className="currency">
                         Received amount (crypto)
                       </Typography>
-                      <Typography style={{ color: "rgba(0, 0, 0, 0.5)" }}>
+                      <Typography style={{ color: "rgba(0, 0, 0, 0.5)" }} className="info">
                         {" "}
                         {data?.transaction_amount &&
                           data?.transaction_amount}{" "}
