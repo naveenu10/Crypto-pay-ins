@@ -46,9 +46,81 @@
   margin-bottom: 1%;
 }
 
+.title {
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 29px;
+  padding: 1rem;
+  display: flex;
+  color: #2c1e66;
+  justify-content: center;
+}
+
+.subtitle {
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 14.52px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.subtitle2 {
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 14.52px;
+  text-align: center;
+  letter-spacing: 0.06em;
+  color: #808080;
+  margin-top: 6%;
+  margin-bottom: 40px;
+}
+
+.footer-subdiv {
+  margin-bottom: 5rem;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  padding: 7px;
+}
+
+.section-subdiv {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20%;
+}
+
+.icon-button{
+  border: 1px solid;
+  border-radius: 20%;
+  padding: 5px;
+  margin-left: 0px;
+}
+
+.divider-div{
+  margin-top: 1%
+}
+.divider{
+  border-bottom-width: 1.5px
+}
+
 @media screen and (max-width: 1600px) {
-    .detecting-divider {
-        margin-top: 23%;
-        margin-bottom: 1%;
-      }
+  .detecting-divider {
+    margin-top: 23%;
+    margin-bottom: 1%;
+  }
 }

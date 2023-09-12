@@ -11,7 +11,6 @@ import {
 import { useNavigate } from "react-router-dom";
 import { useGlobalContext } from "../../context/context";
 import NivapayLogo1 from "../../assets/images/NIcons/NivapayLogo1";
-import SuccessLogo from "../../assets/images/NIcons/SuccessLogo";
 import { Layout, MobileContainer } from "../../styles/layout";
 import Footer from "../Footer/Footer";
 import "./Success.css";
@@ -20,7 +19,6 @@ import { useEffect, useState } from "react";
 import formatTitleCase from "../../utils/formatTitleCase";
 import { getTransactionDetails } from "../../services/depositServices";
 import Loader from "../../utils/Loader";
-
 const success_icon = require("../../assets/images/Success.png");
 
 function Detecting() {
@@ -29,8 +27,6 @@ function Detecting() {
   const orders = context.state.orderDetails;
   const transactions = context.state.transactionDetails;
   const token = context.state.token;
-  const [errorMsg, setErrorMsg] = useState<any>("");
-  const [getTextColor, setTextColor] = useState<any>("rgba(0, 0, 0, 0.5)");
   const [timeFlag, setTimeFlag] = useState(false);
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState<any>("");
@@ -60,30 +56,6 @@ function Detecting() {
     seconds < 10 ? `0${seconds}` : seconds
   }`;
 
-  // const priceComparison = (receivedAmount: any) => {
-  //   if (receivedAmount < transactions?.order_crypto_amount) {
-  //     setErrorMsg(
-  //       "You have paid a lower than anticipated amount. You may re-initiate the process to pay the remaining amount or contact the merchant to reconcile."
-  //     );
-  //     setTextColor("#FF0000");
-  //   }
-  //   if (receivedAmount > transactions?.order_crypto_amount) {
-  //     setErrorMsg(
-  //       "You have paid a higher than anticipated amount. You may contact the merchant to reconcile."
-  //     );
-  //     setTextColor("#FF0000");
-  //   } else {
-  //     setErrorMsg("");
-  //     setTextColor("rgba(0, 0, 0, 0.5) ");
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   if (transactions?.transaction_amount) {
-  //     priceComparison(transactions?.transaction_amount);
-  //   }
-  // }, [transactions?.order_crypto_amount, transactions?.transaction_amount]);
-
   const fetchTransactionDetails = async () => {
     const res: any = await getTransactionDetails(token);
     if (res.status === 200) {
@@ -102,13 +74,11 @@ function Detecting() {
     if (!orders) {
       navigate("/error", { replace: true });
     }
-  }, []);
-
-  useEffect(() => {
     if (token) {
       fetchTransactionDetails();
     }
   }, []);
+
 
   return (
     <Layout>
@@ -187,21 +157,6 @@ function Detecting() {
                   >
                     Success
                   </Typography>
-                  {/* <Typography
-                  style={{
-                    fontFamily: "Inter",
-                    fontStyle: "normal",
-                    fontWeight: 400,
-                    fontSize: "12px",
-                    lineHeight: "15px",
-                    display: "flex",
-                    alignItems: "center",
-                    textAlign: "center",
-                    color: "#21146B",
-                  }}
-                >
-                  {errorMsg && errorMsg}
-                </Typography> */}
                   <div style={{ marginTop: "23%", marginBottom: "1%" }}>
                     <Divider sx={{ borderBottomWidth: "1.5px" }} />
                   </div>
@@ -264,7 +219,10 @@ function Detecting() {
                       <Typography className="currency">
                         Received amount (crypto)
                       </Typography>
-                      <Typography style={{ color: "rgba(0, 0, 0, 0.5)" }} className="info">
+                      <Typography
+                        style={{ color: "rgba(0, 0, 0, 0.5)" }}
+                        className="info"
+                      >
                         {" "}
                         {data?.transaction_amount &&
                           data?.transaction_amount}{" "}

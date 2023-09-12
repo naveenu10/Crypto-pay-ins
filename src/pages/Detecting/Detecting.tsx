@@ -7,7 +7,6 @@ import {
   IconButton,
   Stack,
   Toolbar,
-  Typography,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import NivapayLogo1 from "../../assets/images/NIcons/NivapayLogo1";
@@ -31,7 +30,6 @@ function Detecting() {
   const transactions = context.state.transactionDetails;
   const paymentDetails = context?.state?.qrData;
   const [isLoading, setLoading] = useState(true);
-
   let interval: any;
 
   function backtoCrypto() {
@@ -71,11 +69,8 @@ function Detecting() {
   };
 
   useEffect(() => {
-    window.scrollTo(0,0);
+    window.scrollTo(0, 0);
     fetchTransactionDetails();
-  }, []);
-
-  useEffect(() => {
     if (!orders) {
       navigate("/error", { replace: true });
     }
@@ -100,12 +95,7 @@ function Detecting() {
                     color="inherit"
                     aria-label="menu"
                     disabled
-                    sx={{
-                      border: "1px solid",
-                      borderRadius: "20%",
-                      padding: "5px",
-                      marginLeft: "0px",
-                    }}
+                    className="icon-button"
                     onClick={() => navigate(-1)}
                   >
                     <ArrowBackIosNewIcon />
@@ -126,14 +116,7 @@ function Detecting() {
             ) : (
               <div className="nivapay_section_container">
                 <section className="nivapay_section">
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      marginTop: "20%",
-                    }}
-                  >
+                  <div className="section-subdiv">
                     <div style={{ width: "20%" }}>
                       <div className="logo-container">
                         <div className="logo-glow">
@@ -142,127 +125,63 @@ function Detecting() {
                       </div>
                     </div>
                   </div>
-                  <Typography
-                    style={{
-                      fontFamily: "Inter",
-                      fontStyle: "normal",
-                      fontWeight: 600,
-                      fontSize: "24px",
-                      lineHeight: "29px",
-                      padding: "1rem",
-                      display: "flex",
-                      color: "#2C1E66",
-                      justifyContent: "center",
-                    }}
-                  >
-                    Detecting...
-                  </Typography>
-                  <Typography
-                    style={{
-                      fontFamily: "Inter",
-                      fontStyle: "normal",
-                      fontWeight: 400,
-                      fontSize: "12px",
-                      lineHeight: "14.52px",
-                      display: "flex",
-                      alignItems: "center",
-                      textAlign: "center",
-                      color: "rgba(0, 0, 0, 0.5)",
-                    }}
-                  >
+                  <div className="title">Detecting...</div>
+                  <div className="subtitle">
                     We are scanning the network to detect your transaction.This
-                    process may take up to 30 mins to complete.
-                  </Typography>
+                    process may take up to{" "}
+                    {transactions?.detecting_eta_mins &&
+                      transactions?.detecting_eta_mins}{" "}
+                    mins to complete.
+                  </div>
                   <div className="detecting-divider">
-                    <Divider sx={{ borderBottomWidth: "1.5px" }} />
+                    <Divider className="divider" />
                   </div>
                   <div>
-                    <Stack
-                      direction={"row"}
-                      spacing={2}
-                      sx={{ justifyContent: "space-between", padding: "7px" }}
-                    >
-                      <Typography className="currency">Order id</Typography>
-                      <Typography className="info">
+                    <Stack direction={"row"} spacing={2} className="row">
+                      <div className="currency">Order id</div>
+                      <div className="info">
                         {transactions?.order_id && transactions?.order_id}
-                      </Typography>
+                      </div>
                     </Stack>
-                    <Stack
-                      direction={"row"}
-                      spacing={2}
-                      sx={{ justifyContent: "space-between", padding: "7px" }}
-                    >
-                      <Typography className="currency">Action</Typography>
-                      <Typography className="info">Payment</Typography>
+                    <Stack direction={"row"} spacing={2} className="row">
+                      <div className="currency">Action</div>
+                      <div className="info">Payment</div>
                     </Stack>
-                    <Stack
-                      direction={"row"}
-                      spacing={2}
-                      sx={{ justifyContent: "space-between", padding: "7px" }}
-                    >
-                      <Typography className="currency">
-                        Expected Amount (crypto)
-                      </Typography>
-                      <Typography className="info">
+                    <Stack direction={"row"} spacing={2} className="row">
+                      <div className="currency">Expected Amount (crypto)</div>
+                      <div className="info">
                         {" "}
                         {paymentDetails?.asset_amount &&
                           paymentDetails?.asset_amount}{" "}
                         {paymentDetails?.asset_symbol &&
                           paymentDetails?.asset_symbol?.toUpperCase()}
-                      </Typography>
+                      </div>
                     </Stack>
-                    <Stack
-                      direction={"row"}
-                      spacing={2}
-                      sx={{ justifyContent: "space-between", padding: "7px" }}
-                    >
-                      <Typography className="currency">
-                        Destination Wallet
-                      </Typography>
-                      <Typography className="info">
+                    <Stack direction={"row"} spacing={2} className="row">
+                      <div className="currency">Destination Wallet</div>
+                      <div className="info">
                         {paymentDetails?.wallet_address &&
                           `${paymentDetails?.wallet_address.slice(
                             0,
                             7
                           )}...${paymentDetails?.wallet_address.slice(-4)}`}
-                      </Typography>
+                      </div>
                     </Stack>
                   </div>
-                  <div style={{ marginTop: "1%" }}>
-                    <Divider sx={{ borderBottomWidth: "1.5px" }} />
+                  <div className="divider-div">
+                    <Divider className="divider" />
                   </div>
-                  <Typography
-                    style={{
-                      fontFamily: "Inter",
-                      fontStyle: "normal",
-                      fontWeight: 400,
-                      fontSize: "12px",
-                      lineHeight: "15px",
-                      textAlign: "center",
-                      letterSpacing: "0.06em",
-                      color: "#808080",
-                      marginTop: "6%",
-                      marginBottom: 40,
-                    }}
-                  >
+                  <div className="subtitle2">
                     You may close this window or go back by clicking the button
                     below. We are processing this transaction and will update
                     you the final status through email.
-                  </Typography>
+                  </div>
                 </section>
               </div>
             )}
           </section>
           <div className="footer">
-            <div
-              style={{
-                marginBottom: "5rem",
-                width: "100%",
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-              }}
-            >
+            <div className="footer-subdiv">
               <Button
                 variant="contained"
                 className="cryptobtn"
