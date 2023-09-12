@@ -79,7 +79,7 @@ export default function StandardImageList() {
           />
         </Typography>
       </Stack>
-          <Divider />
+      <Divider />
       <PerfectScrollbar>
         <div className="crypto-list-container">
           {cyyptoData?.length !== 0 ? (
@@ -190,7 +190,7 @@ export default function StandardImageList() {
             ))
           ) : (
             <div>
-              {["1", "2", "3", "4", "5", "6","7"].map((value, index): any => (
+              {["1", "2", "3", "4", "5", "6", "7"].map((value, index): any => (
                 <Skeleton
                   key={index}
                   variant="rounded"
@@ -203,7 +203,7 @@ export default function StandardImageList() {
           )}
         </div>
       </PerfectScrollbar>
-          <Divider/>
+      <Divider />
       {openInfo && <InfoModal openInfo={openInfo} setOpenInfo={setOpenInfo} />}
     </div>
   );

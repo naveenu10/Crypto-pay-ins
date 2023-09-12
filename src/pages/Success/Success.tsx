@@ -30,7 +30,16 @@ function Detecting() {
   const [timeFlag, setTimeFlag] = useState(false);
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState<any>("");
-  const qrData = context.state.qrData;
+  const cyyptoData: any = context.state.allCryptos;
+
+  function filterObjects() {
+    return cyyptoData.filter(
+      (item: any) =>
+        item?.asset_symbol === data?.transaction_asset_symbol &&
+        item.asset_network === data?.transaction_asset_network
+    )[0];
+  }
+  const expectedData = filterObjects();
 
   const backtoCrypto = () => {
     window.location.replace(orders?.merchant_redirect_url);
@@ -78,7 +87,6 @@ function Detecting() {
       fetchTransactionDetails();
     }
   }, []);
-
 
   return (
     <Layout>
@@ -189,10 +197,11 @@ function Detecting() {
                         Expected amount (crypto)
                       </Typography>
                       <Typography className="info">
-                        {qrData?.asset_amount && qrData?.asset_amount}
+                        {expectedData?.asset_amount &&
+                          expectedData?.asset_amount}
                         &nbsp;
-                        {qrData?.asset_symbol &&
-                          qrData?.asset_symbol?.toUpperCase()}
+                        {expectedData?.asset_symbol &&
+                          expectedData?.asset_symbol?.toUpperCase()}
                       </Typography>
                     </Stack>
                     <Stack
