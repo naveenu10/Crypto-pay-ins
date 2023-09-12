@@ -71,6 +71,11 @@ const reducer = (state: any, action: { type: string; payload: any }): any => {
         ...state,
         email: action.payload,
       };
+    case "UPDATE_PREVIOUS_PATH":
+      return {
+        ...state,
+        previousPath: action.payload,
+      };
     default:
       return state;
   }

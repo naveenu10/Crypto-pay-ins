@@ -8,9 +8,7 @@ import {
   Stack,
   Toolbar,
   Typography,
-  useMediaQuery,
 } from "@mui/material";
-import { useTheme } from "@mui/material/styles";
 import Countdown, { zeroPad } from "react-countdown";
 import { useNavigate } from "react-router-dom";
 import NivapayLogo1 from "../../assets/images/NIcons/NivapayLogo1";
@@ -22,8 +20,6 @@ import formatTitleCase from "../../utils/formatTitleCase";
 import { sendOrderEvent } from "../../services/depositServices";
 
 function Detecting(props: any) {
-  const theme = useTheme();
-  const matches = useMediaQuery(theme.breakpoints.up("xl"));
   const navigate = useNavigate();
   const context = useGlobalContext();
   const orders = context.state.orderDetails;
@@ -134,10 +130,7 @@ function Detecting(props: any) {
             <div style={{ flex: 1 }}>
               <section className="nivapay_ramp">
                 <p className="timer">
-                  Time left:{" "}
-                  <span style={{ fontWeight: 600 }}>
-                    00:00 mins
-                  </span>
+                  Time left: <span style={{ fontWeight: 600 }}>00:00 mins</span>
                 </p>{" "}
                 <div
                   style={{
@@ -194,7 +187,7 @@ function Detecting(props: any) {
                     <Typography className="currency">Order id</Typography>
                     <Typography className="info">
                       {" "}
-                      {orders?.id && orders?.id}
+                      {orders?.order_id && orders?.order_id}
                     </Typography>
                   </Stack>
                   <Stack

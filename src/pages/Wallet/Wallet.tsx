@@ -41,6 +41,10 @@ function Wallet(props: any) {
   };
 
   const handleOtherWallets = () => {
+    context.dispatch({
+      type: "UPDATE_PREVIOUS_PATH",
+      payload: '/wallet',
+    });
     navigate("/QrMounting", { replace: true });
   };
 

@@ -25,9 +25,12 @@ function QrScanPage(props: any) {
   const selectedCoinData = context.state.selectedCoinData;
   const token = context.state.token;
   const qrData = context.state.qrData;
+  const previousPath = context.state.previousPath;
   const navigate = useNavigate();
 
-  console.log(qrData);
+  const handleBack = () => {
+    navigate(previousPath, { replace: true });
+  };
 
   const onIhavePaid = async () => {
     setLoading(true);
@@ -105,7 +108,7 @@ function QrScanPage(props: any) {
                       padding: "5px",
                       marginLeft: "0px",
                     }}
-                    onClick={() => navigate("/quickpay", { replace: true })}
+                    onClick={() => handleBack()}
                   >
                     <ArrowBackIosNewIcon />
                   </IconButton>
@@ -195,12 +198,12 @@ function QrScanPage(props: any) {
                           <QrCode />
                         </div>
                         <div style={{ fontSize: "12px", fontWeight: 400 }}>
-                          Only send {qrData?.asset_symbol && qrData?.asset_symbol?.toUpperCase()} using
-                          the{" "}
+                          Only send{" "}
+                          {qrData?.asset_symbol &&
+                            qrData?.asset_symbol?.toUpperCase()}{" "}
+                          using the{" "}
                           {qrData?.asset_network &&
-                            formatTitleCase(
-                              qrData?.asset_network
-                            )}{" "}
+                            formatTitleCase(qrData?.asset_network)}{" "}
                           network, else <br /> the funds may get lost
                         </div>
                       </Container>

@@ -25,8 +25,16 @@ function QuickPay(props: any) {
   const onContinue = () => {
     if (coinName === "ETH" || coinName === "USDC" || coinName === "USDT") {
       navigate("/wallet", { replace: true });
+      context.dispatch({
+        type: "UPDATE_PREVIOUS_PATH",
+        payload: "/wallet",
+      });
     } else {
       navigate("/QrMounting", { replace: true });
+      context.dispatch({
+        type: "UPDATE_PREVIOUS_PATH",
+        payload: "/quickpay",
+      });
     }
   };
 

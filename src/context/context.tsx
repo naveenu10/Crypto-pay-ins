@@ -14,7 +14,8 @@ const initialState = {
   transactionDetails: "",
   metamaskTransaction: "",
   metamaskPaymentDetails: "",
-  email:""
+  email:"",
+  previousPath:''
 };
 
 const AppContext = createContext<{
