@@ -65,21 +65,28 @@ function MetaMaskPage(props: any) {
     }
   }
 
+  function isMobileDevice() {
+    return /Mobi|Android/i.test(navigator.userAgent);
+  }
+
   async function connectMetamask() {
-    var ethereum: any = await detectEthereumProvider();
-    console.log(ethereum);
-    if (ethereum) {
-      ethereum
-        .request({ method: "eth_requestAccounts" })
-        .then(handleAccountsChanged)
-        .catch((err: { code: number | any }) => {
-          if (err.code === 4001) {
-          } else {
-            console.log("Please select the Network");
-          }
-        });
+    if (isMobileDevice()) {
+      window.open(qrData?.metamask_app_url);
     } else {
-      setShowErr(true);
+      var ethereum: any = await detectEthereumProvider();
+      if (ethereum) {
+        ethereum
+          .request({ method: "eth_requestAccounts" })
+          .then(handleAccountsChanged)
+          .catch((err: { code: number | any }) => {
+            if (err.code === 4001) {
+            } else {
+              console.log("Please select the Network");
+            }
+          });
+      } else {
+        setShowErr(true);
+      }
     }
   }
 
