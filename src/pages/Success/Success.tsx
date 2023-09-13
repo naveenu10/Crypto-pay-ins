@@ -33,11 +33,14 @@ function Detecting() {
   const cyyptoData: any = context.state.allCryptos;
 
   function filterObjects() {
-    return cyyptoData.filter(
-      (item: any) =>
-        item?.asset_symbol === data?.transaction_asset_symbol &&
-        item.asset_network === data?.transaction_asset_network
-    )[0];
+    return (
+      cyyptoData &&
+      cyyptoData?.filter(
+        (item: any) =>
+          item?.asset_symbol === data?.transaction_asset_symbol &&
+          item.asset_network === data?.transaction_asset_network
+      )[0]
+    );
   }
   const expectedData = filterObjects();
 
@@ -151,20 +154,7 @@ function Detecting() {
                       {/* <SuccessLogo /> */}
                     </div>
                   </div>
-                  <Typography
-                    style={{
-                      fontFamily: "Inter",
-                      fontStyle: "normal",
-                      fontWeight: 600,
-                      fontSize: "24px",
-                      lineHeight: "29px",
-                      display: "flex",
-                      color: "#2C1E66",
-                      justifyContent: "center",
-                    }}
-                  >
-                    Success
-                  </Typography>
+                  <div className="title">Success</div>
                   <div style={{ marginTop: "23%", marginBottom: "1%" }}>
                     <Divider sx={{ borderBottomWidth: "1.5px" }} />
                   </div>
@@ -262,7 +252,13 @@ function Detecting() {
                           src="https://res.cloudinary.com/dhhxyg3tq/image/upload/v1683183469/Icon_lrkziq.svg"
                           alt="redirect"
                           style={{ cursor: "pointer" }}
-                          onClick={() => window.open("https://blockchair.com")}
+                          onClick={() =>
+                            window.open(
+                              `https://blockchair.com/${expectedData?.asset_network?.toLowerCase()}/transaction/${
+                                data?.transaction_hash
+                              }`
+                            )
+                          }
                         />
                       </Typography>
                     </Stack>

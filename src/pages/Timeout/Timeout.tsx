@@ -205,8 +205,8 @@ function Detecting(props: any) {
                   >
                     <Typography className="currency">Order Amount</Typography>
                     <Typography className="info">
-                      {orders?.order_currency &&
-                        (orders?.order_currency).toUpperCase()}{" "}
+                      {orders?.order_currency_symbol &&
+                        (orders?.order_currency_symbol).toUpperCase()}{" "}
                       {orders?.order_amount &&
                         Number(orders?.order_amount).toFixed(2)}
                     </Typography>

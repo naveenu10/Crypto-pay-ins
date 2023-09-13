@@ -96,6 +96,13 @@ function Detecting() {
                     aria-label="menu"
                     disabled
                     className="icon-button"
+                    sx={{
+                      // mr: 2,
+                      border: "1px solid",
+                      borderRadius: "20%",
+                      padding: "5px",
+                      marginLeft: "0px",
+                    }}
                     onClick={() => navigate(-1)}
                   >
                     <ArrowBackIosNewIcon />
