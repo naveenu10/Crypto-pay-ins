@@ -159,8 +159,8 @@ body {
     flex-direction: column;
   }
   .crypto-list-container {
-    min-height: 450px;
-    max-height: 450px;
+    /* min-height: 450px; */
+    /* max-height: 450px; */
     padding-right: 10px;
     padding-left: 10px;
     margin-bottom: 15px;
