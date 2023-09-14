@@ -27,6 +27,49 @@ declare global {
   }
 }
 
+const tokenABI: any = [
+  {
+    constant: true,
+    inputs: [
+      {
+        name: "who",
+        type: "address",
+      },
+    ],
+    name: "balanceOf",
+    outputs: [
+      {
+        name: "",
+        type: "uint256",
+      },
+    ],
+    payable: false,
+    stateMutability: "view",
+    type: "function",
+  },
+];
+
+const tokenSendABI: any = [
+  {
+    constant: false,
+    inputs: [
+      {
+        name: "_to",
+        type: "address",
+      },
+      {
+        name: "_value",
+        type: "uint256",
+      },
+    ],
+    name: "transfer",
+    outputs: [],
+    payable: false,
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+];
+
 function MetaMaskConnectedComponent(props: any) {
   const context = useGlobalContext();
   const navigate = useNavigate();
@@ -40,6 +83,7 @@ function MetaMaskConnectedComponent(props: any) {
   const [chaindid, setchaindid] = useState(paymentDetails?.chain_id);
   const [balance, setBalance] = useState<any | null>(null);
   const [isLoading, setLoading] = useState(false);
+  const [symbol, setSymbol] = useState("");
   const [desiredChainId, setDesiredChainId] = useState(
     Number(paymentDetails?.chain_id)
   );
@@ -81,10 +125,21 @@ function MetaMaskConnectedComponent(props: any) {
   async function getBalance(account: any) {
     var ethereum1: any = await detectEthereumProvider();
     const web3 = new Web3(ethereum1);
-    web3.eth.getBalance(account).then((res) => {
-      const etherValue = Web3.utils.fromWei(res, "ether");
-      setBalance(Number(etherValue)?.toFixed(6));
-    });
+
+    if (paymentDetails?.asset_contract_address) {
+      const tokenInst = new web3.eth.Contract(
+        tokenABI,
+        paymentDetails?.asset_contract_address
+      );
+      const balance = await tokenInst.methods.balanceOf(address).call();
+      const etherValueNew = Web3.utils.fromWei(balance, "ether");
+      setBalance(etherValueNew);
+    } else {
+      web3.eth.getBalance(account).then((res) => {
+        const etherValue = Web3.utils.fromWei(res, "ether");
+        setBalance(Number(etherValue)?.toFixed(6));
+      });
+    }
   }
 
   async function checkAccount() {
@@ -136,50 +191,119 @@ function MetaMaskConnectedComponent(props: any) {
       setchaindid(desiredChainId);
       var ethereum1: any = await detectEthereumProvider();
       const web3 = new Web3(ethereum1);
-      const transactionParameters = {
-        // to: "0x8cD9867098B66C81f0933d3c66a4834F7c3Aa7dC",
-        to: paymentDetails?.wallet_address,
-        from: address,
-        // gasLimit:web3.utils.toHex(paymentDetails?.gas_price_fast_ethereum_gwei),
-        value: web3.utils.toHex(
-          web3.utils.toWei(paymentDetails?.asset_amount, "ether")
-        ),
-      };
-      const txHash = await ethereum1.request({
-        method: "eth_sendTransaction",
-        params: [transactionParameters],
-      });
-      if (txHash) {
-        web3.eth.getTransaction(txHash, function (err: any, result: any) {
-          if (result) {
-            // console.log(result);
-            navigate("/detecting", { replace: true });
-          } else {
-            setLoading(false);
+
+      const gasPriceWei = web3.utils.toWei(
+        paymentDetails?.gas_price_fast_ethereum_gwei?.toString(),
+        "gwei"
+      );
+
+      if (paymentDetails?.asset_contract_address) {
+        try {
+          const usdtContract = new web3.eth.Contract(
+            tokenSendABI,
+            paymentDetails?.asset_contract_address
+          );
+
+          const amountToSend = web3.utils.toWei(
+            paymentDetails?.asset_amount,
+            // "mwei"
+            "ether"
+          );
+
+          // Send tokens
+          const transaction = await usdtContract.methods
+            .transfer(paymentDetails?.wallet_address, amountToSend)
+            .send({
+              from: address,
+              gasPrice: gasPriceWei,
+            });
+
+          const txHash = transaction.transactionHash;
+          if (txHash) {
+            web3.eth.getTransaction(txHash, function (err: any, result: any) {
+              if (result) {
+                navigate("/detecting", { replace: true });
+              } else {
+                setLoading(false);
+              }
+            });
           }
+        } catch (error) {
+          console.error(error);
+          setLoading(false);
+        }
+      } else {
+        const transactionParameters = {
+          to: paymentDetails?.wallet_address,
+          from: address,
+          gasPrice: gasPriceWei,
+          value: web3.utils.toHex(
+            web3.utils.toWei(paymentDetails?.asset_amount, "ether")
+          ),
+        };
+        const txHash = await ethereum1.request({
+          method: "eth_sendTransaction",
+          params: [transactionParameters],
         });
 
-        // const interval = setInterval(async function () {
-        //   await web3.eth.getTransactionReceipt(
-        //     txHash,
-        //     function (err: any, rec: any) {
-        //       if (rec) {
-        //         // var fee = (rec.gasUsed * rec.effectiveGasPrice) / 1e18;
-        //         if (rec.status == true) {
-        //           context.dispatch({
-        //             type: "METAMASK_TRANSACTION_DETAILS",
-        //             payload: rec,
-        //           });
-        //           setLoading(false);
-        //         } else {
-        //           setLoading(false);
-        //         }
-        //         clearInterval(interval);
-        //       }
-        //     }
-        //   );
-        // }, 5000);
+        if (txHash) {
+          web3.eth.getTransaction(txHash, function (err: any, result: any) {
+            if (result) {
+              navigate("/detecting", { replace: true });
+            } else {
+              setLoading(false);
+            }
+          });
+        }
       }
+
+      // const interval = setInterval(async function () {
+      //   await web3.eth.getTransactionReceipt(
+      //     txHash,
+      //     function (err: any, rec: any) {
+      //       if (rec) {
+      //         // var fee = (rec.gasUsed * rec.effectiveGasPrice) / 1e18;
+      //         if (rec.status == true) {
+      //           context.dispatch({
+      //             type: "METAMASK_TRANSACTION_DETAILS",
+      //             payload: rec,
+      //           });
+      //           setLoading(false);
+      //         } else {
+      //           setLoading(false);
+      //         }
+      //         clearInterval(interval);
+      //       }
+      //     }
+      //   );
+      // }, 5000);
+    }
+  };
+
+  const getSymbol = async () => {
+    var ethereum1: any = await detectEthereumProvider();
+    const web3 = new Web3(ethereum1);
+
+    if (paymentDetails?.asset_contract_address) {
+      const tokenContract = new web3.eth.Contract(
+        [
+          {
+            constant: true,
+            inputs: [],
+            name: "symbol",
+            outputs: [{ name: "", type: "string" }],
+            type: "function",
+          },
+        ],
+        paymentDetails?.asset_contract_address
+      );
+
+      // Call the 'symbol' function of the ERC20 token contract to get the symbol
+      const tokenSymbol = await tokenContract.methods.symbol().call();
+
+      setSymbol(tokenSymbol);
+    } else {
+      setSymbol(getChainNetworkCurrency(chaindid));
     }
   };
 
@@ -203,6 +327,7 @@ function MetaMaskConnectedComponent(props: any) {
   useEffect(() => {
     if (chaindid) {
       swtichToEth(chaindid);
+      getSymbol();
     }
   }, [chaindid, address]);
 
@@ -221,10 +346,10 @@ function MetaMaskConnectedComponent(props: any) {
       window.onbeforeunload = null;
       return;
     }
-        window.onbeforeunload = function () {
+    window.onbeforeunload = function () {
       const msg = "Are you sure you want to leave?";
       return msg;
-    }
+    };
 
     return () => {
       window.onbeforeunload = null;
@@ -420,7 +545,7 @@ function MetaMaskConnectedComponent(props: any) {
                           <div>Balance</div>
                           {chaindid === desiredChainId ? (
                             <div>
-                              {balance} {getChainNetworkCurrency(chaindid)}
+                              {balance} {symbol}
                             </div>
                           ) : (
                             "--"
