@@ -27,27 +27,46 @@ declare global {
   }
 }
 
-const tokenABI: any = [
-  {
-    constant: true,
-    inputs: [
-      {
-        name: "who",
-        type: "address",
-      },
-    ],
-    name: "balanceOf",
-    outputs: [
-      {
-        name: "",
-        type: "uint256",
-      },
-    ],
-    payable: false,
-    stateMutability: "view",
-    type: "function",
-  },
-];
+// const tokenABI: any = [
+//   {
+//     constant: true,
+//     inputs: [
+//       {
+//         name: "who",
+//         type: "address",
+//       },
+//     ],
+//     name: "balanceOf",
+//     outputs: [
+//       {
+//         name: "",
+//         type: "uint256",
+//       },
+//     ],
+//     payable: false,
+//     stateMutability: "view",
+//     type: "function",
+//   },
+// ];
+
+const tokenABI: any = [{
+  "constant": true,
+  "inputs": [
+    {
+      "name": "_owner",
+      "type": "address"
+    }
+  ],
+  "name": "balanceOf",
+  "outputs": [
+    {
+      "name": "balance",
+      "type": "uint256"
+    }
+  ],
+  "payable": false,
+  "type": "function"
+}];
 
 const tokenSendABI: any = [
   {
@@ -131,14 +150,9 @@ function MetaMaskConnectedComponent(props: any) {
         tokenABI,
         paymentDetails?.asset_contract_address
       );
-
-      console.log("address--->",address)
-
-      console.log(tokenInst)
       const balance = await tokenInst.methods.balanceOf(address).call();
       const etherValueNew = Web3.utils.fromWei(balance, "ether");
-      console.log("balance--->",balance)
-      console.log("balance--->",etherValueNew)
+      console.log("token-balance--->", etherValueNew);
       setBalance(etherValueNew);
     } else {
       web3.eth.getBalance(account).then((res) => {
@@ -262,27 +276,6 @@ function MetaMaskConnectedComponent(props: any) {
           });
         }
       }
-
-      // const interval = setInterval(async function () {
-      //   await web3.eth.getTransactionReceipt(
-      //     txHash,
-      //     function (err: any, rec: any) {
-      //       if (rec) {
-      //         // var fee = (rec.gasUsed * rec.effectiveGasPrice) / 1e18;
-      //         if (rec.status == true) {
-      //           context.dispatch({
-      //             type: "METAMASK_TRANSACTION_DETAILS",
-      //             payload: rec,
-      //           });
-      //           setLoading(false);
-      //         } else {
-      //           setLoading(false);
-      //         }
-      //         clearInterval(interval);
-      //       }
-      //     }
-      //   );
-      // }, 5000);
     }
   };
 
@@ -335,7 +328,13 @@ function MetaMaskConnectedComponent(props: any) {
       swtichToEth(chaindid);
       getSymbol();
     }
-  }, [chaindid, address]);
+  }, [chaindid, address, paymentDetails?.asset_contract_address]);
+
+  useEffect(() => {
+    if (address) {
+      getBalance(address);
+    }
+  }, [address, paymentDetails?.asset_contract_address]);
 
   useEffect(() => {
     setDesiredChainId(Number(paymentDetails?.chain_id));
