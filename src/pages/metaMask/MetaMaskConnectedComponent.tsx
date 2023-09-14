@@ -133,6 +133,7 @@ function MetaMaskConnectedComponent(props: any) {
       );
       const balance = await tokenInst.methods.balanceOf(address).call();
       const etherValueNew = Web3.utils.fromWei(balance, "ether");
+      console.log("balance--->",etherValueNew)
       setBalance(etherValueNew);
     } else {
       web3.eth.getBalance(account).then((res) => {
