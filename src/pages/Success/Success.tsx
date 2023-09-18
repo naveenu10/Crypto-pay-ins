@@ -253,11 +253,7 @@ function Detecting() {
                           alt="redirect"
                           style={{ cursor: "pointer" }}
                           onClick={() =>
-                            window.open(
-                              `https://blockchair.com/${expectedData?.asset_network?.toLowerCase()}/transaction/${
-                                data?.transaction_hash
-                              }`
-                            )
+                            window.open(transactions?.transactions[0]?.transaction_hash_explorer_url)
                           }
                         />
                       </Typography>

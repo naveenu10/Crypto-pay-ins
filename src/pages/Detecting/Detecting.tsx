@@ -136,8 +136,9 @@ function Detecting() {
                   <div className="subtitle">
                     We are scanning the network to detect your transaction.This
                     process may take up to{" "}
-                    {transactions?.detecting_eta_mins &&
-                      transactions?.detecting_eta_mins}{" "}
+                    {transactions?.detecting_eta_mins
+                      ? transactions?.detecting_eta_mins
+                      : "30"}{" "}
                     mins to complete.
                   </div>
                   <div className="detecting-divider">

@@ -4,6 +4,7 @@ import {
   Button,
   Container,
   IconButton,
+  Skeleton,
   Toolbar,
   Typography,
 } from "@mui/material";
@@ -20,6 +21,8 @@ import { ExternalProvider } from "@ethersproject/providers";
 import getChainNetworkCurrency from "../../utils/getChainNetworkCurrency";
 import getChainNameFromId from "../../utils/getChainNameFromId";
 import CancelPayment from "../../dialogs/CancelPayment";
+import getNumericPrecision from "../../utils/getCryptoPrecision";
+import { sendOrderEvent } from "../../services/depositServices";
 
 declare global {
   interface Window {
@@ -49,24 +52,26 @@ declare global {
 //   },
 // ];
 
-const tokenABI: any = [{
-  "constant": true,
-  "inputs": [
-    {
-      "name": "_owner",
-      "type": "address"
-    }
-  ],
-  "name": "balanceOf",
-  "outputs": [
-    {
-      "name": "balance",
-      "type": "uint256"
-    }
-  ],
-  "payable": false,
-  "type": "function"
-}];
+const tokenABI: any = [
+  {
+    constant: true,
+    inputs: [
+      {
+        name: "_owner",
+        type: "address",
+      },
+    ],
+    name: "balanceOf",
+    outputs: [
+      {
+        name: "balance",
+        type: "uint256",
+      },
+    ],
+    payable: false,
+    type: "function",
+  },
+];
 
 const tokenSendABI: any = [
   {
@@ -152,12 +157,11 @@ function MetaMaskConnectedComponent(props: any) {
       );
       const balance = await tokenInst.methods.balanceOf(address).call();
       const etherValueNew = Web3.utils.fromWei(balance, "ether");
-      console.log("token-balance--->", etherValueNew);
       setBalance(etherValueNew);
     } else {
       web3.eth.getBalance(account).then((res) => {
         const etherValue = Web3.utils.fromWei(res, "ether");
-        setBalance(Number(etherValue)?.toFixed(6));
+        setBalance(Number(etherValue));
       });
     }
   }
@@ -191,6 +195,28 @@ function MetaMaskConnectedComponent(props: any) {
         }
       });
   }
+
+  const onIhavePaid = async () => {
+    const hms = props.fixedTime;
+    const a = hms.split(":");
+    const seconds = +a[0] * 60 + +a[1];
+    const now = new Date().toISOString();
+
+    const payload = {
+      user_event: "user.action.transactionInitiated",
+      asset_network: paymentDetails?.asset_network,
+      asset_symbol: paymentDetails?.asset_symbol,
+      asset_amount: paymentDetails?.asset_amount,
+      session_time_left_seconds: seconds,
+      event_time: now,
+    };
+    const res: any = await sendOrderEvent(payload, token);
+    if (res.status === 201) {
+      navigate("/detecting", { replace: true });
+    } else {
+      // setLoading(false);
+    }
+  };
 
   const sendPayment = async () => {
     await ETH()
@@ -242,7 +268,8 @@ function MetaMaskConnectedComponent(props: any) {
           if (txHash) {
             web3.eth.getTransaction(txHash, function (err: any, result: any) {
               if (result) {
-                navigate("/detecting", { replace: true });
+                // navigate("/detecting", { replace: true });
+                onIhavePaid();
               } else {
                 setLoading(false);
               }
@@ -269,7 +296,8 @@ function MetaMaskConnectedComponent(props: any) {
         if (txHash) {
           web3.eth.getTransaction(txHash, function (err: any, result: any) {
             if (result) {
-              navigate("/detecting", { replace: true });
+              // navigate("/detecting", { replace: true });
+              onIhavePaid();
             } else {
               setLoading(false);
             }
@@ -304,6 +332,15 @@ function MetaMaskConnectedComponent(props: any) {
     } else {
       setSymbol(getChainNetworkCurrency(chaindid));
     }
+  };
+
+  const handlePrecision = () => {
+    const val = getNumericPrecision(
+      paymentDetails?.asset_symbol.toUpperCase(),
+      paymentDetails?.asset_network
+    );
+    const formattedBalance = Number(balance)?.toFixed(val);
+    return formattedBalance;
   };
 
   useEffect(() => {
@@ -358,6 +395,7 @@ function MetaMaskConnectedComponent(props: any) {
 
     return () => {
       window.onbeforeunload = null;
+      setBalance("");
     };
   }, [openCloseDialog]);
 
@@ -550,7 +588,15 @@ function MetaMaskConnectedComponent(props: any) {
                           <div>Balance</div>
                           {chaindid === desiredChainId ? (
                             <div>
-                              {balance} {symbol}
+                              {balance ? (
+                                <>
+                                  {handlePrecision()} {symbol}
+                                </>
+                              ) : (
+                                <div style={{ width: 80 }}>
+                                  <Skeleton />
+                                </div>
+                              )}
                             </div>
                           ) : (
                             "--"

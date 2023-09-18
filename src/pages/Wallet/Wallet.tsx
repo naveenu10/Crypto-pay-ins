@@ -18,12 +18,14 @@ import Footer from "../Footer/Footer";
 import "./Wallet.css";
 import { getMetamaskPaymentDetails } from "../../services/depositServices";
 import CancelPayment from "../../dialogs/CancelPayment";
+import Loader from "../../utils/Loader";
 
 function Wallet(props: any) {
   const context = useGlobalContext();
   const theme = useTheme();
   const containerRef = React.useRef(null);
   const matches = useMediaQuery(theme.breakpoints.up("xl"));
+  const [isLoading, setLoading] = useState(true);
   const orders = context.state.orderDetails;
   const coinData = context.state.selectedCoinData;
   const hash = context.state.hash;
@@ -71,6 +73,7 @@ function Wallet(props: any) {
         type: "GET_QR_DATA",
         payload: res?.data,
       });
+      setLoading(false);
     } else {
       navigate("/error", { replace: true });
     }
@@ -158,6 +161,9 @@ function Wallet(props: any) {
                 </div>
               </Toolbar>
             </AppBar>
+            {isLoading ? (
+              <Loader />
+            ) : (
             <div style={{ flex: 1 }}>
               <section className="nivapay_ramp">
                 <p className="timer">
@@ -229,6 +235,7 @@ function Wallet(props: any) {
                 </div>
               </section>
             </div>
+              )}
           </section>
           <CancelPayment
             open={openCloseDialog}
