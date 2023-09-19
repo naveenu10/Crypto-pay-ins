@@ -16,40 +16,38 @@ import { Layout, MobileContainer } from "../../styles/layout";
 import Footer from "../Footer/Footer";
 import { useGlobalContext } from "../../context/context";
 import formatTitleCase from "../../utils/formatTitleCase";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import "./Failure.css";
 
 function Detecting() {
   const navigate = useNavigate();
   const context = useGlobalContext();
+  const [timeFlag, setTimeFlag] = useState(false);
   const orders = context.state.orderDetails;
+  const paymentDetails = context?.state?.qrData;
 
   function backtoCrypto() {
     window.location.replace(orders?.merchant_redirect_url);
   }
-  const Completionist = () => {
-    window.location.replace(orders?.merchant_redirect_url);
-    return <span>You are good to go!</span>;
-  };
-  const renderer = ({
-    minutes,
-    seconds,
-    completed,
-  }: {
-    minutes: any;
-    seconds: any;
-    completed: any;
-  }) => {
-    if (completed) {
-      return <Completionist />;
-    } else {
-      return (
-        <span>
-          {zeroPad(minutes)}:{zeroPad(seconds)}
-        </span>
-      );
-    }
-  };
+  const duration = 1 * 30 * 1000;
+  const [time, setTime] = useState(duration);
+  useEffect(() => {
+    setTimeout(() => {
+      if (time) {
+        setTime(time - 1000);
+      } else {
+        setTimeFlag(true);
+        window.location.replace(orders?.merchant_redirect_url);
+      }
+    }, 1000);
+  }, [time]);
+  let totalSeconds = Math.floor(time / 1000);
+  let totalMinitus = Math.floor(totalSeconds / 60);
+  let seconds = totalSeconds % 60;
+  let minitus = totalMinitus % 60;
+  let fixedTime = `${minitus < 10 ? `0${minitus}` : minitus}:${
+    seconds < 10 ? `0${seconds}` : seconds
+  }`;
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -156,7 +154,7 @@ function Detecting() {
                     <Typography className="currency">Order id</Typography>
                     <Typography className="info">
                       {" "}
-                      {orders?.id && orders?.id}
+                      {orders?.order_id && orders?.order_id}
                     </Typography>
                   </Stack>
                   <Stack
@@ -177,10 +175,10 @@ function Detecting() {
                     </Typography>
                     <Typography className="info">
                       {" "}
-                      {orders?.order_currency &&
-                        (orders?.order_currency).toUpperCase()}{" "}
-                      {orders?.order_amount &&
-                        Number(orders?.order_amount).toFixed(2)}
+                      {paymentDetails?.asset_amount &&
+                        paymentDetails?.asset_amount}{" "}
+                      {paymentDetails?.asset_symbol &&
+                        paymentDetails?.asset_symbol?.toUpperCase()}
                     </Typography>
                   </Stack>
                   <Stack
@@ -192,11 +190,11 @@ function Detecting() {
                       Destination Wallet
                     </Typography>
                     <Typography className="info">
-                      {orders?.destination_wallet_address &&
-                        `${orders?.destination_wallet_address.slice(
+                      {paymentDetails?.wallet_address &&
+                        `${paymentDetails?.wallet_address.slice(
                           0,
                           7
-                        )}...${orders?.destination_wallet_address.slice(-4)}`}
+                        )}...${paymentDetails?.wallet_address.slice(-4)}`}
                     </Typography>
                   </Stack>
                 </div>
@@ -223,7 +221,7 @@ function Detecting() {
                  */}
                 Redirecting in{" "}
                 <span style={{ color: "#279FFE" }}>
-                  <Countdown date={Date.now() + 30000} renderer={renderer} />
+                {fixedTime}
                 </span>{" "}
                 <span>secs...</span>
               </Typography>

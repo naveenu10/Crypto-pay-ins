@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import {
   AppBar,
@@ -22,6 +22,7 @@ import { sendOrderEvent } from "../../services/depositServices";
 function Detecting(props: any) {
   const navigate = useNavigate();
   const context = useGlobalContext();
+  const [timeFlag, setTimeFlag] = useState(false);
   const orders = context.state.orderDetails;
   const token = context.state.token;
   const selectedCoinData = context.state.selectedCoinData;
@@ -29,29 +30,25 @@ function Detecting(props: any) {
   function backtoCrypto() {
     window.location.replace(orders?.merchant_redirect_url);
   }
-  const Completionist = () => {
-    window.location.replace(orders?.merchant_redirect_url);
-    return <span>You are good to go!</span>;
-  };
-  const renderer = ({
-    minutes,
-    seconds,
-    completed,
-  }: {
-    minutes: any;
-    seconds: any;
-    completed: any;
-  }) => {
-    if (completed) {
-      return <Completionist />;
-    } else {
-      return (
-        <span>
-          {zeroPad(minutes)}:{zeroPad(seconds)}
-        </span>
-      );
-    }
-  };
+  const duration = 1 * 30 * 1000;
+  const [time, setTime] = useState(duration);
+  useEffect(() => {
+    setTimeout(() => {
+      if (time) {
+        setTime(time - 1000);
+      } else {
+        setTimeFlag(true);
+        window.location.replace(orders?.merchant_redirect_url);
+      }
+    }, 1000);
+  }, [time]);
+  let totalSeconds = Math.floor(time / 1000);
+  let totalMinitus = Math.floor(totalSeconds / 60);
+  let seconds = totalSeconds % 60;
+  let minitus = totalMinitus % 60;
+  let fixedTime = `${minitus < 10 ? `0${minitus}` : minitus}:${
+    seconds < 10 ? `0${seconds}` : seconds
+  }`;
 
   const sendTimeoutEvent = async () => {
     const hms = props.fixedTime;
@@ -233,7 +230,7 @@ function Detecting(props: any) {
               >
                 Redirecting in{" "}
                 <span style={{ color: "#279FFE" }}>
-                  <Countdown date={Date.now() + 30000} renderer={renderer} />
+                 {fixedTime}
                 </span>{" "}
                 <span>secs...</span>
               </Typography>

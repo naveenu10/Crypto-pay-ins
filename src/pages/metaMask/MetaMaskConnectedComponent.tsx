@@ -242,6 +242,11 @@ function MetaMaskConnectedComponent(props: any) {
         paymentDetails?.gas_price_fast_ethereum_gwei?.toString(),
         "gwei"
       );
+      const priorityFeePerGas = 0;
+      const maxPriorityFee = web3.utils.toWei(
+        priorityFeePerGas.toString(),
+        "gwei"
+      );
 
       if (paymentDetails?.asset_contract_address) {
         try {
@@ -261,7 +266,9 @@ function MetaMaskConnectedComponent(props: any) {
             .transfer(paymentDetails?.wallet_address, amountToSend)
             .send({
               from: address,
-              gasPrice: gasPriceWei,
+              // gasPrice: gasPriceWei,
+              maxPriorityFeePerGas: maxPriorityFee,
+              maxFeePerGas: gasPriceWei,
             });
 
           const txHash = transaction.transactionHash;
@@ -283,7 +290,9 @@ function MetaMaskConnectedComponent(props: any) {
         const transactionParameters = {
           to: paymentDetails?.wallet_address,
           from: address,
-          gasPrice: gasPriceWei,
+          // gasPrice: gasPriceWei,
+          maxPriorityFeePerGas: maxPriorityFee,
+          maxFeePerGas: gasPriceWei,
           value: web3.utils.toHex(
             web3.utils.toWei(paymentDetails?.asset_amount, "ether")
           ),
