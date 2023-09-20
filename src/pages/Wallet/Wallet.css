@@ -17,7 +17,7 @@
 }
 
 .continue {
-    width: 100%;
+    max-width: 325px !important;
     background: #1371BC;
     text-transform: capitalize !important;
     font-family: 'Inter' !important;
@@ -34,7 +34,7 @@
     border-radius: 8px !important;
 }
 .continue:disabled {
-    width: 100%;
+    max-width: 325px !important;
     background-color: rgba(19, 113, 188, 0.5) !important;
     text-transform: capitalize !important;
     font-family: 'Inter' !important;
@@ -52,6 +52,7 @@
 }
 
 .cancelbtn {
+    max-width: 325px !important;
     font-family: 'Inter' !important;
     font-style: normal !important;
     font-weight: 700 !important;
@@ -64,8 +65,10 @@
     text-transform: capitalize !important;
     padding: 1rem !important;
     border-radius: 8px !important;
+    margin-top: 10px !important;
 }
 .cancelbtn:hover {
+    max-width: 325px !important;
     background: #fff !important;
     font-family: "Inter" !important;
     font-style: normal !important;
@@ -79,6 +82,8 @@
     text-transform: capitalize !important;
     padding: 1rem !important;
     border-radius: 8px !important;
+    margin-top: 10px !important;
+
   }
 
 

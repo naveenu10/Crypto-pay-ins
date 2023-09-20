@@ -8,7 +8,7 @@ const useStyles = makeStyles((theme: any) => ({
     display: "flex",
     justifyContent: "space-between",
     // marginBottom: "5px",
-    marginTop: "5%",
+    // marginTop: "5%",
     width: "100%",
   },
   navBarButtons: {
@@ -22,9 +22,9 @@ const useStyles = makeStyles((theme: any) => ({
     "&.active": {
       backgroundColor: "#D6D6D6",
       color: "#2C1E66",
-      '&:hover': {
-          backgroundColor: '#D6D6D6',
-          color: "#2C1E66",
+      "&:hover": {
+        backgroundColor: "#D6D6D6",
+        color: "#2C1E66",
       },
     },
   },
@@ -64,7 +64,7 @@ const ScanCopyTab = (): JSX.Element => {
   const location = useLocation();
 
   const handleTabClick = (tab: TabData): void => {
-    navigate(tab.path);
+    navigate(tab.path,{replace: true});
     setTabs((current) => {
       return current.map((cur) => {
         if (cur.id === tab.id) {
@@ -87,12 +87,23 @@ const ScanCopyTab = (): JSX.Element => {
             className={buttonClasses}
             key={tab.id}
             onClick={() => handleTabClick(tab)}
-            style={{margin:5, color: "#2C1E66"}}
+            style={{ margin: 5, color: "#2C1E66", textTransform: "none" }}
           >
-            <span>
-              <img src={tab.iconUrl} alt={tab.name} />
+            <img src={tab.iconUrl} alt={tab.name} />
+            <span
+              style={{
+                marginLeft: "6px",
+                fontFamily: "Inter",
+                fontSize: "14px",
+                fontWeight: 500,
+                lineHeight: "21px",
+                letterSpacing: "0em",
+                textAlign: "center",
+                color: "#2C1E66"
+              }}
+            >
+              {tab.name}
             </span>
-            <span style={{ marginLeft: "6px"}}>{tab.name}</span>
           </Button>
         );
       })}

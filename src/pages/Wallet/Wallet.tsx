@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import {
@@ -13,43 +13,115 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import NivapayLogo1 from "../../assets/images/NIcons/NivapayLogo1";
 import { useGlobalContext } from "../../context/context";
-import BackButton from "../../dialogs/BackButton";
 import { Layout, MobileContainer } from "../../styles/layout";
 import Footer from "../Footer/Footer";
 import "./Wallet.css";
+import { getMetamaskPaymentDetails } from "../../services/depositServices";
+import CancelPayment from "../../dialogs/CancelPayment";
+import Loader from "../../utils/Loader";
 
 function Wallet(props: any) {
   const context = useGlobalContext();
   const theme = useTheme();
+  const containerRef = React.useRef(null);
   const matches = useMediaQuery(theme.breakpoints.up("xl"));
+  const [isLoading, setLoading] = useState(true);
   const orders = context.state.orderDetails;
+  const coinData = context.state.selectedCoinData;
+  const hash = context.state.hash;
+
+  const token = context.state.token;
   const [openCloseDialog, setOpenCloseDialog] = useState(false);
   const navigate = useNavigate();
-  const onOtherWallets = () => {
-    navigate("/QrScan");
-  };
 
-  const onContinue = () => {
-    navigate("/QrScan");
-  };
+  let network: string;
+  let crypto: string;
+  let amount: number;
+
   const handleMetamask = () => {
-    navigate("/metamask", { replace: true });
+    navigate("/metamask_scan", { replace: true });
   };
 
   const handleOtherWallets = () => {
-    navigate("/QrScan", { replace: true });
+    context.dispatch({
+      type: "UPDATE_PREVIOUS_PATH",
+      payload: '/wallet',
+    });
+    navigate("/QrMounting", { replace: true });
   };
 
-  // useEffect(() => {
-  //   if (!orders) {
-  //     navigate("/error", { replace: true });
-  //   }
-  // }, []);
+  const fetchMetamaskPaymentDetails = async () => {
+    if (orders?.order_currency_type === "virtual") {
+      network = orders?.order_currency_network;
+      crypto = orders?.order_currency_symbol;
+      amount = Number(orders?.order_amount);
+    }
+    if (orders?.order_currency_type === "fiat") {
+      network = coinData?.asset_network;
+      crypto = coinData?.asset_symbol;
+      amount = Number(coinData?.asset_amount);
+    }
+
+    const res: any = await getMetamaskPaymentDetails(
+      network,
+      crypto,
+      amount,
+      token
+    );
+    if (res?.status === 200) {
+      context.dispatch({
+        type: "GET_QR_DATA",
+        payload: res?.data,
+      });
+      setLoading(false);
+    } else {
+      navigate("/error", { replace: true });
+    }
+  };
+
+  const handleBack = () => {
+    if (orders?.order_currency_type === "virtual") {
+      navigate(`/deposit/order?order_id=${orders?.order_id}&hash=${hash}`, {
+        replace: true,
+      });
+    }
+    if (orders?.order_currency_type === "fiat") {
+      navigate("/quickpay", { replace: true });
+    }
+  };
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    if (token) {
+      fetchMetamaskPaymentDetails();
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!token) {
+      navigate("/error", { replace: true });
+    }
+  }, []);
+
+  useEffect(() => {
+    if (openCloseDialog) {
+      window.onbeforeunload = null;
+      return;
+    }
+    window.onbeforeunload = function () {
+      const msg = "Are you sure you want to leave?";
+      return msg;
+    };
+
+    return () => {
+      window.onbeforeunload = null;
+    };
+  }, [openCloseDialog]);
 
   return (
     <Layout>
       <MobileContainer>
-        <div className="main_section">
+        <div className="main_section" ref={containerRef}>
           <section
             style={{
               display: "flex",
@@ -67,13 +139,13 @@ function Wallet(props: any) {
                     color="inherit"
                     aria-label="menu"
                     sx={{
-                      mr: 2,
+                      // mr: 2,
                       border: "1px solid",
                       borderRadius: "20%",
                       padding: "5px",
-                      marginLeft: "-8px",
+                      marginLeft: "0px",
                     }}
-                    onClick={() => navigate("/quickpay", { replace: true })}
+                    onClick={handleBack}
                   >
                     <ArrowBackIosNewIcon />
                   </IconButton>
@@ -81,8 +153,7 @@ function Wallet(props: any) {
                 <div style={{ textAlign: "right" }}>
                   <div className="header_title">
                     {" "}
-                    {orders.merchant_brand_name &&
-                      orders.merchant_brand_name}
+                    {orders.merchant_brand_name && orders.merchant_brand_name}
                   </div>
                 </div>
                 <div className="logo">
@@ -90,10 +161,17 @@ function Wallet(props: any) {
                 </div>
               </Toolbar>
             </AppBar>
+            {isLoading ? (
+              <Loader />
+            ) : (
             <div style={{ flex: 1 }}>
               <section className="nivapay_ramp">
-                <p className="timer">Time left: {props.fixedTime} mins</p>
-
+                <p className="timer">
+                  Time left:{" "}
+                  <span style={{ fontWeight: 600 }}>
+                    {props.fixedTime} mins
+                  </span>
+                </p>
                 <div
                   className="choosecurrency"
                   style={{ fontSize: 20, marginBottom: "18%" }}
@@ -123,35 +201,48 @@ function Wallet(props: any) {
                   <span style={{ fontSize: "20px", color: "#000000" }}>
                     Other&nbsp;Wallets
                   </span>
-                  <span onClick={onOtherWallets}>
+                  <span>
                     <ChevronRightIcon style={{ fontSize: "40px" }} />
                   </span>
                 </div>
-                <div style={{ marginTop: "30%",marginBottom:"10%" }}>
-                  <Button
-                    className="continue"
-                    variant="contained"
-                    fullWidth
-                    disabled
-                    onClick={onContinue}
+                <div className="footer">
+                  <div
+                    style={{
+                      marginBottom: "35px",
+                      width: "100%",
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                    }}
                   >
-                    Continue
-                  </Button>
-                  <Button
-                    className="cancelbtn"
-                    fullWidth
-                    onClick={() => setOpenCloseDialog(true)}
-                  >
-                    Cancel
-                  </Button>
+                    <Button
+                      className="continue"
+                      variant="contained"
+                      fullWidth
+                      disabled
+                    >
+                      Continue
+                    </Button>
+                    <Button
+                      className="cancelbtn"
+                      fullWidth
+                      onClick={() => setOpenCloseDialog(true)}
+                    >
+                      Cancel
+                    </Button>
+                  </div>
+                  <Footer />
                 </div>
               </section>
             </div>
-            <div className={matches ? "footer" : "footerSmall"}>
-              <Footer />
-            </div>
+              )}
           </section>
-          <BackButton open={openCloseDialog} setOpen={setOpenCloseDialog} />
+          <CancelPayment
+            open={openCloseDialog}
+            setOpen={setOpenCloseDialog}
+            left_time={props?.fixedTime}
+            containerRef={containerRef}
+          />
         </div>
       </MobileContainer>
     </Layout>

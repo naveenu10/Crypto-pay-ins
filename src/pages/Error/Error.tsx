@@ -1,22 +1,17 @@
-import { AppBar, IconButton, useMediaQuery, Toolbar } from "@mui/material";
-import { useTheme } from "@mui/material/styles";
+import { AppBar, IconButton, Toolbar } from "@mui/material";
 import { Layout, MobileContainer } from "../../styles/layout";
 import Footer from "../Footer/Footer";
-import formatTitleCase from "../../utils/formatTitleCase";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import NivapayLogo1 from "../../assets/images/NIcons/NivapayLogo1";
+import { useEffect } from "react";
 
 const Signs = require("../../assets/images/Signs.png");
 
 function Error() {
-  const theme = useTheme();
-  const matches = useMediaQuery(theme.breakpoints.up("lg"));
-  const merchantName: any = localStorage.getItem("merchantName");
-  const merchantUrl: any = localStorage.getItem("merchantUrl");
-
-  function backtoCrypto() {
-    window.location.replace(merchantUrl);
-  }
+ 
+   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <div>
@@ -40,11 +35,11 @@ function Error() {
                       disabled
                       aria-label="menu"
                       sx={{
-                        mr: 2,
+                        // mr: 2,
                         border: "1px solid",
                         borderRadius: "20%",
                         padding: "5px",
-                        marginLeft: "-8px",
+                        marginLeft: "0px",
                         opacity: "50%",
                       }}
                     >
@@ -53,7 +48,7 @@ function Error() {
                   </div>
                   <div style={{ textAlign: "right" }}>
                     <div className="header_title">
-                      {merchantName && formatTitleCase(merchantName)}
+                      {/* {merchantName && formatTitleCase(merchantName)} */}
                     </div>
                   </div>
                   <div className="logo">
@@ -62,10 +57,17 @@ function Error() {
                 </Toolbar>
               </AppBar>
 
-              <div>
+              <div
+                style={{
+                  height: "685px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
                 <section
                   style={{
-                    height: "80vh",
+                    // height: "80vh",
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",

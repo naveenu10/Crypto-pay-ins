@@ -1,22 +1,21 @@
 import InfoIcon from "@mui/icons-material/Info";
-import { Divider, Stack, Typography } from "@mui/material";
+import { Divider, Stack, Typography, Skeleton } from "@mui/material";
 import * as React from "react";
 import { useGlobalContext } from "../../context/context";
 import InfoModal from "../../dialogs/InfoModal";
 import "./ImageList.css";
 import PerfectScrollbar from "react-perfect-scrollbar";
-import formatCryptoAmount from "../../utils/formatCryptoAmount";
 
-export default function StandardImageList(props: { cyyptoData: any }) {
-  const { cyyptoData } = props;
+export default function StandardImageList() {
   const [selectedInd, setselectedInd] = React.useState(null);
   const [openInfo, setOpenInfo] = React.useState(false);
   const context = useGlobalContext();
   let coinName = context.state.selectedCoin;
+  let coinNetwork = context.state.selectedCoinNetwork;
+  const cyyptoData: any = context.state.allCryptos;
 
   function selectCoin(i: any, item: any) {
     if (item) {
-      console.log(item);
       setselectedInd(i);
       context.dispatch({
         type: "UPDATE_NETWORK",
@@ -25,6 +24,10 @@ export default function StandardImageList(props: { cyyptoData: any }) {
       context.dispatch({
         type: "SELECTED_COIN",
         payload: item,
+      });
+      context.dispatch({
+        type: "SELECTED_COIN_NETWORK",
+        payload: item?.asset_network,
       });
     }
   }
@@ -76,115 +79,128 @@ export default function StandardImageList(props: { cyyptoData: any }) {
           />
         </Typography>
       </Stack>
-      <Divider style={{ marginTop: "1%" }} />
+      <Divider />
       <PerfectScrollbar>
-        <div style={{ minHeight: 350, maxHeight: 350 }}>
-          {cyyptoData.length !== 0
-            ? cyyptoData?.map((item: any, i: any) => (
-                <Stack
-                  direction={"row"}
-                  sx={{
-                    justifyContent: "space-around",
-                    backgroundColor:
-                      selectedInd == i || coinName === item?.asset_symbol
-                        ? "#E5F0FF"
-                        : "",
-                    borderRadius: "10px",
-                    padding: "4px",
-                    cursor: "pointer",
-                  }}
-                  onClick={() => selectCoin(i, item)}
-                >
-                  <div style={{ width: "57%" }}>
-                    <div
-                      style={{
-                        display: "flex",
-                        justifyContent: "start",
-                        alignItems: "start",
-                        margin: "5px",
-                      }}
-                    >
-                      <div style={{ display: "flex", gap: ".5rem" }}>
-                        <div style={{ display: "flex", alignItems: "center" }}>
-                          <img
-                            src={item.asset_image}
-                            alt="img"
-                            width={28}
-                            height={28}
-                          />
-                        </div>
-                        <div>
-                          <div style={{ display: "flex", padding: "5px" }}>
-                            <div
-                              style={{
-                                color: "#2C1E66",
-                                fontWeight: "600",
-                                fontSize: "14px",
-                              }}
-                            >
-                              {item.asset_symbol.toUpperCase()}
-                            </div>{" "}
-                            <span
-                              style={{
-                                paddingLeft: "7px",
-                                color: "rgba(0, 0, 0, 0.5)",
-                                fontSize: "14px",
-                                fontWeight: 400,
-                              }}
-                            >
-                              {item?.asset_name}
-                            </span>
-                          </div>
+        <div className="crypto-list-container">
+          {cyyptoData?.length !== 0 ? (
+            cyyptoData?.map((item: any, i: any) => (
+              <Stack
+                key={i}
+                direction={"row"}
+                sx={{
+                  justifyContent: "space-around",
+                  backgroundColor:
+                    selectedInd == i ||
+                    (coinName === item?.asset_symbol &&
+                      coinNetwork === item?.asset_network)
+                      ? "#E5F0FF"
+                      : "",
+                  borderRadius: "10px",
+                  padding: "4px",
+                  cursor: "pointer",
+                }}
+                onClick={() => selectCoin(i, item)}
+              >
+                <div style={{ width: "57%" }}>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "start",
+                      alignItems: "start",
+                      margin: "5px",
+                    }}
+                  >
+                    <div style={{ display: "flex", gap: ".5rem" }}>
+                      <div style={{ display: "flex", alignItems: "center" }}>
+                        <img
+                          src={item.asset_image}
+                          alt="img"
+                          width={28}
+                          height={28}
+                        />
+                      </div>
+                      <div>
+                        <div style={{ display: "flex", padding: "5px" }}>
                           <div
                             style={{
-                              fontWeight: 400,
-                              fontSize: "10px",
-                              lineHeight: "150%",
-                              background: "rgba(214, 214, 214, 0.5)",
-                              borderRadius: "4px",
-                              padding: "2px 8px",
-                              color: "#595959",
-                              boxShadow: "none",
-                              textTransform: "capitalize",
+                              color: "#2C1E66",
+                              fontWeight: "600",
+                              fontSize: "14px",
                             }}
                           >
-                            {item.asset_network}
-                          </div>
+                            {item.asset_symbol.toUpperCase()}
+                          </div>{" "}
+                          <span
+                            style={{
+                              paddingLeft: "7px",
+                              color: "rgba(0, 0, 0, 0.5)",
+                              fontSize: "14px",
+                              fontWeight: 400,
+                            }}
+                          >
+                            {item?.asset_name}
+                          </span>
                         </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div style={{ width: "50%" }}>
-                    <div
-                      style={{
-                        display: "flex",
-                        justifyContent: "end",
-                        margin: "5px",
-                      }}
-                    >
-                      <div>
                         <div
                           style={{
-                            color: "#21146B",
-                            fontSize: "16px",
-                            fontWeight: "600",
-                            padding: "2px",
-                            textAlign: "end",
-                            lineHeight: "48px",
+                            fontWeight: 400,
+                            fontSize: "10px",
+                            lineHeight: "150%",
+                            background: "rgba(214, 214, 214, 0.5)",
+                            borderRadius: "4px",
+                            padding: "2px 8px",
+                            color: "#595959",
+                            boxShadow: "none",
+                            textTransform: "capitalize",
+                            width: "fit-content",
+                            marginLeft: 5,
                           }}
                         >
-                          {item.asset_quote &&
-                            formatCryptoAmount(
-                              item.asset_symbol.toUpperCase(),
-                              item.asset_quote
-                            )}
+                          {item.asset_network}
                         </div>
                       </div>
                     </div>
                   </div>
-                </Stack>
-              ))
-            : ""}
+                </div>
+                <div style={{ width: "50%" }}>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "end",
+                      margin: "5px",
+                    }}
+                  >
+                    <div>
+                      <div
+                        style={{
+                          color: "#21146B",
+                          fontSize: "16px",
+                          fontWeight: "600",
+                          padding: "2px",
+                          textAlign: "end",
+                          lineHeight: "48px",
+                        }}
+                      >
+                        {item.asset_amount && item.asset_amount}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </Stack>
+            ))
+          ) : (
+            <div>
+              {["1", "2", "3", "4", "5", "6", "7"].map((value, index): any => (
+                <Skeleton
+                  key={index}
+                  variant="rounded"
+                  width={360}
+                  height={60}
+                  style={{ marginTop: 5 }}
+                />
+              ))}
+            </div>
+          )}
         </div>
       </PerfectScrollbar>
       <Divider />

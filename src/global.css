@@ -11,7 +11,7 @@ body {
 
 .timer {
   font-style: normal;
-  font-weight: bold;
+  font-weight: 500 !important;
   font-size: 14px;
   line-height: 17px;
   text-align: center;
@@ -29,6 +29,9 @@ body {
   right: 0;
   margin-left: 1.7rem;
   margin-right: 1.7rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .footerSmall {
@@ -40,15 +43,27 @@ body {
   margin-right: 1.7rem;
 }
 
+.nivapay_section_container {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0px 10px 0px 10px;
+}
 .nivapay_section {
-  margin: 0 1rem;
+  display: flex;
+  flex-direction: column;
+  width: 360px;
 }
 
 .header_main {
   background-color: #279ffe !important;
   box-shadow: none;
   border-radius: 33px 33px 0px 0px;
-  height: 80px;
+  height: 85px;
+  display: flex;
+  justify-content: flex-end;
+  padding-bottom: 10px;
 }
 .header_sub {
   display: flex;
@@ -57,10 +72,16 @@ body {
   justify-content: space-between;
   padding-left: 22px;
   margin-top: 13px;
+  min-height: 0px !important;
 }
 .main_section {
-  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  /* box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; */
+  /* box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
+    rgba(27, 31, 35, 0.15) 0px 0px 0px 1px; */
+  /* box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;   */
+  box-shadow: rgba(17, 17, 26, 0.1) 0px 0px 16px;
   border-radius: 33px;
+  height: 100%;
 }
 
 .logo {
@@ -80,12 +101,69 @@ body {
   letter-spacing: 0.05rem;
 }
 
-@media screen and (max-width: 414px) {
+.btn-container {
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+  align-items: center;
+}
+
+.crypto-list-container {
+  min-height: 490px;
+  max-height: 490px;
+  padding-right: 10px;
+  padding-left: 10px;
+}
+
+.footer-margin{
+  margin-bottom: 35px;
+}
+
+.icon-button{
+  border: 1px solid;
+  border-radius: 20%;
+  padding: 5px;
+  margin-left: 0px;
+}
+
+@media screen and (max-width: 1600px) {
+  .crypto-list-container {
+    min-height: 410px;
+    max-height: 410px;
+    padding-right: 10px;
+    padding-left: 10px;
+  }
+  .footer-margin{
+    margin-bottom: 10px !important;
+  }
+}
+
+@media screen and (max-width: 428px) {
   .header_main {
     border-radius: 0px;
   }
   .main_section {
     border-radius: 0px;
+  }
+}
+
+@media screen and (max-width: 370px) {
+  .nivapay_section {
+    width: auto;
+  }
+  .btn-container {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+  .crypto-list-container {
+    /* min-height: 450px; */
+    /* max-height: 450px; */
+    padding-right: 10px;
+    padding-left: 10px;
+    margin-bottom: 15px;
   }
 }
 
@@ -101,19 +179,22 @@ body {
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  background-color: rgba(255, 255, 255, 0.5); /* Adjust the glow color and opacity */
+  background-color: rgba(
+    255,
+    255,
+    255,
+    0.5
+  ); /* Adjust the glow color and opacity */
   animation: logoGlowAnimation 2s ease-in-out infinite;
   z-index: -1;
 }
 
-
-
 @keyframes logoGlowAnimation {
-  0%, 100% {
+  0%,
+  100% {
     transform: scale(1);
   }
   50% {
     transform: scale(1.2);
   }
 }
-

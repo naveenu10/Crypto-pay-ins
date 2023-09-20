@@ -1,14 +1,6 @@
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
-import {
-  AppBar,
-  Button,
-  IconButton,
-  Toolbar,
-  Typography,
-  useMediaQuery,
-} from "@mui/material";
-import { useTheme } from "@mui/material/styles";
-import { useState, useEffect } from "react";
+import { AppBar, Button, IconButton, Toolbar } from "@mui/material";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import NivapayLogo1 from "../../assets/images/NIcons/NivapayLogo1";
 import { useGlobalContext } from "../../context/context";
@@ -22,25 +14,32 @@ import PerfectScrollbar from "react-perfect-scrollbar";
 
 function QuickPay(props: any) {
   const navigate = useNavigate();
+  const containerRef = React.useRef(null);
   const context = useGlobalContext();
-  const theme = useTheme();
-  const matches = useMediaQuery(theme.breakpoints.up("xl"));
   const [openCloseDialog, setOpenCloseDialog] = useState(false);
   const [isLoading, setLoading] = useState(false);
   const coinName = context.state.selectedCoin?.toUpperCase();
   const orders = context.state.orderDetails;
-  const cyyptoData = context.state.allCryptos;
+  const hash = context.state.hash;
 
   const onContinue = () => {
-    console.log(coinName, "coinName");
     if (coinName === "ETH" || coinName === "USDC" || coinName === "USDT") {
       navigate("/wallet", { replace: true });
+      context.dispatch({
+        type: "UPDATE_PREVIOUS_PATH",
+        payload: "/wallet",
+      });
     } else {
-      navigate("/QrScan", { replace: true });
+      navigate("/QrMounting", { replace: true });
+      context.dispatch({
+        type: "UPDATE_PREVIOUS_PATH",
+        payload: "/quickpay",
+      });
     }
   };
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     if (!orders) {
       navigate("/error", { replace: true });
     }
@@ -52,16 +51,29 @@ function QuickPay(props: any) {
     }
   }, [props.fixedTime]);
 
+  useEffect(() => {
+    if (openCloseDialog) {
+      window.onbeforeunload = null;
+      return;
+    }
+    window.onbeforeunload = function () {
+      const msg = "Are you sure you want to leave?";
+      return msg;
+    };
+
+    return () => {
+      window.onbeforeunload = null;
+    };
+  }, [openCloseDialog]);
+
   return (
     <Layout>
       <MobileContainer>
-        <div className="main_section">
+        <div className="main_section" ref={containerRef}>
           <section
             style={{
               display: "flex",
               flexDirection: "column",
-              height: matches ? "100vh" : "auto",
-              minHeight: 750,
             }}
           >
             <AppBar position="static" className="header_main">
@@ -73,14 +85,17 @@ function QuickPay(props: any) {
                     color="inherit"
                     aria-label="menu"
                     sx={{
-                      mr: 2,
                       border: "1px solid",
                       borderRadius: "20%",
                       padding: "5px",
-                      marginLeft: "-8px",
+                      marginLeft: "0px",
                     }}
-                    // onClick={() => setOpenCloseDialog(true)}
-                    onClick={() =>  navigate("/deposit", { replace: true })}
+                    onClick={() =>
+                      navigate(
+                        `/deposit/order?order_id=${orders?.order_id}&hash=${hash}`,
+                        { replace: true }
+                      )
+                    }
                   >
                     <ArrowBackIosNewIcon />
                   </IconButton>
@@ -98,27 +113,43 @@ function QuickPay(props: any) {
             {isLoading ? (
               <Loader />
             ) : (
-              <PerfectScrollbar>
-                <div style={{ flex: 1 }}>
-                  <section className="nivapay_ramp">
-                    <p className="timer">Time left: {props.fixedTime} mins</p>
-                    <div
-                      style={{ boxSizing: "border-box", position: "relative" }}
-                    >
-                      <div className="choosecurrency">
-                        Select Currency to Withdraw
-                      </div>
-                      <div>
-                        <StandardImageList cyyptoData={cyyptoData} />
-                      </div>
+              <div className="nivapay_section_container">
+                <section className="nivapay_section">
+                  <p className="timer">
+                    Time left:{" "}
+                    <span style={{ fontWeight: 600 }}>
+                      {props.fixedTime} mins
+                    </span>
+                  </p>{" "}
+                  <div
+                    style={{ boxSizing: "border-box", position: "relative" }}
+                  >
+                    <div className="choosecurrency">
+                      Select Currency to Pay With
                     </div>
-                    <div style={{ marginBottom: "20px" }}>
+                    <PerfectScrollbar>
+                      <div>
+                        <StandardImageList />
+                      </div>
+                    </PerfectScrollbar>
+                  </div>
+                  <div className="footer">
+                    <div
+                      className="footer-margin"
+                      style={{
+                        // marginBottom: "15px",
+                        width: "100%",
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                      }}
+                    >
                       <Button
                         variant="contained"
                         className="continue"
                         fullWidth
                         onClick={onContinue}
-                        disabled={!context.state.selectedCoin}
+                        disabled={!coinName}
                       >
                         Continue
                       </Button>
@@ -130,15 +161,18 @@ function QuickPay(props: any) {
                         Cancel
                       </Button>
                     </div>
-                  </section>
-                  <div className={matches ? "footer" : "footerSmall"}>
                     <Footer />
                   </div>
-                </div>
-              </PerfectScrollbar>
+                </section>
+              </div>
             )}
           </section>
-          <CancelPayment open={openCloseDialog} setOpen={setOpenCloseDialog} />
+          <CancelPayment
+            open={openCloseDialog}
+            setOpen={setOpenCloseDialog}
+            left_time={props?.fixedTime}
+            containerRef={containerRef}
+          />
         </div>
       </MobileContainer>
     </Layout>

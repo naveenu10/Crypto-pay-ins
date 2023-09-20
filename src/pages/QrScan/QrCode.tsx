@@ -1,6 +1,7 @@
 import QRCode from "qrcode.react";
 import React from "react";
 import { useGlobalContext } from "../../context/context";
+import { Skeleton } from "@mui/material";
 
 const DummyQRCode: React.FC = () => {
   const context = useGlobalContext();
@@ -8,10 +9,24 @@ const DummyQRCode: React.FC = () => {
   const qrCode = qrData.qr_string;
 
   return (
-    <div>
-      <QRCode value={qrCode} size={180}/>
-      {/* <img  src={`data:image/png;base64,${qrCode}`} width={180} height={180}/> */}
-    </div>
+    <>
+      {qrCode ? (
+        <div className="qr-scan-div">
+          {/* <QRCode value={qrCode} size={180}/> */}
+          <img
+            src={`data:image/png;base64,${qrCode}`}
+            width={194}
+            height={194}
+          />
+        </div>
+      ) : (
+        <div
+          style={{ display: "flex", margin: "12px", justifyContent: "center" }}
+        >
+          <Skeleton variant="rounded" width={176} height={176} />
+        </div>
+      )}
+    </>
   );
 };
 

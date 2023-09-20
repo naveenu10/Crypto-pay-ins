@@ -1,9 +1,10 @@
 import axios from "axios";
-import config from "../setupconfig.json"
+import { BASE_URL } from "../config";
 
 const http = axios.create({
-  baseURL: config.api_url,
-  headers: config.headers,
+  baseURL: BASE_URL,
+  headers: {
+    "Content-Type": "application/json",
+  },
 });
-
-export default http
+export default http;

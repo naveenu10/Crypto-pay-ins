@@ -9,11 +9,10 @@ import {
   InputAdornment,
   TextField,
   Toolbar,
-  Typography,
-  useMediaQuery,
+  Tooltip,
 } from "@mui/material";
-import { useTheme } from "@mui/material/styles";
-import { useState, useEffect } from "react";
+import { makeStyles } from "@mui/styles";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import NivapayLogo1 from "../../assets/images/NIcons/NivapayLogo1";
 import { useGlobalContext } from "../../context/context";
@@ -24,52 +23,61 @@ import Footer from "../Footer/Footer";
 import "./QrScanPage.css";
 import ScanCopyTab from "./ScanCopyTab";
 import copy from "copy-to-clipboard";
-import axios from "axios";
-import { BASE_URL } from "../../config";
 import Loader from "../../utils/Loader";
-import formatCryptoAmount from "../../utils/formatCryptoAmount";
 import formatTitleCase from "../../utils/formatTitleCase";
+import { sendOrderEvent } from "../../services/depositServices";
+
+const useStyles = makeStyles((theme) => ({
+  tooltip: {
+    backgroundColor: "#1976d2",
+    color: "#fff",
+    fontSize: "12px",
+    fontWeight: "bold",
+    borderRadius: "4px",
+    padding: "8px 12px",
+  },
+}));
 
 function QrCopy(props: any) {
   const context = useGlobalContext();
-  const theme = useTheme();
-  const matches = useMediaQuery(theme.breakpoints.up("xl"));
+  const navigate = useNavigate();
+  const classes = useStyles();
+  const containerRef = React.useRef(null);
   const [openCloseDialog, setOpenCloseDialog] = useState(false);
   const [openNetworkDialog, setOpenNetworkDialog] = useState(false);
   const [isLoading, setLoading] = useState(false);
-  const coinName = context.state.selectedCoin;
+  const [showCopyTooltip, setShowCopyTooltip] = useState(false);
+  const [showAmountTooltip, setShowAmountTooltip] = useState(false);
   const orders = context.state.orderDetails;
   const qrData = context.state.qrData;
   const token = context.state.token;
-  const selectedCoinData = context.state.selectedCoinData;
-  const navigate = useNavigate();
 
   const onIhavePaid = async () => {
     setLoading(true);
-    const now = Date.now();
-    console.log(now);
+    const hms = props.fixedTime;
+    const a = hms.split(":");
+    const seconds = +a[0] * 60 + +a[1];
+    const now = new Date().toISOString();
+
     const payload = {
-      user_event: "i have paid",
-      timestamp: now,
+      user_event: "user.action.transactionInitiated",
+      asset_network: qrData?.asset_network,
+      asset_symbol: qrData?.asset_symbol,
+      asset_amount: qrData?.asset_amount,
+      session_time_left_seconds: seconds,
+      event_time: now,
     };
-    await axios
-      .post(`${BASE_URL}/sdk/deposit/order/events`, payload, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((res) => {
-        setLoading(false);
-        console.log(res);
-        navigate("/detecting", { replace: true });
-      })
-      .catch((err) => {
-        console.log(err);
-        setLoading(false);
-      });
+    const res: any = await sendOrderEvent(payload, token);
+    if (res.status === 201) {
+      setLoading(false);
+      navigate("/detecting", { replace: true });
+    } else {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     if (!orders) {
       navigate("/error", { replace: true });
     }
@@ -81,16 +89,29 @@ function QrCopy(props: any) {
     }
   }, [props.fixedTime]);
 
+  useEffect(() => {
+    if (openCloseDialog) {
+      window.onbeforeunload = null;
+      return;
+    }
+    window.onbeforeunload = function () {
+      const msg = "Are you sure you want to leave?";
+      return msg;
+    };
+
+    return () => {
+      window.onbeforeunload = null;
+    };
+  }, [openCloseDialog]);
+
   return (
     <Layout>
       <MobileContainer>
-        <div className="main_section">
+        <div className="main_section" ref={containerRef}>
           <section
             style={{
               display: "flex",
               flexDirection: "column",
-              height: matches ? "100vh" : "auto",
-              minHeight: 750,
             }}
           >
             <AppBar position="static" className="header_main">
@@ -102,11 +123,11 @@ function QrCopy(props: any) {
                     color="inherit"
                     aria-label="menu"
                     sx={{
-                      mr: 2,
+                      // mr: 2,
                       border: "1px solid",
                       borderRadius: "20%",
                       padding: "5px",
-                      marginLeft: "-8px",
+                      marginLeft: "0px",
                     }}
                     onClick={() => navigate("/quickpay", { replace: true })}
                   >
@@ -118,7 +139,10 @@ function QrCopy(props: any) {
                     {orders?.merchant_brand_name && orders?.merchant_brand_name}
                   </div>
                 </div>
-                <div className="logo">
+                <div
+                  className="logo"
+                  onClick={() => window.open("https://nivapay.com/")}
+                >
                   <NivapayLogo1 />
                 </div>
               </Toolbar>
@@ -126,9 +150,14 @@ function QrCopy(props: any) {
             {isLoading ? (
               <Loader />
             ) : (
-              <div style={{ flex: 1 }}>
-                <section className="nivapay_ramp">
-                  <p className="timer">Time left: {props.fixedTime} mins</p>
+              <div className="nivapay_section_container">
+                <section className="nivapay_section">
+                  <p className="timer">
+                    Time left:{" "}
+                    <span style={{ fontWeight: 600 }}>
+                      {props.fixedTime} mins
+                    </span>
+                  </p>{" "}
                   <div className="choosecurrency">Complete Payment</div>
                   <div>
                     <div
@@ -142,22 +171,18 @@ function QrCopy(props: any) {
                     <div className="qrCodeDiv">
                       <Container>
                         <div style={{ marginTop: "16px" }}>
-                          <span style={{ fontSize: "24px" }}>
-                            {(qrData?.asset_amount &&
-                              formatCryptoAmount(
-                                coinName.toUpperCase(),
-                                qrData?.asset_amount
-                              )) ||
+                          <span style={{ fontSize: "24px", fontWeight: 600 }}>
+                            {(qrData?.asset_amount && qrData?.asset_amount) ||
                               0}
                           </span>
                           <span
                             style={{
                               fontSize: "12px",
-                              marginLeft: "4px",
+                              marginLeft: "2px",
                               fontWeight: "bold",
                             }}
                           >
-                            {coinName.toUpperCase()}
+                            {qrData?.asset_symbol?.toUpperCase()}
                           </span>
                         </div>
                         <div
@@ -169,34 +194,26 @@ function QrCopy(props: any) {
                         >
                           <span
                             onClick={() => setOpenNetworkDialog(true)}
-                            style={{ fontSize: "12px" }}
+                            style={{
+                              fontSize: "12px",
+                              cursor: "pointer",
+                              color: "#1856E7",
+                            }}
                           >
-                            + Network fee{" "}
-                            <span
-                              style={{
-                                display: "inline-block",
-                                textAlign: "center",
-                                border: "2px solid blue",
-                                borderRadius: "50%",
-                                width: "0.9em",
-                                height: "0.9em",
-                                lineHeight: "1em",
-                                margin: 0,
-                                color: "#FFFFFF",
-                                backgroundColor: "blue",
-                              }}
-                            >
-                              i
-                            </span>{" "}
+                            + Network fee <span className="network-fee">i</span>{" "}
                           </span>
                         </div>
-                        <div style={{ marginTop: "12px" }}>
-                          <span style={{ fontSize: "12px", fontWeight: 400 }}>
-                            Copy-paste below details to your wallet and complete
-                            the payment
-                          </span>
+                        <div
+                          style={{
+                            marginTop: "12px",
+                            fontSize: "12px",
+                            fontWeight: 400,
+                          }}
+                        >
+                          Copy-paste below details to your wallet and complete
+                          the payment
                         </div>
-                        <div style={{ marginTop: "35px" }}>
+                        <div style={{ marginTop: "28px" }}>
                           <div
                             style={{
                               fontSize: "12px",
@@ -213,42 +230,58 @@ function QrCopy(props: any) {
                             >
                               <TextField
                                 value={qrData?.wallet_address}
-                                disabled
+                                // disabled
                                 InputProps={{
                                   sx: {
                                     color: "#2C1E66",
                                     height: 35,
+                                    fontWeight: 500,
+                                    "& .MuiInputBase-input.Mui-disabled": {
+                                      WebkitTextFillColor: "#2C1E66",
+                                    },
                                   },
                                   endAdornment: (
                                     <div style={{}}>
                                       <InputAdornment position="end">
-                                        <Button
-                                          style={{
-                                            padding: "9px",
-                                            marginRight: "-14px",
-                                            minWidth: "0px",
-                                            color: "#808080",
-                                            boxSizing: "border-box",
-                                            backgroundColor: "#D6D6D6",
-                                            cursor: "pointer",
-                                          }}
-                                          onClick={() =>
-                                            copy(qrData?.wallet_address)
-                                          }
+                                        <Tooltip
+                                          title="Copied"
+                                          open={showCopyTooltip}
+                                          placement={"top"}
+                                          classes={{ tooltip: classes.tooltip }}
                                         >
-                                          <img src="https://res.cloudinary.com/dolpotacg/image/upload/v1683014498/Vector_2_aghej8.svg" />
-                                        </Button>
+                                          <Button
+                                            style={{
+                                              padding: "9px",
+                                              marginRight: "-14px",
+                                              minWidth: "0px",
+                                              color: "#808080",
+                                              boxSizing: "border-box",
+                                              backgroundColor: "#D6D6D6",
+                                              cursor: "pointer",
+                                              borderRadius: "0px",
+                                            }}
+                                            onClick={() => {
+                                              copy(qrData?.wallet_address);
+                                              setShowCopyTooltip(true);
+                                              setShowAmountTooltip(false);
+                                              setTimeout(() => {
+                                                setShowCopyTooltip(false);
+                                              }, 1000);
+                                            }}
+                                          >
+                                            <img src="https://res.cloudinary.com/dolpotacg/image/upload/v1683014498/Vector_2_aghej8.svg" />
+                                          </Button>
+                                        </Tooltip>
                                       </InputAdornment>
                                     </div>
                                   ),
-                                  disableUnderline: true,
                                 }}
                               />
                             </FormControl>
                           </Box>
                         </div>
 
-                        <div style={{ marginTop: "5px" }}>
+                        <div style={{ marginTop: "15px" }}>
                           <div
                             style={{
                               fontSize: "12px",
@@ -265,64 +298,70 @@ function QrCopy(props: any) {
                             >
                               <TextField
                                 value={qrData?.asset_amount}
-                                disabled
+                                // disabled
                                 InputProps={{
                                   sx: {
                                     color: "#2C1E66",
                                     height: 35,
+                                    fontWeight: 500,
+                                    "& .MuiInputBase-input.Mui-disabled": {
+                                      WebkitTextFillColor: "#2C1E66",
+                                    },
                                   },
                                   endAdornment: (
                                     <InputAdornment position="end">
-                                      <Button
-                                        style={{
-                                          padding: "9px",
-                                          marginRight: "-14px",
-                                          minWidth: "0px",
-                                          backgroundColor: "#D6D6D6",
-                                          cursor: "pointer",
-                                        }}
-                                        onClick={() =>
-                                          copy(qrData?.asset_amount)
-                                        }
+                                      <Tooltip
+                                        title="Copied"
+                                        open={showAmountTooltip}
+                                        placement={"top"}
+                                        classes={{ tooltip: classes.tooltip }}
                                       >
-                                        <img src="https://res.cloudinary.com/dolpotacg/image/upload/v1683014498/Vector_2_aghej8.svg" />
-                                      </Button>
+                                        <Button
+                                          style={{
+                                            padding: "9px",
+                                            marginRight: "-14px",
+                                            minWidth: "0px",
+                                            backgroundColor: "#D6D6D6",
+                                            cursor: "pointer",
+                                            borderRadius: "0px",
+                                          }}
+                                          onClick={() => {
+                                            copy(qrData?.asset_amount);
+                                            setShowAmountTooltip(true);
+                                            setShowCopyTooltip(false);
+                                            setTimeout(() => {
+                                              setShowAmountTooltip(false);
+                                            }, 1000);
+                                          }}
+                                        >
+                                          <img src="https://res.cloudinary.com/dolpotacg/image/upload/v1683014498/Vector_2_aghej8.svg" />
+                                        </Button>
+                                      </Tooltip>
                                     </InputAdornment>
                                   ),
-                                  disableUnderline: true,
                                 }}
                               />
                             </FormControl>
                           </Box>
                         </div>
 
-                        <div style={{ marginTop: "32px" }}>
-                          <span style={{ fontSize: "12px" }}>
-                            Only send {coinName && coinName.toUpperCase()} using
-                            the{" "}
-                            {selectedCoinData?.asset_network &&
-                              formatTitleCase(
-                                selectedCoinData?.asset_network
-                              )}{" "}
-                            network, else the funds may get lost
-                          </span>
+                        <div className="qr-copy-div">
+                          Only send {qrData?.asset_symbol && qrData?.asset_symbol?.toUpperCase()} using
+                          the{" "}
+                          {qrData?.asset_network &&
+                            formatTitleCase(
+                              qrData?.asset_network
+                            )}{" "}
+                          network, else <br />
+                          the funds may get lost
                         </div>
                       </Container>
                     </div>
                   </div>
-                  <div>
-                    <div
-                      style={{
-                        marginTop: "50px",
-                        fontSize: "12px",
-                        fontWeight: 500,
-                        fontFamily: "Inter",
-                        lineHeight: "14.52px",
-                        marginBottom: "5px",
-                        color: "rgba(0, 0, 0, 0.5)",
-                        padding: "0px 5px",
-                      }}
-                    >
+                </section>
+                <div className="footer">
+                  <div className="footer-buttons-container">
+                    <div className="qr-button-info">
                       <span>
                         Click the below button once you have triggered the
                         transaction
@@ -332,28 +371,31 @@ function QrCopy(props: any) {
                       className="continue"
                       variant="contained"
                       fullWidth
-                      // onClick={onIhavePaid}
-                      onClick={()=> navigate("/detecting", { replace: true })}
-                      
+                      style={{ maxWidth: "325px", alignSelf: "center" }}
+                      onClick={onIhavePaid}
                     >
                       I have Paid
                     </Button>
                     <Button
                       className="cancelbtn"
+                      style={{ maxWidth: "325px", alignSelf: "center" }}
                       fullWidth
                       onClick={() => setOpenCloseDialog(true)}
                     >
                       Cancel
                     </Button>
                   </div>
-                </section>
-                <div className={matches ? "footer" : "footerSmall"}>
                   <Footer />
                 </div>
               </div>
             )}
           </section>
-          <CancelPayment open={openCloseDialog} setOpen={setOpenCloseDialog} />
+          <CancelPayment
+            open={openCloseDialog}
+            setOpen={setOpenCloseDialog}
+            left_time={props?.fixedTime}
+            containerRef={containerRef}
+          />
           <NetWorkFee
             openNetWorkfee={openNetworkDialog}
             setOpenNetworkfee={setOpenNetworkDialog}

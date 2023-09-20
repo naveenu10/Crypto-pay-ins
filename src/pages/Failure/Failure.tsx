@@ -7,9 +7,7 @@ import {
   Stack,
   Toolbar,
   Typography,
-  useMediaQuery
 } from "@mui/material";
-import { useTheme } from "@mui/material/styles";
 import Countdown, { zeroPad } from "react-countdown";
 import { useNavigate } from "react-router-dom";
 import FailureLogo from "../../assets/images/NIcons/FailureLogo";
@@ -18,43 +16,41 @@ import { Layout, MobileContainer } from "../../styles/layout";
 import Footer from "../Footer/Footer";
 import { useGlobalContext } from "../../context/context";
 import formatTitleCase from "../../utils/formatTitleCase";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import "./Failure.css";
 
 function Detecting() {
   const navigate = useNavigate();
-  const theme = useTheme();
-  const matches = useMediaQuery(theme.breakpoints.up("xl"));
   const context = useGlobalContext();
+  const [timeFlag, setTimeFlag] = useState(false);
   const orders = context.state.orderDetails;
+  const paymentDetails = context?.state?.qrData;
 
   function backtoCrypto() {
     window.location.replace(orders?.merchant_redirect_url);
   }
-  const Completionist = () => {
-    window.location.replace(orders?.merchant_redirect_url);
-    return <span>You are good to go!</span>;
-  };
-  const renderer = ({
-    minutes,
-    seconds,
-    completed,
-  }: {
-    minutes: any;
-    seconds: any;
-    completed: any;
-  }) => {
-    if (completed) {
-      return <Completionist />;
-    } else {
-      return (
-        <span>
-          {zeroPad(minutes)}:{zeroPad(seconds)}
-        </span>
-      );
-    }
-  };
+  const duration = 1 * 30 * 1000;
+  const [time, setTime] = useState(duration);
+  useEffect(() => {
+    setTimeout(() => {
+      if (time) {
+        setTime(time - 1000);
+      } else {
+        setTimeFlag(true);
+        window.location.replace(orders?.merchant_redirect_url);
+      }
+    }, 1000);
+  }, [time]);
+  let totalSeconds = Math.floor(time / 1000);
+  let totalMinitus = Math.floor(totalSeconds / 60);
+  let seconds = totalSeconds % 60;
+  let minitus = totalMinitus % 60;
+  let fixedTime = `${minitus < 10 ? `0${minitus}` : minitus}:${
+    seconds < 10 ? `0${seconds}` : seconds
+  }`;
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     if (!orders) {
       navigate("/error", { replace: true });
     }
@@ -68,8 +64,6 @@ function Detecting() {
             style={{
               display: "flex",
               flexDirection: "column",
-              height: matches ? "100vh" : "auto",
-              minHeight: 750,
             }}
           >
             <AppBar position="static" className="header_main">
@@ -82,11 +76,11 @@ function Detecting() {
                     aria-label="menu"
                     disabled
                     sx={{
-                      mr: 2,
+                      // mr: 2,
                       border: "1px solid",
                       borderRadius: "20%",
                       padding: "5px",
-                      marginLeft: "-8px",
+                      marginLeft: "0px",
                     }}
                   >
                     <ArrowBackIosNewIcon />
@@ -160,7 +154,7 @@ function Detecting() {
                     <Typography className="currency">Order id</Typography>
                     <Typography className="info">
                       {" "}
-                      {orders?.id && orders?.id}
+                      {orders?.order_id && orders?.order_id}
                     </Typography>
                   </Stack>
                   <Stack
@@ -181,10 +175,10 @@ function Detecting() {
                     </Typography>
                     <Typography className="info">
                       {" "}
-                      {orders?.order_currency &&
-                        (orders?.order_currency).toUpperCase()}{" "}
-                      {orders?.order_amount &&
-                        Number(orders?.order_amount).toFixed(2)}
+                      {paymentDetails?.asset_amount &&
+                        paymentDetails?.asset_amount}{" "}
+                      {paymentDetails?.asset_symbol &&
+                        paymentDetails?.asset_symbol?.toUpperCase()}
                     </Typography>
                   </Stack>
                   <Stack
@@ -196,60 +190,62 @@ function Detecting() {
                       Destination Wallet
                     </Typography>
                     <Typography className="info">
-                      {orders?.destination_wallet_address &&
-                        `${orders?.destination_wallet_address.slice(
+                      {paymentDetails?.wallet_address &&
+                        `${paymentDetails?.wallet_address.slice(
                           0,
                           7
-                        )}...${orders?.destination_wallet_address.slice(-4)}`}
+                        )}...${paymentDetails?.wallet_address.slice(-4)}`}
                     </Typography>
                   </Stack>
                 </div>
                 <div style={{ marginTop: "2%" }}>
                   <Divider />
                 </div>
-                <Typography
-                  style={{
-                    fontFamily: "Inter",
-                    fontStyle: "normal",
-                    fontWeight: 500,
-                    fontSize: "14px",
-                    lineHeight: "17px",
-                    textAlign: "center",
-                    letterSpacing: "0.06em",
-                    color: "#21146B",
-                    marginTop: "17%",
-                  }}
-                >
-                  {/* Redirecting in <span style={{ color: '#279FFE' }}>30</span> secs...
-                   */}
-                  Redirecting in{" "}
-                  <span style={{ color: "#279FFE" }}>
-                    <Countdown date={Date.now() + 30000} renderer={renderer} />
-                  </span>{" "}
-                  <span>secs...</span>
-                </Typography>
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    marginTop: "4%",
-                    marginBottom:"23%"
-                  }}
-                >
-                  <Button
-                    variant="contained"
-                    className="cryptobtn"
-                    onClick={backtoCrypto}
-                  >
-                    {" "}
-                    Back to{" "}
-                    {orders?.merchant_brand_name &&
-                      formatTitleCase(orders?.merchant_brand_name)}{" "}
-                  </Button>
-                </div>
               </section>
             </div>
-            <div className={matches ? "footer" : "footerSmall"}>
+            <div className="footer">
+              <Typography
+                style={{
+                  fontFamily: "Inter",
+                  fontStyle: "normal",
+                  fontWeight: 500,
+                  fontSize: "14px",
+                  lineHeight: "17px",
+                  textAlign: "center",
+                  letterSpacing: "0.06em",
+                  color: "#21146B",
+                  marginBottom: "4%",
+                }}
+              >
+                {/* Redirecting in <span style={{ color: '#279FFE' }}>30</span> secs...
+                 */}
+                Redirecting in{" "}
+                <span style={{ color: "#279FFE" }}>
+                {fixedTime}
+                </span>{" "}
+                <span>secs...</span>
+              </Typography>
+              <div
+                style={{
+                  marginBottom: "5rem",
+                  width: "100%",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                }}
+              >
+                <Button
+                  variant="contained"
+                  className="cryptobtn"
+                  onClick={backtoCrypto}
+                  style={{ width: "325px" }}
+                >
+                  {" "}
+                  Back to{" "}
+                  {orders?.merchant_brand_name &&
+                    formatTitleCase(orders?.merchant_brand_name)}{" "}
+                </Button>
+              </div>
               <Footer />
             </div>
           </section>

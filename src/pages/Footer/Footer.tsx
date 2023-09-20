@@ -15,6 +15,7 @@ function Footer() {
         marginBottom: 20
       }}
     >
+      
       <Stack
         direction={"row"}
         sx={{
@@ -24,8 +25,8 @@ function Footer() {
           justifyContent: "center",
         }}
         spacing={2}
-      >
-        <img src={logo} alt="nivalogo" width={100} />
+             >
+        <img src={logo} alt="nivalogo" width={100}/>
       </Stack>
     </div>
   );

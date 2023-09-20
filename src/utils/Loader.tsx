@@ -6,34 +6,41 @@ export default function Loader() {
     <div
       style={{
         display: "flex",
-        width: "100%",
-        left: 0,
-        top: 0,
         alignItems: "center",
-        height: "100%",
+        maxWidth: "428px",
+        height: "780px",
         justifyContent: "center",
-        position: "fixed",
+        // top: 0,
+        // left: 0,
+        // flexDirection: "column",
+        // position: "fixed",
         // zIndex: 999999,
         // background: "#fff",
-        flexDirection: "column",
       }}
     >
-      <Circles
-        height="120"
-        width="120"
-        color="#279FFE"
-        ariaLabel="circles-loading"
-        wrapperStyle={{}}
-        wrapperClass=""
-        // visible={true}
-      />
-      <p style={{textAlign:'center'}}>
-        {" "}
-        Please do not refresh the page or click the
-        <br />
-        "Back" or Close button of your browser
-      </p>
-      {/* <p></p> */}
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
+        <Circles
+          height="120"
+          width="120"
+          color="#279FFE"
+          ariaLabel="circles-loading"
+          wrapperStyle={{}}
+          wrapperClass=""
+          // visible={true}
+        />
+        <p style={{ textAlign: "center" }}>
+          {" "}
+          Please do not refresh the page or click the
+          <br />
+          "Back" or Close button of your browser
+        </p>
+      </div>
     </div>
   );
 }
