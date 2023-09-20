@@ -22,9 +22,10 @@
     "@types/react-dom": "^18.0.9",
     "axios": "^1.2.1",
     "copy-to-clipboard": "^3.3.3",
+    "env-cmd": "^10.1.0",
     "eslint": "^8.29.0",
-    "metamask-react": "^2.6.0",
     "jwt-decode": "^3.1.2",
+    "metamask-react": "^2.6.0",
     "nivapay-ui": "^0.0.31",
     "qrcode.react": "^3.1.0",
     "react": "^18.2.0",
@@ -42,12 +43,16 @@
     "web3-eth": "^1.8.1"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "env-cmd -f .env.development react-scripts start",
     "build": "react-scripts build",
+    "build:development": "env-cmd -f .env.development react-scripts build",
+    "build:production": "env-cmd -f .env.production react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "deploy": "aws s3 sync build/ s3://crypto-payins-dev",
-    "prod": "npm run build && npm run deploy"
+    "deploy:development": "aws s3 sync build/ s3://crypto-payins-dev",
+    "deploy:prod": "aws s3 sync build/ s3://crypto-payins-prod",
+    "development": "npm run build:development && npm run deploy:development",
+    "prod": "npm run build:production && npm run deploy:prod"
   },
   "eslintConfig": {
     "extends": [
