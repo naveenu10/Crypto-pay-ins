@@ -14,6 +14,7 @@ import ScanCopyTab from "./ScanCopyTab";
 import Loader from "../../utils/Loader";
 import formatTitleCase from "../../utils/formatTitleCase";
 import { sendOrderEvent } from "../../services/depositServices";
+import { createGlobalStyle } from "styled-components";
 
 function QrScanPage(props: any) {
   const context = useGlobalContext();
@@ -27,6 +28,8 @@ function QrScanPage(props: any) {
   const qrData = context.state.qrData;
   const previousPath = context.state.previousPath;
   const navigate = useNavigate();
+
+  console.log(previousPath)
 
   const handleBack = () => {
     navigate(previousPath, { replace: true });

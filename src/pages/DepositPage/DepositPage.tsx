@@ -40,8 +40,16 @@ function DepositPage(props: any) {
           orderDetails?.order_currency_symbol === "USDT"
         ) {
           navigate("/wallet", { replace: true });
+          context.dispatch({
+            type: "UPDATE_PREVIOUS_PATH",
+            payload: `/deposit/order?order_id=${context.state.orderId}&hash=${context.state.hash}`,
+          });
         } else {
           navigate("/QrMounting", { replace: true });
+          context.dispatch({
+            type: "UPDATE_PREVIOUS_PATH",
+            payload: `/deposit/order?order_id=${context.state.orderId}&hash=${context.state.hash}`,
+          });
         }
       } else {
         navigate("/quickpay", { replace: true });

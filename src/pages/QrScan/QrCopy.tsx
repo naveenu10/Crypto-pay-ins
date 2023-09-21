@@ -51,6 +51,11 @@ function QrCopy(props: any) {
   const orders = context.state.orderDetails;
   const qrData = context.state.qrData;
   const token = context.state.token;
+  const previousPath = context.state.previousPath;
+
+  const handleBack = () => {
+    navigate(previousPath, { replace: true });
+  };
 
   const onIhavePaid = async () => {
     setLoading(true);
@@ -129,7 +134,7 @@ function QrCopy(props: any) {
                       padding: "5px",
                       marginLeft: "0px",
                     }}
-                    onClick={() => navigate("/quickpay", { replace: true })}
+                    onClick={() => handleBack()}
                   >
                     <ArrowBackIosNewIcon />
                   </IconButton>
