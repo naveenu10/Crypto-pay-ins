@@ -178,10 +178,12 @@ function DepositPage(props: any) {
                         : { border: "1px solid rgba(0, 0, 0, 0.5)" }
                     }
                     onChange={(e) => {
-                      setUserEmail(e.target.value);
+                      const currEmail = e.target.value;
+                      const trimmail = currEmail.trim().split(/ +/).join(" ");
+                      setUserEmail(trimmail);
                       context.dispatch({
                         type: "UPDATE_EMAIL",
-                        payload: e.target.value,
+                        payload: trimmail,
                       });
                     }}
                     value={email}

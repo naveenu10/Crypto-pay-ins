@@ -68,10 +68,9 @@ function MetaMaskPage(props: any) {
   function isMobileDevice() {
     return /Mobi|Android/i.test(navigator.userAgent);
   }
-
   async function connectMetamask() {
     if (isMobileDevice()) {
-      window.open(qrData?.metamask_app_url);
+      window.open(`${qrData?.metamask_app_url}`);
     } else {
       var ethereum: any = await detectEthereumProvider();
       if (ethereum) {

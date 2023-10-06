@@ -22,7 +22,6 @@ export default function Networkfee(props: {
         PaperProps={{
           style: {
             bottom: "18%",
-            // margin: "5px 12px",
             boxShadow: "none",
             maxWidth: 333,
             textAlign: "center",
@@ -31,8 +30,8 @@ export default function Networkfee(props: {
       >
         <DialogContent sx={{ padding: "5px 15px" }}>
           <DialogContentText id="alert-dialog-description" sx={{}}>
-            The amount shown here is an estimate and the actual will be
-            determined at the time when this transaction is processed.
+            Please ensure that an appropriate network fee is added separately,
+            in addition to the payment amount.
           </DialogContentText>
         </DialogContent>
       </Dialog>
