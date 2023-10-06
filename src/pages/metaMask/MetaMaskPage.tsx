@@ -70,7 +70,9 @@ function MetaMaskPage(props: any) {
   }
   async function connectMetamask() {
     if (isMobileDevice()) {
-      window.open(`${qrData?.metamask_app_url}`);
+      window.open(
+        `${qrData?.metamask_app_url}&gasLimit=${qrData?.gasLimit_evm}`
+      );
     } else {
       var ethereum: any = await detectEthereumProvider();
       if (ethereum) {

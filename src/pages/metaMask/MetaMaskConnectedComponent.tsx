@@ -262,6 +262,7 @@ function MetaMaskConnectedComponent(props: any) {
             .send({
               from: address,
               // gasPrice: gasPriceWei,
+              gasLimit:paymentDetails?.gasLimit_evm,
               maxPriorityFeePerGas: web3.utils.toWei("0", "gwei"),
               maxFeePerGas: web3.utils.toHex(
                 web3.utils.toWei(
@@ -291,6 +292,7 @@ function MetaMaskConnectedComponent(props: any) {
           to: paymentDetails?.wallet_address,
           from: address,
           // gasPrice: gasPriceWei,
+          gasLimit:paymentDetails?.gasLimit_evm,
           maxPriorityFeePerGas: web3.utils.toWei("0", "gwei"),
           maxFeePerGas: web3.utils.toHex(
             web3.utils.toWei(
