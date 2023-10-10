@@ -23,7 +23,7 @@ function DepositPage(props: any) {
   const [openCloseDialog, setOpenCloseDialog] = useState(false);
   const orderDetails = context.state.orderDetails;
   const email = context.state.email;
-  const [userEmail, setUserEmail] = useState("");
+  const [userEmail, setUserEmail] = useState(email);
   const [isLoading, setLoading] = useState(true);
 
   const proceedOrder = async () => {
@@ -60,7 +60,9 @@ function DepositPage(props: any) {
   };
 
   useEffect(() => {
-    setUserEmail(orderDetails?.user_email_id);
+    if (orderDetails?.user_email_id) {
+      setUserEmail(orderDetails?.user_email_id);
+    }
     if (orderDetails) {
       setLoading(false);
     }
@@ -179,11 +181,11 @@ function DepositPage(props: any) {
                     }
                     onChange={(e) => {
                       const currEmail = e.target.value;
-                      const trimmail = currEmail.trim().split(/ +/).join(" ");
-                      setUserEmail(trimmail);
+                      // const trimmail = currEmail.trim().split(/ +/).join(" ");
+                      setUserEmail(currEmail);
                       context.dispatch({
                         type: "UPDATE_EMAIL",
-                        payload: trimmail,
+                        payload: currEmail,
                       });
                     }}
                     value={email}
