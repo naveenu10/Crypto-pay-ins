@@ -1,11 +1,9 @@
 import { useEffect, useState } from "react";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
-import { AppBar, IconButton, Toolbar, useMediaQuery } from "@mui/material";
-import { useTheme } from "@mui/material/styles";
+import { AppBar, IconButton, Toolbar } from "@mui/material";
 import NivapayLogo1 from "../../assets/images/NIcons/NivapayLogo1";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useGlobalContext } from "../../context/context";
-import { Layout, MobileContainer } from "../../styles/layout";
 import Loader from "../../utils/Loader";
 import {
   getOrderCrypto,
@@ -18,8 +16,6 @@ function WelcomePage() {
   const navigate = useNavigate();
   const order_id: string = searchParams.get("order_id")!;
   const hash: string = searchParams.get("hash")!;
-  const theme = useTheme();
-  const matches = useMediaQuery(theme.breakpoints.up("xl"));
   const context = useGlobalContext();
   const [token, setToken] = useState("");
 
@@ -91,53 +87,44 @@ function WelcomePage() {
   };
 
   useEffect(() => {
-    getValidateOrder();
+    // getValidateOrder();
     return () => clearInterval(interval);
   }, []);
 
   return (
-    <Layout>
-      <MobileContainer>
-        <div className="main_section">
-          <section
-            style={{
-              display: "flex",
-              flexDirection: "column",
-            }}
-          >
-            <AppBar position="static" className="header_main">
-              <Toolbar className="header_sub">
-                <div style={{ textAlign: "left" }}>
-                  <IconButton
-                    size="large"
-                    edge="start"
-                    color="inherit"
-                    aria-label="menu"
-                    sx={{
-                      // mr: 2,
-                      border: "1px solid",
-                      borderRadius: "20%",
-                      padding: "5px",
-                      marginLeft: "0px",
-                    }}
-                    disabled
-                  >
-                    <ArrowBackIosNewIcon />
-                  </IconButton>
-                </div>
-                <div style={{ textAlign: "right" }}>
-                  <div className="header_title"></div>
-                </div>
-                <div className="logo">
-                  <NivapayLogo1 />
-                </div>
-              </Toolbar>
-            </AppBar>
-            <Loader />
-          </section>
-        </div>
-      </MobileContainer>
-    </Layout>
+    <div className="main_section">
+      <section className="sub-section">
+        <AppBar position="static" className="header_main">
+          <Toolbar className="header_sub">
+            <div style={{ textAlign: "left" }}>
+              <IconButton
+                size="large"
+                edge="start"
+                color="inherit"
+                aria-label="menu"
+                sx={{
+                  // mr: 2,
+                  border: "1px solid",
+                  borderRadius: "20%",
+                  padding: "5px",
+                  marginLeft: "0px",
+                }}
+                disabled
+              >
+                <ArrowBackIosNewIcon />
+              </IconButton>
+            </div>
+            <div style={{ textAlign: "right" }}>
+              <div className="header_title"></div>
+            </div>
+            <div className="logo">
+              <NivapayLogo1 />
+            </div>
+          </Toolbar>
+        </AppBar>
+        <Loader />
+      </section>
+    </div>
   );
 }
 

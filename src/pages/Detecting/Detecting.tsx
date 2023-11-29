@@ -10,7 +10,6 @@ import {
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import NivapayLogo1 from "../../assets/images/NIcons/NivapayLogo1";
-import { Layout, MobileContainer } from "../../styles/layout";
 import Footer from "../Footer/Footer";
 import { useGlobalContext } from "../../context/context";
 import "./Detecting.css";
@@ -77,134 +76,124 @@ function Detecting() {
   }, []);
 
   return (
-    <Layout>
-      <MobileContainer>
-        <div className="main_section">
-          <section
-            style={{
-              display: "flex",
-              flexDirection: "column",
-            }}
-          >
-            <AppBar position="static" className="header_main">
-              <Toolbar className="header_sub">
-                <div style={{ textAlign: "left" }}>
-                  <IconButton
-                    size="large"
-                    edge="start"
-                    color="inherit"
-                    aria-label="menu"
-                    disabled
-                    className="icon-button"
-                    sx={{
-                      // mr: 2,
-                      border: "1px solid",
-                      borderRadius: "20%",
-                      padding: "5px",
-                      marginLeft: "0px",
-                    }}
-                    onClick={() => navigate(-1)}
-                  >
-                    <ArrowBackIosNewIcon />
-                  </IconButton>
-                </div>
-                <div style={{ textAlign: "right" }}>
-                  <div className="header_title">
-                    {orders?.merchant_brand_name && orders?.merchant_brand_name}
-                  </div>
-                </div>
-                <div className="logo">
-                  <NivapayLogo1 />
-                </div>
-              </Toolbar>
-            </AppBar>
-            {isLoading ? (
-              <Loader />
-            ) : (
-              <div className="nivapay_section_container">
-                <section className="nivapay_section">
-                  <div className="section-subdiv">
-                    <div style={{ width: "20%" }}>
-                      <div className="logo-container">
-                        <div className="logo-glow">
-                          <img src={timer_icon} alt="timer_icon" />
-                        </div>
-                      </div>
+    <div className="main_section">
+      <section className="sub-section">
+        <AppBar position="static" className="header_main">
+          <Toolbar className="header_sub">
+            <div style={{ textAlign: "left" }}>
+              <IconButton
+                size="large"
+                edge="start"
+                color="inherit"
+                aria-label="menu"
+                disabled
+                className="icon-button"
+                sx={{
+                  // mr: 2,
+                  border: "1px solid",
+                  borderRadius: "20%",
+                  padding: "5px",
+                  marginLeft: "0px",
+                }}
+                onClick={() => navigate(-1)}
+              >
+                <ArrowBackIosNewIcon />
+              </IconButton>
+            </div>
+            <div style={{ textAlign: "right" }}>
+              <div className="header_title">
+                {orders?.merchant_brand_name && orders?.merchant_brand_name}
+              </div>
+            </div>
+            <div className="logo">
+              <NivapayLogo1 />
+            </div>
+          </Toolbar>
+        </AppBar>
+        {isLoading ? (
+          <Loader />
+        ) : (
+          <div className="nivapay_section_container">
+            <section className="nivapay_section">
+              <div className="section-subdiv">
+                <div style={{ width: "20%" }}>
+                  <div className="logo-container">
+                    <div className="logo-glow">
+                      <img src={timer_icon} alt="timer_icon" />
                     </div>
                   </div>
-                  <div className="title">Detecting...</div>
-                  <div className="subtitle">
-                    We are scanning the network to detect your transaction.This
-                    process may take up to{" "}
-                    {transactions?.detecting_eta_mins
-                      ? transactions?.detecting_eta_mins
-                      : "30"}{" "}
-                    mins to complete.
-                  </div>
-                  <div className="detecting-divider">
-                    <Divider className="divider" />
-                  </div>
-                  <div>
-                    <Stack direction={"row"} spacing={2} className="row">
-                      <div className="currency">Order id</div>
-                      <div className="info">
-                        {transactions?.order_id && transactions?.order_id}
-                      </div>
-                    </Stack>
-                    <Stack direction={"row"} spacing={2} className="row">
-                      <div className="currency">Action</div>
-                      <div className="info">Payment</div>
-                    </Stack>
-                    <Stack direction={"row"} spacing={2} className="row">
-                      <div className="currency">Expected Amount (crypto)</div>
-                      <div className="info">
-                        {" "}
-                        {paymentDetails?.asset_amount &&
-                          paymentDetails?.asset_amount}{" "}
-                        {paymentDetails?.asset_symbol &&
-                          paymentDetails?.asset_symbol?.toUpperCase()}
-                      </div>
-                    </Stack>
-                    <Stack direction={"row"} spacing={2} className="row">
-                      <div className="currency">Destination Wallet</div>
-                      <div className="info">
-                        {paymentDetails?.wallet_address &&
-                          `${paymentDetails?.wallet_address.slice(
-                            0,
-                            7
-                          )}...${paymentDetails?.wallet_address.slice(-4)}`}
-                      </div>
-                    </Stack>
-                  </div>
-                  <div className="divider-div">
-                    <Divider className="divider" />
-                  </div>
-                  <div className="subtitle2">
-                    You may close this window or go back by clicking the button
-                    below. We are processing this transaction and will update
-                    you the final status through email.
-                  </div>
-                </section>
+                </div>
               </div>
-            )}
-          </section>
-          <div className="footer">
-            <div className="footer-subdiv">
-              <Button
-                variant="contained"
-                className="cryptobtn"
-                onClick={backtoCrypto}
-              >
-                {" "}
-                Back to{" "}
-                {orders?.merchant_brand_name && orders?.merchant_brand_name}
-              </Button>
-            </div>
-            <Footer />
+              <div className="title">Detecting...</div>
+              <div className="subtitle">
+                We are scanning the network to detect your transaction.This
+                process may take up to{" "}
+                {transactions?.detecting_eta_mins
+                  ? transactions?.detecting_eta_mins
+                  : "30"}{" "}
+                mins to complete.
+              </div>
+              <div className="detecting-divider">
+                <Divider className="divider" />
+              </div>
+              <div>
+                <Stack direction={"row"} spacing={2} className="row">
+                  <div className="currency">Order id</div>
+                  <div className="info">
+                    {transactions?.order_id && transactions?.order_id}
+                  </div>
+                </Stack>
+                <Stack direction={"row"} spacing={2} className="row">
+                  <div className="currency">Action</div>
+                  <div className="info">Payment</div>
+                </Stack>
+                <Stack direction={"row"} spacing={2} className="row">
+                  <div className="currency">Expected Amount (crypto)</div>
+                  <div className="info">
+                    {" "}
+                    {paymentDetails?.asset_amount &&
+                      paymentDetails?.asset_amount}{" "}
+                    {paymentDetails?.asset_symbol &&
+                      paymentDetails?.asset_symbol?.toUpperCase()}
+                  </div>
+                </Stack>
+                <Stack direction={"row"} spacing={2} className="row">
+                  <div className="currency">Destination Wallet</div>
+                  <div className="info">
+                    {paymentDetails?.wallet_address &&
+                      `${paymentDetails?.wallet_address.slice(
+                        0,
+                        7
+                      )}...${paymentDetails?.wallet_address.slice(-4)}`}
+                  </div>
+                </Stack>
+              </div>
+              <div className="divider-div">
+                <Divider className="divider" />
+              </div>
+              <div className="subtitle2">
+                You may close this window or go back by clicking the button
+                below. We are processing this transaction and will update you
+                the final status through email.
+              </div>
+            </section>
           </div>
+        )}
+      </section>
+      <div className="footer">
+        <div className="footer-subdiv">
+          <Button
+            variant="contained"
+            className="cryptobtn"
+            onClick={backtoCrypto}
+          >
+            {" "}
+            Back to {orders?.merchant_brand_name && orders?.merchant_brand_name}
+          </Button>
         </div>
-      </MobileContainer>
-    </Layout>
+        <Footer />
+      </div>
+    </div>
   );
 }
 

@@ -13,7 +13,6 @@ import Countdown, { zeroPad } from "react-countdown";
 import { useNavigate } from "react-router-dom";
 import NivapayLogo1 from "../../assets/images/NIcons/NivapayLogo1";
 import TimeoutLogo from "../../assets/images/NIcons/TimeoutLogo";
-import { Layout, MobileContainer } from "../../styles/layout";
 import Footer from "../Footer/Footer";
 import { useGlobalContext } from "../../context/context";
 import formatTitleCase from "../../utils/formatTitleCase";
@@ -84,182 +83,170 @@ function Detecting(props: any) {
   }, []);
 
   return (
-    <Layout>
-      <MobileContainer>
-        <div className="main_section">
-          <section
-            style={{
-              display: "flex",
-              flexDirection: "column",
-            }}
-          >
-            <AppBar position="static" className="header_main">
-              <Toolbar className="header_sub">
-                <div style={{ textAlign: "left" }}>
-                  <IconButton
-                    size="large"
-                    edge="start"
-                    color="inherit"
-                    aria-label="menu"
-                    disabled
-                    sx={{
-                      // mr: 2,
-                      border: "1px solid",
-                      borderRadius: "20%",
-                      padding: "5px",
-                      marginLeft: "0px",
-                    }}
-                  >
-                    <ArrowBackIosNewIcon />
-                  </IconButton>
-                </div>
-                <div style={{ textAlign: "right" }}>
-                  <div className="header_title">
-                    {orders.merchant_brand_name &&
-                      formatTitleCase(orders?.merchant_brand_name)}
-                  </div>
-                </div>
-                <div className="logo">
-                  <NivapayLogo1 />
-                </div>
-              </Toolbar>
-            </AppBar>
-            <div style={{ flex: 1 }}>
-              <section className="nivapay_ramp">
-                <p className="timer">
-                  Time left: <span style={{ fontWeight: 600 }}>00:00 mins</span>
-                </p>{" "}
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    marginTop: "8%",
-                  }}
-                >
-                  <div style={{ width: "30%" }}>
-                    <TimeoutLogo />
-                  </div>
-                </div>
-                <Typography
-                  style={{
-                    fontFamily: "Inter",
-                    fontStyle: "normal",
-                    fontWeight: 600,
-                    fontSize: "24px",
-                    lineHeight: "29px",
-                    padding: "1rem",
-                    display: "flex",
-                    color: "#2C1E66",
-                    justifyContent: "center",
-                  }}
-                >
-                  Timed Out !
-                </Typography>
-                <Typography
-                  style={{
-                    fontFamily: "Inter",
-                    fontStyle: "normal",
-                    fontWeight: 400,
-                    fontSize: "11px",
-                    lineHeight: "15px",
-                    display: "flex",
-                    alignItems: "center",
-                    textAlign: "center",
-                    color: "rgba(0, 0, 0, 0.5)",
-                  }}
-                >
-                  You did not complete the payment within the prescribed time
-                  duration. You may re-initiate the process to try again.
-                </Typography>
-                <div style={{ marginTop: "20%" }}>
-                  <Divider />
-                </div>
-                <div>
-                  <Stack
-                    direction={"row"}
-                    spacing={2}
-                    sx={{ justifyContent: "space-between", padding: "6px" }}
-                  >
-                    <Typography className="currency">Order id</Typography>
-                    <Typography className="info">
-                      {" "}
-                      {orders?.order_id && orders?.order_id}
-                    </Typography>
-                  </Stack>
-                  <Stack
-                    direction={"row"}
-                    spacing={2}
-                    sx={{ justifyContent: "space-between", padding: "6px" }}
-                  >
-                    <Typography className="currency">Action</Typography>
-                    <Typography className="info">Payment</Typography>
-                  </Stack>
-                  <Stack
-                    direction={"row"}
-                    spacing={2}
-                    sx={{ justifyContent: "space-between", padding: "6px" }}
-                  >
-                    <Typography className="currency">Order Amount</Typography>
-                    <Typography className="info">
-                      {orders?.order_currency_symbol &&
-                        (orders?.order_currency_symbol).toUpperCase()}{" "}
-                      {orders?.order_amount &&
-                        Number(orders?.order_amount).toFixed(2)}
-                    </Typography>
-                  </Stack>
-                </div>
-                <div style={{ marginTop: "2%" }}>
-                  <Divider />
-                </div>
-              </section>
+    <div className="main_section">
+      <section className="sub-section">
+        <AppBar position="static" className="header_main">
+          <Toolbar className="header_sub">
+            <div style={{ textAlign: "left" }}>
+              <IconButton
+                size="large"
+                edge="start"
+                color="inherit"
+                aria-label="menu"
+                disabled
+                sx={{
+                  // mr: 2,
+                  border: "1px solid",
+                  borderRadius: "20%",
+                  padding: "5px",
+                  marginLeft: "0px",
+                }}
+              >
+                <ArrowBackIosNewIcon />
+              </IconButton>
             </div>
-            <div className="footer">
-              <Typography
-                style={{
-                  fontFamily: "Inter",
-                  fontStyle: "normal",
-                  fontWeight: 500,
-                  fontSize: "14px",
-                  lineHeight: "17px",
-                  textAlign: "center",
-                  letterSpacing: "0.06em",
-                  color: "#21146B",
-                  marginBottom: "4%",
-                }}
-              >
-                Redirecting in{" "}
-                <span style={{ color: "#279FFE" }}>
-                 {fixedTime}
-                </span>{" "}
-                <span>secs...</span>
-              </Typography>
-              <div
-                style={{
-                  marginBottom: "5rem",
-                  width: "100%",
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                }}
-              >
-                <Button
-                  variant="contained"
-                  className="cryptobtn"
-                  onClick={backtoCrypto}
-                >
-                  {" "}
-                  Back to{" "}
-                  {orders?.merchant_brand_name &&
-                    formatTitleCase(orders?.merchant_brand_name)}
-                </Button>
+            <div style={{ textAlign: "right" }}>
+              <div className="header_title">
+                {orders.merchant_brand_name &&
+                  formatTitleCase(orders?.merchant_brand_name)}
               </div>
-              <Footer />
+            </div>
+            <div className="logo">
+              <NivapayLogo1 />
+            </div>
+          </Toolbar>
+        </AppBar>
+        <div style={{ flex: 1 }}>
+          <section className="nivapay_ramp">
+            <p className="timer">
+              Time left: <span style={{ fontWeight: 600 }}>00:00 mins</span>
+            </p>{" "}
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                marginTop: "8%",
+              }}
+            >
+              <div style={{ width: "30%" }}>
+                <TimeoutLogo />
+              </div>
+            </div>
+            <Typography
+              style={{
+                fontFamily: "Inter",
+                fontStyle: "normal",
+                fontWeight: 600,
+                fontSize: "24px",
+                lineHeight: "29px",
+                padding: "1rem",
+                display: "flex",
+                color: "#2C1E66",
+                justifyContent: "center",
+              }}
+            >
+              Timed Out !
+            </Typography>
+            <Typography
+              style={{
+                fontFamily: "Inter",
+                fontStyle: "normal",
+                fontWeight: 400,
+                fontSize: "11px",
+                lineHeight: "15px",
+                display: "flex",
+                alignItems: "center",
+                textAlign: "center",
+                color: "rgba(0, 0, 0, 0.5)",
+              }}
+            >
+              You did not complete the payment within the prescribed time
+              duration. You may re-initiate the process to try again.
+            </Typography>
+            <div style={{ marginTop: "20%" }}>
+              <Divider />
+            </div>
+            <div>
+              <Stack
+                direction={"row"}
+                spacing={2}
+                sx={{ justifyContent: "space-between", padding: "6px" }}
+              >
+                <Typography className="currency">Order id</Typography>
+                <Typography className="info">
+                  {" "}
+                  {orders?.order_id && orders?.order_id}
+                </Typography>
+              </Stack>
+              <Stack
+                direction={"row"}
+                spacing={2}
+                sx={{ justifyContent: "space-between", padding: "6px" }}
+              >
+                <Typography className="currency">Action</Typography>
+                <Typography className="info">Payment</Typography>
+              </Stack>
+              <Stack
+                direction={"row"}
+                spacing={2}
+                sx={{ justifyContent: "space-between", padding: "6px" }}
+              >
+                <Typography className="currency">Order Amount</Typography>
+                <Typography className="info">
+                  {orders?.order_currency_symbol &&
+                    (orders?.order_currency_symbol).toUpperCase()}{" "}
+                  {orders?.order_amount &&
+                    Number(orders?.order_amount).toFixed(2)}
+                </Typography>
+              </Stack>
+            </div>
+            <div style={{ marginTop: "2%" }}>
+              <Divider />
             </div>
           </section>
         </div>
-      </MobileContainer>
-    </Layout>
+        <div className="footer">
+          <Typography
+            style={{
+              fontFamily: "Inter",
+              fontStyle: "normal",
+              fontWeight: 500,
+              fontSize: "14px",
+              lineHeight: "17px",
+              textAlign: "center",
+              letterSpacing: "0.06em",
+              color: "#21146B",
+              marginBottom: "4%",
+            }}
+          >
+            Redirecting in <span style={{ color: "#279FFE" }}>{fixedTime}</span>{" "}
+            <span>secs...</span>
+          </Typography>
+          <div
+            style={{
+              marginBottom: "5rem",
+              width: "100%",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <Button
+              variant="contained"
+              className="cryptobtn"
+              onClick={backtoCrypto}
+            >
+              {" "}
+              Back to{" "}
+              {orders?.merchant_brand_name &&
+                formatTitleCase(orders?.merchant_brand_name)}
+            </Button>
+          </div>
+          <Footer />
+        </div>
+      </section>
+    </div>
   );
 }
 

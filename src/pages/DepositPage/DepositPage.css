@@ -90,7 +90,7 @@
   margin: 0 1.7rem;
 }
 
-.pay {
+.pay-title {
   font-family: Inter;
   font-style: normal;
   font-weight: 400;
@@ -160,6 +160,7 @@
   letter-spacing: 0.06em;
   color: #f44336;
   padding-left: 5px;
+  height: 30px;
 }
 .email-info{
   font-family: Inter;

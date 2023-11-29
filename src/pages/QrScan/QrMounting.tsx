@@ -5,7 +5,6 @@ import { useTheme } from "@mui/material/styles";
 import NivapayLogo1 from "../../assets/images/NIcons/NivapayLogo1";
 import { useNavigate } from "react-router-dom";
 import { useGlobalContext } from "../../context/context";
-import { Layout, MobileContainer } from "../../styles/layout";
 import Loader from "../../utils/Loader";
 import { getCryptoPaymentDetails } from "../../services/depositServices";
 
@@ -65,50 +64,39 @@ function QrMounting() {
   }, [token]);
 
   return (
-    <Layout>
-      <MobileContainer>
-        <div className="main_section">
-          <section
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              height: matches ? "100vh" : "auto",
-              minHeight: 750,
-            }}
-          >
-            <AppBar position="static" className="header_main">
-              <Toolbar className="header_sub">
-                <div style={{ textAlign: "left" }}>
-                  <IconButton
-                    size="large"
-                    edge="start"
-                    color="inherit"
-                    aria-label="menu"
-                    sx={{
-                      // mr: 2,
-                      border: "1px solid",
-                      borderRadius: "20%",
-                      padding: "5px",
-                      marginLeft: "0px",
-                    }}
-                    disabled
-                  >
-                    <ArrowBackIosNewIcon />
-                  </IconButton>
-                </div>
-                <div style={{ textAlign: "right" }}>
-                  <div className="header_title"></div>
-                </div>
-                <div className="logo">
-                  <NivapayLogo1 />
-                </div>
-              </Toolbar>
-            </AppBar>
-            <Loader />
-          </section>
-        </div>
-      </MobileContainer>
-    </Layout>
+    <div className="main_section">
+      <section className="sub-section">
+        <AppBar position="static" className="header_main">
+          <Toolbar className="header_sub">
+            <div style={{ textAlign: "left" }}>
+              <IconButton
+                size="large"
+                edge="start"
+                color="inherit"
+                aria-label="menu"
+                sx={{
+                  // mr: 2,
+                  border: "1px solid",
+                  borderRadius: "20%",
+                  padding: "5px",
+                  marginLeft: "0px",
+                }}
+                disabled
+              >
+                <ArrowBackIosNewIcon />
+              </IconButton>
+            </div>
+            <div style={{ textAlign: "right" }}>
+              <div className="header_title"></div>
+            </div>
+            <div className="logo">
+              <NivapayLogo1 />
+            </div>
+          </Toolbar>
+        </AppBar>
+        <Loader />
+      </section>
+    </div>
   );
 }
 

@@ -12,7 +12,6 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import NivapayLogo1 from "../../assets/images/NIcons/NivapayLogo1";
 import { useGlobalContext } from "../../context/context";
-import { Layout, MobileContainer } from "../../styles/layout";
 import Footer from "../Footer/Footer";
 import "../QrScan/QrScanPage.css";
 import detectEthereumProvider from "@metamask/detect-provider";
@@ -262,7 +261,7 @@ function MetaMaskConnectedComponent(props: any) {
             .send({
               from: address,
               // gasPrice: gasPriceWei,
-              gasLimit:paymentDetails?.gasLimit_evm,
+              gasLimit: paymentDetails?.gasLimit_evm,
               maxPriorityFeePerGas: web3.utils.toWei("0", "gwei"),
               maxFeePerGas: web3.utils.toHex(
                 web3.utils.toWei(
@@ -292,7 +291,7 @@ function MetaMaskConnectedComponent(props: any) {
           to: paymentDetails?.wallet_address,
           from: address,
           // gasPrice: gasPriceWei,
-          gasLimit:paymentDetails?.gasLimit_evm,
+          gasLimit: paymentDetails?.gasLimit_evm,
           maxPriorityFeePerGas: web3.utils.toWei("0", "gwei"),
           maxFeePerGas: web3.utils.toHex(
             web3.utils.toWei(
@@ -417,282 +416,271 @@ function MetaMaskConnectedComponent(props: any) {
   }, [openCloseDialog]);
 
   return (
-    <Layout>
-      <MobileContainer>
-        <div className="main_section" ref={containerRef}>
-          <section
-            style={{
-              display: "flex",
-              flexDirection: "column",
-            }}
-          >
-            <AppBar position="static" className="header_main">
-              <Toolbar className="header_sub">
-                <div style={{ textAlign: "left" }}>
-                  <IconButton
-                    size="large"
-                    edge="start"
-                    color="inherit"
-                    aria-label="menu"
-                    sx={{
-                      border: "1px solid",
-                      borderRadius: "20%",
-                      padding: "5px",
-                      marginLeft: "0px",
-                    }}
-                    onClick={() =>
-                      navigate("/metamask_scan", { replace: true })
-                    }
-                  >
-                    <ArrowBackIosNewIcon />
-                  </IconButton>
-                </div>
-                <div style={{ textAlign: "right" }}>
-                  <div className="header_title">
-                    {orders.merchant_brand_name && orders.merchant_brand_name}
+    <div className="main_section" ref={containerRef}>
+      <section
+       className="sub-section"
+      >
+        <AppBar position="static" className="header_main">
+          <Toolbar className="header_sub">
+            <div style={{ textAlign: "left" }}>
+              <IconButton
+                size="large"
+                edge="start"
+                color="inherit"
+                aria-label="menu"
+                sx={{
+                  border: "1px solid",
+                  borderRadius: "20%",
+                  padding: "5px",
+                  marginLeft: "0px",
+                }}
+                onClick={() => navigate("/metamask_scan", { replace: true })}
+              >
+                <ArrowBackIosNewIcon />
+              </IconButton>
+            </div>
+            <div style={{ textAlign: "right" }}>
+              <div className="header_title">
+                {orders.merchant_brand_name && orders.merchant_brand_name}
+              </div>
+            </div>
+            <div
+              className="logo"
+              onClick={() => window.open("https://nivapay.com/")}
+            >
+              <NivapayLogo1 />
+            </div>
+          </Toolbar>
+        </AppBar>
+        <div className="nivapay_section_container">
+          <section className="nivapay_section">
+            <p className="timer">
+              Time left:{" "}
+              <span style={{ fontWeight: 600 }}>{props.fixedTime} mins</span>
+            </p>
+            <div className="choosecurrency" style={{ fontSize: 20 }}>
+              Complete Payment
+            </div>
+            <div className="m-qr-card">
+              <div className="qrMetamaskConnected">
+                <Container>
+                  <div style={{ marginTop: "10px" }}>
+                    <span
+                      style={{
+                        fontSize: "24px",
+                        color: "#000000",
+                        fontWeight: 600,
+                      }}
+                    >
+                      {paymentDetails?.asset_amount &&
+                        paymentDetails?.asset_amount}{" "}
+                    </span>
+                    <span
+                      style={{
+                        fontSize: "12px",
+                        color: "#000000",
+                        fontWeight: 600,
+                        marginLeft: "4px",
+                      }}
+                    >
+                      {paymentDetails?.asset_symbol &&
+                        (paymentDetails?.asset_symbol).toUpperCase()}
+                    </span>
                   </div>
-                </div>
-                <div
-                  className="logo"
-                  onClick={() => window.open("https://nivapay.com/")}
-                >
-                  <NivapayLogo1 />
-                </div>
-              </Toolbar>
-            </AppBar>
-            <div className="nivapay_section_container">
-              <section className="nivapay_section">
-                <p className="timer">
-                  Time left:{" "}
-                  <span style={{ fontWeight: 600 }}>
-                    {props.fixedTime} mins
-                  </span>
-                </p>
-                <div className="choosecurrency" style={{ fontSize: 20 }}>
-                  Complete Payment
-                </div>
-                <div className="m-qr-card">
-                  <div className="qrMetamaskConnected">
-                    <Container>
-                      <div style={{ marginTop: "10px" }}>
-                        <span
-                          style={{
-                            fontSize: "24px",
-                            color: "#000000",
-                            fontWeight: 600,
-                          }}
-                        >
-                          {paymentDetails?.asset_amount &&
-                            paymentDetails?.asset_amount}{" "}
-                        </span>
-                        <span
-                          style={{
-                            fontSize: "12px",
-                            color: "#000000",
-                            fontWeight: 600,
-                            marginLeft: "4px",
-                          }}
-                        >
-                          {paymentDetails?.asset_symbol &&
-                            (paymentDetails?.asset_symbol).toUpperCase()}
-                        </span>
-                      </div>
-                      <div style={{ marginTop: "4px", color: "#808080" }}>
-                        <span style={{ fontSize: "12px" }}>+ Network fee</span>
-                      </div>
-
-                      <div
-                        style={{
-                          marginTop: "30px",
-                          justifyContent: "center",
-                        }}
-                      >
-                        <div style={{ width: "100%", height: 40 }}>
-                          {chaindid !== desiredChainId ? (
-                            <Typography
-                              style={{
-                                fontSize: "12px",
-                                textAlign: "center",
-                                color: "#FF0000",
-                                fontFamily: "Inter",
-                                marginBottom: "20px",
-                              }}
-                            >
-                              Switch the network in your wallet to{" "}
-                              {paymentDetails?.asset_network}
-                            </Typography>
-                          ) : (
-                            balance &&
-                            Number(paymentDetails?.asset_amount) >= balance && (
-                              <Typography
-                                style={{
-                                  fontSize: "12px",
-                                  textAlign: "center",
-                                  color: "#FF0000",
-                                  fontFamily: "Inter",
-                                  marginBottom: "20px",
-                                }}
-                              >
-                                Your balance is insufficient
-                              </Typography>
-                            )
-                          )}
-                        </div>
-                        <div
-                          style={{
-                            display: "flex",
-                            justifyContent: "space-between",
-                          }}
-                        >
-                          <div style={{ color: "#00000080", fontSize: 14 }}>
-                            MetaMask
-                          </div>
-                          <div
-                            style={{
-                              color: "#21146B",
-                              fontWeight: 600,
-                              fontSize: 14,
-                            }}
-                          >
-                            {/* { error ? "Connected" : "Disconnected } */}
-                            {address ? "Connected" : "Disconnected"}
-                          </div>
-                        </div>
-                        <hr />
-
-                        <div
-                          style={{
-                            display: "flex",
-                            justifyContent: "space-between",
-                            color: "#00000080",
-                            marginTop: "12px",
-                            fontSize: "12px",
-                          }}
-                        >
-                          <div>Account</div>
-                          <div
-                            style={{
-                              overflowWrap: "anywhere",
-                              paddingLeft: "37px",
-                            }}
-                          >
-                            {address &&
-                              `${address?.slice(0, 7)}...${address.slice(-4)}`}
-                          </div>
-                        </div>
-                        <div
-                          style={{
-                            display: "flex",
-                            justifyContent: "space-between",
-                            color: "#00000080",
-                            fontSize: "12px",
-                            marginTop: "12px",
-                          }}
-                        >
-                          <div>Network</div>
-                          <div>{getChainNameFromId(chaindid)}</div>
-                        </div>
-                        <div
-                          style={{
-                            display: "flex",
-                            flex: "start",
-                            justifyContent: "space-between",
-                            color: "#00000080",
-                            fontSize: "12px",
-                            marginTop: "12px",
-                          }}
-                        >
-                          <div>Balance</div>
-                          {chaindid === desiredChainId ? (
-                            <div>
-                              {balance ? (
-                                <>
-                                  {handlePrecision()} {symbol}
-                                </>
-                              ) : (
-                                <div style={{ width: 80 }}>
-                                  <Skeleton />
-                                </div>
-                              )}
-                            </div>
-                          ) : (
-                            "--"
-                          )}
-                        </div>
-                      </div>
-                      <div
-                        style={{
-                          marginTop: "30px",
-                          fontSize: "14px",
-                          color: "#2C1E66",
-                          fontWeight: 700,
-                          cursor: "pointer",
-                        }}
-                        onClick={() => {
-                          setAddress("");
-                          navigate("/metamask_scan", { replace: true });
-                        }}
-                      >
-                        Disconnect Wallet
-                      </div>
-
-                      <div style={{ marginTop: "35px" }}>
-                        <span style={{ fontSize: "12px" }}>
-                          Recommended network fee for fast confirmation:
-                          <br />
-                          <span style={{ color: "#000000", fontWeight: 700 }}>
-                            {paymentDetails?.gas_price_fast_ethereum_gwei} gwei
-                          </span>
-                        </span>
-                      </div>
-                    </Container>
+                  <div style={{ marginTop: "4px", color: "#808080" }}>
+                    <span style={{ fontSize: "12px" }}>+ Network fee</span>
                   </div>
-                </div>
 
-                <div className="footer">
                   <div
                     style={{
-                      marginBottom: "35px",
-                      width: "100%",
-                      display: "flex",
-                      flexDirection: "column",
-                      alignItems: "center",
+                      marginTop: "30px",
+                      justifyContent: "center",
                     }}
                   >
-                    <Button
-                      className="continue"
-                      variant="contained"
-                      onClick={sendPayment}
-                      disabled={
-                        Number(paymentDetails?.asset_amount) >= balance ||
-                        isLoading ||
-                        chaindid !== desiredChainId
-                      }
+                    <div style={{ width: "100%", height: 40 }}>
+                      {chaindid !== desiredChainId ? (
+                        <Typography
+                          style={{
+                            fontSize: "12px",
+                            textAlign: "center",
+                            color: "#FF0000",
+                            fontFamily: "Inter",
+                            marginBottom: "20px",
+                          }}
+                        >
+                          Switch the network in your wallet to{" "}
+                          {paymentDetails?.asset_network}
+                        </Typography>
+                      ) : (
+                        balance &&
+                        Number(paymentDetails?.asset_amount) >= balance && (
+                          <Typography
+                            style={{
+                              fontSize: "12px",
+                              textAlign: "center",
+                              color: "#FF0000",
+                              fontFamily: "Inter",
+                              marginBottom: "20px",
+                            }}
+                          >
+                            Your balance is insufficient
+                          </Typography>
+                        )
+                      )}
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                      }}
                     >
-                      {isLoading ? "Processing..." : "Send Payment"}
-                    </Button>
-                    <Button
-                      className="cancelbtn"
-                      fullWidth
-                      onClick={() => setOpenCloseDialog(true)}
+                      <div style={{ color: "#00000080", fontSize: 14 }}>
+                        MetaMask
+                      </div>
+                      <div
+                        style={{
+                          color: "#21146B",
+                          fontWeight: 600,
+                          fontSize: 14,
+                        }}
+                      >
+                        {/* { error ? "Connected" : "Disconnected } */}
+                        {address ? "Connected" : "Disconnected"}
+                      </div>
+                    </div>
+                    <hr />
+
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        color: "#00000080",
+                        marginTop: "12px",
+                        fontSize: "12px",
+                      }}
                     >
-                      Cancel
-                    </Button>
+                      <div>Account</div>
+                      <div
+                        style={{
+                          overflowWrap: "anywhere",
+                          paddingLeft: "37px",
+                        }}
+                      >
+                        {address &&
+                          `${address?.slice(0, 7)}...${address.slice(-4)}`}
+                      </div>
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        color: "#00000080",
+                        fontSize: "12px",
+                        marginTop: "12px",
+                      }}
+                    >
+                      <div>Network</div>
+                      <div>{getChainNameFromId(chaindid)}</div>
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        flex: "start",
+                        justifyContent: "space-between",
+                        color: "#00000080",
+                        fontSize: "12px",
+                        marginTop: "12px",
+                      }}
+                    >
+                      <div>Balance</div>
+                      {chaindid === desiredChainId ? (
+                        <div>
+                          {balance ? (
+                            <>
+                              {handlePrecision()} {symbol}
+                            </>
+                          ) : (
+                            <div style={{ width: 80 }}>
+                              <Skeleton />
+                            </div>
+                          )}
+                        </div>
+                      ) : (
+                        "--"
+                      )}
+                    </div>
                   </div>
-                  <Footer />
-                </div>
-              </section>
+                  <div
+                    style={{
+                      marginTop: "30px",
+                      fontSize: "14px",
+                      color: "#2C1E66",
+                      fontWeight: 700,
+                      cursor: "pointer",
+                    }}
+                    onClick={() => {
+                      setAddress("");
+                      navigate("/metamask_scan", { replace: true });
+                    }}
+                  >
+                    Disconnect Wallet
+                  </div>
+
+                  <div style={{ marginTop: "35px" }}>
+                    <span style={{ fontSize: "12px" }}>
+                      Recommended network fee for fast confirmation:
+                      <br />
+                      <span style={{ color: "#000000", fontWeight: 700 }}>
+                        {paymentDetails?.gas_price_fast_ethereum_gwei} gwei
+                      </span>
+                    </span>
+                  </div>
+                </Container>
+              </div>
+            </div>
+
+            <div className="footer">
+              <div
+                style={{
+                  marginBottom: "35px",
+                  width: "100%",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                }}
+              >
+                <Button
+                  className="continue"
+                  variant="contained"
+                  onClick={sendPayment}
+                  disabled={
+                    Number(paymentDetails?.asset_amount) >= balance ||
+                    isLoading ||
+                    chaindid !== desiredChainId
+                  }
+                >
+                  {isLoading ? "Processing..." : "Send Payment"}
+                </Button>
+                <Button
+                  className="cancelbtn"
+                  fullWidth
+                  onClick={() => setOpenCloseDialog(true)}
+                >
+                  Cancel
+                </Button>
+              </div>
+              <Footer />
             </div>
           </section>
-          <CancelPayment
-            open={openCloseDialog}
-            setOpen={setOpenCloseDialog}
-            left_time={props?.fixedTime}
-            containerRef={containerRef}
-          />
         </div>
-      </MobileContainer>
-    </Layout>
+      </section>
+      <CancelPayment
+        open={openCloseDialog}
+        setOpen={setOpenCloseDialog}
+        left_time={props?.fixedTime}
+        containerRef={containerRef}
+      />
+    </div>
   );
 }
 

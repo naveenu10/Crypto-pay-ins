@@ -4,7 +4,6 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import NivapayLogo1 from "../../assets/images/NIcons/NivapayLogo1";
 import { useGlobalContext } from "../../context/context";
-import { Layout, MobileContainer } from "../../styles/layout";
 import Footer from "../Footer/Footer";
 import StandardImageList from "../ImageList/ImageList";
 import CancelPayment from "../../dialogs/CancelPayment";
@@ -67,115 +66,102 @@ function QuickPay(props: any) {
   }, [openCloseDialog]);
 
   return (
-    <Layout>
-      <MobileContainer>
-        <div className="main_section" ref={containerRef}>
-          <section
-            style={{
-              display: "flex",
-              flexDirection: "column",
-            }}
-          >
-            <AppBar position="static" className="header_main">
-              <Toolbar className="header_sub">
-                <div style={{ textAlign: "left" }}>
-                  <IconButton
-                    size="large"
-                    edge="start"
-                    color="inherit"
-                    aria-label="menu"
-                    sx={{
-                      border: "1px solid",
-                      borderRadius: "20%",
-                      padding: "5px",
-                      marginLeft: "0px",
-                    }}
-                    onClick={() =>
-                      navigate(
-                        `/deposit/order?order_id=${orders?.order_id}&hash=${hash}`,
-                        { replace: true }
-                      )
-                    }
-                  >
-                    <ArrowBackIosNewIcon />
-                  </IconButton>
-                </div>
-                <div style={{ textAlign: "right" }}>
-                  <div className="header_title">
-                    {orders?.merchant_brand_name && orders?.merchant_brand_name}
-                  </div>
-                </div>
-                <div className="logo">
-                  <NivapayLogo1 />
-                </div>
-              </Toolbar>
-            </AppBar>
-            {isLoading ? (
-              <Loader />
-            ) : (
-              <div className="nivapay_section_container">
-                <section className="nivapay_section">
-                  <p className="timer">
-                    Time left:{" "}
-                    <span style={{ fontWeight: 600 }}>
-                      {props.fixedTime} mins
-                    </span>
-                  </p>{" "}
-                  <div
-                    style={{ boxSizing: "border-box", position: "relative" }}
-                  >
-                    <div className="choosecurrency">
-                      Select Currency to Pay With
-                    </div>
-                    <PerfectScrollbar>
-                      <div>
-                        <StandardImageList />
-                      </div>
-                    </PerfectScrollbar>
-                  </div>
-                  <div className="footer">
-                    <div
-                      className="footer-margin"
-                      style={{
-                        // marginBottom: "15px",
-                        width: "100%",
-                        display: "flex",
-                        flexDirection: "column",
-                        alignItems: "center",
-                      }}
-                    >
-                      <Button
-                        variant="contained"
-                        className="continue"
-                        fullWidth
-                        onClick={onContinue}
-                        disabled={!coinName}
-                      >
-                        Continue
-                      </Button>
-                      <Button
-                        fullWidth
-                        className="cancelbtn"
-                        onClick={() => setOpenCloseDialog(true)}
-                      >
-                        Cancel
-                      </Button>
-                    </div>
-                    <Footer />
-                  </div>
-                </section>
+    <div className="main_section" ref={containerRef}>
+      <section className="sub-section">
+        <AppBar position="static" className="header_main">
+          <Toolbar className="header_sub">
+            <div style={{ textAlign: "left" }}>
+              <IconButton
+                size="large"
+                edge="start"
+                color="inherit"
+                aria-label="menu"
+                sx={{
+                  border: "1px solid",
+                  borderRadius: "20%",
+                  padding: "5px",
+                  marginLeft: "0px",
+                }}
+                onClick={() =>
+                  navigate(
+                    `/deposit/order?order_id=${orders?.order_id}&hash=${hash}`,
+                    { replace: true }
+                  )
+                }
+              >
+                <ArrowBackIosNewIcon />
+              </IconButton>
+            </div>
+            <div style={{ textAlign: "right" }}>
+              <div className="header_title">
+                {orders?.merchant_brand_name && orders?.merchant_brand_name}
               </div>
-            )}
-          </section>
-          <CancelPayment
-            open={openCloseDialog}
-            setOpen={setOpenCloseDialog}
-            left_time={props?.fixedTime}
-            containerRef={containerRef}
-          />
-        </div>
-      </MobileContainer>
-    </Layout>
+            </div>
+            <div className="logo">
+              <NivapayLogo1 />
+            </div>
+          </Toolbar>
+        </AppBar>
+        {isLoading ? (
+          <Loader />
+        ) : (
+          <div className="nivapay_section_container">
+            <section className="nivapay_section">
+              <p className="timer">
+                Time left:{" "}
+                <span style={{ fontWeight: 600 }}>{props.fixedTime} mins</span>
+              </p>{" "}
+              <div style={{ boxSizing: "border-box", position: "relative" }}>
+                <div className="choosecurrency">
+                  Select Currency to Pay With
+                </div>
+                <PerfectScrollbar>
+                  <div>
+                    <StandardImageList />
+                  </div>
+                </PerfectScrollbar>
+              </div>
+              <div className="footer">
+                <div
+                  className="footer-margin"
+                  style={{
+                    // marginBottom: "15px",
+                    width: "100%",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                  }}
+                >
+                  <Button
+                    variant="contained"
+                    className="continue"
+                    fullWidth
+                    onClick={onContinue}
+                    disabled={!coinName}
+                  >
+                    Continue
+                  </Button>
+                  <Button
+                    fullWidth
+                    className="cancelbtn"
+                    onClick={() => setOpenCloseDialog(true)}
+                  >
+                    Cancel
+                  </Button>
+                </div>
+                <Footer />
+              </div>
+            </section>
+          </div>
+        )}
+      </section>
+      <CancelPayment
+        open={openCloseDialog}
+        setOpen={setOpenCloseDialog}
+        left_time={props?.fixedTime}
+        containerRef={containerRef}
+      />
+    </div>
   );
 }
 
