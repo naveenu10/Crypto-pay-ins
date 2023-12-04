@@ -22,18 +22,18 @@ function QuickPay(props: any) {
     });
   };
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-    if (!orders) {
-      navigate("/error", { replace: true });
-    }
-  }, []);
+  // useEffect(() => {
+  //   window.scrollTo(0, 0);
+  //   if (!orders) {
+  //     navigate("/error", { replace: true });
+  //   }
+  // }, []);
 
-  useEffect(() => {
-    if (props.fixedTime === "00:00") {
-      navigate("/timeout", { replace: true });
-    }
-  }, [props.fixedTime]);
+  // useEffect(() => {
+  //   if (props.fixedTime === "00:00") {
+  //     navigate("/timeout", { replace: true });
+  //   }
+  // }, [props.fixedTime]);
 
   useEffect(() => {
     if (openCloseDialog) {

@@ -4,7 +4,6 @@ import { ThemeProvider } from "@mui/material/styles";
 
 import Detecting from "./pages/Detecting/Detecting";
 import Failure from "./pages/Failure/Failure";
-import QrCopy from "./pages/QrScan/QrCopy";
 import QuickPay from "./pages/QuickPay/QuickPay";
 import Success from "./pages/Success/Success";
 import Timeout from "./pages/Timeout/Timeout";
@@ -13,7 +12,7 @@ import DepositPage from "./pages/DepositPage/DepositPage";
 import MetaMaskPage from "./pages/metaMask/MetaMaskPage";
 import Error from "./pages/Error/Error";
 import theme from "./theme/theme";
-import QrScanPage from "./pages/QrScan/QrScanPage";
+import QrScanPage from "./pages/QrScan";
 import WelcomePage from "./pages/Welcome/WelcomePage";
 import MetaMaskConnectedComponent from "./pages/metaMask/MetaMaskConnectedComponent";
 import QrMounting from "./pages/QrScan/QrMounting";
@@ -49,8 +48,7 @@ function App() {
     { path: "/timeout", element: <Timeout /> },
     { path: "/wallet", element: <Wallet /> },
     { path: "/QrMounting", element: <QrMounting /> },
-    { path: "/QrScan", element: <QrScanPage /> },
-    { path: "/QrCopy", element: <QrCopy /> },
+    { path: "/qr-code", element: <QrScanPage /> },
     { path: "/metamask_scan", element: <MetaMaskPage /> },
     { path: "/metamask_wallet", element: <MetaMaskConnectedComponent /> },
     { path: "/error", element: <Error /> },

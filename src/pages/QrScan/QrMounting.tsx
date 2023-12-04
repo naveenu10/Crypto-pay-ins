@@ -40,7 +40,7 @@ function QrMounting() {
         type: "GET_QR_DATA",
         payload: res?.data,
       });
-      navigate("/QrScan", { replace: true });
+      navigate("/qr-code", { replace: true });
     } else {
       navigate("/error", { replace: true });
     }
@@ -52,11 +52,11 @@ function QrMounting() {
     }
   }, []);
 
-  // useEffect(() => {
-  //   if (!token) {
-  //     navigate("/error", { replace: true });
-  //   }
-  // }, [token]);
+  useEffect(() => {
+    if (!token) {
+      navigate("/error", { replace: true });
+    }
+  }, [token]);
 
   return (
     <div className="main_section">

@@ -1,6 +1,6 @@
 import QRCode from "qrcode.react";
 import React from "react";
-import { useGlobalContext } from "../../context/context";
+import { useGlobalContext } from "../../../context/context";
 import { Skeleton } from "@mui/material";
 
 const DummyQRCode: React.FC = () => {

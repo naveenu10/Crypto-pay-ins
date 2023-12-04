@@ -131,8 +131,8 @@ body {
 .sub-section {
   display: flex;
   flex-direction: column;
-  min-height: 770px;
-  max-height: 857px;
+  min-height: 857px;
+  max-height: 900px;
   position: relative;
   height: 100vh;
 }

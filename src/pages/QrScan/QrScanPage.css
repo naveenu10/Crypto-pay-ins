@@ -53,8 +53,7 @@
   box-shadow: none;
   padding: 10px 16px;
   border-radius: 8px !important;
-    margin-top: 10px !important;
-
+  margin-top: 10px !important;
 }
 
 .cancelbtn {
@@ -74,7 +73,6 @@
   width: 62px;
   border-radius: 8px !important;
   margin-top: 10px !important;
-
 }
 .cancelbtn:hover {
   max-width: 325px !important;
@@ -134,20 +132,6 @@
   font-style: normal;
   font-weight: 500;
   padding: 10px 8px 0px 10px;
-}
-
-.qrCodeDiv {
-  /* margin-left: 1% !important; */
-  width: 100%;
-  height: 388px;
-  /* border: 1px solid white; */
-  display: flex;
-  justify-content: center;
-  text-align: center;
-  margin-top: 4px;
-  background: #ffffff;
-  box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.2);
-  border-radius: 24px;
 }
 
 .qrCodeDivMetamask {
@@ -243,29 +227,52 @@
   height: 0.9em;
   line-height: 1em;
   margin: 0;
-  color: #ffffff;
+  color: #ffffff !important;
   background-color: blue;
 }
 
-.qr-scan-div{
-  margin:8px
+.qr-scan-div {
+  margin: 8px;
 }
 
-.qr-copy-div{
-  margin-top: 41px;
-  font-size: 12px;
-  font-weight: 400;
-}
-
-.m-qr-div{
+.m-qr-div {
   padding: 10px;
   display: flex;
   height: auto;
-  justify-content: center
+  justify-content: center;
 }
 
-.m-qr-card{
+.m-qr-card {
   margin-top: 30px;
+}
+
+.qrCodeDiv {
+  width: 100%;
+  height: 365px;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  margin-top: 4px;
+  background: #ffffff;
+  box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.2);
+  border-radius: 24px;
+  position: relative;
+}
+
+.qr-copy-div {
+  /* margin-top: 24px; */
+  font-size: 12px;
+  font-weight: 400;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: 1rem;
+  margin-left: 2rem;
+  margin-right: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 @media screen and (max-width: 1600px) {
@@ -277,10 +284,8 @@
     margin-bottom: 15px;
   }
   .qrCodeDiv {
-    /* margin-left: 1% !important; */
     width: 100%;
     height: 365px;
-    /* border: 1px solid white; */
     display: flex;
     justify-content: center;
     text-align: center;
@@ -288,16 +293,11 @@
     background: #ffffff;
     box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.2);
     border-radius: 24px;
+    position: relative;
   }
 
-  .qr-scan-div{
-    margin:0px
-  }
-
-  .qr-copy-div{
-    margin-top: 24px;
-    font-size: 12px;
-    font-weight: 400;
+  .qr-scan-div {
+    margin: 0px;
   }
 
   .qrCodeDivMetamask {
@@ -313,15 +313,106 @@
     margin-bottom: 15px;
   }
 
-  .m-qr-div{
+  .m-qr-div {
     padding: 0px;
     display: flex;
     height: auto;
-    justify-content: center
+    justify-content: center;
   }
 
-  .m-qr-card{
+  .m-qr-card {
     margin-top: 5px;
   }
-  
+}
+
+.qrAmount {
+  font-size: 24px;
+  font-weight: 600;
+  margin-top: 16px;
+}
+
+.qrSymbol {
+  font-size: 12px;
+  margin-left: 2px;
+  font-weight: 600;
+}
+
+.networkFee {
+  margin-top: 4px;
+  color: blue;
+  /* text-decoration: underline; */
+}
+
+.networkFee span {
+  font-size: 12px;
+  color: #1856e7;
+  cursor: pointer;
+}
+
+.qrText {
+  margin-top: 12px;
+  font-size: 12px;
+  font-weight: 400;
+}
+
+.qrCopyDiv {
+  font-size: 12px;
+  font-weight: 400;
+}
+.qr-input-div {
+  margin-top: 38px;
+}
+.qr-input-title {
+  font-size: 12px;
+  font-weight: 400;
+  display: flex;
+  margin-left: 12px;
+  color: #21146b !important;
+  margin-bottom: 5px;
+}
+
+.qr-copy-button {
+  padding: 9px !important;
+  margin-right: -14px !important;
+  min-width: 0px !important;
+  color: #808080 !important;
+  box-sizing: border-box !important;
+  background-color: #d6d6d6 !important;
+  cursor: pointer !important;
+  border-radius: 0px !important;
+}
+
+.bottom-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.network-fee-icon {
+  width: 12px;
+  height: 12px;
+  margin-left: 3px;
+  vertical-align: middle;
+}
+
+.bottomLine {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.bottomLineContent {
+  position: relative;
+}
+
+.bottomLineContent::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  bottom: -3px; /* Adjust this value to set the line position */
+  left: 0;
+  border-bottom: 2px solid blue; /* Define the line properties */
+  /* Add other styles for the line here */
 }
