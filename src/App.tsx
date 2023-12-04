@@ -54,7 +54,6 @@ function App() {
     { path: "/metamask_scan", element: <MetaMaskPage /> },
     { path: "/metamask_wallet", element: <MetaMaskConnectedComponent /> },
     { path: "/error", element: <Error /> },
-    // Add formattedTime prop to all elements
   ].map((route) => ({
     ...route,
     element: React.cloneElement(route.element, { fixedTime: formattedTime }),

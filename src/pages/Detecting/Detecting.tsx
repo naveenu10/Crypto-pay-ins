@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import NivapayLogo1 from "../../assets/images/NIcons/NivapayLogo1";
-import Footer from "../Footer/Footer";
+import Footer from "../../components/Footer/Footer";
 import { useGlobalContext } from "../../context/context";
 import "./Detecting.css";
 import Loader from "../../utils/Loader";

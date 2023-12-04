@@ -19,6 +19,7 @@ function Header(props:any) {
             padding: "5px",
             marginLeft: "0px",
           }}
+          disabled={isDisabled}
           onClick={handleClick && handleClick}
         >
           <ArrowBackIosNewIcon />

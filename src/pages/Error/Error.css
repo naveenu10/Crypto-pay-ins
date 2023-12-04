@@ -1,0 +1,33 @@
+.error-section {
+  height: 685px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.error-sub-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.error-title {
+  margin-top: 10px;
+  font-family: Inter;
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 29px;
+  letter-spacing: 0px;
+  text-align: center;
+}
+
+.error-subtitle {
+  margin-top: 10px;
+  font-family: Inter;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 17px;
+  letter-spacing: 0px;
+  text-align: center;
+  color: #00000080;
+}

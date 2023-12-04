@@ -11,7 +11,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { useGlobalContext } from "../../context/context";
 import NivapayLogo1 from "../../assets/images/NIcons/NivapayLogo1";
-import Footer from "../Footer/Footer";
+import Footer from "../../components/Footer/Footer";
 import "./Success.css";
 import copy from "copy-to-clipboard";
 import { useEffect, useState } from "react";

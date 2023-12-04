@@ -13,7 +13,7 @@ import Countdown, { zeroPad } from "react-countdown";
 import { useNavigate } from "react-router-dom";
 import NivapayLogo1 from "../../assets/images/NIcons/NivapayLogo1";
 import TimeoutLogo from "../../assets/images/NIcons/TimeoutLogo";
-import Footer from "../Footer/Footer";
+import Footer from "../../components/Footer/Footer";
 import { useGlobalContext } from "../../context/context";
 import formatTitleCase from "../../utils/formatTitleCase";
 import { sendOrderEvent } from "../../services/depositServices";

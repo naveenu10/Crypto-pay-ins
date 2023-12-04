@@ -107,14 +107,18 @@ body {
 }
 
 .crypto-list-container {
-  min-height: 490px;
-  max-height: 490px;
+  min-height: 410px;
+  max-height: 410px;
   padding-right: 10px;
   padding-left: 10px;
 }
 
 .footer-margin {
   margin-bottom: 35px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .icon-button {
@@ -135,13 +139,26 @@ body {
 
 @media screen and (max-width: 1600px) {
   .crypto-list-container {
-    min-height: 410px;
+    position: relative;
+    min-height: 290px;
     max-height: 410px;
+    height: 100%;
     padding-right: 10px;
     padding-left: 10px;
   }
   .footer-margin {
     margin-bottom: 10px !important;
+  }
+}
+
+@media screen and (max-width: 600px), screen and (max-height: 830px) {
+  .crypto-list-container {
+    position: relative;
+    min-height: 290px;
+    max-height: 350px;
+    height: 100%;
+    padding-right: 10px;
+    padding-left: 10px;
   }
 }
 
@@ -154,7 +171,7 @@ body {
   }
 }
 
-@media screen and (max-width: 370px) {
+@media screen and (max-width: 380px) {
   .nivapay_section {
     width: auto;
   }

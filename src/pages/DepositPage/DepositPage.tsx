@@ -6,18 +6,42 @@ import Loader from "../../utils/Loader";
 import Header from "../../components/Header";
 import TopSection from "./Components/TopSection";
 import BottomSection from "./Components/BottomSection";
+import { useNavigate } from "react-router-dom";
 
 function DepositPage(props: any) {
   const { fixedTime } = props;
   const context = useGlobalContext();
+  const navigate = useNavigate();
   const containerRef = React.useRef(null);
   const [openCloseDialog, setOpenCloseDialog] = useState(false);
   const orderDetails = context.state.orderDetails;
   const email = context.state.email;
   const [userEmail, setUserEmail] = useState(email);
-  const [isLoading, setLoading] = useState(false);
+  const [isLoading, setLoading] = useState(true);
 
   const handlemodal = () => setOpenCloseDialog(!openCloseDialog);
+
+  useEffect(() => {
+    if (orderDetails?.user_email_id) {
+      setUserEmail(orderDetails?.user_email_id);
+    }
+    if (orderDetails) {
+      setLoading(false);
+    }
+  }, [orderDetails]);
+
+  useEffect(() => {
+    if (props.fixedTime === "00:00") {
+      navigate("/timeout", { replace: true });
+    }
+  }, [props.fixedTime]);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    if (!context.state.token) {
+      navigate("/error", { replace: true });
+    }
+  }, []);
 
   useEffect(() => {
     if (openCloseDialog) {
@@ -42,7 +66,7 @@ function DepositPage(props: any) {
           <Loader />
         ) : (
           <div className="nivapay_section_container">
-            <TopSection orderDetails={orderDetails} fixedTime={fixedTime}/>
+            <TopSection orderDetails={orderDetails} fixedTime={fixedTime} />
             <BottomSection
               userEmail={userEmail}
               setUserEmail={setUserEmail}

@@ -12,7 +12,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import NivapayLogo1 from "../../assets/images/NIcons/NivapayLogo1";
 import { useGlobalContext } from "../../context/context";
-import Footer from "../Footer/Footer";
+import Footer from "../../components/Footer/Footer";
 import "../QrScan/QrScanPage.css";
 import detectEthereumProvider from "@metamask/detect-provider";
 import Web3 from "web3";

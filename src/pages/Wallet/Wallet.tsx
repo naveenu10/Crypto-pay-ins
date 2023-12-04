@@ -13,7 +13,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import NivapayLogo1 from "../../assets/images/NIcons/NivapayLogo1";
 import { useGlobalContext } from "../../context/context";
-import Footer from "../Footer/Footer";
+import Footer from "../../components/Footer/Footer";
 import "./Wallet.css";
 import { getMetamaskPaymentDetails } from "../../services/depositServices";
 import CancelPayment from "../../dialogs/CancelPayment";

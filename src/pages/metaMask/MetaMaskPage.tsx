@@ -13,7 +13,7 @@ import NivapayLogo1 from "../../assets/images/NIcons/NivapayLogo1";
 import detectEthereumProvider from "@metamask/detect-provider";
 import { useGlobalContext } from "../../context/context";
 import CancelPayment from "../../dialogs/CancelPayment";
-import Footer from "../Footer/Footer";
+import Footer from "../../components/Footer/Footer";
 import "../QrScan/QrScanPage.css";
 import MetamaskError from "../../dialogs/MetamaskError";
 import { sendOrderEvent } from "../../services/depositServices";

@@ -17,16 +17,12 @@ function WelcomePage() {
   const order_id: string = searchParams.get("order_id")!;
   const hash: string = searchParams.get("hash")!;
   const context = useGlobalContext();
-  const [token, setToken] = useState("");
-
   let interval: any = "";
 
   const getValidateOrder = async () => {
     const res: any = await validateOrder(order_id, hash);
     if (res?.status === 200) {
       fetchOrderDetails(res?.data?.token);
-      // fetchCryptoList(res?.data?.token);
-      // interval = setInterval(() => fetchCryptoList(res?.data?.token), 1200000);
       context.dispatch({
         type: "TOKEN",
         payload: res?.data?.token,
@@ -87,7 +83,7 @@ function WelcomePage() {
   };
 
   useEffect(() => {
-    // getValidateOrder();
+    getValidateOrder();
     return () => clearInterval(interval);
   }, []);
 

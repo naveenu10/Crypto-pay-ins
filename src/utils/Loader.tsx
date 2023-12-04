@@ -8,7 +8,7 @@ export default function Loader() {
         display: "flex",
         alignItems: "center",
         maxWidth: "428px",
-        height: "780px",
+        height: "680px",
         justifyContent: "center",
         // top: 0,
         // left: 0,

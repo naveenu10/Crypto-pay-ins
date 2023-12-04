@@ -6,7 +6,7 @@ import NivapayLogo1 from "../../assets/images/NIcons/NivapayLogo1";
 import { useGlobalContext } from "../../context/context";
 import CancelPayment from "../../dialogs/CancelPayment";
 import NetWorkFee from "../../dialogs/NetWorkfee";
-import Footer from "../Footer/Footer";
+import Footer from "../../components/Footer/Footer";
 import QrCode from "./QrCode";
 import "./QrScanPage.css";
 import ScanCopyTab from "./ScanCopyTab";
