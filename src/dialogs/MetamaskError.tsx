@@ -2,8 +2,7 @@ import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import { makeStyles } from "@mui/styles";
-
-const errorIcon = require("../assets/images/metamask-icon.png");
+import errorIcon from "../assets/images/metamask-icon.png";
 
 const useStyles = makeStyles({
   root: {
@@ -52,7 +51,7 @@ export default function MetamaskError(props: { error: any; setError: any }) {
         <DialogContent sx={{ padding: "25px 15px" }}>
           <img src={errorIcon} alt="failure_icon" width={80} height={80} />
           <DialogContentText id="alert-dialog-description">
-          <h3>An error occured</h3>
+            <h3>An error occured</h3>
             MetaMask not detected ! <br />
             Please install the MetaMask.
           </DialogContentText>

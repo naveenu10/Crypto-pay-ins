@@ -1,8 +1,7 @@
-import React from "react";
 import { Container } from "@mui/material";
 import formatTitleCase from "../../../utils/formatTitleCase";
 import DummyQRCode from "./QrCode";
-const info_icon = require("../../../assets/icons/info_icon.png");
+import info_icon from "../../../assets/icons/info_icon.png";
 
 function ScanCard(props: any) {
   const { qrData, setOpenNetworkDialog } = props;

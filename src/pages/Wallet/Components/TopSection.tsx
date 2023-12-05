@@ -2,24 +2,23 @@ import { useNavigate } from "react-router-dom";
 import Timer from "../../../components/Timer";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { useGlobalContext } from "../../../context/context";
+import metamaskIcon from "../../../assets/icons/metmaskIcon.png";
+import otherWalletIcon from "../../../assets/icons/otherWalletIcon.png";
 
-const metamaskIcon = require("../../../assets/icons/metmaskIcon.png");
-const otherWalletIcon = require("../../../assets/icons/otherWalletIcon.png");
-
-function TopSection({ fixedTime }: any) {
+function TopSection({ fixedTime }: { fixedTime: number }) {
   const navigate = useNavigate();
   const context = useGlobalContext();
 
-  const handleMetamask = () => {
-    navigate("/metamask_scan", { replace: true });
-  };
-
-  const handleOtherWallets = () => {
-    context.dispatch({
-      type: "UPDATE_PREVIOUS_PATH",
-      payload: "/wallet",
-    });
-    navigate("/QrMounting", { replace: true });
+  const handleWalletSelection = (walletType: string) => {
+    if (walletType === "metamask") {
+      navigate("/metamask_scan", { replace: true });
+    } else if (walletType === "other") {
+      context.dispatch({
+        type: "UPDATE_PREVIOUS_PATH",
+        payload: "/wallet",
+      });
+      navigate("/QrMounting", { replace: true });
+    }
   };
 
   return (
@@ -29,26 +28,18 @@ function TopSection({ fixedTime }: any) {
       <div className="wallet-title" style={{ marginBottom: "18%" }}>
         Select Wallet
       </div>
-      <div className="metaMaskDiv" onClick={handleMetamask}>
+      <div className="metaMaskDiv" onClick={() => handleWalletSelection("metamask")}>
         <span className="metamaskImage" style={{ flex: 1 }}>
-          <img
-            src={metamaskIcon}
-            alt="metamask logo"
-            className="wallet-card-icon"
-          />
+          <img src={metamaskIcon} alt="metamask logo" className="wallet-card-icon" />
         </span>
         <span className="wallet-card-title">MetaMask</span>
         <span>
           <ChevronRightIcon className="wallet-card-arrow" />
         </span>
       </div>
-      <div className="metaMaskDiv" onClick={handleOtherWallets}>
+      <div className="metaMaskDiv" onClick={() => handleWalletSelection("other")}>
         <span style={{ flex: 1 }}>
-          <img
-            src={otherWalletIcon}
-            alt="other wallet logo"
-            className="wallet-card-icon"
-          />
+          <img src={otherWalletIcon} alt="other wallet logo" className="wallet-card-icon" />
         </span>
         <span className="wallet-card-title">Other&nbsp;Wallets</span>
         <span>

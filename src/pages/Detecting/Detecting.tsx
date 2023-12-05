@@ -18,8 +18,7 @@ import {
   getTransactionDetails,
   getTransactionStatus,
 } from "../../services/depositServices";
-
-const timer_icon = require("../../assets/images/timer_icon.png");
+import timer_icon from "../../assets/images/timer_icon.png";
 
 function Detecting() {
   const navigate = useNavigate();

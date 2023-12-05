@@ -11,7 +11,7 @@ import {
 import { makeStyles } from "@mui/styles";
 import formatTitleCase from "../../../utils/formatTitleCase";
 import copy from "copy-to-clipboard";
-const info_icon = require("../../../assets/icons/info_icon.png");
+import info_icon from "../../../assets/icons/info_icon.png";
 
 const useStyles = makeStyles((theme) => ({
   tooltip: {

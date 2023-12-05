@@ -18,7 +18,7 @@ import { useEffect, useState } from "react";
 import formatTitleCase from "../../utils/formatTitleCase";
 import { getTransactionDetails } from "../../services/depositServices";
 import Loader from "../../utils/Loader";
-const success_icon = require("../../assets/images/Success.png");
+import success_icon from "../../assets/images/Success.png";
 
 function Detecting() {
   const navigate = useNavigate();

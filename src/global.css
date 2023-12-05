@@ -137,6 +137,17 @@ body {
   height: 100vh;
 }
 
+.footer-img-container {
+  width: 100%;
+  color: white;
+  font-size: 25px;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  padding: 10px auto;
+  margin-bottom: 20px;
+}
+
 @media screen and (max-width: 1600px) {
   .crypto-list-container {
     position: relative;

@@ -2,7 +2,7 @@ import Footer from "../../components/Footer/Footer";
 import { useEffect } from "react";
 import Header from "../../components/Header";
 import "./Error.css";
-const Signs = require("../../assets/images/Signs.png");
+import Signs from "../../assets/images/Signs.png";
 
 function Error() {
   useEffect(() => {
