@@ -1,123 +1,140 @@
 .input-wrap {
-    height: 5vh;
-    border: 1px solid rgba(0, 0, 0, 0.5);
-    border-radius: 8px;
-    width: 100%;
-    padding-left: 22px;
-    box-sizing: border-box;
-    margin-top: 8px;
-    outline: none;
-    color: #21146B;
-    font-family: 'Inter';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 19px;
-    letter-spacing: 0.06em;
+  height: 5vh;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  border-radius: 8px;
+  width: 100%;
+  padding-left: 22px;
+  box-sizing: border-box;
+  margin-top: 8px;
+  outline: none;
+  color: #21146b;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 19px;
+  letter-spacing: 0.06em;
 }
 
 .continue {
-    max-width: 325px !important;
-    background: #1371BC;
-    text-transform: capitalize !important;
-    font-family: 'Inter' !important;
-    font-style: normal !important;
-    font-weight: 700 !important;
-    font-size: 17px !important;
-    line-height: 28px !important;
-    display: flex;
-    align-items: center;
-    text-align: center;
-    color: #F5F5F5;
-    box-shadow: none;
-    padding: 10px 16px;
-    border-radius: 8px !important;
+  max-width: 325px !important;
+  background: #1371bc;
+  text-transform: capitalize !important;
+  font-family: "Inter" !important;
+  font-style: normal !important;
+  font-weight: 700 !important;
+  font-size: 17px !important;
+  line-height: 28px !important;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: #f5f5f5;
+  box-shadow: none;
+  padding: 10px 16px;
+  border-radius: 8px !important;
 }
 .continue:disabled {
-    max-width: 325px !important;
-    background-color: rgba(19, 113, 188, 0.5) !important;
-    text-transform: capitalize !important;
-    font-family: 'Inter' !important;
-    font-style: normal !important;
-    font-weight: 700 !important;
-    font-size: 17px !important;
-    line-height: 28px !important;
-    display: flex;
-    align-items: center;
-    text-align: center;
-    color: #F5F5F5;
-    box-shadow: none;
-    padding: 10px 16px;
-    border-radius: 8px !important;
+  max-width: 325px !important;
+  background-color: rgba(19, 113, 188, 0.5) !important;
+  text-transform: capitalize !important;
+  font-family: "Inter" !important;
+  font-style: normal !important;
+  font-weight: 700 !important;
+  font-size: 17px !important;
+  line-height: 28px !important;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: #f5f5f5;
+  box-shadow: none;
+  padding: 10px 16px;
+  border-radius: 8px !important;
 }
 
 .cancelbtn {
-    max-width: 325px !important;
-    font-family: 'Inter' !important;
-    font-style: normal !important;
-    font-weight: 700 !important;
-    font-size: 18px !important;
-    line-height: 28px !important;
-    display: flex !important;
-    align-items: center !important;
-    text-align: center !important;
-    color: #2C1E66 !important;
-    text-transform: capitalize !important;
-    padding: 1rem !important;
-    border-radius: 8px !important;
-    margin-top: 10px !important;
+  max-width: 325px !important;
+  font-family: "Inter" !important;
+  font-style: normal !important;
+  font-weight: 700 !important;
+  font-size: 18px !important;
+  line-height: 28px !important;
+  display: flex !important;
+  align-items: center !important;
+  text-align: center !important;
+  color: #2c1e66 !important;
+  text-transform: capitalize !important;
+  padding: 1rem !important;
+  border-radius: 8px !important;
+  margin-top: 10px !important;
 }
 .cancelbtn:hover {
-    max-width: 325px !important;
-    background: #fff !important;
-    font-family: "Inter" !important;
-    font-style: normal !important;
-    font-weight: 700 !important;
-    font-size: 18px !important;
-    line-height: 28px !important;
-    display: flex !important;
-    align-items: center !important;
-    text-align: center !important;
-    color: #2c1e66 !important;
-    text-transform: capitalize !important;
-    padding: 1rem !important;
-    border-radius: 8px !important;
-    margin-top: 10px !important;
-
-  }
-
+  max-width: 325px !important;
+  background: #fff !important;
+  font-family: "Inter" !important;
+  font-style: normal !important;
+  font-weight: 700 !important;
+  font-size: 18px !important;
+  line-height: 28px !important;
+  display: flex !important;
+  align-items: center !important;
+  text-align: center !important;
+  color: #2c1e66 !important;
+  text-transform: capitalize !important;
+  padding: 1rem !important;
+  border-radius: 8px !important;
+  margin-top: 10px !important;
+}
 
 .metaMaskDiv {
-    display: flex;
-    justify-content: space-evenly !important;
-    text-align: center !important;
-    align-items: center !important;
-    background: #FFFFFF;
-    box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.2);
-    border-radius: 24px;
-    width: 100% !important;
-    height: 104px;
-    margin-top: 20px;
+  display: flex;
+  justify-content: space-evenly !important;
+  text-align: center !important;
+  align-items: center !important;
+  background: #ffffff;
+  box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.2);
+  border-radius: 24px;
+  width: 100% !important;
+  height: 104px;
+  margin-top: 20px;
 }
 .metaMaskDiv:hover {
-   cursor: pointer;
+  cursor: pointer;
 }
 
-.metamaskImage{
-    width: 56px;
-    height: 56px;
+.metamaskImage {
+  width: 56px;
+  height: 56px;
 }
 
-.choosecurrency {
-    font-size: 20px !important;
-    color: #2C1E66;
-    text-align: center;
-    letter-spacing: 0.02em;
-    font-style: normal;
-    font-weight: 500;
-    padding: 10px 8px 15px 10px;
+.wallet-title {
+  font-size: 20px !important;
+  color: #2c1e66;
+  text-align: center;
+  letter-spacing: 0.02em;
+  font-style: normal;
+  font-weight: 500;
+  padding: 10px 8px 15px 10px;
 }
 
-/* .nivapay_ramp {
-     margin: 0 0rem !important;
-} */
+.wallet-card-title {
+  font-size: 20px;
+  color: #000000;
+  flex: 2;
+  text-align: left;
+}
+.wallet-card-arrow {
+  font-size: 40px;
+  flex: 1;
+  margin-right: 20px;
+}
+.wallet-card-icon {
+  width: 60px;
+}
+
+.wallet-btn-container {
+  margin-bottom: 35px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

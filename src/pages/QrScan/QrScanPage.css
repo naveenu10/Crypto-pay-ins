@@ -106,19 +106,6 @@
   background-color: "blue";
 }
 
-.metaMaskDiv {
-  display: flex;
-  justify-content: space-around;
-  text-align: center;
-  align-items: center;
-  background: #ffffff;
-  box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.2);
-  border-radius: 24px;
-  width: 360px;
-  height: 104px;
-  margin-top: 72px;
-}
-
 .metamaskImage {
   width: 56px;
   height: 56px;
