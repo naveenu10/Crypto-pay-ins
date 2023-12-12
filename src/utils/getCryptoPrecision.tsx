@@ -23,7 +23,6 @@ const cryptoPrecisions: CryptoPrecision[] = [
   { symbol: "PZP", network: "Binance Smart Chain Testnet", precision: 1 },
 ];
 
-// Function to get precision based on crypto symbol and network
 const getNumericPrecision = (
   symbol: string,
   network: string
@@ -33,16 +32,5 @@ const getNumericPrecision = (
   );
   return precisionEntry ? precisionEntry.precision : undefined;
 };
-
-// Example usage:
-const symbol = "ETH"; // Example crypto symbol
-const network = "mainnet"; // Example crypto network
-const precision = getNumericPrecision(symbol, network);
-
-if (precision !== undefined) {
-  console.log(`Numeric Precision for ${symbol} on ${network}: ${precision}`);
-} else {
-  console.log(`Precision not found for ${symbol} on ${network}`);
-}
 
 export default getNumericPrecision;

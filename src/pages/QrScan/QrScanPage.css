@@ -123,7 +123,7 @@
 
 .qrCodeDivMetamask {
   width: 100%;
-  height: 388px;
+  height: 360px;
   display: flex;
   justify-content: center;
   text-align: center;
@@ -132,10 +132,12 @@
   box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.2);
   border-radius: 24px;
   margin-bottom: 15px;
+  padding-top: 20px;
+  position: relative;
 }
 .qrMetamaskConnected {
   width: 100%;
-  height: 388px;
+  height: 360px;
   display: flex;
   justify-content: center;
   text-align: center;
@@ -143,6 +145,9 @@
   background: #ffffff;
   box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.2);
   border-radius: 24px;
+  padding-top: 20px;
+
+  position: relative;
 }
 
 .appBar {
@@ -227,10 +232,11 @@
   display: flex;
   height: auto;
   justify-content: center;
+  margin-top: 18px;
 }
 
 .m-qr-card {
-  margin-top: 30px;
+  margin-top: 20px;
 }
 
 .qrCodeDiv {
@@ -268,7 +274,7 @@
     flex-direction: column;
     width: 100%;
     align-items: center;
-    margin-bottom: 15px;
+    /* margin-bottom: 15px; */
   }
   .qrCodeDiv {
     width: 100%;
@@ -287,28 +293,11 @@
     margin: 0px;
   }
 
-  .qrCodeDivMetamask {
-    width: 100%;
-    height: 370px;
-    display: flex;
-    justify-content: center;
-    text-align: center;
-    margin-top: 8px;
-    background: #ffffff;
-    box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.2);
-    border-radius: 24px;
-    margin-bottom: 15px;
-  }
-
   .m-qr-div {
     padding: 0px;
     display: flex;
     height: auto;
     justify-content: center;
-  }
-
-  .m-qr-card {
-    margin-top: 5px;
   }
 }
 

@@ -1,0 +1,88 @@
+.fee-title {
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.fee-symbol {
+  font-size: 12px;
+  color: #000000;
+  font-weight: 600;
+  margin-left: 4px;
+}
+
+.network-fee-title {
+  font-size: 12px;
+  color: #808080;
+}
+
+.scan-discription {
+  margin-top: 12px;
+  font-size: 12px;
+}
+
+.fee-suggestion {
+  margin-top: 5px;
+  margin-bottom: 20px;
+  font-size: 12px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.m-account-div {
+  margin-top: 30px;
+  justify-content: center;
+}
+
+.m-account {
+  display: flex;
+  justify-content: space-between;
+}
+
+.m-title {
+  color: #00000080;
+  font-size: 14px;
+}
+.m-status {
+  color: #21146b;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.m-error-sub-div {
+  width: 100%;
+  height: 40px;
+}
+
+.m-error-message {
+  font-size: 12px !important;
+  text-align: center;
+  color: #ff0000;
+  font-family: Inter !important;
+  margin-bottom: 20px;
+}
+
+.m-account-row {
+  display: flex;
+  justify-content: space-between;
+  color: #00000080;
+  margin-top: 12px;
+  font-size: 12px;
+}
+
+.m-disconnect {
+  margin-top: 30px;
+  font-size: 14px;
+  color: #2c1e66;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.m-address {
+  overflow-wrap: anywhere;
+  padding-left: 37px;
+}
