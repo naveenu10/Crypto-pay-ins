@@ -2,11 +2,11 @@ import React, { useState, useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ThemeProvider } from "@mui/material/styles";
 
-import Detecting from "./pages/Detecting/Detecting";
+import Detecting from "./pages/Detecting";
 import Failure from "./pages/Failure";
 import QuickPay from "./pages/QuickPay/QuickPay";
-import Success from "./pages/Success/Success";
-import Timeout from "./pages/Timeout/Timeout";
+import Success from "./pages/Success";
+import Timeout from "./pages/Timeout";
 import Wallet from "./pages/Wallet/Wallet";
 import DepositPage from "./pages/DepositPage/DepositPage";
 import MetaMaskPage from "./pages/MetaMask/MetaMaskPage";

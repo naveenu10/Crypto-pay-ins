@@ -6,17 +6,17 @@ import Header from "../../components/Header";
 import TopSection from "./Components/TopSection";
 import BottomSection from "./Components/BottomSection";
 
-function Detecting() {
+function Failure() {
   const navigate = useNavigate();
   const context = useGlobalContext();
   const orders = context.state.orderDetails;
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-    if (!orders) {
-      navigate("/error", { replace: true });
-    }
-  }, []);
+  // useEffect(() => {
+  //   window.scrollTo(0, 0);
+  //   if (!orders) {
+  //     navigate("/error", { replace: true });
+  //   }
+  // }, []);
 
   return (
     <div className="main_section">
@@ -29,4 +29,4 @@ function Detecting() {
   );
 }
 
-export default Detecting;
+export default Failure;

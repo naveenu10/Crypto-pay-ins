@@ -43,6 +43,78 @@
   align-items: center;
 }
 
+.success-order-container {
+  border-top: 1px solid #808080;
+  border-bottom: 1px solid #808080;
+  text-align: start;
+  padding: 0.5rem 0;
+  /* margin-top: 1.7rem; */
+  width: 100%;
+  margin-bottom: 20%;
+}
+
+.order-details-container {
+  display: flex;
+  justify-content: space-between;
+  margin: 5px 0px;
+}
+.order-details-item {
+  line-height: 1.7rem;
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.5);
+  font-weight: 700;
+  font-family: Inter;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-align: left;
+}
+.order-details-val {
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.5);
+  text-align: end !important;
+  font-family: Inter;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+}
+
+.hash-copy-icon {
+  cursor: pointer;
+  width: 27px;
+  height: 27px;
+}
+.hash-explorer-icon {
+  cursor: pointer;
+  width: 20px;
+  height: 27px;
+}
+
+.success-redirecting {
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 17px;
+  text-align: center;
+  letter-spacing: 0.06em;
+  color: #21146b;
+  margin-bottom: 5%;
+}
+
+.redirecting-time {
+  color: #279ffe;
+}
+
+.success-icon-div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20%;
+}
+.success-icon-div div {
+  width: 22%;
+}
+
 @media screen and (max-width: 1600px) {
   .detecting-divider {
     margin-top: 23%;
